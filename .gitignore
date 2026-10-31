@@ -1,0 +1,13 @@
+# Hệ điều hành & IDE
+.DS_Store
+Thumbs.db
+*.tmp
+.vscode/
+.idea/
+
+# File nhạc không sử dụng & bản copy trùng lặp
+music/audio.mp3
+music/TỪ THÍCH THÍCH THÀNH THƯƠNG THƯƠNG.mp3
+music/50 Năm Về Sau.mp3
+music/Dù Cho Mai Về Sau.mp3
+music/Hẹn Một Mai.mp3

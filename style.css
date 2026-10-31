@@ -1,0 +1,3969 @@
+/* ========================================================
+   THEME KỶ NIỆM ẤM ÁP - DÒNG THỜI GIAN CUỘN DỌC
+   (Vertical Storytelling Timeline + Carousel Nhiều Ảnh + Địa Điểm + Tên Bài Nhạc)
+   ======================================================== */
+
+:root {
+    --bg-page: #fbf9f5;
+    --card-surface: #ffffff;
+    --text-primary: #232220;
+    --text-secondary: #646059;
+    --text-muted: #9c978f;
+    --accent-warm: #d96b52;
+    --accent-warm-hover: #c4573f;
+    --accent-soft: #f5eae4;
+    --accent-gold: #c9933b;
+    --border-card: rgba(0, 0, 0, 0.06);
+    --line-color: #e8e2d9;
+    --shadow-soft: 0 6px 24px rgba(45, 35, 30, 0.05);
+    --shadow-hover: 0 16px 40px rgba(45, 35, 30, 0.1);
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --radius-md: 18px;
+    --radius-lg: 24px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    background-color: var(--bg-page);
+    background-image: radial-gradient(rgba(217, 107, 82, 0.065) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+/* ========================================================
+   DECOR BACKGROUND NỀN (AURA BLOBS, TEXTURE & SPARKLES)
+   ======================================================== */
+.bg-decor-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* Các quầng sáng cực quang ấm áp (Dreamy Glow Orbs) */
+.bg-glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(85px);
+    -webkit-filter: blur(85px);
+    opacity: 0.55;
+    animation: floatAura 20s ease-in-out infinite alternate;
+}
+
+.bg-glow-orb.orb-1 {
+    top: -12vh;
+    left: -10vw;
+    width: 50vw;
+    height: 50vw;
+    max-width: 550px;
+    max-height: 550px;
+    background: radial-gradient(circle, rgba(255, 185, 168, 0.55) 0%, rgba(217, 107, 82, 0.18) 55%, transparent 75%);
+    animation-duration: 22s;
+}
+
+.bg-glow-orb.orb-2 {
+    top: 38vh;
+    right: -14vw;
+    width: 52vw;
+    height: 52vw;
+    max-width: 600px;
+    max-height: 600px;
+    background: radial-gradient(circle, rgba(255, 222, 175, 0.5) 0%, rgba(201, 147, 59, 0.16) 55%, transparent 75%);
+    animation-duration: 26s;
+    animation-delay: -6s;
+}
+
+.bg-glow-orb.orb-3 {
+    bottom: -15vh;
+    left: 15vw;
+    width: 54vw;
+    height: 54vw;
+    max-width: 620px;
+    max-height: 620px;
+    background: radial-gradient(circle, rgba(255, 195, 208, 0.45) 0%, rgba(217, 107, 82, 0.14) 55%, transparent 75%);
+    animation-duration: 24s;
+    animation-delay: -12s;
+}
+
+@keyframes floatAura {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    50% {
+        transform: translate(25px, 35px) scale(1.08);
+    }
+    100% {
+        transform: translate(-20px, 20px) scale(0.95);
+    }
+}
+
+/* Các ngôi sao lấp lánh nhẹ nhàng ở viền nền */
+.bg-floating-sparkle {
+    position: absolute;
+    color: var(--accent-warm);
+    opacity: 0.35;
+    pointer-events: none;
+    font-size: 18px;
+    user-select: none;
+    animation: twinkleSparkle 4s ease-in-out infinite alternate;
+}
+
+.sparkle-1 { top: 16%; left: 5%; font-size: 22px; animation-duration: 3.6s; }
+.sparkle-2 { top: 38%; right: 6%; font-size: 18px; animation-duration: 4.8s; animation-delay: 1.2s; color: var(--accent-gold); }
+.sparkle-3 { top: 68%; left: 7%; font-size: 24px; animation-duration: 4.2s; animation-delay: 2s; }
+.sparkle-4 { top: 84%; right: 8%; font-size: 19px; animation-duration: 5.4s; animation-delay: 0.6s; color: var(--accent-gold); }
+
+@keyframes twinkleSparkle {
+    0% { opacity: 0.15; transform: scale(0.8) rotate(0deg); }
+    50% { opacity: 0.65; transform: scale(1.2) rotate(15deg); }
+    100% { opacity: 0.2; transform: scale(0.85) rotate(30deg); }
+}
+
+/* Background Ambient Canvas */
+#ambientCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ========================================================
+   TRÌNH PHÁT NHẠC VINTAGE LUXURY CAPSULE (ROMANTIC MUSIC BOX)
+   - Thiết kế capsule thủy tinh mờ cao cấp phong cách hoàng gia/vintage
+   - Đĩa than Rosewood espresso với hiệu ứng phản quang ánh kim & vầng sáng ấm
+   - Cần kim mạ vàng tinh xảo, luồng nốt nhạc & trái tim bay bổng
+   - Thanh tiến trình bài hát (Progress bar) có thể kéo/nhấp tua
+   - Cụm nút lùi bài (⏮), tiến bài (⏭) & nút mở danh sách phát (🎶)
+   - Menu danh sách 4 bài hát bung mở (Dropdown Playlist) sang trọng
+   ======================================================== */
+.vinyl-player-widget {
+    position: fixed;
+    bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    top: auto;
+    z-index: 1100;
+    background: linear-gradient(135deg, rgba(255, 253, 250, 0.96) 0%, rgba(255, 246, 241, 0.94) 100%);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1.5px solid rgba(228, 170, 152, 0.48);
+    border-radius: 999px;
+    padding: 7px 16px 9px 9px;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 13px;
+    box-shadow: 
+        0 16px 42px rgba(60, 30, 20, 0.14), 
+        0 4px 16px rgba(217, 107, 82, 0.14),
+        inset 0 1px 2px rgba(255, 255, 255, 0.95);
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.28s ease, background 0.28s ease, border-color 0.28s ease;
+    user-select: none;
+}
+
+.vinyl-player-widget:hover {
+    transform: translateX(-50%) translateY(-3px) scale(1.02);
+    border-color: rgba(217, 107, 82, 0.65);
+    box-shadow: 
+        0 24px 50px rgba(60, 30, 20, 0.18), 
+        0 6px 20px rgba(217, 107, 82, 0.2),
+        inset 0 1px 2px #ffffff;
+}
+
+/* Vầng hào quang ánh sáng hoàng hôn ấm áp sau đĩa than */
+.vinyl-glow-aura {
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(225, 110, 85, 0.42) 0%, rgba(245, 166, 35, 0.18) 55%, transparent 75%);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    filter: blur(6px);
+    transition: opacity 0.5s ease;
+}
+
+.vinyl-player-widget.playing .vinyl-glow-aura {
+    opacity: 1;
+    animation: vinylAuraPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes vinylAuraPulse {
+    0% { transform: translateY(-50%) scale(0.95); opacity: 0.65; }
+    100% { transform: translateY(-50%) scale(1.18); opacity: 1; }
+}
+
+/* Khung bọc đĩa than & cần kim */
+.vinyl-disc-wrap {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* Thân đĩa than Rosewood / Espresso với vân rãnh & phản chiếu ánh sáng */
+.vinyl-disc {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    position: relative;
+    background: 
+        radial-gradient(circle, 
+            transparent 25%, 
+            rgba(255, 220, 200, 0.09) 26%, 
+            transparent 28%, 
+            rgba(255, 220, 200, 0.07) 42%, 
+            transparent 44%, 
+            rgba(255, 220, 200, 0.08) 58%, 
+            transparent 60%, 
+            rgba(255, 220, 200, 0.06) 74%, 
+            transparent 76%),
+        conic-gradient(
+            from 40deg, 
+            #1b1311 0deg, 
+            #3a2521 45deg, 
+            #1b1311 90deg, 
+            #3a2521 135deg, 
+            #1b1311 180deg, 
+            #3a2521 225deg, 
+            #1b1311 270deg, 
+            #3a2521 315deg, 
+            #1b1311 360deg
+        );
+    border: 1px solid rgba(255, 215, 180, 0.2);
+    box-shadow: 0 4px 12px rgba(40, 20, 15, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spinVinyl 5s linear infinite;
+    animation-play-state: paused;
+    transition: box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+.vinyl-player-widget.playing .vinyl-disc {
+    animation-play-state: running;
+    box-shadow: 0 5px 16px rgba(217, 107, 82, 0.38), 0 2px 6px rgba(0, 0, 0, 0.35);
+    filter: brightness(1);
+}
+
+.vinyl-player-widget.paused .vinyl-disc {
+    animation-play-state: paused;
+    filter: brightness(0.88);
+}
+
+@keyframes spinVinyl {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Các rãnh đĩa than phụ */
+.vinyl-groove-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 220, 205, 0.12);
+    pointer-events: none;
+}
+
+.vinyl-groove-ring.ring-1 {
+    width: 33px;
+    height: 33px;
+}
+
+.vinyl-groove-ring.ring-2 {
+    width: 24px;
+    height: 24px;
+}
+
+.vinyl-groove-ring.ring-3 {
+    width: 15px;
+    height: 15px;
+}
+
+/* Tâm nhãn đĩa than với icon trái tim ấm áp */
+.vinyl-center-label {
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #f7a593, #d96b52 70%, #aa442e 100%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6), 0 1px 3px rgba(0, 0, 0, 0.35);
+    z-index: 2;
+}
+
+.vinyl-center-icon {
+    font-size: 8px;
+    line-height: 1;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.3));
+}
+
+.vinyl-center-hole {
+    position: absolute;
+    width: 2.5px;
+    height: 2.5px;
+    border-radius: 50%;
+    background: #fbf9f5;
+    border: 0.5px solid rgba(0, 0, 0, 0.4);
+}
+
+/* Cần kim đĩa than tinh xảo (Tonearm) vàng champagne */
+.vinyl-tonearm {
+    position: absolute;
+    top: -2px;
+    right: 0px;
+    width: 15px;
+    height: 24px;
+    transform-origin: 12px 3px;
+    transform: rotate(-32deg);
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.vinyl-player-widget.playing .vinyl-tonearm {
+    transform: rotate(6deg);
+}
+
+.vinyl-tonearm-pivot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6.5px;
+    height: 6.5px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f3d88b, #cba442);
+    border: 1px solid #9c7b1a;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.vinyl-tonearm-stick {
+    position: absolute;
+    top: 3px;
+    right: 2px;
+    width: 1.5px;
+    height: 17px;
+    background: linear-gradient(to bottom, #ded6c8, #b8ae9c);
+    border-radius: 1px;
+}
+
+.vinyl-tonearm-head {
+    position: absolute;
+    bottom: 2px;
+    right: 0px;
+    width: 4.5px;
+    height: 6px;
+    background: #2d2621;
+    border: 0.5px solid #d4af37;
+    border-radius: 1px;
+    transform: rotate(15deg);
+}
+
+/* Biểu tượng Play / Pause tương tác trên mặt đĩa */
+.vinyl-play-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(30, 20, 18, 0.78);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8.5px;
+    padding-left: 1.5px;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.vinyl-player-widget.paused .vinyl-play-indicator {
+    opacity: 1;
+}
+
+.vinyl-disc-wrap:hover .vinyl-play-indicator {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+}
+
+/* Thông tin bài hát bên cạnh đĩa than */
+.vinyl-info-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.vinyl-song-title-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.vinyl-music-icon {
+    font-size: 11px;
+    color: var(--accent-warm, #d96b52);
+    font-weight: 700;
+}
+
+.vinyl-song-title {
+    font-family: var(--font-serif);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-primary, #2d2621);
+    white-space: nowrap;
+    line-height: 1.25;
+    letter-spacing: 0.15px;
+}
+
+.vinyl-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-secondary, #7a6e65);
+    line-height: 1.25;
+    margin-top: 3px;
+}
+
+.vinyl-meta-dot {
+    opacity: 0.35;
+    font-size: 9px;
+}
+
+.vinyl-song-artist {
+    font-weight: 500;
+    white-space: nowrap;
+    color: #6e6259;
+}
+
+/* Chấm đèn tín hiệu trạng thái phát nhạc */
+.vinyl-status-dot {
+    width: 6.5px;
+    height: 6.5px;
+    border-radius: 50%;
+    background: #e27d60;
+    box-shadow: 0 0 7px rgba(226, 125, 96, 0.85);
+    display: inline-block;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    animation: statusPulse 2s infinite ease-in-out;
+}
+
+@keyframes statusPulse {
+    0%, 100% { transform: scale(1); opacity: 0.85; }
+    50% { transform: scale(1.3); opacity: 1; }
+}
+
+.vinyl-player-widget.paused .vinyl-status-dot {
+    background: #b5aaa2;
+    box-shadow: none;
+    animation: none;
+}
+
+/* Nhãn hiển thị thời gian chạy bài hát */
+.vinyl-time-tag {
+    font-size: 10px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent-warm, #d96b52);
+    background: rgba(217, 107, 82, 0.08);
+    padding: 1px 5px;
+    border-radius: 4px;
+    letter-spacing: 0.2px;
+}
+
+/* Sóng nhạc Equalizer 4 thanh sunset gradient */
+.vinyl-equalizer {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 18px;
+    padding-left: 6px;
+    border-left: 1px solid rgba(217, 107, 82, 0.2);
+    flex-shrink: 0;
+}
+
+.eq-bar {
+    width: 2.5px;
+    background: linear-gradient(to top, #d96b52, #f5a623);
+    border-radius: 3px;
+    height: 4px;
+    transition: height 0.2s ease, opacity 0.2s ease;
+}
+
+.vinyl-player-widget.playing .eq-bar.bar-1 {
+    animation: eqBounce1 0.75s ease-in-out infinite alternate;
+}
+
+.vinyl-player-widget.playing .eq-bar.bar-2 {
+    animation: eqBounce2 0.55s ease-in-out infinite alternate 0.15s;
+}
+
+.vinyl-player-widget.playing .eq-bar.bar-3 {
+    animation: eqBounce3 0.85s ease-in-out infinite alternate 0.3s;
+}
+
+.vinyl-player-widget.playing .eq-bar.bar-4 {
+    animation: eqBounce4 0.65s ease-in-out infinite alternate 0.45s;
+}
+
+@keyframes eqBounce1 {
+    0% { height: 4px; }
+    100% { height: 16px; }
+}
+
+@keyframes eqBounce2 {
+    0% { height: 16px; }
+    100% { height: 5px; }
+}
+
+@keyframes eqBounce3 {
+    0% { height: 6px; }
+    100% { height: 18px; }
+}
+
+@keyframes eqBounce4 {
+    0% { height: 14px; }
+    100% { height: 4px; }
+}
+
+.vinyl-player-widget.paused .eq-bar {
+    height: 3px;
+    opacity: 0.35;
+}
+
+/* Cụm nút điều khiển: Lùi, Tiến, Danh sách bài hát */
+.vinyl-controls-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 2px;
+}
+
+.vinyl-ctrl-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(220, 150, 130, 0.28);
+    color: #5a4b42;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: transform 0.2s cubic-bezier(0.34, 1.5, 0.64, 1), background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.vinyl-ctrl-btn:hover {
+    background: var(--accent-warm, #d96b52);
+    color: #ffffff;
+    border-color: var(--accent-warm, #d96b52);
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(217, 107, 82, 0.28);
+}
+
+.vinyl-ctrl-btn:active {
+    transform: scale(0.92);
+}
+
+/* Nút Play / Pause tròn trung tâm nổi bật, dễ bấm */
+.vinyl-play-center-btn {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #d96b52 0%, #ea856e 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.65) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(217, 107, 82, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+    font-size: 13px !important;
+}
+
+.vinyl-play-center-btn:hover {
+    transform: scale(1.12) !important;
+    background: linear-gradient(135deg, #e05e42 0%, #eb775e 100%) !important;
+    box-shadow: 0 6px 16px rgba(217, 107, 82, 0.45) !important;
+}
+
+.vinyl-play-center-btn:active {
+    transform: scale(0.93) !important;
+}
+
+.play-center-icon {
+    display: inline-block;
+    line-height: 1;
+    margin-left: 1px;
+}
+
+.vinyl-player-widget.playing .play-center-icon {
+    margin-left: 0;
+}
+
+/* Nút danh sách phát bài hát có huy hiệu số lượng */
+.vinyl-playlist-btn {
+    width: auto;
+    padding: 0 8px;
+    border-radius: 999px;
+    gap: 4px;
+    background: rgba(217, 107, 82, 0.08);
+    border-color: rgba(217, 107, 82, 0.22);
+    color: var(--accent-warm, #d96b52);
+}
+
+.vinyl-playlist-btn .playlist-icon {
+    font-size: 11px;
+}
+
+.vinyl-track-badge {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+/* Thanh tiến trình bài hát chạy êm dưới đáy capsule */
+.vinyl-progress-container {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 3px;
+    background: rgba(217, 107, 82, 0.12);
+    border-radius: 3px;
+    overflow: visible;
+    cursor: pointer;
+    transition: height 0.2s ease, background 0.2s ease;
+}
+
+.vinyl-player-widget:hover .vinyl-progress-container {
+    height: 4.5px;
+    background: rgba(217, 107, 82, 0.18);
+}
+
+.vinyl-progress-bar {
+    position: relative;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #d96b52, #f5a623);
+    border-radius: 3px;
+    transition: width 0.12s linear;
+}
+
+.vinyl-progress-scrubber {
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #d96b52;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease;
+}
+
+.vinyl-player-widget:hover .vinyl-progress-scrubber {
+    transform: translateY(-50%) scale(1);
+}
+
+/* Hộp danh sách bài hát bung mở (Dropdown Playlist) sang trọng - bung mở lên trên, căn giữa */
+.vinyl-playlist-drawer {
+    position: absolute;
+    bottom: calc(100% + 14px);
+    top: auto;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px) scale(0.96);
+    right: auto;
+    width: 320px;
+    max-width: calc(100vw - 32px);
+    background: rgba(255, 252, 248, 0.98);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1.5px solid rgba(220, 150, 130, 0.38);
+    border-radius: 20px;
+    box-shadow: 0 -18px 45px rgba(50, 25, 20, 0.15), 0 -4px 14px rgba(217, 107, 82, 0.12);
+    padding: 14px 12px 12px;
+    z-index: 1200;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0.25s;
+    pointer-events: none;
+    text-align: left;
+}
+
+.vinyl-playlist-drawer.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.playlist-drawer-header {
+    padding: 0 6px 10px;
+    border-bottom: 1px solid rgba(217, 107, 82, 0.14);
+    margin-bottom: 8px;
+}
+
+.playlist-drawer-title {
+    font-family: var(--font-serif);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary, #2d2621);
+    line-height: 1.3;
+}
+
+.playlist-drawer-sub {
+    font-size: 11px;
+    color: var(--text-secondary, #7a6e65);
+    margin-top: 2px;
+}
+
+.playlist-drawer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.playlist-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.playlist-item:hover {
+    background: rgba(217, 107, 82, 0.08);
+    transform: translateX(2px);
+}
+
+.playlist-item.active {
+    background: rgba(217, 107, 82, 0.12);
+    border-color: rgba(217, 107, 82, 0.25);
+}
+
+.p-item-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #9c8e85;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.playlist-item.active .p-item-num {
+    color: var(--accent-warm, #d96b52);
+}
+
+.p-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.p-item-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary, #2d2621);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.playlist-item.active .p-item-title {
+    color: var(--accent-warm, #d96b52);
+    font-weight: 700;
+}
+
+.p-item-artist {
+    font-size: 10.5px;
+    color: var(--text-secondary, #7a6e65);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 1px;
+}
+
+.p-item-status {
+    font-size: 11px;
+    color: var(--accent-warm, #d96b52);
+    flex-shrink: 0;
+}
+
+/* ========================================================
+   HIỆU ỨNG NỐT NHẠC BAY TỪ ĐĨA THAN (FLOATING MUSIC NOTES)
+   ======================================================== */
+.vinyl-notes-stream {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 10;
+}
+
+.floating-music-note {
+    position: absolute;
+    top: 18px;
+    font-size: 16px;
+    color: var(--accent-warm);
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    text-shadow: 0 0 10px rgba(217, 107, 82, 0.7), 0 0 3px rgba(217, 107, 82, 0.9);
+    filter: drop-shadow(0 2px 5px rgba(45, 35, 30, 0.2));
+}
+
+.note-variant-1 {
+    animation: floatNoteWave1 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.note-variant-2 {
+    animation: floatNoteWave2 3.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.note-variant-3 {
+    animation: floatNoteWave3 2.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes floatNoteWave1 {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+    }
+    15% {
+        opacity: 0.95;
+        transform: translate(-10px, -20px) scale(1.15) rotate(-15deg);
+    }
+    50% {
+        opacity: 0.85;
+        transform: translate(-22px, -52px) scale(1) rotate(12deg);
+    }
+    85% {
+        opacity: 0.5;
+        transform: translate(-34px, -86px) scale(0.85) rotate(-20deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-42px, -112px) scale(0.6) rotate(10deg);
+    }
+}
+
+@keyframes floatNoteWave2 {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+    }
+    15% {
+        opacity: 0.95;
+        transform: translate(12px, -22px) scale(1.2) rotate(15deg);
+    }
+    50% {
+        opacity: 0.85;
+        transform: translate(25px, -56px) scale(1.05) rotate(-10deg);
+    }
+    85% {
+        opacity: 0.5;
+        transform: translate(36px, -90px) scale(0.8) rotate(18deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(44px, -118px) scale(0.6) rotate(-12deg);
+    }
+}
+
+@keyframes floatNoteWave3 {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+    }
+    20% {
+        opacity: 1;
+        transform: translate(-4px, -26px) scale(1.1) rotate(8deg);
+    }
+    60% {
+        opacity: 0.8;
+        transform: translate(-8px, -64px) scale(0.95) rotate(-12deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-12px, -104px) scale(0.65) rotate(15deg);
+    }
+}
+
+/* ========================================================
+   BỌC TOÀN TRANG
+   ======================================================== */
+.page-wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 20px 20px 80px;
+}
+
+/* ========================================================
+   HERO / MỞ ĐẦU TIMELINE
+   ======================================================== */
+.timeline-hero {
+    text-align: center;
+    padding: 60px 15px 40px;
+    max-width: 1240px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.hero-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-warm);
+    background: var(--accent-soft);
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+}
+
+.hero-title {
+    font-family: var(--font-serif);
+    font-size: clamp(34px, 5.5vw, 48px);
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #242220 10%, #4a3e3c 60%, var(--accent-warm) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 10px rgba(217, 107, 82, 0.1));
+}
+
+/* ========================================================
+   KHU VỰC BOX LỜI NHẮN & CÁC TẤM ẢNH POLAROID KỶ NIỆM LẤP LÓ
+   (Decor phong cách Flatlay Scrapbook / Bàn kỷ niệm tình yêu)
+   ======================================================== */
+/* Container bao bọc tiêu đề trung tâm & các tấm ảnh Polaroid bao quanh */
+.intro-showcase-wrapper,
+.intro-box-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 610px;
+    margin: 20px auto 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 16px;
+}
+
+/* Khối nội dung trung tâm chính diện */
+.intro-center-hero {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 24px;
+    max-width: 720px;
+}
+
+/* Tiêu đề "Gửi cho Thân Trần Thanh Hiền" font chữ nghệ thuật lãng mạn, to, đặt chính giữa */
+.intro-hero-title {
+    font-family: 'Dancing Script', cursive, var(--font-serif);
+    margin: 0;
+    text-align: center;
+    line-height: 1.25;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    transition: transform 0.3s ease;
+}
+
+.intro-hero-prefix {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 600;
+    color: #9e7565;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(217, 107, 82, 0.16);
+}
+
+.intro-hero-name {
+    font-size: clamp(44px, 6.8vw, 70px);
+    font-weight: 700;
+    color: var(--accent-warm, #d96b52);
+    letter-spacing: 1.2px;
+    text-shadow: 
+        0 4px 26px rgba(217, 107, 82, 0.28),
+        0 1px 3px rgba(45, 30, 20, 0.08);
+    white-space: nowrap;
+}
+
+.intro-hero-title:hover {
+    transform: scale(1.025);
+}
+
+.intro-hero-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Vầng hào quang ấm áp lan tỏa nhẹ nhàng sau lưng thiệp */
+.intro-backdrop-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140%;
+    height: 135%;
+    max-width: 980px;
+    background: radial-gradient(ellipse at center, rgba(246, 218, 203, 0.5) 0%, rgba(251, 240, 233, 0.25) 52%, transparent 75%);
+    filter: blur(32px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Tầng chứa các tấm ảnh Polaroid lấp ló */
+.intro-polaroids-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Từng tấm ảnh Polaroid kỷ niệm vintage - kích thước mở rộng để ảnh lộ rõ ràng */
+.polaroid-item {
+    position: absolute;
+    width: 188px;
+    background: #ffffff;
+    padding: 9px 9px 20px 9px;
+    border-radius: 6px;
+    box-shadow: 0 14px 34px rgba(45, 35, 30, 0.13), 0 3px 9px rgba(45, 35, 30, 0.05);
+    pointer-events: auto;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.38s ease, z-index 0.2s ease;
+    will-change: transform;
+}
+
+/* Băng keo Washi Tape dán góc kiểu Scrapbook thủ công */
+.polaroid-washi {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 52px;
+    height: 16px;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.92;
+}
+
+.tape-blush { background: rgba(235, 175, 165, 0.88); }
+.tape-honey { background: rgba(238, 204, 150, 0.88); }
+.tape-sage { background: rgba(188, 208, 180, 0.88); }
+.tape-lavender { background: rgba(215, 180, 200, 0.88); }
+.tape-terracotta { background: rgba(228, 158, 140, 0.88); }
+.tape-gold { background: rgba(232, 208, 150, 0.88); }
+
+/* Khung ảnh vuông bên trong Polaroid */
+.polaroid-photo-frame {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    overflow: hidden;
+    background: #f0ebe4;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    position: relative;
+}
+
+.polaroid-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(1.06) contrast(1.02);
+    transition: transform 0.4s ease, filter 0.3s ease;
+}
+
+.polaroid-photo-glare {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 55%);
+    pointer-events: none;
+}
+
+/* Chữ viết tay tựa đề & ngày tháng trên cằm trắng Polaroid */
+.polaroid-caption {
+    font-family: var(--font-serif);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #3d322b;
+    margin-top: 9px;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px;
+    letter-spacing: -0.2px;
+}
+
+.polaroid-date {
+    font-size: 9px;
+    color: #9c8e84;
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 500;
+}
+
+/* Canh lề chữ cho các tấm ảnh bên trái (lộ rõ toàn bộ chữ về bên ngoài) */
+.polaroid-tl .polaroid-caption,
+.polaroid-tml .polaroid-caption,
+.polaroid-bml .polaroid-caption,
+.polaroid-ml .polaroid-caption,
+.polaroid-bl .polaroid-caption {
+    text-align: left;
+    padding-left: 6px;
+    max-width: 155px;
+}
+
+.polaroid-tl .polaroid-date,
+.polaroid-tml .polaroid-date,
+.polaroid-bml .polaroid-date,
+.polaroid-ml .polaroid-date,
+.polaroid-bl .polaroid-date {
+    text-align: left;
+    padding-left: 6px;
+}
+
+/* Canh lề chữ cho các tấm ảnh bên phải (lộ rõ toàn bộ chữ về bên ngoài) */
+.polaroid-tr .polaroid-caption,
+.polaroid-tmr .polaroid-caption,
+.polaroid-bmr .polaroid-caption,
+.polaroid-mr .polaroid-caption,
+.polaroid-br .polaroid-caption {
+    text-align: right;
+    padding-right: 6px;
+    max-width: 155px;
+    margin-left: auto;
+}
+
+.polaroid-tr .polaroid-date,
+.polaroid-tmr .polaroid-date,
+.polaroid-bmr .polaroid-date,
+.polaroid-mr .polaroid-date,
+.polaroid-br .polaroid-date {
+    text-align: right;
+    padding-right: 6px;
+}
+
+/* Định vị 8 tấm Polaroid bao quanh trung tâm tự nhiên, nghệ thuật */
+/* Nhóm bên trái */
+.polaroid-tl {
+    top: 15px;
+    left: 8px;
+    transform: rotate(-13deg);
+    animation: polaroidFloat1 7s ease-in-out infinite;
+}
+
+.polaroid-tml {
+    top: 50%;
+    left: -48px;
+    transform: translateY(-50%) rotate(-5deg);
+    animation: polaroidFloat3 6.8s ease-in-out infinite 0.4s;
+}
+
+.polaroid-bl {
+    bottom: 12px;
+    left: 16px;
+    transform: rotate(10deg);
+    animation: polaroidFloat2 7.2s ease-in-out infinite 1.2s;
+}
+
+/* Nhóm bên trên (Vòm ảnh phía trên tiêu đề) */
+.polaroid-bml {
+    top: -36px;
+    left: 21%;
+    transform: rotate(4deg);
+    animation: polaroidFloat1 7.6s ease-in-out infinite 0.8s;
+}
+
+.polaroid-bmr {
+    top: -36px;
+    right: 21%;
+    transform: rotate(-4deg);
+    animation: polaroidFloat3 7.2s ease-in-out infinite 1s;
+}
+
+/* Nhóm bên phải */
+.polaroid-tr {
+    top: 15px;
+    right: 8px;
+    transform: rotate(12deg);
+    animation: polaroidFloat2 7.5s ease-in-out infinite 0.2s;
+}
+
+.polaroid-tmr {
+    top: 50%;
+    right: -48px;
+    transform: translateY(-50%) rotate(5deg);
+    animation: polaroidFloat1 8s ease-in-out infinite 0.6s;
+}
+
+.polaroid-br {
+    bottom: 12px;
+    right: 16px;
+    transform: rotate(-10deg);
+    animation: polaroidFloat3 6.5s ease-in-out infinite 1.4s;
+}
+
+/* Fallback lớp cũ */
+.polaroid-ml { top: 50%; left: -4px; transform: translateY(-50%) rotate(-4deg); }
+.polaroid-mr { top: 50%; right: -4px; transform: translateY(-50%) rotate(5deg); }
+
+/* Hiệu ứng nổi bồng bềnh nhẹ nhàng khi nghỉ (Floating physics) */
+@keyframes polaroidFloat1 {
+    0%, 100% { margin-top: 0; }
+    50% { margin-top: -6px; }
+}
+
+@keyframes polaroidFloat2 {
+    0%, 100% { margin-top: 0; }
+    50% { margin-top: -7px; }
+}
+
+@keyframes polaroidFloat3 {
+    0%, 100% { margin-top: 0; }
+    50% { margin-top: -5px; }
+}
+
+/* Hiệu ứng tương tác rê chuột: Ảnh nhô hẳn ra ngoài và nổi lên phía trước */
+.polaroid-item:hover {
+    z-index: 25 !important;
+    box-shadow: 0 26px 54px rgba(217, 107, 82, 0.3), 0 6px 18px rgba(45, 35, 30, 0.16);
+}
+
+.polaroid-item:hover .polaroid-photo {
+    transform: scale(1.04);
+    filter: saturate(1.12) contrast(1.06);
+}
+
+.polaroid-tl:hover { transform: scale(1.15) translate(-14px, -12px) rotate(-4deg); }
+.polaroid-tml:hover { transform: translateY(-50%) scale(1.15) translateX(-18px) rotate(0deg); }
+.polaroid-bl:hover { transform: scale(1.15) translate(-14px, 12px) rotate(3deg); }
+.polaroid-bml:hover { transform: scale(1.15) translate(-6px, -14px) rotate(0deg); }
+.polaroid-bmr:hover { transform: scale(1.15) translate(6px, -14px) rotate(0deg); }
+.polaroid-tr:hover { transform: scale(1.15) translate(14px, -12px) rotate(4deg); }
+.polaroid-tmr:hover { transform: translateY(-50%) scale(1.15) translateX(18px) rotate(0deg); }
+.polaroid-br:hover { transform: scale(1.15) translate(14px, 12px) rotate(-3deg); }
+
+.polaroid-ml:hover { transform: translateY(-50%) scale(1.15) translateX(-18px) rotate(0deg); }
+.polaroid-mr:hover { transform: translateY(-50%) scale(1.15) translateX(18px) rotate(0deg); }
+
+.polaroid-item:focus-visible {
+    outline: 2px solid var(--accent-warm);
+    outline-offset: 3px;
+    z-index: 25;
+}
+
+/* Tối ưu cho màn hình laptop & tablet ngang (769px - 1180px) */
+@media (max-width: 1180px) and (min-width: 769px) {
+    .polaroid-item {
+        width: 154px;
+    }
+    .polaroid-tl {
+        left: 4px;
+    }
+    .polaroid-tr {
+        right: 4px;
+    }
+    .polaroid-tml,
+    .polaroid-ml {
+        left: -28px;
+    }
+    .polaroid-tmr,
+    .polaroid-mr {
+        right: -28px;
+    }
+    .polaroid-bl {
+        left: 8px;
+    }
+    .polaroid-br {
+        right: 8px;
+    }
+    .polaroid-bml {
+        left: 17%;
+    }
+    .polaroid-bmr {
+        right: 17%;
+    }
+}
+
+/* Hộp lời nhắn chính diện */
+.intro-message-box {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 14px 40px rgba(45, 35, 30, 0.08), 0 3px 10px rgba(45, 35, 30, 0.04);
+    padding: 36px 36px 28px;
+    margin: 0;
+    width: 100%;
+    max-width: 660px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-image: radial-gradient(var(--accent-soft) 0.75px, transparent 0.75px);
+    background-size: 20px 20px;
+    background-color: #ffffff;
+    z-index: 3;
+}
+
+.intro-message-box:hover {
+    box-shadow: 0 18px 46px rgba(45, 35, 30, 0.11);
+    transform: translateY(-2px);
+}
+
+.intro-message-box.intro-box-compact {
+    max-width: 480px;
+    padding: 38px 28px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.intro-box-dedicated {
+    margin: 8px 0 24px;
+    width: 100%;
+    text-align: center;
+}
+
+.intro-dedicated-name {
+    font-family: var(--font-serif);
+    font-size: clamp(23px, 3.8vw, 31px);
+    font-weight: 700;
+    color: var(--accent-warm, #d96b52);
+    letter-spacing: 0.5px;
+    line-height: 1.35;
+    margin: 0;
+    text-align: center;
+    text-shadow: 0 1px 3px rgba(217, 107, 82, 0.12);
+}
+
+/* Ghim giấy / icon bức thư nổi ở góc */
+.intro-box-pin {
+    position: absolute;
+    top: -16px;
+    right: 28px;
+    width: 38px;
+    height: 38px;
+    background: #ffffff;
+    border: 1.5px solid rgba(217, 107, 82, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    box-shadow: 0 4px 12px rgba(45, 35, 30, 0.1);
+    animation: gentlePulse 3.2s infinite ease-in-out;
+}
+
+@keyframes gentlePulse {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.08) rotate(4deg); }
+}
+
+.intro-box-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--line-color);
+}
+
+.intro-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--accent-warm);
+    background: var(--accent-soft);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.intro-date {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.intro-box-content {
+    position: relative;
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: var(--text-secondary);
+}
+
+.intro-lead-text {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 14px;
+}
+
+.intro-body-text {
+    margin-bottom: 14px;
+    color: #4a4642;
+    text-align: justify;
+}
+
+.intro-callout-text {
+    font-style: italic;
+    color: var(--accent-warm);
+    font-weight: 500;
+    margin-bottom: 20px;
+    padding-left: 12px;
+    border-left: 2.5px solid var(--accent-warm);
+}
+
+.intro-box-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.intro-signature {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--accent-gold);
+    font-weight: 500;
+}
+
+.start-journey-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-warm);
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 24px;
+    box-shadow: 0 4px 14px rgba(217, 107, 82, 0.3);
+    transition: all 0.25s ease;
+}
+
+.start-journey-btn:hover {
+    background: var(--accent-warm-hover);
+    box-shadow: 0 6px 18px rgba(217, 107, 82, 0.4);
+    transform: translateY(-2px);
+    color: #ffffff;
+}
+
+.start-journey-btn .btn-arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+}
+
+.start-journey-btn:hover .btn-arrow {
+    transform: translateY(3px);
+}
+
+/* Thẻ kỷ niệm dạng thuần ghi chú (nếu không có ảnh) */
+.timeline-card.card-note-only {
+    padding-top: 24px;
+    border-top: 4px solid var(--accent-warm);
+}
+
+.scroll-down-indicator {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.arrow-down {
+    animation: bounceDown 1.6s infinite;
+    font-size: 18px;
+    color: var(--accent-warm);
+}
+
+@keyframes bounceDown {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+
+/* ========================================================
+   BỘ SƯU TẬP ẢNH KỶ NIỆM (DẢI BĂNG CHUYỀN TRUYỀN ĐỘNG 2 CHIỀU)
+   - Hoạt ảnh chuyển động liên tục trôi bồng bềnh
+   - Rê chuột tự động tạm dừng để ngắm kỹ
+   - Hỗ trợ kéo lướt qua lại (Drag/Touch Swipe) và nút bấm điều hướng
+   - Chạm vào bất kỳ ảnh nào để mở bức thư 3D
+   ======================================================== */
+.memories-gallery-section,
+.timeline-section {
+    position: relative;
+    margin: 30px auto 65px;
+    width: 100%;
+    overflow: visible;
+    padding: 0;
+}
+
+.memories-gallery-header {
+    text-align: center;
+    margin-bottom: 24px;
+    padding: 0 16px;
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.gallery-sub-badge {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-warm);
+    background: var(--accent-soft);
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+}
+
+.gallery-title {
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 4.5vw, 38px);
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.gallery-desc {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.55;
+}
+
+/* Thanh điều khiển truyền ảnh qua lại */
+.stream-controls-bar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(220, 150, 130, 0.3);
+    box-shadow: 0 4px 18px rgba(45, 35, 30, 0.05);
+}
+
+.stream-nav-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(220, 150, 130, 0.35);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a3e36;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.22s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.stream-nav-btn .nav-arrow {
+    font-size: 16px;
+    line-height: 1;
+    color: var(--accent-warm, #d96b52);
+}
+
+.stream-nav-btn:hover {
+    background: #ffffff;
+    color: var(--accent-warm, #d96b52);
+    border-color: var(--accent-warm, #d96b52);
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 14px rgba(217, 107, 82, 0.18);
+}
+
+.stream-play-pause-btn {
+    background: var(--accent-soft, #fdf1ed);
+    border: 1px solid rgba(217, 107, 82, 0.3);
+    color: var(--accent-warm, #d96b52);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.22s ease;
+}
+
+.stream-play-pause-btn:hover {
+    background: #fce7df;
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 12px rgba(217, 107, 82, 0.14);
+}
+
+.stream-pp-icon {
+    font-size: 11px;
+}
+
+/* Khung bao bọc toàn bộ dải ảnh và 2 nút mũi tên điều hướng 2 bên */
+.memories-stream-wrapper {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    overflow: visible;
+}
+
+/* Hai nút mũi tên điều hướng hai bên dải ảnh */
+.stream-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(255, 212, 203, 0.9);
+    color: var(--accent-warm, #d96b52);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(217, 107, 82, 0.2), 0 2px 6px rgba(0, 0, 0, 0.04);
+    z-index: 25;
+    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                background 0.2s ease, 
+                box-shadow 0.25s ease, 
+                border-color 0.2s ease,
+                color 0.2s ease;
+    outline: none;
+    padding: 0;
+}
+
+.stream-nav-btn:hover {
+    background: #ffffff;
+    color: #b84b36;
+    border-color: #d96b52;
+    transform: translateY(-50%) scale(1.12);
+    box-shadow: 0 12px 32px rgba(217, 107, 82, 0.32), 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.stream-nav-btn:active {
+    transform: translateY(-50%) scale(0.94);
+}
+
+.stream-nav-btn svg {
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.stream-nav-prev {
+    left: 28px;
+}
+
+.stream-nav-prev:hover svg {
+    transform: translateX(-2.5px);
+}
+
+.stream-nav-next {
+    right: 28px;
+}
+
+.stream-nav-next:hover svg {
+    transform: translateX(2.5px);
+}
+
+/* Khung bao bọc dải ảnh (Viewport với mép mờ gradient nghệ thuật) */
+.memories-stream-viewport {
+    position: relative;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    overflow: hidden;
+    padding: 24px 0 34px;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+}
+
+.memories-stream-viewport.is-dragging {
+    cursor: grabbing;
+}
+
+/* Dải ảnh trôi bồng bềnh */
+.memories-stream-track,
+.timeline-container {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 28px;
+    width: max-content;
+    will-change: transform;
+    padding: 0 40px;
+}
+
+/* Thẻ ảnh kỷ niệm trên dải băng chuyền */
+.stream-card,
+.timeline-item,
+.timeline-card {
+    flex: 0 0 320px;
+    width: 320px;
+    background: var(--card-surface, #ffffff);
+    border-radius: 20px;
+    border: 1px solid var(--border-card, rgba(230, 220, 215, 0.85));
+    box-shadow: 0 10px 28px rgba(45, 35, 30, 0.07), 0 2px 8px rgba(45, 35, 30, 0.03);
+    position: relative;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    text-align: left;
+}
+
+.stream-card:hover,
+.timeline-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(217, 107, 82, 0.45);
+    box-shadow: 0 20px 42px rgba(45, 30, 25, 0.14), 0 4px 16px rgba(217, 107, 82, 0.15);
+}
+
+.stream-card-photo-box {
+    position: relative;
+    height: 220px;
+    margin: 10px 10px 0 10px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f4eae4;
+}
+
+.stream-card-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.stream-card:hover .stream-card-photo {
+    transform: scale(1.06);
+}
+
+.stream-card-count-pill {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #2d2621;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 20px;
+    z-index: 2;
+}
+
+.stream-card-body {
+    padding: 14px 16px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.stream-card-date {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-warm, #d96b52);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 5px;
+}
+
+.stream-card-title {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary, #2d2621);
+    line-height: 1.3;
+    margin-bottom: 8px;
+}
+
+.stream-card-story {
+    font-size: 13px;
+    color: var(--text-secondary, #7a6e65);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.stream-card-action {
+    margin-top: auto;
+}
+
+.stream-card-btn {
+    width: 100%;
+    background: rgba(217, 107, 82, 0.08);
+    border: 1px solid rgba(217, 107, 82, 0.25);
+    color: var(--accent-warm, #d96b52);
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.22s ease;
+}
+
+.stream-card:hover .stream-card-btn {
+    background: var(--accent-warm, #d96b52);
+    color: #ffffff;
+    border-color: var(--accent-warm, #d96b52);
+    box-shadow: 0 4px 12px rgba(217, 107, 82, 0.25);
+}
+
+.stream-hint-row {
+    text-align: center;
+    margin-top: 10px;
+    padding: 0 16px;
+}
+
+.stream-hint-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(220, 150, 130, 0.22);
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--text-secondary, #7a6e65);
+}
+
+/* Băng keo Washi Tape phong cách scrapbook trên thẻ kỷ niệm */
+.card-washi-tape {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-1.2deg);
+    width: 96px;
+    height: 20px;
+    background: rgba(255, 238, 225, 0.88);
+    background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(217, 107, 82, 0.16),
+        rgba(217, 107, 82, 0.16) 6px,
+        transparent 6px,
+        transparent 12px
+    );
+    box-shadow: 0 2px 5px rgba(45, 35, 30, 0.08);
+    clip-path: polygon(
+        0 0, 3px 3px, 0 6px, 3px 9px, 0 12px, 3px 15px, 0 20px,
+        100% 20px, calc(100% - 3px) 15px, 100% 12px, calc(100% - 3px) 9px, 100% 6px, calc(100% - 3px) 3px, 100% 0
+    );
+    z-index: 6;
+    pointer-events: none;
+}
+
+/* ========================================================
+   CAROUSEL NHIỀU ẢNH TRONG MỘT KỶ NIỆM
+   ======================================================== */
+.carousel-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #f0ebe4;
+    overflow: hidden;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    user-select: none;
+}
+
+.carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.carousel-slide {
+    min-width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: zoom-in;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.timeline-card:hover .carousel-slide img {
+    transform: scale(1.04);
+}
+
+/* Nút điều hướng Carousel */
+.carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s, transform 0.2s;
+}
+
+.carousel-wrap:hover .carousel-nav-btn {
+    opacity: 1;
+}
+
+.carousel-nav-btn:hover {
+    background: #ffffff;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.btn-prev { left: 10px; }
+.btn-next { right: 10px; }
+
+/* Dấu chấm chỉ báo trang ảnh */
+.carousel-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 5;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(4px);
+    padding: 3px 8px;
+    border-radius: 20px;
+}
+
+.c-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.c-dot.active {
+    width: 14px;
+    border-radius: 4px;
+    background: #ffffff;
+}
+
+/* Huy hiệu số lượng ảnh */
+.photos-count-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    z-index: 5;
+}
+
+.zoom-hint-badge {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 4;
+}
+
+.timeline-card:hover .zoom-hint-badge {
+    opacity: 1;
+}
+
+/* ========================================================
+   NỘI DUNG KỶ NIỆM & ĐỊA ĐIỂM
+   ======================================================== */
+.timeline-content {
+    padding: 24px;
+}
+
+.timeline-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.timeline-date {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-warm);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Nhãn địa điểm kỷ niệm */
+.timeline-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6a6058;
+    background: #f3ece4;
+    padding: 2px 10px;
+    border-radius: 20px;
+}
+
+.timeline-location .pin-icon {
+    font-size: 12px;
+}
+
+.timeline-title {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.35;
+}
+
+.timeline-story {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    white-space: pre-line;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 12px;
+}
+
+.timeline-card-action {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 6px;
+}
+
+.btn-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(217, 107, 82, 0.08);
+    border: 1px solid rgba(217, 107, 82, 0.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent-warm);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-read-more:hover {
+    background: var(--accent-warm);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(217, 107, 82, 0.25);
+    transform: translateY(-1px);
+}
+
+.btn-read-more .read-more-icon {
+    font-size: 13px;
+    transition: transform 0.25s ease;
+}
+
+.btn-read-more:hover .read-more-icon {
+    transform: scale(1.15) rotate(6deg);
+}
+
+/* ========================================================
+   MODAL BỨC THƯ NỞ RA KHI NHẤP CHUỘT (EXPANDING LETTER MODAL)
+   ======================================================== */
+.letter-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(22, 19, 18, 0.82);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.letter-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Khi đóng modal: Giữ overlay hiển thị mượt mà để diễn hoạt cảnh gấp thư từ từ, rồi mới mờ dần */
+.letter-modal-overlay.closing {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: none;
+    animation: overlayFadeOutSlow 0.45s ease forwards 3.15s;
+}
+
+@keyframes overlayFadeOutSlow {
+    0% {
+        opacity: 1;
+        visibility: visible;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.letter-modal-container {
+    position: relative;
+    max-width: 620px;
+    width: 100%;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.letter-modal-close {
+    position: absolute;
+    top: -44px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s, opacity 0.4s ease;
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Nút đóng xuất hiện êm ái khi bức thư đã nở ra hoàn chỉnh */
+.letter-modal-overlay.active .letter-modal-close {
+    opacity: 1;
+    pointer-events: auto;
+    transition-delay: 1.1s;
+}
+
+.letter-modal-overlay.closing .letter-modal-close {
+    opacity: 0;
+    pointer-events: none;
+    transition-delay: 0s;
+}
+
+.letter-modal-close:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+}
+
+/* ========================================================
+   HOẠT CẢNH PHONG BÌ MỞ NẮP 3D (VECTOR SVG SMOOTH ENVELOPE)
+   LỚP XẾP TẦNG CHUẨN XÁC:
+   - Thân sau (.envelope-back-wall): z-index: 1
+   - Nắp mở toang ra sau: z-index: 1 (phía sau mép thư)
+   - Mép lá thư (.envelope-inner-paper): z-index: 3 (nằm trước nắp mở & sau túi trước)
+   - Túi trước (.envelope-front-pocket): z-index: 4 (ôm che nửa dưới lá thư)
+   - Nắp khi gập đóng kín (.envelope-flap-3d): z-index: 5 (nằm trước túi trước)
+   - Con dấu sáp (.envelope-wax-seal): z-index: 6
+   ======================================================== */
+.envelope-3d-stage,
+.envelope-anim-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 180px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+}
+
+/* Thân sau phong bì (parchment/craft paper) */
+.envelope-back-wall,
+.envelope-base {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(145deg, #e4cdbd 0%, #d8bea9 100%);
+    border-radius: 10px;
+    border: 1px solid rgba(180, 130, 105, 0.4);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    z-index: 1;
+    transform: translateZ(0);
+}
+
+/* Mép lá thư trượt nhô lên từ bên trong khi nắp lật */
+.envelope-inner-paper {
+    position: absolute;
+    top: 10px;
+    left: 15px;
+    right: 15px;
+    height: 165px;
+    background: #faf7f2;
+    background-image: repeating-linear-gradient(
+        to bottom,
+        #faf7f2,
+        #faf7f2 16px,
+        rgba(217, 107, 82, 0.08) 16px,
+        rgba(217, 107, 82, 0.08) 17px
+    );
+    border-radius: 6px;
+    border: 1px solid rgba(217, 107, 82, 0.16);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 3;
+    transform: translate3d(0, 0, 2px);
+    will-change: transform, box-shadow;
+}
+
+/* Nắp phong bì 3D lật mở mượt mà bằng Vector SVG */
+.envelope-flap-3d,
+.envelope-flap-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 115px;
+    transform-origin: top center;
+    transform: translateZ(5px) rotateX(0deg);
+    transform-style: preserve-3d;
+    z-index: 5;
+    will-change: transform, z-index;
+}
+
+.flap-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: drop-shadow(0 3px 6px rgba(60, 40, 30, 0.22));
+}
+
+/* Con dấu sáp đỏ tình yêu sang trọng */
+.envelope-wax-seal,
+.envelope-seal-stamp {
+    position: absolute;
+    top: 92px;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(9px);
+    width: 44px;
+    height: 44px;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    will-change: transform, opacity;
+}
+
+.wax-seal-body {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle at 35% 35%, #de4e4e, #b21e1e 65%, #7a0e0e 100%);
+    border-radius: 48% 52% 49% 51% / 52% 48% 52% 48%;
+    box-shadow:
+        0 4px 10px rgba(120, 15, 15, 0.45),
+        inset 0 2px 3px rgba(255, 255, 255, 0.45),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 200, 200, 0.2);
+}
+
+.wax-seal-heart {
+    position: relative;
+    z-index: 2;
+    color: #ffe6e6;
+    font-size: 18px;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Phong cách 4: Đường nứt sáp phát sáng khi bẻ gãy seal */
+.wax-crack-line {
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%) rotate(16deg);
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.95),
+        rgba(255, 235, 160, 0.9) 45%,
+        rgba(255, 255, 255, 0.95)
+    );
+    opacity: 0;
+    pointer-events: none;
+    filter: drop-shadow(0 0 5px rgba(255, 230, 150, 0.95));
+    z-index: 3;
+    will-change: transform, opacity;
+}
+
+/* Phong cách 4: Vòng sóng ép nén sáp dập nổi khi niêm phong */
+.wax-press-ripple {
+    position: absolute;
+    inset: -6px;
+    border: 2px solid rgba(225, 60, 45, 0.7);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.6);
+    z-index: 1;
+    will-change: transform, opacity;
+}
+
+/* Phong cách 3: Vệt bóng đổ nắp phong bì chuyển động 3D sâu thẳm */
+.envelope-flap-shadow {
+    position: absolute;
+    top: 108px;
+    left: 14px;
+    right: 14px;
+    height: 18px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(50, 20, 10, 0.4) 0%, rgba(70, 25, 15, 0.18) 55%, transparent 80%);
+    border-radius: 50%;
+    filter: blur(4px);
+    z-index: 4;
+    pointer-events: none;
+    opacity: 0.85;
+    transform-origin: top center;
+    transform: translateZ(3px);
+    will-change: transform, opacity;
+}
+
+/* Túi trước phong bì với SVG đường gấp sắc nét */
+.envelope-front-pocket,
+.envelope-pocket {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    border-radius: 0 0 10px 10px;
+    overflow: hidden;
+    transform: translateZ(4px);
+}
+
+.pocket-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* ========================================================
+   HIỆU ỨNG 2: VỆT ÁNH HÀO QUANG VÀNG ẤM TỪ LÒNG PHONG BÌ
+   ======================================================== */
+.envelope-inner-glow {
+    position: absolute;
+    top: 5px;
+    left: 20px;
+    right: 20px;
+    height: 105px;
+    border-radius: 50% 50% 25% 25%;
+    background: radial-gradient(
+        ellipse at 50% 85%,
+        rgba(255, 240, 180, 0.96) 0%,
+        rgba(255, 200, 110, 0.78) 28%,
+        rgba(255, 160, 65, 0.42) 55%,
+        rgba(255, 120, 40, 0.12) 75%,
+        transparent 96%
+    );
+    filter: blur(10px) drop-shadow(0 -6px 24px rgba(255, 193, 7, 0.8));
+    z-index: 2; /* Nằm giữa thân sau (1) và mép thư (3) */
+    pointer-events: none;
+    opacity: 0;
+    transform: translate3d(0, 0, 1px) scaleY(0.4);
+    transform-origin: bottom center;
+    will-change: transform, opacity;
+}
+
+/* ========================================================
+   CHUỖI ANIMATION MỞ PHONG BÌ ĐÚNG TRẬT TỰ VẬT LÝ (ACTIVE - 2.45s)
+   1. Phong bì xuất hiện đĩnh đạc (0.0s - 0.30s)
+   2. Đường nứt phát sáng bẻ gãy con dấu sáp đỏ & con dấu tan biến (0.25s - 0.65s)
+   3. Nắp phong bì mở toang 180° ra sau & bóng đổ tan biến (0.60s - 1.25s)
+   4. Ánh hào quang vàng ấm bừng sáng từ lòng phong bì (0.95s - 1.75s) [Hiệu ứng 2]
+   5. Mép thư từ từ trồi lên tắm mình trong ánh hào quang (1.15s - 1.75s)
+   6. Bức thư nở to đĩnh đạc ra toàn màn hình (1.65s - 2.35s)
+   ======================================================== */
+.letter-modal-overlay.active .envelope-3d-stage,
+.letter-modal-overlay.active .envelope-anim-box {
+    animation: smoothEnvelopeReveal 1.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Đường nứt sáp phát sáng khi bắt đầu mở */
+.letter-modal-overlay.active .wax-crack-line {
+    animation: waxCrackSplit 0.25s ease-out forwards 0.08s;
+    animation-fill-mode: both;
+}
+
+.letter-modal-overlay.active .envelope-wax-seal,
+.letter-modal-overlay.active .envelope-seal-stamp {
+    animation: smoothSealFade 0.30s cubic-bezier(0.34, 1.4, 0.64, 1) forwards 0.12s;
+    animation-fill-mode: both;
+}
+
+.letter-modal-overlay.active .envelope-flap-3d,
+.letter-modal-overlay.active .envelope-flap-wrap {
+    animation: smoothFlapFlip 0.45s cubic-bezier(0.4, 0.05, 0.2, 1) forwards 0.25s;
+    animation-fill-mode: both;
+    backface-visibility: visible;
+}
+
+/* Vệt bóng đổ nắp phong bì tan dần khi nắp lật mở */
+.letter-modal-overlay.active .envelope-flap-shadow {
+    animation: flapShadowDisperse 0.45s cubic-bezier(0.4, 0.05, 0.2, 1) forwards 0.25s;
+    animation-fill-mode: both;
+}
+
+/* Hiệu ứng 2: Ánh hào quang bừng sáng từ lòng phong bì */
+.letter-modal-overlay.active .envelope-inner-glow {
+    animation: goldenGlowBeamUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.40s;
+    animation-fill-mode: both;
+}
+
+.letter-modal-overlay.active .envelope-inner-paper {
+    animation: smoothInnerPaperSlide 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.45s;
+    animation-fill-mode: both;
+}
+
+.letter-modal-overlay.active .letter-modal-paper {
+    animation: smoothLetterBloom 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.68s;
+    animation-fill-mode: both;
+}
+
+/* Phong cách 4: Vệt nứt phát sáng bẻ gãy con dấu sáp (Wax Crack Line) */
+@keyframes waxCrackSplit {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scaleY(0.1) rotate(16deg);
+    }
+    40% {
+        opacity: 1;
+        transform: translateX(-50%) scaleY(1) rotate(16deg);
+        filter: drop-shadow(0 0 7px rgba(255, 250, 205, 1));
+    }
+    75% {
+        opacity: 0.95;
+        transform: translateX(-50%) scaleX(2.2) scaleY(1) rotate(16deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) scaleX(3.2) scaleY(1) rotate(16deg);
+    }
+}
+
+/* Phong cách 3: Vệt bóng đổ nắp phong bì tan loang khi nắp mở ra */
+@keyframes flapShadowDisperse {
+    0% {
+        opacity: 0.85;
+        transform: translateZ(3px) scaleY(1);
+        filter: blur(4px);
+    }
+    45% {
+        opacity: 0.45;
+        transform: translateZ(3px) scaleY(2.2) translateY(8px);
+        filter: blur(8px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateZ(3px) scaleY(3.2) translateY(18px);
+        filter: blur(12px);
+    }
+}
+
+/* Keyframes cho Hiệu ứng 2: Ánh hào quang vươn lên */
+@keyframes goldenGlowBeamUp {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 1px) scaleY(0.3) scaleX(0.7);
+    }
+    35% {
+        opacity: 0.95;
+        transform: translate3d(0, -22px, 1px) scaleY(1.35) scaleX(1.15);
+        filter: blur(8px) drop-shadow(0 -10px 28px rgba(255, 215, 64, 0.9));
+    }
+    70% {
+        opacity: 0.85;
+        transform: translate3d(0, -32px, 1px) scaleY(1.5) scaleX(1.2);
+    }
+    100% {
+        opacity: 0.35;
+        transform: translate3d(0, -36px, 1px) scaleY(1.15) scaleX(1.05);
+    }
+}
+
+/* 1. Hiệu ứng phong bì xuất hiện đĩnh đạc rồi chìm nhẹ khi lá thư vươn lên */
+@keyframes smoothEnvelopeReveal {
+    0% {
+        opacity: 0;
+        transform: translate3d(-50%, -46%, 0) scale3d(0.88, 0.88, 1);
+    }
+    12% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+    }
+    78% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+    }
+    90% {
+        opacity: 0.3;
+        transform: translate3d(-50%, -46%, 0) scale3d(0.96, 0.96, 1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -43%, 0) scale3d(0.92, 0.92, 1);
+        visibility: hidden;
+    }
+}
+
+/* 2. Con dấu sáp nảy nhẹ rồi bẻ gãy tan biến (Phong cách 4) */
+@keyframes smoothSealFade {
+    0% {
+        transform: translate(-50%, -50%) translateZ(9px) scale3d(1, 1, 1);
+        opacity: 1;
+    }
+    30% {
+        transform: translate(-50%, -50%) translateZ(14px) scale3d(1.15, 1.15, 1);
+        opacity: 1;
+    }
+    65% {
+        transform: translate(-50%, -50%) translateZ(12px) scale3d(1.22, 1.05, 1);
+        opacity: 0.85;
+        filter: drop-shadow(0 0 10px rgba(255, 180, 60, 0.8));
+    }
+    100% {
+        transform: translate(-50%, -50%) translateZ(4px) scale3d(0.2, 0.2, 1);
+        opacity: 0;
+    }
+}
+
+/* 3. Nắp phong bì mở toang 180 độ lên trên ra sau */
+@keyframes smoothFlapFlip {
+    0% {
+        transform: translateZ(5px) rotateX(0deg);
+        z-index: 5;
+    }
+    48% {
+        transform: translateZ(3px) rotateX(85deg);
+        z-index: 5;
+    }
+    52% {
+        transform: translateZ(-2px) rotateX(95deg);
+        z-index: 1;
+    }
+    100% {
+        transform: translateZ(-2px) rotateX(180deg);
+        z-index: 1;
+    }
+}
+
+/* 4. Mép lá thư trượt êm ái, thẳng mượt nhô lên từ bên trong phong bì */
+@keyframes smoothInnerPaperSlide {
+    0% {
+        transform: translate3d(0, 0, 2px);
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    }
+    100% {
+        transform: translate3d(0, -80px, 2px);
+        box-shadow: 0 -8px 22px rgba(60, 30, 20, 0.16);
+    }
+}
+
+/* 5. Bức thư nở to đĩnh đạc ra toàn màn hình trang nhã và mượt mà */
+@keyframes smoothLetterBloom {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, 32px, 0) scale(0.9);
+        filter: drop-shadow(0 10px 24px rgba(70, 30, 20, 0.15));
+    }
+    60% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+        filter: drop-shadow(0 20px 48px rgba(60, 20, 10, 0.28));
+    }
+}
+
+/* ========================================================
+   CHUỖI ANIMATION ĐÓNG PHONG BÌ CHUẨN XÁC & MƯỢT MÀ (CLOSING - 3.1s)
+   1. Bức thư thu nhỏ & trượt vào lòng phong bì ĐANG MỞ NẮP (0.00s - 0.45s)
+   2. Mép thư trượt êm sâu vào đáy túi phong bì (0.30s - 0.85s)
+   3. Nắp phong bì gập xuống 180° đậy kín miệng (0.80s - 1.40s)
+   4. CON DẤU SÁP ĐỎ ĐÓNG ẬP VÀO NIÊM PHONG TRƯỚC (1.35s - 1.80s)
+   5. DÂY RUY BĂNG LƯỚT VÀO VÀ THẮT NƠ LẠI SAU (1.80s - 2.55s)
+   6. Phong bì đóng kín hoàn chỉnh và mờ dần (2.70s - 3.10s)
+   ======================================================== */
+.letter-modal-overlay.closing {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: none;
+    animation: overlayFadeOutSlow 0.35s ease forwards 1.05s;
+}
+
+.letter-modal-overlay.closing .letter-modal-paper {
+    animation: smoothLetterFoldBack 0.35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+    animation-fill-mode: both;
+}
+
+.letter-modal-overlay.closing .envelope-3d-stage,
+.letter-modal-overlay.closing .envelope-anim-box {
+    animation: smoothEnvelopeCloseSequence 1.35s ease forwards;
+    animation-fill-mode: both;
+}
+
+/* Hiệu ứng hào quang khi đóng */
+.letter-modal-overlay.closing .envelope-inner-glow {
+    animation: goldenGlowFadeInThenClose 0.60s ease forwards 0.10s;
+    animation-fill-mode: both;
+}
+
+/* 1. Mép lá thư trượt êm ái sâu vào lòng túi phong bì */
+.letter-modal-overlay.closing .envelope-inner-paper {
+    animation: smoothInnerPaperSlideDown 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.15s;
+    animation-fill-mode: both;
+}
+
+/* 2. Nắp phong bì gập xuống đậy kín miệng phong bì */
+.letter-modal-overlay.closing .envelope-flap-3d,
+.letter-modal-overlay.closing .envelope-flap-wrap {
+    animation: smoothFlapClose 0.38s cubic-bezier(0.35, 0.05, 0.2, 1) forwards 0.45s;
+    animation-fill-mode: both;
+    backface-visibility: visible;
+}
+
+/* Vệt bóng đổ nắp phong bì đậm nét trở lại khi nắp đóng kín */
+.letter-modal-overlay.closing .envelope-flap-shadow {
+    animation: flapShadowCast 0.38s cubic-bezier(0.35, 0.05, 0.2, 1) forwards 0.45s;
+    animation-fill-mode: both;
+}
+
+/* 3. CON DẤU SÁP ĐỎ ĐÓNG ẬP VÀO NIÊM PHONG NẮP PHONG BÌ */
+.letter-modal-overlay.closing .envelope-wax-seal,
+.letter-modal-overlay.closing .envelope-seal-stamp {
+    animation: smoothSealStampBack 0.35s cubic-bezier(0.34, 1.35, 0.64, 1) forwards 0.80s;
+    animation-fill-mode: both;
+}
+
+/* Vòng sóng ép sáp nóng lan tỏa khi con dấu ập vào */
+.letter-modal-overlay.closing .wax-press-ripple {
+    animation: waxRippleSpread 0.30s ease-out forwards 0.90s;
+    animation-fill-mode: both;
+}
+
+/* Keyframes Hiệu ứng 2 khi đóng */
+@keyframes goldenGlowFadeInThenClose {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, -20px, 1px) scaleY(1);
+    }
+    25% {
+        opacity: 0.8;
+        transform: translate3d(0, -10px, 1px) scaleY(1.25);
+    }
+    55% {
+        opacity: 0.75;
+        transform: translate3d(0, 0, 1px) scaleY(1);
+    }
+    78% {
+        opacity: 0.25;
+        transform: translate3d(0, 0, 1px) scaleY(0.5);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, 0, 1px) scaleY(0.2);
+    }
+}
+
+/* 1. Bức thư thu nhỏ và trượt nhẹ vào lòng phong bì */
+@keyframes smoothLetterFoldBack {
+    0% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(0, 32px, 0) scale(0.9);
+    }
+}
+
+/* 2. Phong bì hiện lại ở trạng thái MỞ NẮP rồi trượt nhẹ xuống và tan biến */
+@keyframes smoothEnvelopeCloseSequence {
+    0% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+        visibility: visible;
+    }
+    82% {
+        opacity: 1;
+        transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+        visibility: visible;
+    }
+    92% {
+        opacity: 0.45;
+        transform: translate3d(-50%, -48%, 0) scale3d(0.95, 0.95, 1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate3d(-50%, -45%, 0) scale3d(0.9, 0.9, 1);
+        visibility: hidden;
+    }
+}
+
+/* 3. Mép lá thư trượt êm ái thẳng đều vào sâu trong lòng túi phong bì không khựng */
+@keyframes smoothInnerPaperSlideDown {
+    0% {
+        transform: translate3d(0, -80px, 2px);
+        box-shadow: 0 -8px 22px rgba(60, 30, 20, 0.16);
+    }
+    100% {
+        transform: translate3d(0, 0, 2px);
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    }
+}
+
+/* 4. Nắp phong bì giữ nguyên mở 180 độ phía sau (z-index: 1) trong lúc thư chui vào,
+   rồi MỚI GẬP XUỐNG, lật ra phía trước túi (z-index: 5) khi qua 90° để đóng kín */
+@keyframes smoothFlapClose {
+    0% {
+        transform: translateZ(-2px) rotateX(180deg);
+        z-index: 1;
+    }
+    48% {
+        transform: translateZ(-2px) rotateX(95deg);
+        z-index: 1;
+    }
+    52% {
+        transform: translateZ(3px) rotateX(85deg);
+        z-index: 5;
+    }
+    100% {
+        transform: translateZ(5px) rotateX(0deg);
+        z-index: 5;
+    }
+}
+
+/* Phong cách 3: Vệt bóng đổ nắp phong bì đổ xuống khi nắp đóng kín */
+@keyframes flapShadowCast {
+    0% {
+        opacity: 0;
+        transform: translateZ(3px) scaleY(3.2) translateY(18px);
+        filter: blur(12px);
+    }
+    55% {
+        opacity: 0.45;
+        transform: translateZ(3px) scaleY(2.2) translateY(8px);
+        filter: blur(8px);
+    }
+    100% {
+        opacity: 0.85;
+        transform: translateZ(3px) scaleY(1) translateY(0);
+        filter: blur(4px);
+    }
+}
+
+/* 5. Phong cách 4: Con dấu sáp đóng niêm phong với lực nén đè sáp nóng (Emboss Squeeze) */
+@keyframes smoothSealStampBack {
+    0% {
+        transform: translate(-50%, -50%) translateZ(28px) scale3d(1.7, 1.7, 1);
+        opacity: 0;
+    }
+    55% {
+        transform: translate(-50%, -50%) translateZ(10px) scale3d(1.2, 1.2, 1);
+        opacity: 1;
+    }
+    75% {
+        /* Lực ép đè nén sáp nóng dập nổi */
+        transform: translate(-50%, -50%) translateZ(8px) scale3d(1.28, 0.86, 1);
+        opacity: 1;
+    }
+    88% {
+        /* Nảy đàn hồi nhẹ */
+        transform: translate(-50%, -50%) translateZ(9px) scale3d(0.96, 1.04, 1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) translateZ(9px) scale3d(1, 1, 1);
+        opacity: 1;
+    }
+}
+
+/* Phong cách 4: Vòng sóng ép sáp nóng lan tỏa (Wax Ripple Spread) */
+@keyframes waxRippleSpread {
+    0% {
+        opacity: 0.9;
+        transform: scale(0.6);
+        border-color: rgba(225, 70, 50, 0.85);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.68);
+        border-color: rgba(225, 70, 50, 0);
+        box-shadow: 0 0 12px rgba(225, 70, 50, 0.4);
+    }
+}
+
+/* ========================================================
+   LÁ THƯ VINTAGE EXPANDED MODAL (GIẤY THƯ & DECOR SCRAPBOOK)
+   ======================================================== */
+.letter-modal-paper {
+    position: relative;
+    background: #ffffff;
+    background-image: 
+        radial-gradient(rgba(217, 107, 82, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, #ffffff 0%, #faf6f0 100%);
+    background-size: 20px 20px, 100% 100%;
+    border: 1.5px solid rgba(217, 107, 82, 0.28);
+    border-radius: var(--radius-lg, 24px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32), 0 4px 16px rgba(0, 0, 0, 0.1);
+    padding: 44px 34px 30px;
+    overflow-y: auto;
+    max-height: 84vh;
+    width: 100%;
+    z-index: 10;
+    opacity: 0; /* Khởi đầu ẩn cho đến khi phong bì mở ra */
+    transform-origin: center center;
+    will-change: transform, opacity;
+}
+
+/* Viền chỉ thêu / nét đứt vintage bên trong giấy thư - Đã ẩn để lá thư sạch sẽ, không bị viền cam cắt qua ảnh */
+.letter-modal-paper::before {
+    display: none;
+}
+
+/* Băng keo Washi Tape dán góc trên của lá thư */
+.washi-tape-strip {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-1deg);
+    width: 130px;
+    height: 25px;
+    background: rgba(255, 238, 225, 0.9);
+    background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(217, 107, 82, 0.16),
+        rgba(217, 107, 82, 0.16) 7px,
+        transparent 7px,
+        transparent 14px
+    );
+    box-shadow: 0 2px 6px rgba(45, 35, 30, 0.08);
+    clip-path: polygon(
+        0 0, 3px 3px, 0 6px, 3px 9px, 0 13px, 3px 17px, 0 25px,
+        100% 25px, calc(100% - 3px) 21px, 100% 17px, calc(100% - 3px) 13px, 100% 9px, calc(100% - 3px) 5px, 100% 0
+    );
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Tem thư bưu chính cổ điển với dấu mộc lượn sóng */
+.vintage-postage-stamp {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+    transform: rotate(3deg);
+}
+
+.stamp-outer-scallop {
+    width: 58px;
+    height: 68px;
+    background: #fffdf9;
+    padding: 4px;
+    border-radius: 2px;
+    box-shadow: 0 4px 12px rgba(45, 35, 30, 0.1), 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px dashed rgba(217, 107, 82, 0.35);
+}
+
+.stamp-inner-content {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #fff5f0 0%, #faede5 100%);
+    border: 1px solid rgba(217, 107, 82, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 3px;
+}
+
+.stamp-art {
+    font-size: 19px;
+    line-height: 1;
+}
+
+.stamp-label {
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    color: #9c4b37;
+    font-family: var(--font-sans);
+}
+
+.stamp-val {
+    font-size: 7.5px;
+    font-weight: 800;
+    color: #d96b52;
+    font-family: var(--font-sans);
+}
+
+.stamp-cancellation-postmark {
+    position: absolute;
+    right: -16px;
+    bottom: -6px;
+    width: 82px;
+    height: 34px;
+    transform: rotate(-14deg);
+    opacity: 0.85;
+}
+
+.postmark-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.letter-modal-stamp {
+    display: none; /* Thay thế bằng tem thư vintage .vintage-postage-stamp */
+}
+
+.letter-modal-header {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.letter-modal-header .letter-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.letter-modal-header .letter-date {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--accent-warm);
+    background: var(--accent-soft);
+    padding: 3px 12px;
+    border-radius: 20px;
+}
+
+.letter-modal-header .letter-location {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.letter-modal-title {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 3.5vw, 28px);
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.35;
+}
+
+/* ========================================================
+   CAROUSEL TỰ TRƯỢT & NÚT MŨI TÊN TRONG BỨC THƯ (KHÔNG DÙNG THANH CUỘN)
+   ======================================================== */
+.letter-modal-gallery {
+    margin-bottom: 22px;
+    border-radius: var(--radius-md, 18px);
+    position: relative;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+}
+
+.letter-single-img-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    border-radius: var(--radius-md, 18px);
+    background: transparent;
+}
+
+.letter-single-img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 520px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: var(--radius-md, 18px);
+    box-shadow: 0 8px 26px rgba(45, 30, 20, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+    cursor: zoom-in;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.letter-single-img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 14px 36px rgba(45, 30, 20, 0.18), 0 4px 12px rgba(217, 107, 82, 0.15);
+}
+
+/* Khung bọc Carousel trong thư (tỷ lệ 3/2 chuẩn của máy ảnh và ảnh quân sự, không cắt crop) */
+.letter-carousel-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    max-height: 480px;
+    overflow: hidden;
+    border-radius: var(--radius-md, 18px);
+    user-select: none;
+    background: #181412;
+    box-shadow: 0 10px 28px rgba(40, 25, 20, 0.16);
+}
+
+.letter-carousel-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    will-change: transform;
+}
+
+.letter-carousel-slide {
+    min-width: 100%;
+    width: 100%;
+    height: 100%;
+    flex: 0 0 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.letter-carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    cursor: zoom-in;
+}
+
+/* Nút mũi tên điều hướng ‹ và › */
+.letter-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(217, 107, 82, 0.25);
+    color: var(--accent-warm, #d96b52);
+    font-size: 22px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+    z-index: 10;
+    transition: all 0.22s ease;
+    padding: 0;
+}
+
+.letter-carousel-btn:hover {
+    background: #ffffff;
+    color: var(--accent-warm);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.letter-carousel-btn.prev-btn {
+    left: 12px;
+}
+
+.letter-carousel-btn.next-btn {
+    right: 12px;
+}
+
+/* Chấm tròn định vị trang */
+.letter-carousel-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(20, 16, 14, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 4px 10px;
+    border-radius: 20px;
+    z-index: 10;
+}
+
+.letter-c-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.letter-c-dot.active {
+    background: #ffffff;
+    width: 18px;
+    border-radius: 5px;
+}
+
+/* Huy hiệu đếm số lượng ảnh góc trên */
+.letter-carousel-counter {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: rgba(20, 16, 14, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 14px;
+    z-index: 10;
+    letter-spacing: 0.5px;
+}
+
+.letter-modal-body {
+    position: relative;
+    font-size: 16px;
+    line-height: 1.9;
+    color: #403c38;
+    text-align: justify;
+    margin-bottom: 24px;
+}
+
+.letter-quote-mark {
+    font-family: var(--font-serif);
+    font-size: 38px;
+    color: rgba(217, 107, 82, 0.35);
+    line-height: 0;
+    margin-bottom: 12px;
+}
+
+.letter-quote-mark.closing {
+    text-align: right;
+    margin-top: 14px;
+    margin-bottom: 0;
+}
+
+/* Lời kết ký tặng lãng mạn ở cuối bức thư */
+.letter-signature-block {
+    margin-top: 24px;
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    border-top: 1px dotted rgba(217, 107, 82, 0.22);
+}
+
+.sig-flourish {
+    font-size: 16px;
+    color: var(--accent-warm);
+    opacity: 0.65;
+}
+
+.sig-script {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 15px;
+    color: #6b5c54;
+}
+
+.sig-name {
+    font-family: var(--font-serif);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--accent-warm);
+    letter-spacing: 0.5px;
+}
+
+.letter-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.letter-paper-watermark {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--accent-gold);
+}
+
+.letter-fold-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-soft);
+    color: var(--accent-warm);
+    border: 1px solid rgba(217, 107, 82, 0.2);
+    border-radius: 20px;
+    padding: 7px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.letter-fold-btn:hover {
+    background: var(--accent-warm);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(217, 107, 82, 0.25);
+}
+
+/* ========================================================
+   ĐIỂM DỪNG CUỐI CÙNG: BỨC THƯ GỬI GẮM
+   ======================================================== */
+.final-destination {
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.final-milestone-marker {
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 30px;
+    background: var(--card-surface);
+    border: 2px solid var(--accent-warm);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 0 0 6px var(--accent-soft);
+    position: relative;
+    z-index: 2;
+}
+
+.letter-card {
+    background: var(--card-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-card);
+    box-shadow: var(--shadow-soft);
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    text-align: center;
+}
+
+.letter-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent-warm);
+    background: var(--accent-soft);
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+}
+
+.letter-title {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+}
+
+.letter-body {
+    font-size: 15.5px;
+    line-height: 1.85;
+    color: #45423e;
+    text-align: justify;
+    margin-bottom: 30px;
+}
+
+.letter-body p {
+    margin-bottom: 16px;
+}
+
+.letter-ending {
+    text-align: center !important;
+    font-weight: 600;
+    color: var(--accent-warm);
+    margin-top: 20px;
+    font-size: 16.5px;
+}
+
+.page-footer {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 30px 0 10px;
+}
+
+/* ========================================================
+   LIGHTBOX PHÓNG TO ẢNH FULLSCREEN
+   ======================================================== */
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 14, 13, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lightbox-media-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-media-wrap img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+.lightbox-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 26px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.2s;
+    z-index: 10;
+}
+
+.lightbox-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: translateY(-50%) scale(1.08);
+}
+
+.lb-prev { left: -55px; }
+.lb-next { right: -55px; }
+
+.lightbox-caption {
+    margin-top: 14px;
+    color: #e5e0d8;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -45px;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.lightbox-close:hover {
+    opacity: 1;
+}
+
+/* ========================================================
+   TỐI ƯU RESPONSIVE CHO ĐIỆN THOẠI & TABLET
+   ======================================================== */
+@media (max-width: 768px) {
+    .page-wrapper {
+        padding: 16px 14px 60px;
+    }
+
+    .timeline-hero {
+        padding: 40px 10px 30px;
+    }
+
+    .intro-showcase-wrapper,
+    .intro-box-wrapper {
+        margin: 26px auto 32px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Trên điện thoại, ẩn các ảnh giữa để tránh rối mắt, giữ 4 góc */
+    .polaroid-tml,
+    .polaroid-bml,
+    .polaroid-tmr,
+    .polaroid-bmr,
+    .polaroid-ml,
+    .polaroid-mr {
+        display: none !important;
+    }
+
+    .polaroid-item {
+        width: 108px;
+        padding: 6px 6px 14px 6px;
+        border-radius: 4px;
+    }
+
+    .polaroid-tl {
+        top: 6px;
+        left: -18px;
+        transform: rotate(-10deg);
+    }
+
+    .polaroid-tr {
+        top: 4px;
+        right: -18px;
+        transform: rotate(9deg);
+    }
+
+    .polaroid-bl {
+        bottom: 12px;
+        left: -16px;
+        transform: rotate(7deg);
+    }
+
+    .polaroid-br {
+        bottom: 10px;
+        right: -16px;
+        transform: rotate(-8deg);
+    }
+
+    .polaroid-tl:hover { transform: scale(1.12) translate(-2px, -6px) rotate(-3deg); }
+    .polaroid-tr:hover { transform: scale(1.12) translate(2px, -6px) rotate(3deg); }
+    .polaroid-bl:hover { transform: scale(1.12) translate(-2px, 6px) rotate(2deg); }
+    .polaroid-br:hover { transform: scale(1.12) translate(2px, 6px) rotate(-2deg); }
+
+    .polaroid-tl .polaroid-caption,
+    .polaroid-tr .polaroid-caption,
+    .polaroid-bl .polaroid-caption,
+    .polaroid-br .polaroid-caption {
+        text-align: center;
+        padding: 0 2px;
+        max-width: 100%;
+        font-size: 9.5px;
+        margin-top: 5px;
+    }
+
+    .polaroid-tl .polaroid-date,
+    .polaroid-tr .polaroid-date,
+    .polaroid-bl .polaroid-date,
+    .polaroid-br .polaroid-date {
+        text-align: center;
+        padding: 0;
+        font-size: 7.5px;
+    }
+
+    .polaroid-washi {
+        width: 32px;
+        height: 10px;
+        top: -5px;
+    }
+
+    .intro-message-box {
+        padding: 26px 20px 22px;
+        margin: 0;
+        width: 100%;
+    }
+
+    .intro-box-pin {
+        right: 18px;
+        top: -14px;
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .intro-lead-text {
+        font-size: 17px;
+    }
+
+    .intro-body-text {
+        font-size: 14.5px;
+        text-align: left;
+    }
+
+    .intro-box-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        text-align: center;
+    }
+
+    .intro-signature {
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .start-journey-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 18px;
+    }
+
+    .memories-gallery-grid,
+    .timeline-container {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 0 0 20px;
+    }
+
+    .timeline-item {
+        width: 100%;
+        left: 0 !important;
+        padding: 0;
+        text-align: left !important;
+    }
+
+    .carousel-nav-btn {
+        opacity: 0.85;
+    }
+
+    .stream-nav-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .stream-nav-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .stream-nav-prev {
+        left: 10px;
+    }
+
+    .stream-nav-next {
+        right: 10px;
+    }
+
+    .lb-prev { left: 10px; }
+    .lb-next { right: 10px; }
+
+    .timeline-content {
+        padding: 18px 16px;
+    }
+
+    .timeline-title {
+        font-size: 19px;
+    }
+
+    .timeline-story {
+        font-size: 14.5px;
+    }
+
+    .letter-card {
+        padding: 30px 20px;
+    }
+
+    .letter-title {
+        font-size: 23px;
+    }
+
+    .letter-body {
+        font-size: 14.5px;
+        text-align: left;
+    }
+
+    .vinyl-player-widget {
+        top: auto;
+        bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        margin: 0;
+        justify-content: space-between;
+        padding: 6px 12px 8px 8px;
+        gap: 8px;
+        width: calc(100vw - 24px);
+        max-width: 440px;
+        box-shadow: 0 12px 30px rgba(60, 30, 20, 0.15), 0 3px 10px rgba(217, 107, 82, 0.14);
+    }
+
+    .vinyl-player-widget:hover {
+        transform: translateX(-50%) translateY(-2px);
+    }
+
+    .vinyl-disc-wrap {
+        width: 36px;
+        height: 36px;
+    }
+
+    .vinyl-disc {
+        width: 36px;
+        height: 36px;
+    }
+
+    .vinyl-glow-aura {
+        width: 38px;
+        height: 38px;
+    }
+
+    .vinyl-groove-ring.ring-1 {
+        width: 26px;
+        height: 26px;
+    }
+
+    .vinyl-groove-ring.ring-2 {
+        width: 18px;
+        height: 18px;
+    }
+
+    .vinyl-center-label {
+        width: 14px;
+        height: 14px;
+    }
+
+    .vinyl-center-icon {
+        font-size: 7px;
+    }
+
+    .vinyl-song-title {
+        font-size: 11.5px;
+        max-width: 95px;
+    }
+
+    .vinyl-meta-row {
+        font-size: 9.5px;
+        gap: 3.5px;
+    }
+
+    .vinyl-song-artist {
+        max-width: 55px;
+    }
+
+    .vinyl-time-tag {
+        font-size: 9px;
+        padding: 1px 3px;
+    }
+
+    .vinyl-equalizer {
+        height: 14px;
+        gap: 2px;
+        padding-left: 4px;
+    }
+
+    .eq-bar {
+        width: 2px;
+    }
+
+    .vinyl-ctrl-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 9.5px;
+    }
+
+    .vinyl-playlist-btn {
+        padding: 0 6px;
+    }
+
+    .vinyl-playlist-drawer {
+        width: 100%;
+        max-width: 100%;
+        left: 0;
+        right: 0;
+        bottom: calc(100% + 10px);
+        max-height: 65vh;
+        overflow-y: auto;
+    }
+
+    .letter-single-img {
+        max-height: 380px;
+    }
+
+    .letter-carousel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+    }
+
+    .timeline-card-action {
+        justify-content: flex-start !important;
+    }
+
+    .letter-modal-paper {
+        padding: 34px 18px 22px;
+    }
+
+    .letter-modal-paper::before {
+        inset: 8px;
+    }
+
+    .washi-tape-strip {
+        width: 100px;
+        height: 20px;
+        top: -10px;
+    }
+
+    .card-washi-tape {
+        width: 80px;
+        height: 17px;
+        top: -8px;
+    }
+
+    .vintage-postage-stamp {
+        top: 12px;
+        right: 14px;
+        transform: scale(0.82) rotate(3deg);
+        transform-origin: top right;
+    }
+
+    .letter-modal-title {
+        font-size: 20px;
+    }
+
+    .letter-modal-body {
+        font-size: 14.5px;
+        line-height: 1.8;
+    }
+
+    .letter-modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        gap: 12px;
+    }
+
+    .letter-fold-btn {
+        justify-content: center;
+    }
+
+    .envelope-3d-stage,
+    .envelope-anim-box {
+        width: 230px;
+        height: 150px;
+    }
+
+    .envelope-inner-paper {
+        height: 120px;
+    }
+
+    .envelope-wax-seal,
+    .envelope-seal-stamp {
+        top: 76px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .wax-seal-body {
+        width: 34px;
+        height: 34px;
+    }
+
+    .wax-seal-heart {
+        font-size: 15px;
+    }
+}

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- Tiêu đề trang web & Icon Favicon -->
+    <title>Huy và Hiền 💕</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+
+    <!-- Meta Description & Open Graph khi chia sẻ link -->
+    <meta name="description" content="Trang web lưu giữ hành trình kỷ niệm của Huy và Hiền.">
+    <meta property="og:title" content="Huy và Hiền 💕">
+    <meta property="og:description" content="Từng khoảnh khắc bên nhau đều để lại những mảnh ghép đáng nhớ.">
+    <meta property="og:type" content="website">
+
+    <!-- Google Fonts: Dancing Script lãng mạn, Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Đốm sáng hào quang cực quang mờ ảo làm nền (Dreamy Background Glow Orbs) -->
+    <div class="bg-decor-wrapper" aria-hidden="true">
+        <div class="bg-glow-orb orb-1"></div>
+        <div class="bg-glow-orb orb-2"></div>
+        <div class="bg-glow-orb orb-3"></div>
+        <div class="bg-floating-sparkle sparkle-1">✦</div>
+        <div class="bg-floating-sparkle sparkle-2">✧</div>
+        <div class="bg-floating-sparkle sparkle-3">⋆</div>
+        <div class="bg-floating-sparkle sparkle-4">✦</div>
+    </div>
+
+    <!-- Canvas hạt ánh sáng ấm áp lơ lửng -->
+    <canvas id="ambientCanvas"></canvas>
+
+    <!-- TRÌNH PHÁT NHẠC ĐĨA THAN VINTAGE LUXURY CAPSULE (ROMANTIC MUSIC BOX) -->
+    <div class="vinyl-player-widget" id="musicWidget" role="region" aria-label="Trình phát nhạc kỷ niệm">
+        <!-- Vầng hào quang ánh sáng hoàng hôn ấm áp sau đĩa than -->
+        <div class="vinyl-glow-aura" aria-hidden="true"></div>
+
+        <!-- Luồng nốt nhạc & trái tim bay lơ lửng khi đang phát nhạc -->
+        <div class="vinyl-notes-stream" id="vinylNotesStream" aria-hidden="true"></div>
+
+        <!-- Cụm đĩa than xoay tròn cổ điển & cần kim mạ vàng -->
+        <div class="vinyl-disc-wrap" id="musicDiscBtn" title="Chạm để Bật / Tạm dừng" role="button" tabindex="0">
+            <div class="vinyl-disc" id="vinylDisc">
+                <div class="vinyl-groove-ring ring-1"></div>
+                <div class="vinyl-groove-ring ring-2"></div>
+                <div class="vinyl-groove-ring ring-3"></div>
+                <!-- Tâm đĩa than in hình trái tim lãng mạn -->
+                <div class="vinyl-center-label">
+                    <span class="vinyl-center-icon">❤️</span>
+                    <div class="vinyl-center-hole"></div>
+                </div>
+            </div>
+            <!-- Cần kim đĩa than (Tonearm) vàng kim tinh xảo -->
+            <div class="vinyl-tonearm" aria-hidden="true">
+                <div class="vinyl-tonearm-pivot"></div>
+                <div class="vinyl-tonearm-stick"></div>
+                <div class="vinyl-tonearm-head"></div>
+            </div>
+            <!-- Biểu tượng Play / Pause tương tác trên đĩa than -->
+            <div class="vinyl-play-indicator" aria-hidden="true">
+                <span class="play-icon" id="musicPlayIcon">▶</span>
+            </div>
+        </div>
+
+        <!-- Thông tin bài hát & ca sĩ xếp mềm mại, thanh lịch -->
+        <div class="vinyl-info-box" id="musicInfoBox" title="Chạm để Bật / Tạm dừng" role="button" tabindex="0">
+            <div class="vinyl-song-title-row">
+                <span class="vinyl-music-icon" aria-hidden="true">♪</span>
+                <span class="vinyl-song-title" id="musicSongName">50 Năm Về Sau</span>
+            </div>
+            <div class="vinyl-meta-row">
+                <span class="vinyl-status-dot" id="musicStatusDot" aria-hidden="true"></span>
+                <span class="vinyl-song-artist" id="musicSongArtist">Đặng Thanh Tuyền</span>
+                <span class="vinyl-meta-dot" aria-hidden="true">•</span>
+                <span class="vinyl-time-tag" id="musicTimeDisplay">00:00</span>
+            </div>
+        </div>
+
+        <!-- Sóng nhạc Equalizer 4 thanh sunset gradient mềm mại -->
+        <div class="vinyl-equalizer" aria-hidden="true" title="Sóng nhạc">
+            <span class="eq-bar bar-1"></span>
+            <span class="eq-bar bar-2"></span>
+            <span class="eq-bar bar-3"></span>
+            <span class="eq-bar bar-4"></span>
+        </div>
+
+        <!-- Cụm nút điều khiển: Lùi bài, Phát/Dừng, Tiến bài, Danh sách phát -->
+        <div class="vinyl-controls-group">
+            <button class="vinyl-ctrl-btn" id="musicPrevBtn" type="button" title="Bài trước (Lùi bài) ⏮" aria-label="Bài trước">
+                <span>⏮</span>
+            </button>
+            <button class="vinyl-ctrl-btn vinyl-play-center-btn" id="musicPlayBtn" type="button" title="Phát nhạc ▶" aria-label="Phát nhạc">
+                <span class="play-center-icon" id="musicPlayCenterIcon">▶</span>
+            </button>
+            <button class="vinyl-ctrl-btn" id="musicSkipBtn" type="button" title="Bài tiếp theo (Tiến bài) ⏭" aria-label="Bài tiếp theo">
+                <span>⏭</span>
+            </button>
+            <button class="vinyl-ctrl-btn vinyl-playlist-btn" id="musicPlaylistToggleBtn" type="button" title="Danh sách 3 bài hát 🎶" aria-label="Danh sách phát">
+                <span class="playlist-icon">🎶</span>
+                <span class="vinyl-track-badge" id="musicTrackBadge">1/3</span>
+            </button>
+        </div>
+
+        <!-- Thanh tiến trình bài hát chạy êm dưới đáy capsule -->
+        <div class="vinyl-progress-container" id="musicProgressContainer" title="Kéo / Nhấp để tua bài hát">
+            <div class="vinyl-progress-bar" id="musicProgressBar">
+                <div class="vinyl-progress-scrubber" aria-hidden="true"></div>
+            </div>
+        </div>
+
+        <!-- Dropdown danh sách bài hát bung mở khi bấm nút 🎶 -->
+        <div class="vinyl-playlist-drawer" id="musicPlaylistDrawer" aria-hidden="true">
+            <div class="playlist-drawer-list" id="playlistDrawerList">
+                <!-- Được tạo tự động từ PLAYLIST trong script.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO ELEMENT (Danh sách phát nhạc 3 bài kỷ niệm) -->
+    <audio id="bgMusic" src="music/50-nam-ve-sau.mp3" autoplay preload="auto">
+        <source src="music/50-nam-ve-sau.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="page-wrapper">
+        
+        <!-- MỞ ĐẦU CUỐN NHẬT KÝ (HERO) -->
+        <header class="timeline-hero">
+            <!-- KHU VỰC TIÊU ĐỀ CHÍNH DIỆN & CÁC TẤM ẢNH POLAROID BAO QUANH -->
+            <div class="intro-showcase-wrapper" id="introBoxWrapper">
+                <!-- Vầng sáng ấm áp tôn vẻ đẹp của chữ và các bức ảnh -->
+                <div class="intro-backdrop-aura" aria-hidden="true"></div>
+
+                <!-- Lớp các tấm ảnh Polaroid kỷ niệm bao xung quanh -->
+                <div class="intro-polaroids-layer" id="introPolaroidsLayer" role="region" aria-label="Các bức ảnh kỷ niệm bao quanh">
+                    <!-- Sẽ được sinh tự động và gắn sự kiện qua JS từ MEMORIES -->
+                </div>
+
+                <!-- CHỮ "GỬI CHO THÂN TRẦN THANH HIỀN" ĐẶT CHÍNH GIỮA -->
+                <div class="intro-center-hero">
+                    <h1 class="intro-hero-title">
+                        <span class="intro-hero-prefix">Gửi cho</span>
+                        <span class="intro-hero-name">Thân Trần Thanh Hiền</span>
+                    </h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- BỘ SƯU TẬP ẢNH KỶ NIỆM (DẢI BĂNG CHUYỀN TRUYỀN ĐỘNG 2 CHIỀU - HOẠT ẢNH ĐỘNG) -->
+        <main class="memories-gallery-section" id="memoriesGallerySection">
+            <div class="memories-gallery-header">
+                <div class="gallery-header-ornament" aria-hidden="true">
+                    <span class="ornament-line"></span>
+                    <span class="ornament-star">♥</span>
+                    <span class="ornament-line"></span>
+                </div>
+                <h2 class="gallery-title">Khoảnh khắc</h2>
+            </div>
+
+            <!-- Khung bao bọc dòng chảy ảnh với 2 nút mũi tên điều hướng 2 bên -->
+            <div class="memories-stream-wrapper" id="memoriesStreamWrapper">
+                <!-- Nút mũi tên bên trái: Lướt sang ảnh kỷ niệm trước -->
+                <button class="stream-nav-btn stream-nav-prev" id="streamPrevBtn" type="button" aria-label="Xem kỷ niệm trước" title="Kỷ niệm trước (Mũi tên trái)">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+
+                <!-- Khung nhìn dòng chảy ảnh (Viewport với 2 mép gradient mờ nghệ thuật) -->
+                <div class="memories-stream-viewport" id="memoriesStreamViewport">
+                    <div class="memories-stream-track" id="timelineContainer">
+                        <!-- Các thẻ ảnh kỷ niệm truyền động được render và lặp vô tận từ script.js -->
+                    </div>
+                </div>
+
+                <!-- Nút mũi tên bên phải: Lướt sang ảnh kỷ niệm tiếp theo -->
+                <button class="stream-nav-btn stream-nav-next" id="streamNextBtn" type="button" aria-label="Xem kỷ niệm tiếp theo" title="Kỷ niệm tiếp theo (Mũi tên phải)">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- LIGHTBOX PHÓNG TO ẢNH FULLSCREEN KHI CHẠM VÀO ẢNH -->
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Đóng">&times;</button>
+            <div class="lightbox-media-wrap">
+                <button class="lightbox-nav-btn lb-prev" id="lbPrevBtn" title="Ảnh trước">‹</button>
+                <img id="lightboxImg" src="" alt="Ảnh phóng to">
+                <button class="lightbox-nav-btn lb-next" id="lbNextBtn" title="Ảnh sau">›</button>
+            </div>
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+    </div>
+
+    <!-- MODAL BỨC THƯ KỶ NIỆM (NỞ RA KHI NHẤP CHUỘT VÀO KỶ NIỆM) -->
+    <div class="letter-modal-overlay" id="letterModalOverlay" aria-hidden="true">
+        <div class="letter-modal-container">
+            <button class="letter-modal-close" id="letterModalClose" aria-label="Đóng bức thư">✕</button>
+
+            <!-- HOẠT CẢNH PHONG BÌ MỞ NẮP 3D (VECTOR SVG SMOOTH ENVELOPE) -->
+            <div class="envelope-3d-stage" id="envelopeAnimBox" aria-hidden="true">
+                <div class="envelope-back-wall"></div>
+                <!-- Vệt ánh sáng ấm áp tỏa ra từ lòng phong bì (Hiệu ứng 2) -->
+                <div class="envelope-inner-glow" aria-hidden="true"></div>
+                <!-- Mép lá thư trượt nhô lên từ bên trong phong bì -->
+                <div class="envelope-inner-paper"></div>
+                <!-- Nắp phong bì SVG xoay 3D mượt mà -->
+                <div class="envelope-flap-3d">
+                    <svg class="flap-svg" viewBox="0 0 280 115" preserveAspectRatio="none">
+                        <polygon points="0,0 280,0 140,115" fill="#dec3b1"/>
+                    </svg>
+                    <!-- Con dấu sáp đỏ tình yêu -->
+                    <div class="envelope-wax-seal">
+                        <div class="wax-seal-body">
+                            <!-- Đường nứt phát sáng khi bẻ gãy sáp (Phong cách 4) -->
+                            <div class="wax-crack-line" aria-hidden="true"></div>
+                            <span class="wax-seal-heart">❤</span>
+                            <!-- Vòng sóng ép sáp dập nổi khi niêm phong (Phong cách 4) -->
+                            <div class="wax-press-ripple" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Vệt bóng đổ nắp phong bì chuyển động 3D (Phong cách 3) -->
+                <div class="envelope-flap-shadow" aria-hidden="true"></div>
+                <!-- Túi trước phong bì -->
+                <div class="envelope-front-pocket">
+                    <svg class="pocket-svg" viewBox="0 0 280 180" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="pocketGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#f7ede5"/>
+                                <stop offset="100%" stop-color="#ead8cb"/>
+                            </linearGradient>
+                        </defs>
+                        <polygon points="0,0 140,90 280,0 280,180 0,180" fill="url(#pocketGrad)"/>
+                        <polyline points="0,0 140,90 280,0" fill="none" stroke="rgba(217, 107, 82, 0.18)" stroke-width="2"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- LÁ THƯ VƯƠN LÊN VÀ NỞ RỘNG (EXPANDED LETTER PAPER VỚI DECOR VINTAGE) -->
+            <article class="letter-modal-paper" id="letterModalPaper">
+                <!-- Băng dính Washi Tape phong cách Scrapbook -->
+                <div class="washi-tape-strip washi-letter-top" aria-hidden="true"></div>
+
+                <!-- Tem thư bưu chính cổ điển với dấu mộc lượn sóng -->
+                <div class="vintage-postage-stamp" aria-hidden="true">
+                    <div class="stamp-outer-scallop">
+                        <div class="stamp-inner-content">
+                            <span class="stamp-art">💌</span>
+                            <span class="stamp-label">LOVE MAIL</span>
+                            <span class="stamp-val">520đ</span>
+                        </div>
+                    </div>
+                    <div class="stamp-cancellation-postmark">
+                        <svg viewBox="0 0 90 36" class="postmark-svg">
+                            <path d="M 4,8 Q 18,2 32,8 T 60,8 T 86,8" fill="none" stroke="rgba(80, 50, 40, 0.75)" stroke-width="1.2"/>
+                            <path d="M 4,18 Q 18,12 32,18 T 60,18 T 86,18" fill="none" stroke="rgba(80, 50, 40, 0.75)" stroke-width="1.2"/>
+                            <path d="M 4,28 Q 18,22 32,28 T 60,28 T 86,28" fill="none" stroke="rgba(80, 50, 40, 0.75)" stroke-width="1.2"/>
+                            <text x="45" y="20" font-size="6.5" fill="rgba(80, 50, 40, 0.85)" font-family="monospace" font-weight="bold" text-anchor="middle" letter-spacing="1">FOREVER</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="letter-modal-header">
+                    <div class="letter-meta-row">
+                        <span class="letter-date" id="letterModalDate">Kỷ niệm</span>
+                    </div>
+                    <h2 class="letter-modal-title" id="letterModalTitle">Tiêu đề kỷ niệm</h2>
+                </div>
+
+                <!-- Khung hiển thị ảnh trong thư -->
+                <div class="letter-modal-gallery" id="letterModalGallery"></div>
+
+                <!-- Nội dung câu chuyện đầy đủ của bức thư -->
+                <div class="letter-modal-body">
+                    <div class="letter-quote-mark">“</div>
+                    <p id="letterModalStory">Nội dung câu chuyện...</p>
+                    <div class="letter-quote-mark closing">”</div>
+                </div>
+
+                <!-- Chân bức thư -->
+                <div class="letter-modal-footer">
+                    <button class="letter-fold-btn" id="letterFoldBtn" type="button" aria-label="Đóng thư">
+                        <span>Đóng thư</span>
+                    </button>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

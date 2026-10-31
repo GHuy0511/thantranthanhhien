@@ -1,0 +1,10 @@
+# 🎵 HƯỚNG DẪN THÊM NHẠC
+
+Bạn hãy sao chép bài hát bạn yêu thích (định dạng file `.mp3`) vào thư mục này:
+
+1. Đặt tên file là: `audio.mp3` (hoặc `music.mp3`).
+   Ví dụ: `D:\Jobs\Interaction Web for Love\music\audio.mp3`
+
+2. Khi mở trang web lên:
+   - Bài hát này sẽ tự động phát.
+   - Nếu bạn chưa bỏ file vào, trang web sẽ tự động dùng một bản piano nhẹ nhàng dự phòng để web không bị im lặng.
