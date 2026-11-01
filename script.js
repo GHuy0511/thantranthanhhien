@@ -55,6 +55,20 @@ const MEMORIES = [
             "images/IMG_3893.PNG"
         ],
         story: "Huy biết vẫn chưa được gọi là đi 1 về 2, gọi là Hiền là người yêu được vì Huy chưa có tỏ tình Hiền đàng hoàng, có quà các thứ mà chỉ mới thông qua lời nói hôm bữa sau hôm GALA. Huy lúc đó phân vân không biết nên nói khi đó hay đợi tới lúc mình hẹn đi xem phim sau đó để nói, nma quyết định thì Huy chọn nói khi đó luôn vì Huy sợ để lâu sẽ không có được gặp nhau nhiều để nói do học khác thời khóa biểu với sợ Hiền thích người khác nên thôy Huy đặt cọc trước đó hehe. Tuy chụp 6 bức nhưng bị fail 1 bức, Huy vẫn vui lắm vì có thêm ảnh chung với Hiền. Huy hy vọng sẽ có thêm nhiều ảnh chung với Hiền nữa. Tui iu bà nhiều lắmmm đó Hiền"
+    },
+    {
+        id: 4,
+        title: "Bên nhau",
+        date: "01/11/2026",
+        location: "Ngày chính thức thành đôi",
+        images: [
+            "images/DSC03633.jpeg",
+            "images/DSC03635.jpeg"
+        ],
+        fallbacks: [
+            "images/DSC03633.jpeg"
+        ],
+        story: "Từ hôm nay, chúng mình đã có nhau."
     }
 ];
 
@@ -99,6 +113,7 @@ let currentLbPhotoIndex = 0;
 document.addEventListener("DOMContentLoaded", () => {
     initAmbientParticles();
     initIntroSection();
+    initLoveCounter();
     initPolaroidFlatlay();
     renderTimelineWithCarousels();
     initScrollObserver();
@@ -106,6 +121,39 @@ document.addEventListener("DOMContentLoaded", () => {
     initLightboxSystem();
     initAudioSystem();
 });
+
+/* ========================================================
+   ĐỒNG HỒ ĐẾM NGÀY YÊU NHAU (CHÍNH THỨC 01/11/2026)
+   ======================================================== */
+function initLoveCounter() {
+    // Thời điểm bắt đầu chính thức quen nhau: 00:00:00 ngày 01/11/2026
+    const startDate = new Date(2026, 10, 1, 0, 0, 0);
+
+    const daysEl = document.getElementById("loveCounterDays");
+    const hoursEl = document.getElementById("loveCounterHours");
+    const minutesEl = document.getElementById("loveCounterMinutes");
+    const secondsEl = document.getElementById("loveCounterSeconds");
+
+    if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
+    function updateCounter() {
+        const now = new Date();
+        const diffMs = Math.max(0, now - startDate);
+
+        const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+        const seconds = Math.floor((diffMs / 1000) % 60);
+
+        daysEl.textContent = days;
+        hoursEl.textContent = String(hours).padStart(2, "0");
+        minutesEl.textContent = String(minutes).padStart(2, "0");
+        secondsEl.textContent = String(seconds).padStart(2, "0");
+    }
+
+    updateCounter();
+    setInterval(updateCounter, 1000);
+}
 
 /* ========================================================
    XỬ LÝ NÚT CHUYỂN TIẾP TỪ BOX LỜI NHẮN VÀO DÒNG THỜI GIAN
