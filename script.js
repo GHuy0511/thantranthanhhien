@@ -507,18 +507,36 @@ function initMemoriesStreamMotion() {
         }
     });
 
-    // Tương tác vuốt chạm trên điện thoại (Touch Swipe)
+    // Tương tác vuốt chạm trên điện thoại (Touch Swipe tối ưu chống khựng khi cuộn dọc trang)
+    let streamTouchStartY = 0;
+    let isHorizontalStreamSwipe = false;
+
     viewport.addEventListener("touchstart", (e) => {
         if (e.touches.length !== 1) return;
         isDraggingStream = true;
         hasDraggedStream = false;
+        isHorizontalStreamSwipe = false;
         streamStartX = e.touches[0].pageX;
+        streamTouchStartY = e.touches[0].pageY;
         streamStartOffset = streamScrollOffset;
     }, { passive: true });
 
     viewport.addEventListener("touchmove", (e) => {
         if (!isDraggingStream || e.touches.length !== 1) return;
         const deltaX = e.touches[0].pageX - streamStartX;
+        const deltaY = e.touches[0].pageY - streamTouchStartY;
+
+        // Nếu người dùng đang cuộn dọc trang web thì nhường lại cuộn tự nhiên, không can thiệp dải ảnh ngang
+        if (!isHorizontalStreamSwipe) {
+            if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 8) {
+                isDraggingStream = false;
+                return;
+            }
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 8) {
+                isHorizontalStreamSwipe = true;
+            }
+        }
+
         if (Math.abs(deltaX) > 6) {
             hasDraggedStream = true;
         }
@@ -533,6 +551,7 @@ function initMemoriesStreamMotion() {
     viewport.addEventListener("touchend", () => {
         if (isDraggingStream) {
             isDraggingStream = false;
+            isHorizontalStreamSwipe = false;
             setTimeout(() => {
                 hasDraggedStream = false;
             }, 100);

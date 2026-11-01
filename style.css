@@ -3584,25 +3584,66 @@ html, body {
 }
 
 /* ========================================================
-   TỐI ƯU RESPONSIVE CHO ĐIỆN THOẠI & TABLET
+   TỐI ƯU TOÀN DIỆN CHO GIAO DIỆN ĐIỆN THOẠI & TABLET (RESPONSIVE)
    ======================================================== */
 @media (max-width: 768px) {
+    /* 1. KHUNG TRANG & BỐ CỤC CHUNG */
     .page-wrapper {
-        padding: 16px 14px 60px;
+        padding: 12px 10px calc(85px + env(safe-area-inset-bottom, 0px));
+        overflow-x: hidden;
     }
 
+    /* 2. HERO / MỞ ĐẦU CHÍNH DIỆN */
     .timeline-hero {
-        padding: 40px 10px 30px;
+        padding: 24px 8px 16px;
+        max-width: 100%;
+        overflow: hidden;
     }
 
     .intro-showcase-wrapper,
     .intro-box-wrapper {
-        margin: 26px auto 32px;
+        min-height: 480px;
         width: 100%;
         max-width: 100%;
+        margin: 8px auto 20px;
+        padding: 20px 8px;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* Trên điện thoại, ẩn các ảnh giữa để tránh rối mắt, giữ 4 góc */
+    .intro-center-hero {
+        padding: 10px 12px;
+        width: 100%;
+        max-width: 100%;
+        z-index: 5;
+    }
+
+    /* Tiêu đề tự động co giãn theo màn hình điện thoại, chống tràn ngang */
+    .intro-hero-title {
+        gap: 4px;
+        width: 100%;
+    }
+
+    .intro-hero-prefix {
+        font-size: clamp(22px, 5.8vw, 30px);
+        letter-spacing: 0.5px;
+        text-shadow: 0 1px 8px rgba(217, 107, 82, 0.16);
+    }
+
+    .intro-hero-name {
+        font-size: clamp(26px, 7.6vw, 36px);
+        letter-spacing: 0.5px;
+        white-space: normal;
+        word-break: keep-all;
+        text-align: center;
+        max-width: 90vw;
+        line-height: 1.25;
+        text-shadow: 
+            0 3px 18px rgba(217, 107, 82, 0.28),
+            0 1px 2px rgba(45, 30, 20, 0.08);
+    }
+
+    /* Ẩn các ảnh giữa trên mobile để tránh che lấp chữ, giữ 4 ảnh góc bo xung quanh */
     .polaroid-tml,
     .polaroid-bml,
     .polaroid-tmr,
@@ -3612,40 +3653,38 @@ html, body {
         display: none !important;
     }
 
+    /* 4 Tấm ảnh Polaroid góc gọn gàng, nằm lọt hoàn toàn trong màn hình */
     .polaroid-item {
-        width: 108px;
-        padding: 6px 6px 14px 6px;
-        border-radius: 4px;
+        width: clamp(94px, 27vw, 112px);
+        padding: 5px 5px 12px 5px;
+        border-radius: 6px;
+        box-shadow: 0 8px 18px rgba(45, 30, 20, 0.12);
+        z-index: 3;
     }
 
     .polaroid-tl {
-        top: 6px;
-        left: -18px;
-        transform: rotate(-10deg);
+        top: 8px;
+        left: 4px;
+        transform: rotate(-6deg);
     }
 
     .polaroid-tr {
-        top: 4px;
-        right: -18px;
-        transform: rotate(9deg);
+        top: 8px;
+        right: 4px;
+        transform: rotate(6deg);
     }
 
     .polaroid-bl {
-        bottom: 12px;
-        left: -16px;
-        transform: rotate(7deg);
+        bottom: 8px;
+        left: 6px;
+        transform: rotate(5deg);
     }
 
     .polaroid-br {
-        bottom: 10px;
-        right: -16px;
-        transform: rotate(-8deg);
+        bottom: 8px;
+        right: 6px;
+        transform: rotate(-5deg);
     }
-
-    .polaroid-tl:hover { transform: scale(1.12) translate(-2px, -6px) rotate(-3deg); }
-    .polaroid-tr:hover { transform: scale(1.12) translate(2px, -6px) rotate(3deg); }
-    .polaroid-bl:hover { transform: scale(1.12) translate(-2px, 6px) rotate(2deg); }
-    .polaroid-br:hover { transform: scale(1.12) translate(2px, 6px) rotate(-2deg); }
 
     .polaroid-tl .polaroid-caption,
     .polaroid-tr .polaroid-caption,
@@ -3654,8 +3693,9 @@ html, body {
         text-align: center;
         padding: 0 2px;
         max-width: 100%;
-        font-size: 9.5px;
-        margin-top: 5px;
+        font-size: 9px;
+        margin-top: 4px;
+        line-height: 1.2;
     }
 
     .polaroid-tl .polaroid-date,
@@ -3665,141 +3705,295 @@ html, body {
         text-align: center;
         padding: 0;
         font-size: 7.5px;
+        margin-top: 1px;
     }
 
     .polaroid-washi {
-        width: 32px;
+        width: 30px;
         height: 10px;
         top: -5px;
     }
 
-    .intro-message-box {
-        padding: 26px 20px 22px;
-        margin: 0;
-        width: 100%;
+    /* 3. MỤC "KHOẢNH KHẮC" (GALLERY STREAM) */
+    .gallery-header {
+        margin-bottom: 16px;
     }
 
-    .intro-box-pin {
-        right: 18px;
-        top: -14px;
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
+    .gallery-title {
+        font-size: clamp(24px, 6.5vw, 32px);
     }
 
-    .intro-lead-text {
-        font-size: 17px;
+    .memories-stream-wrapper {
+        position: relative;
+        width: 100vw;
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        padding-bottom: 46px;
+        overflow: visible;
     }
 
-    .intro-body-text {
-        font-size: 14.5px;
-        text-align: left;
+    /* Bỏ gradient che mờ ở 2 mép để card không bị mờ chữ trên màn hình nhỏ */
+    .memories-stream-viewport {
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
+        padding: 10px 0 14px;
+        overflow: hidden;
     }
 
-    .intro-box-footer {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 14px;
-        text-align: center;
-    }
-
-    .intro-signature {
-        text-align: center;
-        font-size: 14px;
-    }
-
-    .start-journey-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 10px 18px;
-    }
-
-    .memories-gallery-grid,
+    .memories-stream-track,
     .timeline-container {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        padding: 0 0 20px;
+        gap: 16px;
+        padding: 0 calc((100vw - min(calc(100vw - 44px), 324px)) / 2);
     }
 
-    .timeline-item {
-        width: 100%;
-        left: 0 !important;
-        padding: 0;
-        text-align: left !important;
+    /* Card kỷ niệm hiển thị trọn vẹn, bo góc mềm mại */
+    .stream-card,
+    .timeline-item,
+    .timeline-card {
+        flex: 0 0 min(calc(100vw - 44px), 324px);
+        width: min(calc(100vw - 44px), 324px);
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(45, 35, 30, 0.08);
     }
 
-    .carousel-nav-btn {
-        opacity: 0.85;
+    .card-photo-frame {
+        border-radius: 14px 14px 0 0;
     }
-
-    .stream-nav-btn {
-        width: 42px;
-        height: 42px;
-    }
-
-    .stream-nav-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .stream-nav-prev {
-        left: 10px;
-    }
-
-    .stream-nav-next {
-        right: 10px;
-    }
-
-    .lb-prev { left: 10px; }
-    .lb-next { right: 10px; }
 
     .timeline-content {
-        padding: 18px 16px;
+        padding: 16px 14px 18px;
+    }
+
+    .timeline-date-badge {
+        font-size: 11px;
     }
 
     .timeline-title {
-        font-size: 19px;
+        font-size: 18.5px;
+        margin: 4px 0 6px;
     }
 
     .timeline-story {
-        font-size: 14.5px;
+        font-size: 13.5px;
+        line-height: 1.65;
     }
 
-    .letter-card {
-        padding: 30px 20px;
+    .timeline-card-action {
+        margin-top: 14px;
     }
 
-    .letter-title {
-        font-size: 23px;
+    .timeline-open-letter-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 9px 18px;
+        font-size: 13px;
     }
 
-    .letter-body {
-        font-size: 14.5px;
-        text-align: left;
+    /* Nút mũi tên chuyển ảnh: đưa xuống dưới đáy card, KHÔNG che lên ảnh */
+    .stream-nav-btn {
+        top: auto;
+        bottom: 0px;
+        transform: none;
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.96);
+        border: 1.5px solid rgba(217, 107, 82, 0.35);
+        box-shadow: 0 4px 12px rgba(45, 30, 20, 0.12);
+        color: var(--accent-warm, #d96b52);
+        z-index: 10;
     }
 
+    .stream-nav-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .stream-nav-prev {
+        left: calc(50% - 44px);
+    }
+
+    .stream-nav-next {
+        right: calc(50% - 44px);
+    }
+
+    /* 4. MODAL BỨC THƯ (PHONG BÌ & LÁ THƯ KỶ NIỆM) */
+    .letter-modal-overlay {
+        padding: 12px 10px calc(12px + env(safe-area-inset-bottom, 0px));
+        align-items: center;
+        justify-content: center;
+    }
+
+    .letter-modal-container {
+        width: 100%;
+        max-width: 100%;
+        max-height: 92vh;
+        height: 92vh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .letter-modal-paper {
+        max-height: 100%;
+        height: 100%;
+        padding: 22px 15px 18px;
+        border-radius: 16px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Nút X đóng thư đặt ở góc trên bên phải trang thư, dễ bấm trên mobile */
+    .letter-modal-close {
+        top: 10px;
+        right: 10px;
+        width: 34px;
+        height: 34px;
+        background: rgba(45, 30, 20, 0.08);
+        border: 1px solid rgba(45, 30, 20, 0.14);
+        color: #55443b;
+        font-size: 15px;
+        z-index: 30;
+    }
+
+    .vintage-postage-stamp {
+        top: 8px;
+        right: 48px;
+        transform: scale(0.72) rotate(2deg);
+        transform-origin: top right;
+    }
+
+    .washi-tape-strip {
+        width: 90px;
+        height: 18px;
+        top: -9px;
+    }
+
+    .letter-modal-header {
+        margin-bottom: 12px;
+        padding-right: 80px;
+    }
+
+    .letter-modal-badge {
+        font-size: 11px;
+        padding: 2.5px 9px;
+    }
+
+    .letter-modal-title {
+        font-size: 19px;
+        margin: 4px 0 0;
+    }
+
+    /* Chiều cao khung ảnh trong thư tối ưu vừa vặn màn hình điện thoại */
+    .letter-modal-gallery {
+        max-height: 220px;
+        height: 220px;
+        margin-bottom: 14px;
+        border-radius: 12px;
+        flex-shrink: 0;
+    }
+
+    .letter-carousel-viewport {
+        height: 100%;
+    }
+
+    .letter-carousel-track {
+        height: 100%;
+    }
+
+    .letter-carousel-slide {
+        height: 100%;
+    }
+
+    .letter-single-img {
+        max-height: 220px;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .letter-carousel-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+
+    .letter-modal-body {
+        font-size: 14px;
+        line-height: 1.75;
+        color: #4a3830;
+        flex-grow: 1;
+    }
+
+    .letter-modal-footer {
+        margin-top: 18px;
+        padding-top: 12px;
+        flex-shrink: 0;
+        width: 100%;
+    }
+
+    .letter-fold-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 20px;
+        font-size: 13.5px;
+    }
+
+    /* Phong bì thu nhỏ chuẩn tỷ lệ màn hình điện thoại khi đóng */
+    .envelope-3d-stage,
+    .envelope-anim-box {
+        width: 220px;
+        height: 145px;
+    }
+
+    .envelope-inner-paper {
+        height: 115px;
+    }
+
+    .envelope-wax-seal,
+    .envelope-seal-stamp {
+        top: 74px;
+        width: 36px;
+        height: 36px;
+    }
+
+    .wax-seal-body {
+        width: 34px;
+        height: 34px;
+    }
+
+    .wax-seal-heart {
+        font-size: 14px;
+    }
+
+    /* 5. THANH PHÁT NHẠC VIÊN NANG (VINYL PLAYER CAPSULE) */
     .vinyl-player-widget {
         top: auto;
-        bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px));
         left: 50%;
         transform: translateX(-50%);
         right: auto;
         margin: 0;
         justify-content: space-between;
-        padding: 6px 12px 8px 8px;
-        gap: 8px;
-        width: calc(100vw - 24px);
-        max-width: 440px;
-        box-shadow: 0 12px 30px rgba(60, 30, 20, 0.15), 0 3px 10px rgba(217, 107, 82, 0.14);
+        padding: 5px 8px 7px 7px;
+        gap: 6px;
+        width: calc(100vw - 18px);
+        max-width: 384px;
+        border-radius: 26px;
+        box-shadow: 0 10px 26px rgba(45, 30, 20, 0.16), 0 2px 8px rgba(217, 107, 82, 0.14);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
     }
 
     .vinyl-player-widget:hover {
-        transform: translateX(-50%) translateY(-2px);
+        transform: translateX(-50%);
     }
 
     .vinyl-disc-wrap {
         width: 36px;
         height: 36px;
+        flex-shrink: 0;
     }
 
     .vinyl-disc {
@@ -3831,139 +4025,162 @@ html, body {
         font-size: 7px;
     }
 
+    /* Cụm thông tin bài hát: co giãn linh hoạt, chống đè chữ */
+    .vinyl-info-box {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .vinyl-song-title-row {
+        gap: 3px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
     .vinyl-song-title {
-        font-size: 11.5px;
-        max-width: 95px;
+        font-size: 11px;
+        font-weight: 700;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .vinyl-meta-row {
-        font-size: 9.5px;
+        font-size: 9px;
+        gap: 3px;
+        margin-top: 1px;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .vinyl-song-artist {
+        max-width: 70px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .vinyl-time-tag {
+        font-size: 8.5px;
+        padding: 0.5px 3px;
+        flex-shrink: 0;
+    }
+
+    /* Ẩn sóng nhạc trên điện thoại nhỏ để tránh chen lấn chữ */
+    .vinyl-equalizer {
+        display: none !important;
+    }
+
+    .vinyl-controls-group {
+        display: flex;
+        align-items: center;
         gap: 3.5px;
+        flex-shrink: 0;
+    }
+
+    .vinyl-ctrl-btn {
+        width: 26px;
+        height: 26px;
+        font-size: 9px;
+    }
+
+    .vinyl-play-center-btn {
+        width: 31px;
+        height: 31px;
+        font-size: 10.5px;
+    }
+
+    .vinyl-playlist-btn {
+        padding: 0 5px;
+        height: 26px;
+        font-size: 9px;
+        gap: 2.5px;
+    }
+
+    .vinyl-track-badge {
+        font-size: 8px;
+        padding: 1px 3px;
+    }
+
+    .vinyl-playlist-drawer {
+        width: calc(100vw - 18px);
+        max-width: 384px;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: calc(100% + 8px);
+        border-radius: 16px;
+        max-height: 55vh;
+    }
+
+    /* 6. LIGHTBOX XEM ẢNH TRÀN MÀN HÌNH */
+    .lightbox-content {
+        max-width: 96vw;
+        max-height: 85vh;
+    }
+
+    .lightbox-close {
+        top: 12px;
+        right: 12px;
+        position: fixed;
+        font-size: 32px;
+        z-index: 2100;
+    }
+
+    .lightbox-nav-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+    }
+
+    .lb-prev { left: 6px; }
+    .lb-next { right: 6px; }
+}
+
+/* ========================================================
+   TỐI ƯU SIÊU NHỎ CHO MÀN HÌNH NARROW (IPHONE SE, GALAXY A, < 380px)
+   ======================================================== */
+@media (max-width: 380px) {
+    .intro-hero-prefix {
+        font-size: 20px;
+    }
+
+    .intro-hero-name {
+        font-size: 24px;
+    }
+
+    .polaroid-item {
+        width: 86px;
+        padding: 4px 4px 10px 4px;
+    }
+
+    .polaroid-tl .polaroid-caption,
+    .polaroid-tr .polaroid-caption,
+    .polaroid-bl .polaroid-caption,
+    .polaroid-br .polaroid-caption {
+        font-size: 8px;
+    }
+
+    .stream-card,
+    .timeline-item,
+    .timeline-card {
+        flex: 0 0 calc(100vw - 32px);
+        width: calc(100vw - 32px);
     }
 
     .vinyl-song-artist {
         max-width: 55px;
     }
 
-    .vinyl-time-tag {
-        font-size: 9px;
-        padding: 1px 3px;
-    }
-
-    .vinyl-equalizer {
-        height: 14px;
-        gap: 2px;
-        padding-left: 4px;
-    }
-
-    .eq-bar {
-        width: 2px;
-    }
-
     .vinyl-ctrl-btn {
-        width: 25px;
-        height: 25px;
-        font-size: 9.5px;
+        width: 24px;
+        height: 24px;
     }
 
-    .vinyl-playlist-btn {
-        padding: 0 6px;
-    }
-
-    .vinyl-playlist-drawer {
-        width: 100%;
-        max-width: 100%;
-        left: 0;
-        right: 0;
-        bottom: calc(100% + 10px);
-        max-height: 65vh;
-        overflow-y: auto;
-    }
-
-    .letter-single-img {
-        max-height: 380px;
-    }
-
-    .letter-carousel-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 18px;
-    }
-
-    .timeline-card-action {
-        justify-content: flex-start !important;
-    }
-
-    .letter-modal-paper {
-        padding: 34px 18px 22px;
-    }
-
-    .letter-modal-paper::before {
-        inset: 8px;
-    }
-
-    .washi-tape-strip {
-        width: 100px;
-        height: 20px;
-        top: -10px;
-    }
-
-    .card-washi-tape {
-        width: 80px;
-        height: 17px;
-        top: -8px;
-    }
-
-    .vintage-postage-stamp {
-        top: 12px;
-        right: 14px;
-        transform: scale(0.82) rotate(3deg);
-        transform-origin: top right;
-    }
-
-    .letter-modal-title {
-        font-size: 20px;
-    }
-
-    .letter-modal-body {
-        font-size: 14.5px;
-        line-height: 1.8;
-    }
-
-    .letter-modal-footer {
-        flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-        gap: 12px;
-    }
-
-    .letter-fold-btn {
-        justify-content: center;
-    }
-
-    .envelope-3d-stage,
-    .envelope-anim-box {
-        width: 230px;
-        height: 150px;
-    }
-
-    .envelope-inner-paper {
-        height: 120px;
-    }
-
-    .envelope-wax-seal,
-    .envelope-seal-stamp {
-        top: 76px;
-        width: 36px;
-        height: 36px;
-    }
-
-    .wax-seal-body {
-        width: 34px;
-        height: 34px;
-    }
-
-    .wax-seal-heart {
-        font-size: 15px;
+    .vinyl-play-center-btn {
+        width: 28px;
+        height: 28px;
     }
 }
