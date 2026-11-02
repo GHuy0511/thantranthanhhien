@@ -180,99 +180,6 @@
             </div>
         </header>
 
-        <!-- MỤC TRẠNG THÁI CẢM XÚC CỦA HAI ĐỨA (COUPLE STATUS) -->
-        <section class="couple-status-section" id="coupleStatusSection" aria-label="Trạng thái cảm xúc của hai đứa">
-            <div class="status-section-header">
-                <div class="status-header-badge">
-                    <span class="status-badge-dot"></span>
-                    <span class="status-badge-text">TÂM TRẠNG CỦA CHÚNG MÌNH</span>
-                </div>
-                <h2 class="status-section-title">Hai đứa đang làm gì thế? ✨</h2>
-                
-                <!-- Thanh chọn vai trò: Tôi là Huy / Tôi là Hiền -->
-                <div class="status-role-selector" id="statusRoleSelector" role="radiogroup" aria-label="Chọn bạn là ai">
-                    <span class="role-selector-label">Bạn là:</span>
-                    <button class="role-pill-btn active" id="roleBtnHuy" type="button" data-role="huy">
-                        <span class="role-avatar">👦</span>
-                        <span>Huy nè</span>
-                    </button>
-                    <button class="role-pill-btn" id="roleBtnHien" type="button" data-role="hien">
-                        <span class="role-avatar">👧</span>
-                        <span>Hiền nè</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Khung hiển thị 2 thẻ trạng thái của Huy và Hiền -->
-            <div class="couple-status-grid">
-                <!-- Thẻ của Huy -->
-                <article class="status-card" id="statusCardHuy" data-user="huy">
-                    <div class="status-card-tape tape-sage" aria-hidden="true"></div>
-                    <div class="status-card-top">
-                        <div class="status-user-info">
-                            <span class="status-avatar-circle">👦</span>
-                            <div class="status-user-meta">
-                                <span class="status-user-name">Huy</span>
-                                <span class="status-time-ago" id="statusTimeHuy">Vừa xong</span>
-                            </div>
-                        </div>
-                        <span class="status-live-pulse" title="Đang kết nối"></span>
-                    </div>
-
-                    <div class="status-bubble-wrap">
-                        <div class="status-main-bubble type-study" id="statusBubbleHuy">
-                            <span class="status-emoji" id="statusEmojiHuy">📚</span>
-                            <span class="status-text" id="statusTextHuy">Đang học bài nè</span>
-                        </div>
-                    </div>
-
-                    <div class="status-quick-actions" id="statusActionsHuy">
-                        <div class="quick-chips-title">Cập nhật nhanh của Huy:</div>
-                        <div class="quick-chips-list">
-                            <button class="status-chip" type="button" data-text="Đang học bài nè" data-icon="📚" data-type="study">📚 Đang học</button>
-                            <button class="status-chip" type="button" data-text="Đang bận xíu nha" data-icon="💼" data-type="busy">💼 Đang bận</button>
-                            <button class="status-chip" type="button" data-text="Đang rảnh rỗi nè" data-icon="☕" data-type="free">☕ Đang rảnh</button>
-                            <button class="status-chip" type="button" data-text="Đang nhớ Hiền lắmm" data-icon="💖" data-type="love">💖 Nhớ Hiền</button>
-                            <button class="status-chip chip-custom" type="button" data-target="huy">✏️ Tùy chỉnh...</button>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Thẻ của Hiền -->
-                <article class="status-card" id="statusCardHien" data-user="hien">
-                    <div class="status-card-tape tape-blush" aria-hidden="true"></div>
-                    <div class="status-card-top">
-                        <div class="status-user-info">
-                            <span class="status-avatar-circle">👧</span>
-                            <div class="status-user-meta">
-                                <span class="status-user-name">Hiền</span>
-                                <span class="status-time-ago" id="statusTimeHien">Vừa xong</span>
-                            </div>
-                        </div>
-                        <span class="status-live-pulse" title="Đang kết nối"></span>
-                    </div>
-
-                    <div class="status-bubble-wrap">
-                        <div class="status-main-bubble type-love" id="statusBubbleHien">
-                            <span class="status-emoji" id="statusEmojiHien">💖</span>
-                            <span class="status-text" id="statusTextHien">Đang nhớ Huy lắmm</span>
-                        </div>
-                    </div>
-
-                    <div class="status-quick-actions" id="statusActionsHien">
-                        <div class="quick-chips-title">Cập nhật nhanh của Hiền:</div>
-                        <div class="quick-chips-list">
-                            <button class="status-chip" type="button" data-text="Đang học bài nè" data-icon="📚" data-type="study">📚 Đang học</button>
-                            <button class="status-chip" type="button" data-text="Đang bận xíu nha" data-icon="💼" data-type="busy">💼 Đang bận</button>
-                            <button class="status-chip" type="button" data-text="Đang rảnh rỗi nè" data-icon="☕" data-type="free">☕ Đang rảnh</button>
-                            <button class="status-chip" type="button" data-text="Đang nhớ Huy lắmm" data-icon="💖" data-type="love">💖 Nhớ Huy</button>
-                            <button class="status-chip chip-custom" type="button" data-target="hien">✏️ Tùy chỉnh...</button>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
         <!-- BỘ SƯU TẬP ẢNH KỶ NIỆM (DẢI BĂNG CHUYỀN TRUYỀN ĐỘNG 2 CHIỀU - HOẠT ẢNH ĐỘNG) -->
         <main class="memories-gallery-section" id="memoriesGallerySection">
             <div class="memories-gallery-header">
@@ -418,6 +325,96 @@
             </article>
         </div>
     </div>
+
+    
+    <!-- WIDGET NỔI TRẠNG THÁI CẢM XÚC (COUPLE FLOATING WIDGET) -->
+    <aside class="couple-floating-widget" id="coupleFloatingWidget" aria-label="Tâm trạng của người yêu">
+        <!-- Nút Pill nổi thu gọn -->
+        <button class="couple-pill-trigger" id="couplePillTrigger" type="button" aria-expanded="false" aria-controls="coupleFloatingPanel" title="Xem tâm trạng của người yêu">
+            <span class="pill-avatar-wrap">
+                <span class="pill-avatar" id="pillPartnerAvatar">👧</span>
+                <span class="pill-pulse-dot" aria-hidden="true"></span>
+            </span>
+            <div class="pill-info">
+                <span class="pill-header-line">
+                    <span class="pill-partner-name" id="pillPartnerName">Hiền</span>
+                    <span class="pill-time-ago" id="pillPartnerTime">5p trước</span>
+                </span>
+                <span class="pill-status-text" id="pillPartnerText">💖 Đang nhớ Huy lắmm</span>
+            </div>
+            <span class="pill-chevron" id="pillChevron" aria-hidden="true">▴</span>
+        </button>
+
+        <!-- Khung mở rộng chi tiết & cập nhật trạng thái -->
+        <div class="couple-floating-panel" id="coupleFloatingPanel" role="dialog" aria-hidden="true" aria-labelledby="floatingPanelTitle">
+            <div class="floating-panel-top">
+                <div class="floating-panel-title-wrap">
+                    <span class="panel-icon-dot"></span>
+                    <h3 class="floating-panel-title" id="floatingPanelTitle">Tâm trạng của Hiền</h3>
+                </div>
+                <button class="floating-panel-close" id="floatingPanelCloseBtn" type="button" aria-label="Đóng bảng">✕</button>
+            </div>
+
+            <!-- Khung tâm trạng của đối phương (Lớn, Nổi bật) -->
+            <div class="partner-status-display" id="partnerStatusDisplay">
+                <div class="partner-avatar-big" id="partnerAvatarBig">👧</div>
+                <div class="partner-status-content">
+                    <div class="partner-status-name-row">
+                        <span class="partner-full-name" id="partnerFullName">Hiền nè</span>
+                        <span class="partner-update-time" id="partnerUpdateTime">5 phút trước</span>
+                    </div>
+                    <div class="partner-main-bubble" id="partnerMainBubble">
+                        <span class="partner-emoji" id="partnerEmoji">💖</span>
+                        <span class="partner-bubble-text" id="partnerBubbleText">Đang nhớ Huy lắmm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Đường phân cách nhẹ -->
+            <div class="panel-divider" aria-hidden="true">
+                <span class="divider-line"></span>
+                <span class="divider-heart">♥</span>
+                <span class="divider-line"></span>
+            </div>
+
+            <!-- Khu vực trạng thái của người đang xem (Cập nhật 1 chạm) -->
+            <div class="self-status-section">
+                <div class="self-header-row">
+                    <span class="self-label" id="selfLabel">Tâm trạng của bạn (Huy):</span>
+                    <span class="self-current-tag" id="selfCurrentTag">📚 Đang học</span>
+                </div>
+
+                <div class="self-quick-chips" id="selfQuickChips">
+                    <button class="status-quick-btn" type="button" data-text="Đang học bài nè" data-icon="📚" data-type="study">
+                        <span class="btn-icon">📚</span>
+                        <span class="btn-text">Đang học</span>
+                    </button>
+                    <button class="status-quick-btn" type="button" data-text="Đang bận xíu nha" data-icon="💼" data-type="busy">
+                        <span class="btn-icon">💼</span>
+                        <span class="btn-text">Đang bận</span>
+                    </button>
+                    <button class="status-quick-btn" type="button" data-text="Đang rảnh rỗi nè" data-icon="☕" data-type="free">
+                        <span class="btn-icon">☕</span>
+                        <span class="btn-text">Đang rảnh</span>
+                    </button>
+                    <button class="status-quick-btn" type="button" data-text="Đang nhớ người yêu lắmm" data-icon="💖" data-type="love">
+                        <span class="btn-icon">💖</span>
+                        <span class="btn-text">Nhớ cậu</span>
+                    </button>
+                    <button class="status-quick-btn btn-custom" id="floatingCustomBtn" type="button">
+                        <span class="btn-icon">✏️</span>
+                        <span class="btn-text">Tự viết</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chân bảng: chuyển vai trò tinh tế (nếu cần đổi góc nhìn) -->
+            <div class="floating-panel-footer">
+                <span class="footer-role-text" id="footerRoleText">Bạn đang xem với tư cách: <strong>Huy</strong> 👦</span>
+                <button class="footer-switch-btn" id="footerSwitchRoleBtn" type="button">Đổi sang Hiền 👧</button>
+            </div>
+        </div>
+    </aside>
 
     <!-- MODAL TÙY CHỈNH TRẠNG THÁI (CUSTOM STATUS MODAL) -->
     <div class="custom-status-overlay" id="customStatusOverlay" aria-hidden="true">
