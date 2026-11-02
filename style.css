@@ -1066,8 +1066,8 @@ html, body {
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 222, 214, 0.88);
-    border-radius: 22px;
-    padding: 12px 24px 10px;
+    border-radius: 20px;
+    padding: 10px 22px 9px;
     box-shadow: 
         0 10px 30px rgba(217, 107, 82, 0.12),
         0 2px 8px rgba(45, 30, 20, 0.04);
@@ -1093,33 +1093,6 @@ html, body {
     box-shadow: 
         0 16px 36px rgba(217, 107, 82, 0.18),
         0 4px 12px rgba(45, 30, 20, 0.06);
-}
-
-.love-counter-tag {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: #9e5b4a;
-}
-
-.love-tag-heart {
-    color: #e05b45;
-    font-size: 12px;
-    display: inline-block;
-    animation: heartPulse 1.6s ease-in-out infinite;
-}
-
-@keyframes heartPulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.3);
-    }
 }
 
 .love-counter-board {
@@ -1174,7 +1147,7 @@ html, body {
 
 .love-counter-quote {
     font-family: 'Dancing Script', cursive, var(--font-serif);
-    font-size: 16.5px;
+    font-size: 18px;
     font-weight: 600;
     color: #9c5c4c;
     letter-spacing: 0.3px;
@@ -3708,6 +3681,551 @@ html, body {
     opacity: 1;
 }
 
+
+/* ========================================================
+   MỤC TRẠNG THÁI CẢM XÚC CỦA HAI ĐỨA (COUPLE STATUS)
+   ======================================================== */
+.couple-status-section {
+    max-width: 960px;
+    margin: 32px auto 40px;
+    padding: 0 16px;
+    position: relative;
+    z-index: 10;
+}
+
+.status-section-header {
+    text-align: center;
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #a05a48;
+    background: rgba(255, 235, 228, 0.7);
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(240, 190, 180, 0.5);
+}
+
+.status-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #48bb78;
+    box-shadow: 0 0 8px rgba(72, 187, 120, 0.7);
+    animation: livePulse 2s infinite;
+}
+
+.status-section-title {
+    font-family: var(--font-serif);
+    font-size: clamp(22px, 3.8vw, 29px);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.status-role-selector {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 4px 6px;
+    border-radius: 30px;
+    border: 1px solid rgba(230, 215, 205, 0.9);
+    box-shadow: 0 4px 14px rgba(45, 30, 20, 0.05);
+    margin-top: 4px;
+}
+
+.role-selector-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8c766b;
+    padding-left: 8px;
+}
+
+.role-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: transparent;
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6e5e54;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.role-pill-btn:hover {
+    color: #d96b52;
+    background: rgba(217, 107, 82, 0.08);
+}
+
+.role-pill-btn.active {
+    background: linear-gradient(135deg, #e06c54, #d45942);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(217, 107, 82, 0.3);
+}
+
+.couple-status-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.status-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 24px 22px 20px;
+    border: 1.5px solid rgba(240, 226, 220, 0.9);
+    box-shadow: 0 10px 28px rgba(60, 30, 20, 0.06), 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.status-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(60, 30, 20, 0.1);
+}
+
+.status-card.is-current-user {
+    border-color: rgba(217, 107, 82, 0.5);
+    box-shadow: 0 12px 32px rgba(217, 107, 82, 0.13);
+}
+
+.status-card-tape {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-1deg);
+    width: 85px;
+    height: 20px;
+    z-index: 2;
+    border-radius: 2px;
+    box-shadow: 0 2px 6px rgba(45, 30, 20, 0.08);
+}
+
+.status-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.status-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-avatar-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fdf5f0;
+    border: 1.5px solid rgba(220, 190, 180, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.status-user-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #3d2c25;
+    display: block;
+    line-height: 1.2;
+}
+
+.status-time-ago {
+    font-size: 11px;
+    color: #9c8479;
+    font-weight: 500;
+    display: block;
+    margin-top: 2px;
+}
+
+.status-live-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #48bb78;
+    box-shadow: 0 0 8px rgba(72, 187, 120, 0.8);
+    animation: livePulse 2s infinite;
+}
+
+
+/* Trạng thái bubble theo từng chủ đề */
+.status-bubble-wrap.type-study {
+    background: #fbf8f0;
+    border-color: rgba(212, 175, 120, 0.7);
+}
+.status-bubble-wrap.type-busy {
+    background: #fdf5f2;
+    border-color: rgba(224, 130, 110, 0.6);
+}
+.status-bubble-wrap.type-free {
+    background: #f3f9f6;
+    border-color: rgba(130, 195, 165, 0.65);
+}
+.status-bubble-wrap.type-love {
+    background: #fdf3f5;
+    border-color: rgba(235, 140, 160, 0.7);
+}
+.status-bubble-wrap.type-custom {
+    background: #faf7f4;
+    border-color: rgba(217, 107, 82, 0.55);
+}
+
+.status-main-bubble.just-updated {
+    animation: bubblePop 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bubblePop {
+    0% { transform: scale(0.9); opacity: 0.5; }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Toast thông báo cập nhật trạng thái */
+.couple-status-toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-25px);
+    background: rgba(35, 25, 20, 0.92);
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 2500;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.couple-status-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.status-bubble-wrap {
+    background: #faf6f2;
+    border-radius: 16px;
+    padding: 14px 16px;
+    border: 1px dashed rgba(220, 200, 190, 0.85);
+    transition: background-color 0.3s ease;
+}
+
+.status-main-bubble {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #3f2e27;
+    line-height: 1.4;
+}
+
+.status-emoji {
+    font-size: 26px;
+    line-height: 1;
+    flex-shrink: 0;
+    animation: gentleWobble 4s ease-in-out infinite;
+}
+
+@keyframes gentleWobble {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+
+.status-quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.quick-chips-title {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #8e7a70;
+}
+
+.quick-chips-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.status-chip {
+    background: rgba(255, 245, 240, 0.7);
+    border: 1px solid rgba(235, 215, 205, 0.9);
+    padding: 5px 11px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #5a4941;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.status-chip:hover {
+    background: rgba(217, 107, 82, 0.12);
+    border-color: rgba(217, 107, 82, 0.45);
+    color: #d96b52;
+    transform: translateY(-1.5px);
+}
+
+.chip-custom {
+    background: rgba(255, 255, 255, 0.95);
+    border-style: dashed;
+    border-color: #d96b52;
+    color: #d96b52;
+    font-weight: 600;
+}
+
+.chip-custom:hover {
+    background: #d96b52;
+    color: #ffffff;
+}
+
+/* ========================================================
+   MODAL TÙY CHỈNH TÂM TRẠNG (CUSTOM STATUS MODAL)
+   ======================================================== */
+.custom-status-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 19, 18, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 2200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.custom-status-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.custom-status-box {
+    background: #ffffff;
+    width: 100%;
+    max-width: 440px;
+    border-radius: 20px;
+    padding: 26px 22px 20px;
+    box-shadow: 0 20px 50px rgba(45, 25, 15, 0.25);
+    position: relative;
+    transform: scale(0.92);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-status-overlay.active .custom-status-box {
+    transform: scale(1);
+}
+
+.custom-status-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(45, 30, 20, 0.07);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #55443b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.custom-status-close:hover {
+    background: rgba(217, 107, 82, 0.15);
+    color: #d96b52;
+}
+
+.custom-status-header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.custom-status-icon {
+    font-size: 26px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.custom-status-title {
+    font-family: var(--font-serif);
+    font-size: 21px;
+    color: #382822;
+    margin: 0;
+}
+
+.custom-status-sub {
+    font-size: 13px;
+    color: #8c766b;
+    margin-top: 4px;
+}
+
+.custom-status-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.custom-input-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #55443b;
+}
+
+.custom-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #faf6f2;
+    border: 1.5px solid rgba(220, 200, 190, 0.9);
+    border-radius: 14px;
+    padding: 6px 12px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.custom-input-wrap:focus-within {
+    border-color: #d96b52;
+    box-shadow: 0 0 0 3px rgba(217, 107, 82, 0.15);
+}
+
+.custom-selected-emoji {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.custom-status-input {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    color: #33221b;
+    width: 100%;
+    outline: none;
+}
+
+.custom-status-input::placeholder {
+    color: #b09e95;
+    font-size: 13px;
+}
+
+.custom-emoji-picker-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a665c;
+    margin-top: 2px;
+}
+
+.custom-emoji-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.emoji-opt {
+    border: 1px solid rgba(220, 205, 195, 0.8);
+    background: #fdfbf9;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.emoji-opt:hover {
+    transform: scale(1.12);
+    border-color: #d96b52;
+}
+
+.emoji-opt.active {
+    background: rgba(217, 107, 82, 0.15);
+    border-color: #d96b52;
+    transform: scale(1.1);
+}
+
+.custom-status-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.custom-cancel-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(210, 190, 180, 0.8);
+    background: transparent;
+    color: #6a5850;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.custom-cancel-btn:hover {
+    background: #f5ede8;
+}
+
+.custom-submit-btn {
+    flex: 2;
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #e06c54, #d45942);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(217, 107, 82, 0.28);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.custom-submit-btn:hover {
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 16px rgba(217, 107, 82, 0.35);
+}
 /* ========================================================
    TỐI ƯU TOÀN DIỆN CHO GIAO DIỆN ĐIỆN THOẠI & TABLET (RESPONSIVE)
    ======================================================== */
@@ -3771,16 +4289,10 @@ html, body {
     /* Tối ưu Đồng hồ đếm ngày yêu trên mobile */
     .love-counter-wrapper {
         margin-top: 14px;
-        padding: 9px 14px 8px;
+        padding: 8px 14px 7px;
         max-width: 92vw;
         border-radius: 18px;
         gap: 5px;
-    }
-
-    .love-counter-tag {
-        font-size: 9.5px;
-        letter-spacing: 0.6px;
-        gap: 4px;
     }
 
     .love-counter-board {
@@ -3881,6 +4393,47 @@ html, body {
         width: 30px;
         height: 10px;
         top: -5px;
+    }
+
+    
+    /* Tối ưu Couple Status Widget trên mobile */
+    .couple-status-section {
+        margin: 20px auto 32px;
+        padding: 0 10px;
+    }
+
+    .couple-status-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .status-card {
+        padding: 20px 16px 16px;
+        border-radius: 18px;
+        gap: 12px;
+    }
+
+    .status-bubble-wrap {
+        padding: 12px 14px;
+        border-radius: 14px;
+    }
+
+    .status-main-bubble {
+        font-size: 14px;
+    }
+
+    .status-emoji {
+        font-size: 23px;
+    }
+
+    .status-chip {
+        font-size: 11.5px;
+        padding: 4.5px 9px;
+    }
+
+    .status-role-selector {
+        width: 100%;
+        justify-content: center;
     }
 
     /* 3. MỤC "KHOẢNH KHẮC" (GALLERY STREAM) */

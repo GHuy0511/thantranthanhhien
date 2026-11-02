@@ -151,11 +151,6 @@
 
                     <!-- ĐỒNG HỒ ĐẾM NGÀY YÊU NHAU (CHÍNH THỨC 01/11/2026) -->
                     <div class="love-counter-wrapper" id="loveCounter" aria-label="Đồng hồ đếm ngày yêu nhau">
-                        <div class="love-counter-tag">
-                            <span class="love-tag-heart" aria-hidden="true">♥</span>
-                            <span class="love-tag-text">Chính thức bên nhau từ 01.11.2026</span>
-                            <span class="love-tag-heart" aria-hidden="true">♥</span>
-                        </div>
                         <div class="love-counter-board">
                             <div class="counter-box">
                                 <span class="counter-val" id="loveCounterDays">0</span>
@@ -178,12 +173,105 @@
                             </div>
                         </div>
                         <div class="love-counter-quote">
-                            <span>"Từ hôm nay, chúng mình đã có nhau." 💕</span>
+                            <span>"Từ hôm nay, chúng mình đã có nhau."</span>
                         </div>
                     </div>
                 </div>
             </div>
         </header>
+
+        <!-- MỤC TRẠNG THÁI CẢM XÚC CỦA HAI ĐỨA (COUPLE STATUS) -->
+        <section class="couple-status-section" id="coupleStatusSection" aria-label="Trạng thái cảm xúc của hai đứa">
+            <div class="status-section-header">
+                <div class="status-header-badge">
+                    <span class="status-badge-dot"></span>
+                    <span class="status-badge-text">TÂM TRẠNG CỦA CHÚNG MÌNH</span>
+                </div>
+                <h2 class="status-section-title">Hai đứa đang làm gì thế? ✨</h2>
+                
+                <!-- Thanh chọn vai trò: Tôi là Huy / Tôi là Hiền -->
+                <div class="status-role-selector" id="statusRoleSelector" role="radiogroup" aria-label="Chọn bạn là ai">
+                    <span class="role-selector-label">Bạn là:</span>
+                    <button class="role-pill-btn active" id="roleBtnHuy" type="button" data-role="huy">
+                        <span class="role-avatar">👦</span>
+                        <span>Huy nè</span>
+                    </button>
+                    <button class="role-pill-btn" id="roleBtnHien" type="button" data-role="hien">
+                        <span class="role-avatar">👧</span>
+                        <span>Hiền nè</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Khung hiển thị 2 thẻ trạng thái của Huy và Hiền -->
+            <div class="couple-status-grid">
+                <!-- Thẻ của Huy -->
+                <article class="status-card" id="statusCardHuy" data-user="huy">
+                    <div class="status-card-tape tape-sage" aria-hidden="true"></div>
+                    <div class="status-card-top">
+                        <div class="status-user-info">
+                            <span class="status-avatar-circle">👦</span>
+                            <div class="status-user-meta">
+                                <span class="status-user-name">Huy</span>
+                                <span class="status-time-ago" id="statusTimeHuy">Vừa xong</span>
+                            </div>
+                        </div>
+                        <span class="status-live-pulse" title="Đang kết nối"></span>
+                    </div>
+
+                    <div class="status-bubble-wrap">
+                        <div class="status-main-bubble type-study" id="statusBubbleHuy">
+                            <span class="status-emoji" id="statusEmojiHuy">📚</span>
+                            <span class="status-text" id="statusTextHuy">Đang học bài nè</span>
+                        </div>
+                    </div>
+
+                    <div class="status-quick-actions" id="statusActionsHuy">
+                        <div class="quick-chips-title">Cập nhật nhanh của Huy:</div>
+                        <div class="quick-chips-list">
+                            <button class="status-chip" type="button" data-text="Đang học bài nè" data-icon="📚" data-type="study">📚 Đang học</button>
+                            <button class="status-chip" type="button" data-text="Đang bận xíu nha" data-icon="💼" data-type="busy">💼 Đang bận</button>
+                            <button class="status-chip" type="button" data-text="Đang rảnh rỗi nè" data-icon="☕" data-type="free">☕ Đang rảnh</button>
+                            <button class="status-chip" type="button" data-text="Đang nhớ Hiền lắmm" data-icon="💖" data-type="love">💖 Nhớ Hiền</button>
+                            <button class="status-chip chip-custom" type="button" data-target="huy">✏️ Tùy chỉnh...</button>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Thẻ của Hiền -->
+                <article class="status-card" id="statusCardHien" data-user="hien">
+                    <div class="status-card-tape tape-blush" aria-hidden="true"></div>
+                    <div class="status-card-top">
+                        <div class="status-user-info">
+                            <span class="status-avatar-circle">👧</span>
+                            <div class="status-user-meta">
+                                <span class="status-user-name">Hiền</span>
+                                <span class="status-time-ago" id="statusTimeHien">Vừa xong</span>
+                            </div>
+                        </div>
+                        <span class="status-live-pulse" title="Đang kết nối"></span>
+                    </div>
+
+                    <div class="status-bubble-wrap">
+                        <div class="status-main-bubble type-love" id="statusBubbleHien">
+                            <span class="status-emoji" id="statusEmojiHien">💖</span>
+                            <span class="status-text" id="statusTextHien">Đang nhớ Huy lắmm</span>
+                        </div>
+                    </div>
+
+                    <div class="status-quick-actions" id="statusActionsHien">
+                        <div class="quick-chips-title">Cập nhật nhanh của Hiền:</div>
+                        <div class="quick-chips-list">
+                            <button class="status-chip" type="button" data-text="Đang học bài nè" data-icon="📚" data-type="study">📚 Đang học</button>
+                            <button class="status-chip" type="button" data-text="Đang bận xíu nha" data-icon="💼" data-type="busy">💼 Đang bận</button>
+                            <button class="status-chip" type="button" data-text="Đang rảnh rỗi nè" data-icon="☕" data-type="free">☕ Đang rảnh</button>
+                            <button class="status-chip" type="button" data-text="Đang nhớ Huy lắmm" data-icon="💖" data-type="love">💖 Nhớ Huy</button>
+                            <button class="status-chip chip-custom" type="button" data-target="hien">✏️ Tùy chỉnh...</button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
 
         <!-- BỘ SƯU TẬP ẢNH KỶ NIỆM (DẢI BĂNG CHUYỀN TRUYỀN ĐỘNG 2 CHIỀU - HOẠT ẢNH ĐỘNG) -->
         <main class="memories-gallery-section" id="memoriesGallerySection">
@@ -328,6 +416,47 @@
                     </button>
                 </div>
             </article>
+        </div>
+    </div>
+
+    <!-- MODAL TÙY CHỈNH TRẠNG THÁI (CUSTOM STATUS MODAL) -->
+    <div class="custom-status-overlay" id="customStatusOverlay" aria-hidden="true">
+        <div class="custom-status-box" role="dialog" aria-modal="true" aria-labelledby="customStatusTitle">
+            <button class="custom-status-close" id="customStatusCloseBtn" type="button" aria-label="Đóng">✕</button>
+            <div class="custom-status-header">
+                <span class="custom-status-icon">✨</span>
+                <h3 class="custom-status-title" id="customStatusTitle">Tùy chỉnh tâm trạng</h3>
+                <p class="custom-status-sub" id="customStatusSubtitle">Gửi lời nhắn cảm xúc để người kia thấy ngay nhé!</p>
+            </div>
+
+            <div class="custom-status-body">
+                <label class="custom-input-label" for="customStatusInput">Tâm trạng hoặc việc đang làm:</label>
+                <div class="custom-input-wrap">
+                    <span class="custom-selected-emoji" id="customSelectedEmoji">💭</span>
+                    <input class="custom-status-input" id="customStatusInput" type="text" maxlength="60" placeholder="Ví dụ: Đang đợi cậu tan học, thèm trà sữa quá...">
+                </div>
+
+                <div class="custom-emoji-picker-label">Chọn icon cảm xúc:</div>
+                <div class="custom-emoji-list" id="customEmojiList">
+                    <button type="button" class="emoji-opt active" data-emoji="💭">💭</button>
+                    <button type="button" class="emoji-opt" data-emoji="🥰">🥰</button>
+                    <button type="button" class="emoji-opt" data-emoji="💖">💖</button>
+                    <button type="button" class="emoji-opt" data-emoji="☕">☕</button>
+                    <button type="button" class="emoji-opt" data-emoji="📚">📚</button>
+                    <button type="button" class="emoji-opt" data-emoji="💼">💼</button>
+                    <button type="button" class="emoji-opt" data-emoji="🍜">🍜</button>
+                    <button type="button" class="emoji-opt" data-emoji="😴">😴</button>
+                    <button type="button" class="emoji-opt" data-emoji="🎮">🎮</button>
+                    <button type="button" class="emoji-opt" data-emoji="🛵">🛵</button>
+                    <button type="button" class="emoji-opt" data-emoji="🥺">🥺</button>
+                    <button type="button" class="emoji-opt" data-emoji="✨">✨</button>
+                </div>
+            </div>
+
+            <div class="custom-status-footer">
+                <button class="custom-cancel-btn" id="customCancelBtn" type="button">Hủy</button>
+                <button class="custom-submit-btn" id="customSubmitBtn" type="button">Cập nhật ngay ✨</button>
+            </div>
         </div>
     </div>
 
