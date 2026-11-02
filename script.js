@@ -1599,74 +1599,34 @@ function initAmbientParticles() {
 
 
 /* ========================================================
-   WIDGET NỔI TRẠNG THÁI CẢM XÚC ĐÔI (COUPLE FLOATING WIDGET)
+   WIDGET NỔI TRẠNG THÁI CẢM XÚC ĐÔI & HỆ THỐNG AVATAR CÁ NHÂN HÓA
    Đặc điểm:
-   - Tự động nhận diện Hiền hay Huy qua URL (?u=hien / ?u=huy) và ghi nhớ vào máy
-   - Giao diện tập trung vào đối phương (máy Hiền thấy Huy, máy Huy thấy Hiền)
-   - Nút Pill nổi nhẹ nhàng ở góc màn hình, chạm mở bảng điều khiển
-   - Cập nhật 1 chạm hoặc tùy chỉnh lời nhắn & icon cảm xúc
-   - Đồng bộ thời gian thực hai chiều qua Server-Sent Events (ntfy.sh) + REST Cloud
+   - 1 LINK DUY NHẤT: Tự động ghi nhớ người dùng vĩnh viễn sau 1 chạm đầu tiên
+   - TÍNH NĂNG ĐỔI AVATAR: Tải ảnh thật từ điện thoại hoặc chọn sticker chibi
+   - TẬP TRUNG ĐỐI PHƯƠNG: Máy Hiền thấy Huy, máy Huy thấy Hiền
+   - TỐI ƯU MOBILE: Bubble tròn 50px siêu gọn, không che nút lướt ảnh hay chữ
+   - ĐỒNG BỘ REALTIME 2 CHIỀU: Server-Sent Events (ntfy.sh) + REST Cloud backup
    ======================================================== */
 function initCoupleStatus() {
     const CLOUD_SYNC_TOPIC = 'thantranthanhhien_couple_status_v1';
     const CLOUD_BACKUP_URL = 'https://api.restful-api.dev/objects/ff808181a09d98f701a19ae43f610687';
-    const STORAGE_KEY = 'couple_status_data_v1';
+    const STORAGE_KEY = 'couple_status_data_v2';
     const ROLE_KEY = 'couple_user_role_v1';
 
-    // 1. TỰ ĐỘNG NHẬN DIỆN NGƯỜI DÙNG (HUY HAY HIỀN)
-    function detectUserRole() {
-        try {
-            const params = new URLSearchParams(window.location.search);
-            const paramUser = (params.get('u') || params.get('user') || params.get('role') || params.get('to') || '').toLowerCase().trim();
-            
-            if (paramUser === 'hien') {
-                localStorage.setItem(ROLE_KEY, 'hien');
-                // Làm sạch URL trên thanh địa chỉ để giữ link luôn đẹp
-                const url = new URL(window.location.href);
-                url.searchParams.delete('u');
-                url.searchParams.delete('user');
-                url.searchParams.delete('role');
-                url.searchParams.delete('to');
-                window.history.replaceState({}, document.title, url.pathname + (url.search ? url.search : ''));
-                return 'hien';
-            } else if (paramUser === 'huy') {
-                localStorage.setItem(ROLE_KEY, 'huy');
-                const url = new URL(window.location.href);
-                url.searchParams.delete('u');
-                url.searchParams.delete('user');
-                url.searchParams.delete('role');
-                url.searchParams.delete('to');
-                window.history.replaceState({}, document.title, url.pathname + (url.search ? url.search : ''));
-                return 'huy';
-            }
-        } catch (e) {}
-
-        // Kiểm tra đã lưu trong localStorage chưa
-        try {
-            const saved = localStorage.getItem(ROLE_KEY);
-            if (saved === 'hien' || saved === 'huy') {
-                return saved;
-            }
-        } catch (e) {}
-
-        // Mặc định là 'huy'
-        return 'huy';
-    }
-
-    let currentRole = detectUserRole();
-
-    // 2. DỮ LIỆU TRẠNG THÁI BAN ĐẦU
+    // 1. TRẠNG THÁI MẶC ĐỊNH
     const defaultState = {
         huy: {
             text: "Đang học bài nè",
             emoji: "📚",
             type: "study",
+            avatar: "👦",
             timestamp: Date.now() - 1000 * 60 * 12
         },
         hien: {
             text: "Đang nhớ Huy lắmm",
             emoji: "💖",
             type: "love",
+            avatar: "👧",
             timestamp: Date.now() - 1000 * 60 * 5
         }
     };
@@ -1682,10 +1642,72 @@ function initCoupleStatus() {
         }
     } catch (e) {}
 
-    // Tham chiếu các phần tử DOM
+    // 2. TỰ ĐỘNG NHẬN DIỆN VAI TRÒ (1 LINK DUY NHẤT)
+    let currentRole = null;
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const paramUser = (params.get('u') || params.get('user') || params.get('role') || '').toLowerCase().trim();
+        if (paramUser === 'hien' || paramUser === 'huy') {
+            currentRole = paramUser;
+            localStorage.setItem(ROLE_KEY, currentRole);
+            const url = new URL(window.location.href);
+            url.searchParams.delete('u');
+            url.searchParams.delete('user');
+            url.searchParams.delete('role');
+            window.history.replaceState({}, document.title, url.pathname + (url.search ? url.search : ''));
+        }
+    } catch (e) {}
+
+    if (!currentRole) {
+        try {
+            currentRole = localStorage.getItem(ROLE_KEY);
+        } catch (e) {}
+    }
+
+    // Tham chiếu các phần tử Welcome Modal
+    const welcomeOverlay = document.getElementById("welcomeRoleOverlay");
+    const welcomeCardHien = document.getElementById("welcomeCardHien");
+    const welcomeCardHuy = document.getElementById("welcomeCardHuy");
+
+    function setRolePermanently(role) {
+        currentRole = role;
+        try {
+            localStorage.setItem(ROLE_KEY, role);
+        } catch (e) {}
+
+        if (welcomeOverlay) {
+            welcomeOverlay.classList.remove("active");
+            welcomeOverlay.setAttribute("aria-hidden", "true");
+        }
+
+        renderWidget(true);
+        const roleName = role === 'huy' ? 'Huy 👦' : 'Hiền 👧';
+        showToast(`Chào mừng ${roleName}! Thiết bị đã được ghi nhớ ✨`, role === 'huy' ? '👦' : '👧');
+    }
+
+    if (welcomeCardHien) {
+        welcomeCardHien.addEventListener("click", () => setRolePermanently('hien'));
+    }
+    if (welcomeCardHuy) {
+        welcomeCardHuy.addEventListener("click", () => setRolePermanently('huy'));
+    }
+
+    // Nếu chưa từng chọn vai trò trên thiết bị này, mở Welcome Modal nhẹ nhàng
+    if (!currentRole) {
+        currentRole = 'huy'; // Tạm thời để render nền
+        if (welcomeOverlay) {
+            setTimeout(() => {
+                welcomeOverlay.classList.add("active");
+                welcomeOverlay.setAttribute("aria-hidden", "false");
+            }, 600);
+        }
+    }
+
+    // 3. THAM CHIẾU CÁC PHẦN TỬ DOM CỦA WIDGET
     const widgetEl = document.getElementById("coupleFloatingWidget");
     const pillTrigger = document.getElementById("couplePillTrigger");
     const pillPartnerAvatar = document.getElementById("pillPartnerAvatar");
+    const pillPartnerMoodBadge = document.getElementById("pillPartnerMoodBadge");
     const pillPartnerName = document.getElementById("pillPartnerName");
     const pillPartnerTime = document.getElementById("pillPartnerTime");
     const pillPartnerText = document.getElementById("pillPartnerText");
@@ -1701,28 +1723,40 @@ function initCoupleStatus() {
     const partnerEmoji = document.getElementById("partnerEmoji");
     const partnerBubbleText = document.getElementById("partnerBubbleText");
 
+    const selfAvatarPreview = document.getElementById("selfAvatarPreview");
     const selfLabel = document.getElementById("selfLabel");
     const selfCurrentTag = document.getElementById("selfCurrentTag");
-    const selfQuickChips = document.getElementById("selfQuickChips");
+    const changeAvatarBtn = document.getElementById("changeAvatarBtn");
     const floatingCustomBtn = document.getElementById("floatingCustomBtn");
 
     const footerRoleText = document.getElementById("footerRoleText");
     const footerSwitchRoleBtn = document.getElementById("footerSwitchRoleBtn");
 
-    // Modal tùy chỉnh
-    const modalOverlay = document.getElementById("customStatusOverlay");
-    const modalTitle = document.getElementById("customStatusTitle");
-    const modalSubtitle = document.getElementById("customStatusSubtitle");
-    const modalInput = document.getElementById("customStatusInput");
-    const modalEmojiList = document.getElementById("customEmojiList");
-    const modalSelectedEmoji = document.getElementById("customSelectedEmoji");
-    const modalCloseBtn = document.getElementById("customStatusCloseBtn");
-    const modalCancelBtn = document.getElementById("customCancelBtn");
-    const modalSubmitBtn = document.getElementById("customSubmitBtn");
+    // Modal đổi Avatar
+    const avatarOverlay = document.getElementById("avatarModalOverlay");
+    const avatarModalCloseBtn = document.getElementById("avatarModalCloseBtn");
+    const avatarCancelBtn = document.getElementById("avatarCancelBtn");
+    const avatarSaveBtn = document.getElementById("avatarSaveBtn");
+    const avatarUploadBtn = document.getElementById("avatarUploadBtn");
+    const avatarFileInput = document.getElementById("avatarFileInput");
+    const avatarModalPreviewCircle = document.getElementById("avatarModalPreviewCircle");
+    const avatarPresetsGrid = document.getElementById("avatarPresetsGrid");
 
+    let tempSelectedAvatar = null;
+
+    // Modal tùy chỉnh lời nhắn
+    const customStatusOverlay = document.getElementById("customStatusOverlay");
+    const customStatusTitle = document.getElementById("customStatusTitle");
+    const customStatusSubtitle = document.getElementById("customStatusSubtitle");
+    const customStatusInput = document.getElementById("customStatusInput");
+    const customEmojiList = document.getElementById("customEmojiList");
+    const customSelectedEmoji = document.getElementById("customSelectedEmoji");
+    const customStatusCloseBtn = document.getElementById("customStatusCloseBtn");
+    const customCancelBtn = document.getElementById("customCancelBtn");
+    const customSubmitBtn = document.getElementById("customSubmitBtn");
     let selectedEmojiChar = '💭';
 
-    // Toast thông báo trên đỉnh màn hình
+    // Toast thông báo trên đỉnh
     let toastEl = document.getElementById("coupleStatusToast");
     if (!toastEl) {
         toastEl = document.createElement("div");
@@ -1744,7 +1778,6 @@ function initCoupleStatus() {
         }, 2800);
     }
 
-    // Helper định dạng thời gian tương đối
     function formatTimeAgo(ts) {
         if (!ts) return "Vừa xong";
         const diffMs = Math.max(0, Date.now() - ts);
@@ -1759,29 +1792,45 @@ function initCoupleStatus() {
         return `${d}/${m}`;
     }
 
-    // Render giao diện theo vai trò người dùng (Tập trung vào đối phương)
+    // Helper render Avatar (hỗ trợ cả ảnh URL/Base64 và emoji sticker)
+    function renderAvatarElement(container, avatarValue, fallbackEmoji) {
+        if (!container) return;
+        container.innerHTML = '';
+        const val = avatarValue || fallbackEmoji;
+        if (typeof val === 'string' && (val.startsWith('data:image/') || val.startsWith('http://') || val.startsWith('https://'))) {
+            const img = document.createElement('img');
+            img.src = val;
+            img.alt = 'Avatar';
+            container.appendChild(img);
+        } else {
+            container.textContent = val;
+        }
+    }
+
+    // 4. HIỂN THỊ DỮ LIỆU LÊN GIAO DIỆN
     function renderWidget(animate = false) {
         const isHuy = currentRole === 'huy';
         const partnerKey = isHuy ? 'hien' : 'huy';
         const selfKey = isHuy ? 'huy' : 'hien';
 
         const partnerNameStr = isHuy ? 'Hiền' : 'Huy';
-        const partnerAvatarStr = isHuy ? '👧' : '👦';
         const selfNameStr = isHuy ? 'Huy' : 'Hiền';
-        const selfAvatarStr = isHuy ? '👦' : '👧';
+        const partnerFallbackEmoji = isHuy ? '👧' : '👦';
+        const selfFallbackEmoji = isHuy ? '👦' : '👧';
 
         const partnerData = coupleState[partnerKey] || defaultState[partnerKey];
         const selfData = coupleState[selfKey] || defaultState[selfKey];
 
-        // 1. Cập nhật nút Pill thu gọn
-        if (pillPartnerAvatar) pillPartnerAvatar.textContent = partnerAvatarStr;
+        // 1. Cập nhật nút Pill / Bubble nổi
+        renderAvatarElement(pillPartnerAvatar, partnerData.avatar, partnerFallbackEmoji);
+        if (pillPartnerMoodBadge) pillPartnerMoodBadge.textContent = partnerData.emoji || '💖';
         if (pillPartnerName) pillPartnerName.textContent = partnerNameStr;
         if (pillPartnerTime) pillPartnerTime.textContent = formatTimeAgo(partnerData.timestamp);
         if (pillPartnerText) pillPartnerText.textContent = `${partnerData.emoji || '💭'} ${partnerData.text}`;
 
-        // 2. Cập nhật bảng điều khiển mở rộng
+        // 2. Cập nhật khung tâm trạng đối phương trong bảng mở rộng
         if (panelTitle) panelTitle.textContent = `Tâm trạng của ${partnerNameStr}`;
-        if (partnerAvatarBig) partnerAvatarBig.textContent = partnerAvatarStr;
+        renderAvatarElement(partnerAvatarBig, partnerData.avatar, partnerFallbackEmoji);
         if (partnerFullName) partnerFullName.textContent = `${partnerNameStr} nè`;
         if (partnerUpdateTime) partnerUpdateTime.textContent = formatTimeAgo(partnerData.timestamp);
         if (partnerEmoji) partnerEmoji.textContent = partnerData.emoji || '💭';
@@ -1800,11 +1849,12 @@ function initCoupleStatus() {
             }
         }
 
-        // 3. Cập nhật phần của bạn (self)
+        // 3. Cập nhật phần của bạn
+        renderAvatarElement(selfAvatarPreview, selfData.avatar, selfFallbackEmoji);
         if (selfLabel) selfLabel.textContent = `Tâm trạng của bạn (${selfNameStr}):`;
         if (selfCurrentTag) selfCurrentTag.textContent = `${selfData.emoji || '💭'} ${selfData.text}`;
 
-        // Điều chỉnh câu "Nhớ cậu" linh hoạt
+        // Đổi câu "Nhớ cậu" linh hoạt
         const loveBtn = document.querySelector('.status-quick-btn[data-type="love"]');
         if (loveBtn) {
             const loveText = isHuy ? 'Đang nhớ Hiền lắmm' : 'Đang nhớ Huy lắmm';
@@ -1814,31 +1864,26 @@ function initCoupleStatus() {
             if (loveSpan) loveSpan.textContent = loveShort;
         }
 
-        // 4. Cập nhật chân bảng đổi vai trò
+        // 4. Chân bảng
         if (footerRoleText) {
-            footerRoleText.innerHTML = `Bạn đang xem: <strong>${selfNameStr}</strong> ${selfAvatarStr}`;
+            footerRoleText.innerHTML = `Bạn đang xem: <strong>${selfNameStr}</strong>`;
         }
         if (footerSwitchRoleBtn) {
-            footerSwitchRoleBtn.textContent = `Đổi sang ${partnerNameStr} ${partnerAvatarStr}`;
+            footerSwitchRoleBtn.textContent = `Đổi sang ${partnerNameStr}`;
         }
     }
 
-    // Cập nhật nhãn thời gian mỗi 30 giây
-    setInterval(() => {
-        renderWidget(false);
-    }, 30000);
+    setInterval(() => renderWidget(false), 30000);
 
-    // Mở / Đóng bảng điều khiển
+    // Mở / đóng panel
     function openPanel() {
-        if (!widgetEl) return;
-        widgetEl.classList.add("is-open");
+        if (widgetEl) widgetEl.classList.add("is-open");
         if (pillTrigger) pillTrigger.setAttribute("aria-expanded", "true");
         if (floatingPanel) floatingPanel.setAttribute("aria-hidden", "false");
     }
 
     function closePanel() {
-        if (!widgetEl) return;
-        widgetEl.classList.remove("is-open");
+        if (widgetEl) widgetEl.classList.remove("is-open");
         if (pillTrigger) pillTrigger.setAttribute("aria-expanded", "false");
         if (floatingPanel) floatingPanel.setAttribute("aria-hidden", "true");
     }
@@ -1865,21 +1910,11 @@ function initCoupleStatus() {
         });
     }
 
-    // Đóng khi click ngoài bảng
     document.addEventListener("click", (e) => {
         if (widgetEl && widgetEl.classList.contains("is-open")) {
-            if (!widgetEl.contains(e.target) && (!modalOverlay || !modalOverlay.contains(e.target))) {
-                closePanel();
-            }
-        }
-    });
-
-    // Đóng bằng ESC
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            if (modalOverlay && modalOverlay.classList.contains("active")) {
-                closeCustomModal();
-            } else if (widgetEl && widgetEl.classList.contains("is-open")) {
+            if (!widgetEl.contains(e.target) && 
+                (!customStatusOverlay || !customStatusOverlay.contains(e.target)) &&
+                (!avatarOverlay || !avatarOverlay.contains(e.target))) {
                 closePanel();
             }
         }
@@ -1895,12 +1930,12 @@ function initCoupleStatus() {
             } catch (err) {}
             renderWidget(true);
             const roleName = currentRole === 'huy' ? 'Huy 👦' : 'Hiền 👧';
-            showToast(`Đã chuyển sang xem với tư cách: ${roleName}`, currentRole === 'huy' ? '👦' : '👧');
+            showToast(`Đã chuyển sang xem: ${roleName}`, currentRole === 'huy' ? '👦' : '👧');
         });
     }
 
-    // Kênh đa tab trên cùng thiết bị (BroadcastChannel)
-    const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('couple_status_channel_v1') : null;
+    // 5. CẬP NHẬT TRẠNG THÁI VÀ ĐỒNG BỘ
+    const syncChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('couple_status_channel_v2') : null;
     if (syncChannel) {
         syncChannel.onmessage = (event) => {
             if (event.data && event.data.user && event.data.item) {
@@ -1914,36 +1949,23 @@ function initCoupleStatus() {
         };
     }
 
-    // Hàm cập nhật trạng thái mới của người dùng hiện tại
-    function updateSelfStatus(text, emoji, type) {
-        const selfKey = currentRole === 'huy' ? 'huy' : 'hien';
-        const item = {
-            text: text.trim(),
-            emoji: emoji || '💭',
-            type: type || 'custom',
-            timestamp: Date.now()
-        };
-
-        coupleState[selfKey] = item;
+    function syncStateToCloud(user, item) {
+        coupleState[user] = item;
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(coupleState));
         } catch (e) {}
 
         renderWidget(true);
-        showToast("Đã cập nhật trạng thái của bạn! ✨", emoji || '✨');
 
-        // Gửi qua BroadcastChannel
         if (syncChannel) {
-            syncChannel.postMessage({ user: selfKey, item });
+            syncChannel.postMessage({ user, item });
         }
 
-        // Đẩy lên Server ntfy.sh (để điện thoại người kia nhận ngay tức thì)
         fetch(`https://ntfy.sh/${CLOUD_SYNC_TOPIC}`, {
             method: 'POST',
-            body: JSON.stringify({ user: selfKey, item })
+            body: JSON.stringify({ user, item })
         }).catch(() => {});
 
-        // Sao lưu lên REST Cloud
         fetch(CLOUD_BACKUP_URL, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -1954,7 +1976,22 @@ function initCoupleStatus() {
         }).catch(() => {});
     }
 
-    // Sự kiện click các nút trạng thái nhanh (1 chạm)
+    function updateSelfStatus(text, emoji, type) {
+        const selfKey = currentRole === 'huy' ? 'huy' : 'hien';
+        const curAvatar = coupleState[selfKey] ? coupleState[selfKey].avatar : (selfKey === 'huy' ? '👦' : '👧');
+        const item = {
+            text: text.trim(),
+            emoji: emoji || '💭',
+            type: type || 'custom',
+            avatar: curAvatar,
+            timestamp: Date.now()
+        };
+
+        syncStateToCloud(selfKey, item);
+        showToast("Đã cập nhật trạng thái của bạn! ✨", emoji || '✨');
+    }
+
+    // Click quick chip 1 chạm
     document.querySelectorAll(".status-quick-btn:not(.btn-custom)").forEach(btn => {
         btn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -1967,34 +2004,149 @@ function initCoupleStatus() {
         });
     });
 
-    // Mở modal tùy chỉnh
+    // 6. TÍNH NĂNG ĐỔI ẢNH ĐẠI DIỆN (AVATAR MODAL)
+    function openAvatarModal() {
+        const selfKey = currentRole === 'huy' ? 'huy' : 'hien';
+        const curAvatar = coupleState[selfKey] ? coupleState[selfKey].avatar : (selfKey === 'huy' ? '👦' : '👧');
+        tempSelectedAvatar = curAvatar;
+
+        renderAvatarElement(avatarModalPreviewCircle, tempSelectedAvatar, curAvatar);
+
+        if (avatarPresetsGrid) {
+            avatarPresetsGrid.querySelectorAll(".avatar-preset-btn").forEach(btn => {
+                if (btn.getAttribute("data-val") === tempSelectedAvatar) {
+                    btn.classList.add("active");
+                } else {
+                    btn.classList.remove("active");
+                }
+            });
+        }
+
+        if (avatarOverlay) {
+            avatarOverlay.classList.add("active");
+            avatarOverlay.setAttribute("aria-hidden", "false");
+        }
+    }
+
+    function closeAvatarModal() {
+        if (avatarOverlay) {
+            avatarOverlay.classList.remove("active");
+            avatarOverlay.setAttribute("aria-hidden", "true");
+        }
+    }
+
+    if (changeAvatarBtn) {
+        changeAvatarBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openAvatarModal();
+        });
+    }
+
+    if (avatarModalCloseBtn) avatarModalCloseBtn.addEventListener("click", closeAvatarModal);
+    if (avatarCancelBtn) avatarCancelBtn.addEventListener("click", closeAvatarModal);
+
+    // Click preset icon
+    if (avatarPresetsGrid) {
+        avatarPresetsGrid.querySelectorAll(".avatar-preset-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                avatarPresetsGrid.querySelectorAll(".avatar-preset-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                tempSelectedAvatar = btn.getAttribute("data-val");
+                renderAvatarElement(avatarModalPreviewCircle, tempSelectedAvatar, '👦');
+            });
+        });
+    }
+
+    // Upload ảnh thật từ máy (nén tự động canvas 140x140px nhẹ tênh <15KB)
+    if (avatarUploadBtn && avatarFileInput) {
+        avatarUploadBtn.addEventListener("click", () => {
+            avatarFileInput.click();
+        });
+
+        avatarFileInput.addEventListener("change", (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const size = 140;
+                    canvas.width = size;
+                    canvas.height = size;
+                    const ctx = canvas.getContext('2d');
+
+                    // Crop square từ tâm
+                    const minDim = Math.min(img.width, img.height);
+                    const sx = (img.width - minDim) / 2;
+                    const sy = (img.height - minDim) / 2;
+
+                    ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, size, size);
+                    const base64Data = canvas.toDataURL('image/jpeg', 0.85);
+
+                    tempSelectedAvatar = base64Data;
+                    renderAvatarElement(avatarModalPreviewCircle, tempSelectedAvatar, '📷');
+                    if (avatarPresetsGrid) {
+                        avatarPresetsGrid.querySelectorAll(".avatar-preset-btn").forEach(b => b.classList.remove("active"));
+                    }
+                };
+                img.src = evt.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Lưu Avatar
+    if (avatarSaveBtn) {
+        avatarSaveBtn.addEventListener("click", () => {
+            if (!tempSelectedAvatar) {
+                closeAvatarModal();
+                return;
+            }
+
+            const selfKey = currentRole === 'huy' ? 'huy' : 'hien';
+            const curItem = coupleState[selfKey] || defaultState[selfKey];
+            const updatedItem = {
+                ...curItem,
+                avatar: tempSelectedAvatar,
+                timestamp: Date.now()
+            };
+
+            syncStateToCloud(selfKey, updatedItem);
+            closeAvatarModal();
+            showToast("Đã cập nhật ảnh đại diện mới! ✨", "🎨");
+        });
+    }
+
+    // 7. MODAL TÙY CHỈNH LỜI NHẮN
     function openCustomModal() {
         const isHuy = currentRole === 'huy';
         const selfNameStr = isHuy ? 'Huy 👦' : 'Hiền 👧';
         const partnerNameStr = isHuy ? 'Hiền' : 'Huy';
 
-        if (modalTitle) {
-            modalTitle.textContent = `Tùy chỉnh tâm trạng của ${selfNameStr}`;
+        if (customStatusTitle) {
+            customStatusTitle.textContent = `Tùy chỉnh tâm trạng của ${selfNameStr}`;
         }
-        if (modalSubtitle) {
-            modalSubtitle.textContent = `Gửi lời nhắn cảm xúc để ${partnerNameStr} thấy ngay nhé!`;
+        if (customStatusSubtitle) {
+            customStatusSubtitle.textContent = `Gửi lời nhắn cảm xúc để ${partnerNameStr} thấy ngay nhé!`;
         }
 
-        if (modalInput) {
-            modalInput.value = "";
-            modalInput.placeholder = isHuy 
+        if (customStatusInput) {
+            customStatusInput.value = "";
+            customStatusInput.placeholder = isHuy 
                 ? "Ví dụ: Đang đợi đón Hiền, thèm trà sữa quá..."
                 : "Ví dụ: Đang đợi Huy nè, buồn ngủ quá chừng...";
         }
 
         const selfData = coupleState[currentRole] || {};
         selectedEmojiChar = selfData.emoji || '💭';
-        if (modalSelectedEmoji) {
-            modalSelectedEmoji.textContent = selectedEmojiChar;
+        if (customSelectedEmoji) {
+            customSelectedEmoji.textContent = selectedEmojiChar;
         }
 
-        if (modalEmojiList) {
-            modalEmojiList.querySelectorAll(".emoji-opt").forEach(opt => {
+        if (customEmojiList) {
+            customEmojiList.querySelectorAll(".emoji-opt").forEach(opt => {
                 if (opt.getAttribute("data-emoji") === selectedEmojiChar) {
                     opt.classList.add("active");
                 } else {
@@ -2003,19 +2155,19 @@ function initCoupleStatus() {
             });
         }
 
-        if (modalOverlay) {
-            modalOverlay.classList.add("active");
-            modalOverlay.setAttribute("aria-hidden", "false");
+        if (customStatusOverlay) {
+            customStatusOverlay.classList.add("active");
+            customStatusOverlay.setAttribute("aria-hidden", "false");
             setTimeout(() => {
-                if (modalInput) modalInput.focus();
+                if (customStatusInput) customStatusInput.focus();
             }, 180);
         }
     }
 
     function closeCustomModal() {
-        if (modalOverlay) {
-            modalOverlay.classList.remove("active");
-            modalOverlay.setAttribute("aria-hidden", "true");
+        if (customStatusOverlay) {
+            customStatusOverlay.classList.remove("active");
+            customStatusOverlay.setAttribute("aria-hidden", "true");
         }
     }
 
@@ -2026,48 +2178,38 @@ function initCoupleStatus() {
         });
     }
 
-    if (modalCloseBtn) modalCloseBtn.addEventListener("click", closeCustomModal);
-    if (modalCancelBtn) modalCancelBtn.addEventListener("click", closeCustomModal);
+    if (customStatusCloseBtn) customStatusCloseBtn.addEventListener("click", closeCustomModal);
+    if (customCancelBtn) customCancelBtn.addEventListener("click", closeCustomModal);
 
-    if (modalOverlay) {
-        modalOverlay.addEventListener("click", (e) => {
-            if (e.target === modalOverlay) {
-                closeCustomModal();
-            }
-        });
-    }
-
-    // Chọn emoji
-    if (modalEmojiList) {
-        modalEmojiList.querySelectorAll(".emoji-opt").forEach(btn => {
+    if (customEmojiList) {
+        customEmojiList.querySelectorAll(".emoji-opt").forEach(btn => {
             btn.addEventListener("click", () => {
-                modalEmojiList.querySelectorAll(".emoji-opt").forEach(b => b.classList.remove("active"));
+                customEmojiList.querySelectorAll(".emoji-opt").forEach(b => b.classList.remove("active"));
                 btn.classList.add("active");
                 selectedEmojiChar = btn.getAttribute("data-emoji") || '💭';
-                if (modalSelectedEmoji) {
-                    modalSelectedEmoji.textContent = selectedEmojiChar;
+                if (customSelectedEmoji) {
+                    customSelectedEmoji.textContent = selectedEmojiChar;
                 }
             });
         });
     }
 
-    // Submit custom status
     function submitCustomStatus() {
-        const val = modalInput ? modalInput.value.trim() : "";
+        const val = customStatusInput ? customStatusInput.value.trim() : "";
         const textToSave = val || (selectedEmojiChar === '💖' ? "Đang rất nhớ người yêu" : "Đang cảm thấy vui vẻ");
         updateSelfStatus(textToSave, selectedEmojiChar, 'custom');
         closeCustomModal();
     }
 
-    if (modalSubmitBtn) {
-        modalSubmitBtn.addEventListener("click", (e) => {
+    if (customSubmitBtn) {
+        customSubmitBtn.addEventListener("click", (e) => {
             e.preventDefault();
             submitCustomStatus();
         });
     }
 
-    if (modalInput) {
-        modalInput.addEventListener("keydown", (e) => {
+    if (customStatusInput) {
+        customStatusInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
                 submitCustomStatus();
@@ -2075,7 +2217,20 @@ function initCoupleStatus() {
         });
     }
 
-    // 3. KẾT NỐI SERVER-SENT EVENTS (SSE) TỪ NTFY.SH ĐỂ NHẬN TRẠNG THÁI TỨC THÌ TỪ NGƯỜI KIA
+    // Đóng modal bằng ESC
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            if (avatarOverlay && avatarOverlay.classList.contains("active")) {
+                closeAvatarModal();
+            } else if (customStatusOverlay && customStatusOverlay.classList.contains("active")) {
+                closeCustomModal();
+            } else if (widgetEl && widgetEl.classList.contains("is-open")) {
+                closePanel();
+            }
+        }
+    });
+
+    // 8. KẾT NỐI SERVER-SENT EVENTS (SSE) TỪ NTFY.SH ĐỂ ĐỒNG BỘ REALTIME
     try {
         const sseSource = new EventSource(`https://ntfy.sh/${CLOUD_SYNC_TOPIC}/sse`);
         sseSource.onmessage = (event) => {
@@ -2094,7 +2249,6 @@ function initCoupleStatus() {
                                 } catch (e) {}
                                 renderWidget(true);
 
-                                // Nếu là đối phương cập nhật, hiện thông báo trên máy bạn
                                 const partnerKey = currentRole === 'huy' ? 'hien' : 'huy';
                                 if (user === partnerKey) {
                                     const partnerNameStr = currentRole === 'huy' ? 'Hiền' : 'Huy';
@@ -2108,7 +2262,7 @@ function initCoupleStatus() {
         };
     } catch (e) {}
 
-    // 4. ĐỒNG BỘ TRẠNG THÁI MỚI NHẤT KHI TẢI TRANG
+    // 9. ĐỒNG BỘ TRẠNG THÁI MỚI NHẤT KHI TẢI TRANG
     fetch(`https://ntfy.sh/${CLOUD_SYNC_TOPIC}/json?poll=1`)
         .then(res => res.text())
         .then(raw => {
@@ -2139,7 +2293,6 @@ function initCoupleStatus() {
             }
         })
         .catch(() => {
-            // Dự phòng: gọi REST Cloud
             fetch(CLOUD_BACKUP_URL)
                 .then(r => r.json())
                 .then(res => {
@@ -2165,6 +2318,6 @@ function initCoupleStatus() {
                 .catch(() => {});
         });
 
-    // 5. Khởi chạy hiển thị lần đầu
+    // 10. Khởi chạy hiển thị lần đầu
     renderWidget(false);
 }

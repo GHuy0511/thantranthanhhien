@@ -4508,36 +4508,71 @@ html, body {
     }
 
     
-    /* Tối ưu Widget nổi trên mobile */
+    /* Tối ưu Widget nổi trên mobile: Thu nhỏ thành Bubble tròn siêu gọn 50px */
     .couple-floating-widget {
-        bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+        bottom: calc(80px + env(safe-area-inset-bottom, 0px));
         right: 14px;
     }
 
     .couple-pill-trigger {
-        max-width: 250px;
-        padding: 6px 12px 6px 6px;
-        gap: 8px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 8px 22px rgba(60, 30, 20, 0.22);
+        border: 2px solid rgba(255, 235, 225, 0.95);
+    }
+
+    .couple-pill-trigger .pill-info,
+    .couple-pill-trigger .pill-chevron {
+        display: none !important;
     }
 
     .pill-avatar-wrap {
-        width: 32px;
-        height: 32px;
-        font-size: 17px;
+        width: 44px;
+        height: 44px;
+        font-size: 24px;
+        border: none;
+        background: transparent;
     }
 
-    .pill-status-text {
-        max-width: 145px;
-        font-size: 12px;
+    .pill-pulse-dot {
+        width: 10px;
+        height: 10px;
+        bottom: 0px;
+        right: 0px;
     }
 
+    .pill-mood-badge {
+        font-size: 14px;
+        top: -6px;
+        right: -6px;
+    }
+
+    /* Bảng điều khiển mở rộng trên mobile */
     .couple-floating-panel {
-        width: calc(100vw - 28px);
-        max-width: 360px;
+        width: calc(100vw - 24px);
+        max-width: 380px;
         right: 0;
-        bottom: calc(100% + 10px);
+        bottom: calc(100% + 12px);
         padding: 16px 14px 14px;
-        border-radius: 18px;
+        border-radius: 20px;
+    }
+
+    .self-quick-chips {
+        grid-template-columns: repeat(4, 1fr) auto;
+        gap: 4px;
+    }
+
+    .status-quick-btn {
+        padding: 6px 2px;
+    }
+
+    .status-quick-btn .btn-text {
+        font-size: 10px;
     }
     
     /* 3. MỤC "KHOẢNH KHẮC" (GALLERY STREAM) */
@@ -5009,4 +5044,421 @@ html, body {
         width: 28px;
         height: 28px;
     }
+}
+
+
+/* ========================================================
+   AVATAR STYLING & HO TRỢ ẢNH THẬT (IMG HOẶC EMOJI)
+   ======================================================== */
+.pill-avatar img,
+.partner-avatar-big img,
+.self-avatar-preview img,
+.avatar-preview-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+.pill-mood-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 13px;
+    line-height: 1;
+    background: #ffffff;
+    border-radius: 50%;
+    padding: 2px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.self-user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.self-avatar-preview {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #fdf5f0;
+    border: 1.5px solid rgba(220, 190, 180, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 19px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.self-name-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.change-avatar-btn {
+    border: none;
+    background: rgba(217, 107, 82, 0.1);
+    color: #d96b52;
+    padding: 2px 7px;
+    border-radius: 8px;
+    font-size: 10.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    align-self: flex-start;
+}
+
+.change-avatar-btn:hover {
+    background: #d96b52;
+    color: #ffffff;
+}
+
+/* ========================================================
+   MODAL ĐỔI ẢNH ĐẠI DIỆN (AVATAR MODAL)
+   ======================================================== */
+.avatar-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(22, 19, 18, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 2300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.avatar-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.avatar-modal-box {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 22px;
+    padding: 24px 20px 20px;
+    box-shadow: 0 20px 50px rgba(45, 25, 15, 0.25);
+    position: relative;
+    transform: scale(0.92);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.avatar-modal-overlay.active .avatar-modal-box {
+    transform: scale(1);
+}
+
+.avatar-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background: rgba(45, 30, 20, 0.07);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #55443b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.avatar-modal-close:hover {
+    background: rgba(217, 107, 82, 0.15);
+    color: #d96b52;
+}
+
+.avatar-modal-header {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.avatar-modal-icon {
+    font-size: 26px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.avatar-modal-title {
+    font-family: var(--font-serif);
+    font-size: 21px;
+    color: #382822;
+    margin: 0;
+}
+
+.avatar-modal-sub {
+    font-size: 12.5px;
+    color: #8c766b;
+    margin-top: 4px;
+}
+
+.avatar-preview-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.avatar-preview-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #fdf5f0;
+    border: 2.5px solid #d96b52;
+    box-shadow: 0 4px 14px rgba(217, 107, 82, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    overflow: hidden;
+}
+
+.avatar-preview-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: #8c766b;
+}
+
+.avatar-upload-wrap {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.avatar-upload-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 14px;
+    border: 1.5px dashed #d96b52;
+    background: #fdfaf8;
+    color: #d96b52;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.avatar-upload-action-btn:hover {
+    background: rgba(217, 107, 82, 0.1);
+    transform: translateY(-1px);
+}
+
+.avatar-or-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 12px 0;
+    color: #a89489;
+    font-size: 11px;
+}
+
+.avatar-or-divider::before,
+.avatar-or-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgba(220, 205, 195, 0.6);
+}
+
+.avatar-or-divider span {
+    padding: 0 8px;
+}
+
+.avatar-presets-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    max-height: 130px;
+    overflow-y: auto;
+    padding: 2px;
+}
+
+.avatar-preset-btn {
+    aspect-ratio: 1;
+    border: 1.5px solid rgba(225, 205, 195, 0.8);
+    background: #faf6f3;
+    border-radius: 12px;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.avatar-preset-btn:hover {
+    transform: scale(1.1);
+    border-color: #d96b52;
+}
+
+.avatar-preset-btn.active {
+    background: rgba(217, 107, 82, 0.15);
+    border-color: #d96b52;
+    transform: scale(1.08);
+}
+
+.avatar-modal-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.avatar-cancel-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(210, 190, 180, 0.8);
+    background: transparent;
+    color: #6a5850;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.avatar-save-btn {
+    flex: 2;
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #e06c54, #d45942);
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 13px;
+    box-shadow: 0 4px 12px rgba(217, 107, 82, 0.28);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.avatar-save-btn:hover {
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 16px rgba(217, 107, 82, 0.35);
+}
+
+/* ========================================================
+   MODAL CHÀO MỪNG 1 LẦN (WELCOME ROLE MODAL)
+   ======================================================== */
+.welcome-role-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 16, 15, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.welcome-role-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.welcome-role-box {
+    background: #ffffff;
+    width: 100%;
+    max-width: 430px;
+    border-radius: 26px;
+    padding: 30px 22px 24px;
+    box-shadow: 0 24px 60px rgba(45, 20, 10, 0.3);
+    text-align: center;
+    transform: scale(0.9);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1.5px solid rgba(240, 215, 205, 0.9);
+}
+
+.welcome-role-overlay.active .welcome-role-box {
+    transform: scale(1);
+}
+
+.welcome-sparkle-icon {
+    font-size: 36px;
+    display: inline-block;
+    margin-bottom: 6px;
+    animation: gentleWobble 3s infinite ease-in-out;
+}
+
+.welcome-title {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    color: #382822;
+    margin: 0 0 6px;
+}
+
+.welcome-subtitle {
+    font-size: 13.5px;
+    color: #7b655a;
+    margin: 0 0 20px;
+    line-height: 1.4;
+}
+
+.welcome-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.welcome-role-card {
+    background: #faf6f3;
+    border: 1.5px solid rgba(225, 205, 195, 0.85);
+    border-radius: 18px;
+    padding: 18px 12px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.25s ease;
+}
+
+.welcome-role-card:hover {
+    transform: translateY(-3px);
+    border-color: #d96b52;
+    background: #fff8f5;
+    box-shadow: 0 8px 20px rgba(217, 107, 82, 0.16);
+}
+
+.welcome-card-avatar {
+    font-size: 40px;
+    line-height: 1;
+    display: block;
+}
+
+.welcome-card-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #382822;
+}
+
+.welcome-card-desc {
+    font-size: 11px;
+    color: #9c8479;
+    font-weight: 500;
+}
+
+.welcome-hint {
+    font-size: 11.5px;
+    color: #a89489;
+    margin: 0;
 }

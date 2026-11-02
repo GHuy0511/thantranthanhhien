@@ -329,11 +329,12 @@
     
     <!-- WIDGET NỔI TRẠNG THÁI CẢM XÚC (COUPLE FLOATING WIDGET) -->
     <aside class="couple-floating-widget" id="coupleFloatingWidget" aria-label="Tâm trạng của người yêu">
-        <!-- Nút Pill nổi thu gọn -->
+        <!-- Nút Pill / Bubble nổi thu gọn -->
         <button class="couple-pill-trigger" id="couplePillTrigger" type="button" aria-expanded="false" aria-controls="coupleFloatingPanel" title="Xem tâm trạng của người yêu">
             <span class="pill-avatar-wrap">
                 <span class="pill-avatar" id="pillPartnerAvatar">👧</span>
                 <span class="pill-pulse-dot" aria-hidden="true"></span>
+                <span class="pill-mood-badge" id="pillPartnerMoodBadge">💖</span>
             </span>
             <div class="pill-info">
                 <span class="pill-header-line">
@@ -377,11 +378,17 @@
                 <span class="divider-line"></span>
             </div>
 
-            <!-- Khu vực trạng thái của người đang xem (Cập nhật 1 chạm) -->
+            <!-- Khu vực trạng thái của người đang xem -->
             <div class="self-status-section">
                 <div class="self-header-row">
-                    <span class="self-label" id="selfLabel">Tâm trạng của bạn (Huy):</span>
-                    <span class="self-current-tag" id="selfCurrentTag">📚 Đang học</span>
+                    <div class="self-user-profile">
+                        <div class="self-avatar-preview" id="selfAvatarPreview">👦</div>
+                        <div class="self-name-wrap">
+                            <span class="self-label" id="selfLabel">Tâm trạng của bạn:</span>
+                            <button class="change-avatar-btn" id="changeAvatarBtn" type="button">📷 Đổi avatar</button>
+                        </div>
+                    </div>
+                    <span class="self-current-tag" id="selfCurrentTag">📚 Đang học bài</span>
                 </div>
 
                 <div class="self-quick-chips" id="selfQuickChips">
@@ -408,14 +415,94 @@
                 </div>
             </div>
 
-            <!-- Chân bảng: chuyển vai trò tinh tế (nếu cần đổi góc nhìn) -->
+            <!-- Chân bảng: chuyển vai trò tinh tế -->
             <div class="floating-panel-footer">
-                <span class="footer-role-text" id="footerRoleText">Bạn đang xem với tư cách: <strong>Huy</strong> 👦</span>
+                <span class="footer-role-text" id="footerRoleText">Bạn đang xem: <strong>Huy</strong> 👦</span>
                 <button class="footer-switch-btn" id="footerSwitchRoleBtn" type="button">Đổi sang Hiền 👧</button>
             </div>
         </div>
     </aside>
 
+    <!-- MODAL ĐỔI ẢNH ĐẠI DIỆN AVATAR -->
+    <div class="avatar-modal-overlay" id="avatarModalOverlay" aria-hidden="true" role="dialog">
+        <div class="avatar-modal-box">
+            <button class="avatar-modal-close" id="avatarModalCloseBtn" type="button" aria-label="Đóng">✕</button>
+            <div class="avatar-modal-header">
+                <span class="avatar-modal-icon">🎨</span>
+                <h3 class="avatar-modal-title" id="avatarModalTitle">Đổi ảnh đại diện</h3>
+                <p class="avatar-modal-sub">Tải ảnh của bạn lên hoặc chọn một icon chibi đáng yêu nhé!</p>
+            </div>
+
+            <div class="avatar-modal-body">
+                <!-- Vùng xem trước -->
+                <div class="avatar-preview-wrap">
+                    <div class="avatar-preview-circle" id="avatarModalPreviewCircle">
+                        <span id="avatarModalPreviewText">👦</span>
+                    </div>
+                    <span class="avatar-preview-badge">Avatar của bạn</span>
+                </div>
+
+                <!-- Tải ảnh thật từ thiết bị -->
+                <div class="avatar-upload-wrap">
+                    <input type="file" id="avatarFileInput" accept="image/*" style="display: none;">
+                    <button type="button" class="avatar-upload-action-btn" id="avatarUploadBtn">
+                        <span class="upload-icon">📷</span>
+                        <span>Chọn ảnh từ điện thoại / máy tính</span>
+                    </button>
+                </div>
+
+                <div class="avatar-or-divider"><span>hoặc chọn icon chibi</span></div>
+
+                <!-- Chọn preset chibi -->
+                <div class="avatar-presets-grid" id="avatarPresetsGrid">
+                    <button type="button" class="avatar-preset-btn" data-val="👦">👦</button>
+                    <button type="button" class="avatar-preset-btn" data-val="👧">👧</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🐱">🐱</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🐶">🐶</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🐰">🐰</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🐻">🐻</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🐼">🐼</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🦊">🦊</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🍓">🍓</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🌸">🌸</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🥑">🥑</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🐥">🐥</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🧸">🧸</button>
+                    <button type="button" class="avatar-preset-btn" data-val="🛵">🛵</button>
+                    <button type="button" class="avatar-preset-btn" data-val="✨">✨</button>
+                </div>
+            </div>
+
+            <div class="avatar-modal-footer">
+                <button class="avatar-cancel-btn" id="avatarCancelBtn" type="button">Hủy</button>
+                <button class="avatar-save-btn" id="avatarSaveBtn" type="button">Lưu ảnh đại diện ✨</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CHÀO MỪNG 1 LẦN (1 LINK DUY NHẤT - TỰ ĐỘNG LƯU VĨNH VIỄN) -->
+    <div class="welcome-role-overlay" id="welcomeRoleOverlay" aria-hidden="true" role="dialog">
+        <div class="welcome-role-box">
+            <div class="welcome-sparkle-icon">💖</div>
+            <h3 class="welcome-title">Chào đằng ấy! ✨</h3>
+            <p class="welcome-subtitle">Hôm nay ai đang ghé thăm trang web thế này?</p>
+            
+            <div class="welcome-cards-grid">
+                <button class="welcome-role-card" id="welcomeCardHien" type="button">
+                    <span class="welcome-card-avatar">👧</span>
+                    <span class="welcome-card-name">Hiền nè</span>
+                    <span class="welcome-card-desc">Người yêu của Huy 💕</span>
+                </button>
+                <button class="welcome-role-card" id="welcomeCardHuy" type="button">
+                    <span class="welcome-card-avatar">👦</span>
+                    <span class="welcome-card-name">Huy nè</span>
+                    <span class="welcome-card-desc">Chàng trai may mắn ✨</span>
+                </button>
+            </div>
+            <p class="welcome-hint">Chỉ cần chạm 1 lần để thiết bị tự ghi nhớ nhé!</p>
+        </div>
+    </div>
+    
     <!-- MODAL TÙY CHỈNH TRẠNG THÁI (CUSTOM STATUS MODAL) -->
     <div class="custom-status-overlay" id="customStatusOverlay" aria-hidden="true">
         <div class="custom-status-box" role="dialog" aria-modal="true" aria-labelledby="customStatusTitle">
