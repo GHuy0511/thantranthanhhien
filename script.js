@@ -12,6 +12,9 @@ const MEMORIES = [
         title: "Quân sự",
         date: "Kỷ niệm quân sự",
         location: "Trung tâm GDQP&AN",
+        type: "mixed",
+        video: "videos/ky-niem-quan-su.mp4",
+        poster: "images/DSC03633.jpeg",
         images: [
             "images/DSC03633.jpeg",
             "images/DSC03635.jpeg",
@@ -35,6 +38,7 @@ const MEMORIES = [
         title: "Liên hoan THSV",
         date: "Lần đầu tiên",
         location: "Liên hoan THSV",
+        type: "photo",
         images: [
             "images/IMG_3444.PNG"
         ],
@@ -48,6 +52,7 @@ const MEMORIES = [
         title: "Đi 1 về 2",
         date: "Ngày cuối cùng",
         location: "Nơi bắt đầu một chương mới",
+        type: "photo",
         images: [
             "images/IMG_3893.PNG"
         ],
@@ -58,9 +63,26 @@ const MEMORIES = [
     },
     {
         id: 4,
+        title: "Thước Phim Bên Nhau",
+        date: "Khoảnh khắc chuyển động",
+        location: "Kỷ niệm của chúng mình",
+        type: "video",
+        video: "videos/khoanh-khac-ben-nhau.mp4",
+        poster: "images/DSC03635.jpeg",
+        images: [
+            "images/DSC03635.jpeg"
+        ],
+        fallbacks: [
+            "images/DSC03635.jpeg"
+        ],
+        story: "Những khoảnh khắc chuyển động ấm áp và nụ cười rạng rỡ của Hiền. Từng giây từng phút được bên cạnh Hiền đều là những thước phim đẹp nhất mà Huy muốn cất giữ cả cuộc đời."
+    },
+    {
+        id: 5,
         title: "Bên nhau",
         date: "01/11/2026",
         location: "Ngày chính thức thành đôi",
+        type: "photo",
         images: [
             "images/DSC03633.jpeg",
             "images/DSC03635.jpeg"
@@ -110,6 +132,71 @@ let currentLbPhotoIndex = 0;
 /* ========================================================
    KHỞI TẠO DOM & SỰ KIỆN
    ======================================================== */
+
+// Bộ lọc media hiện tại (all / photo / video)
+let currentGalleryFilter = "all";
+
+// Quản lý tạm dừng nhạc nền khi phát video
+let bgMusicPausedByVideo = false;
+
+function pauseBgMusicForVideo() {
+    const bgAudio = document.getElementById("bgMusic");
+    if (bgAudio && !bgAudio.paused) {
+        bgAudio.pause();
+        bgMusicPausedByVideo = true;
+        const vinylDisc = document.getElementById("vinylDisc");
+        if (vinylDisc) vinylDisc.classList.remove("playing");
+        const playBtnIcon = document.getElementById("musicPlayCenterIcon");
+        if (playBtnIcon) playBtnIcon.innerText = "▶";
+    }
+}
+
+function resumeBgMusicAfterVideo() {
+    if (!bgMusicPausedByVideo) return;
+    const bgAudio = document.getElementById("bgMusic");
+    if (bgAudio && bgAudio.paused) {
+        bgAudio.play().then(() => {
+            bgMusicPausedByVideo = false;
+            const vinylDisc = document.getElementById("vinylDisc");
+            if (vinylDisc) vinylDisc.classList.add("playing");
+            const playBtnIcon = document.getElementById("musicPlayCenterIcon");
+            if (playBtnIcon) playBtnIcon.innerText = "⏸";
+        }).catch(() => {
+            bgMusicPausedByVideo = false;
+        });
+    } else {
+        bgMusicPausedByVideo = false;
+    }
+}
+
+function updateFilterCounts() {
+    const allCount = MEMORIES.length;
+    const photoCount = MEMORIES.filter(m => m.images && m.images.length > 0 && m.type !== "video").length;
+    const videoCount = MEMORIES.filter(m => Boolean(m.video || m.type === "video" || m.type === "mixed")).length;
+    const elAll = document.getElementById("filterCountAll");
+    const elPhoto = document.getElementById("filterCountPhoto");
+    const elVideo = document.getElementById("filterCountVideo");
+    if (elAll) elAll.innerText = allCount;
+    if (elPhoto) elPhoto.innerText = photoCount;
+    if (elVideo) elVideo.innerText = videoCount;
+}
+
+function initGalleryFilterTabs() {
+    const tabs = document.querySelectorAll(".gallery-filter-tab");
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            tabs.forEach(t => {
+                t.classList.remove("active");
+                t.setAttribute("aria-selected", "false");
+            });
+            tab.classList.add("active");
+            tab.setAttribute("aria-selected", "true");
+            currentGalleryFilter = tab.getAttribute("data-filter") || "all";
+            renderTimelineWithCarousels();
+        });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     initThemeSwitcher();
     initAmbientParticles();
@@ -121,6 +208,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initLetterModal();
     initLightboxSystem();
     initAudioSystem();
+    initGalleryFilterTabs();
+    updateFilterCounts();
 });
 
 /* ========================================================
@@ -392,44 +481,71 @@ function renderTimelineWithCarousels() {
     if (!container) return;
     container.innerHTML = "";
 
-    // Nhân bản danh sách đủ số lần (tối thiểu 4 lần) để tạo vòng lặp vô tận liền mạch 100% trên mọi kích thước màn hình
-    const minSets = Math.max(4, Math.ceil((window.innerWidth * 2.5) / Math.max(1, MEMORIES.length * 360)));
+    // Lọc danh sách kỷ niệm theo bộ lọc đang chọn
+    const activeList = MEMORIES.filter(item => {
+        if (currentGalleryFilter === "photo") {
+            return (item.images && item.images.length > 0) && item.type !== "video";
+        }
+        if (currentGalleryFilter === "video") {
+            return Boolean(item.video || item.type === "video" || item.type === "mixed");
+        }
+        return true;
+    });
+
+    const displayList = activeList.length > 0 ? activeList : MEMORIES;
+
+    // Nhân bản danh sách đủ số lần để tạo vòng lặp vô tận liền mạch
+    const minSets = Math.max(4, Math.ceil((window.innerWidth * 2.5) / Math.max(1, displayList.length * 360)));
     const renderSets = Array.from({ length: minSets }, (_, i) => i);
 
     renderSets.forEach((setIndex) => {
-        MEMORIES.forEach((item, memoryIndex) => {
+        displayList.forEach((item) => {
+            const memoryIndex = MEMORIES.findIndex(m => m.id === item.id);
             const photoList = (item.images && item.images.length > 0)
                 ? item.images
                 : (item.image ? [item.image] : []);
             const fallbackList = item.fallbacks || (item.fallback ? [item.fallback] : []);
-            const firstPhoto = photoList[0] || fallbackList[0] || "";
+            const firstPhoto = item.poster || photoList[0] || fallbackList[0] || "";
             const fallbackPhoto = fallbackList[0] || firstPhoto;
             const photoCount = photoList.length;
+
+            let badgeHtml = '';
+            let playHintHtml = '';
+            let actionBtnText = 'Mở thư';
+
+            if (item.type === 'video') {
+                badgeHtml = '<span class="stream-card-badge video-badge">🎬 Thước phim</span>';
+                playHintHtml = '<span class="stream-card-video-play-hint" aria-hidden="true">▶</span>';
+                actionBtnText = 'Xem phim';
+            } else if (item.type === 'mixed') {
+                badgeHtml = `<span class="stream-card-badge mixed-badge">🎬 Video + 📷 ${photoCount} ảnh</span>`;
+                playHintHtml = '<span class="stream-card-video-play-hint" aria-hidden="true">▶</span>';
+                actionBtnText = 'Mở thư & Phim';
+            } else if (photoCount > 1) {
+                badgeHtml = `<span class="stream-card-count-pill">📷 ${photoCount} ảnh</span>`;
+            }
 
             const card = document.createElement("article");
             card.className = "stream-card timeline-card";
             card.setAttribute("role", "button");
             card.setAttribute("tabindex", "0");
-            card.setAttribute("data-memory", String(memoryIndex));
-            card.setAttribute("title", `Nhấp để mở thư: ${item.title}`);
-
-            const countBadge = photoCount > 1 ? `
-                <span class="stream-card-count-pill">📷 ${photoCount} ảnh</span>
-            ` : '';
+            card.setAttribute("data-memory", String(memoryIndex >= 0 ? memoryIndex : 0));
+            card.setAttribute("title", `Nhấp để mở: ${item.title}`);
 
             card.innerHTML = `
                 <div class="card-washi-tape" aria-hidden="true"></div>
                 <div class="stream-card-photo-box">
                     <img class="stream-card-photo" src="${firstPhoto}" alt="${item.title}" loading="lazy" onerror="this.onerror=null; this.src='${fallbackPhoto}';">
-                    ${countBadge}
+                    ${badgeHtml}
+                    ${playHintHtml}
                 </div>
                 <div class="stream-card-body">
                     <div class="stream-card-date">${item.date}</div>
                     <h3 class="stream-card-title">${item.title}</h3>
                     <p class="stream-card-story">${item.story}</p>
                     <div class="stream-card-action">
-                        <button class="stream-card-btn" type="button" aria-label="Mở thư">
-                            <span>Mở thư</span>
+                        <button class="stream-card-btn" type="button" aria-label="${actionBtnText}">
+                            <span>${actionBtnText}</span>
                         </button>
                     </div>
                 </div>
@@ -438,13 +554,13 @@ function renderTimelineWithCarousels() {
             // Xử lý sự kiện nhấp để mở thư (nếu không phải thao tác kéo lướt)
             card.addEventListener("click", (e) => {
                 if (hasDraggedStream) return;
-                openLetterModal(memoryIndex);
+                openLetterModal(memoryIndex >= 0 ? memoryIndex : 0);
             });
 
             card.addEventListener("keydown", (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    openLetterModal(memoryIndex);
+                    openLetterModal(memoryIndex >= 0 ? memoryIndex : 0);
                 }
             });
 
@@ -726,11 +842,111 @@ function renderLetterModalGallery(galleryEl, photoList, fallbackList, title, mem
         letterCarouselTimer = null;
     }
 
+    const memory = MEMORIES[memoryIndex] || {};
+
+    // 1. Trường hợp kỷ niệm THUẦN VIDEO
+    if (memory.type === "video" && memory.video) {
+        galleryEl.style.display = "block";
+        galleryEl.innerHTML = `
+            <div class="letter-video-player-wrap">
+                <video id="letterModalVideoEl" class="letter-modal-video" controls playsinline preload="metadata" poster="${memory.poster || (photoList[0] || '')}">
+                    <source src="${memory.video}" type="video/mp4">
+                    <source src="${memory.video.replace('.mp4', '.webm')}" type="video/webm">
+                    Trình duyệt của bạn không hỗ trợ phát video.
+                </video>
+                <div class="letter-video-caption">
+                    <span>🎬</span>
+                    <span>${title} • Thước phim kỷ niệm</span>
+                </div>
+            </div>
+        `;
+        const vid = document.getElementById("letterModalVideoEl");
+        if (vid) {
+            vid.addEventListener("play", pauseBgMusicForVideo);
+            vid.addEventListener("pause", resumeBgMusicAfterVideo);
+            vid.addEventListener("ended", resumeBgMusicAfterVideo);
+        }
+        return;
+    }
+
+    // 2. Trường hợp kỷ niệm KẾT HỢP (Cả Video VÀ Album Ảnh)
+    if (memory.type === "mixed" && memory.video) {
+        galleryEl.style.display = "block";
+        const tabsWrap = document.createElement("div");
+        tabsWrap.className = "letter-media-tabs";
+        tabsWrap.innerHTML = `
+            <button class="letter-media-tab-btn active" id="tabBtnVideo" type="button">🎬 Thước Phim</button>
+            <button class="letter-media-tab-btn" id="tabBtnPhotos" type="button">📸 Album Ảnh (${photoList.length})</button>
+        `;
+        const container = document.createElement("div");
+        container.id = "letterMixedContentContainer";
+
+        galleryEl.appendChild(tabsWrap);
+        galleryEl.appendChild(container);
+
+        function showVideoView() {
+            container.innerHTML = `
+                <div class="letter-video-player-wrap">
+                    <video id="letterModalVideoEl" class="letter-modal-video" controls playsinline preload="metadata" poster="${memory.poster || (photoList[0] || '')}">
+                        <source src="${memory.video}" type="video/mp4">
+                        <source src="${memory.video.replace('.mp4', '.webm')}" type="video/webm">
+                        Trình duyệt của bạn không hỗ trợ phát video.
+                    </video>
+                    <div class="letter-video-caption">
+                        <span>🎬</span>
+                        <span>${title} • Thước phim kỷ niệm</span>
+                    </div>
+                </div>
+            `;
+            const vid = document.getElementById("letterModalVideoEl");
+            if (vid) {
+                vid.addEventListener("play", pauseBgMusicForVideo);
+                vid.addEventListener("pause", resumeBgMusicAfterVideo);
+                vid.addEventListener("ended", resumeBgMusicAfterVideo);
+            }
+        }
+
+        function showPhotoView() {
+            const curVid = document.getElementById("letterModalVideoEl");
+            if (curVid) curVid.pause();
+            resumeBgMusicAfterVideo();
+            renderLetterModalPhotos(container, photoList, fallbackList, title, memoryIndex);
+        }
+
+        const btnVid = tabsWrap.querySelector("#tabBtnVideo");
+        const btnPho = tabsWrap.querySelector("#tabBtnPhotos");
+
+        btnVid.addEventListener("click", () => {
+            btnVid.classList.add("active");
+            btnPho.classList.remove("active");
+            showVideoView();
+        });
+
+        btnPho.addEventListener("click", () => {
+            btnPho.classList.add("active");
+            btnVid.classList.remove("active");
+            showPhotoView();
+        });
+
+        // Mặc định mở tab video trước
+        showVideoView();
+        return;
+    }
+
+    // 3. Trường hợp thuần ảnh
     if (!photoList || photoList.length === 0) {
         galleryEl.style.display = "none";
         return;
     }
     galleryEl.style.display = "block";
+    renderLetterModalPhotos(galleryEl, photoList, fallbackList, title, memoryIndex);
+}
+
+function renderLetterModalPhotos(container, photoList, fallbackList, title, memoryIndex = 0) {
+    if (letterCarouselTimer) {
+        clearInterval(letterCarouselTimer);
+        letterCarouselTimer = null;
+    }
 
     if (photoList.length === 1) {
         const wrap = document.createElement("div");
@@ -744,11 +960,11 @@ function renderLetterModalGallery(galleryEl, photoList, fallbackList, title, mem
             openLightbox(memoryIndex, 0);
         });
         wrap.appendChild(img);
-        galleryEl.appendChild(wrap);
+        container.innerHTML = "";
+        container.appendChild(wrap);
         return;
     }
 
-    // Nhiều ảnh: Tạo Carousel tự động trượt + nút mũi tên ‹ › + chấm tròn trang trí (KHÔNG dùng thanh trượt ngang)
     let slidesHtml = "";
     let dotsHtml = "";
     photoList.forEach((src, idx) => {
@@ -761,7 +977,7 @@ function renderLetterModalGallery(galleryEl, photoList, fallbackList, title, mem
         dotsHtml += `<button class="letter-c-dot ${idx === 0 ? 'active' : ''}" data-dot="${idx}" aria-label="Xem ảnh ${idx + 1}"></button>`;
     });
 
-    galleryEl.innerHTML = `
+    container.innerHTML = `
         <div class="letter-carousel-wrap" id="letterCarouselWrap">
             <div class="letter-carousel-track" id="letterCarouselTrack">
                 ${slidesHtml}
@@ -771,55 +987,53 @@ function renderLetterModalGallery(galleryEl, photoList, fallbackList, title, mem
             <div class="letter-carousel-dots" id="letterCarouselDots">
                 ${dotsHtml}
             </div>
-            <div class="letter-carousel-counter" id="letterCarouselCounter">
-                <span id="letterCurIdx">1</span> / ${photoList.length}
-            </div>
+            <div class="letter-carousel-badge" id="letterCarouselBadge">1 / ${photoList.length}</div>
         </div>
     `;
 
-    let curIndex = 0;
-    const total = photoList.length;
-    const track = document.getElementById("letterCarouselTrack");
-    const dots = galleryEl.querySelectorAll(".letter-c-dot");
-    const curIdxEl = document.getElementById("letterCurIdx");
-    const prevBtn = document.getElementById("letterPrevBtn");
-    const nextBtn = document.getElementById("letterNextBtn");
-    const wrap = document.getElementById("letterCarouselWrap");
+    const wrap = container.querySelector("#letterCarouselWrap");
+    const track = container.querySelector("#letterCarouselTrack");
+    const prevBtn = container.querySelector("#letterPrevBtn");
+    const nextBtn = container.querySelector("#letterNextBtn");
+    const dots = container.querySelectorAll(".letter-c-dot");
+    const badge = container.querySelector("#letterCarouselBadge");
 
-    // Chạm vào ảnh bất kỳ để mở xem phóng to toàn màn hình (Lightbox)
-    const slideImgs = galleryEl.querySelectorAll(".letter-carousel-slide img");
-    slideImgs.forEach((img, idx) => {
-        img.addEventListener("click", () => {
-            openLightbox(memoryIndex, idx);
-        });
-    });
+    let currentSlide = 0;
+    const totalSlides = photoList.length;
 
     function goToSlide(idx) {
-        if (idx < 0) idx = total - 1;
-        if (idx >= total) idx = 0;
-        curIndex = idx;
+        currentSlide = (idx + totalSlides) % totalSlides;
         if (track) {
-            track.style.transform = `translateX(-${curIndex * 100}%)`;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
         }
         dots.forEach((dot, i) => {
-            dot.classList.toggle("active", i === curIndex);
+            dot.classList.toggle("active", i === currentSlide);
         });
-        if (curIdxEl) curIdxEl.innerText = curIndex + 1;
+        if (badge) {
+            badge.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+    }
+
+    function startLetterTimer() {
+        if (letterCarouselTimer) clearInterval(letterCarouselTimer);
+        letterCarouselTimer = setInterval(() => {
+            goToSlide(currentSlide + 1);
+        }, 4000);
     }
 
     if (prevBtn) {
         prevBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            goToSlide(curIndex - 1);
-            resetLetterTimer();
+            goToSlide(currentSlide - 1);
+            startLetterTimer();
         });
     }
 
     if (nextBtn) {
         nextBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            goToSlide(curIndex + 1);
-            resetLetterTimer();
+            goToSlide(currentSlide + 1);
+            startLetterTimer();
         });
     }
 
@@ -828,52 +1042,27 @@ function renderLetterModalGallery(galleryEl, photoList, fallbackList, title, mem
             e.stopPropagation();
             const targetIdx = parseInt(dot.getAttribute("data-dot"), 10);
             goToSlide(targetIdx);
-            resetLetterTimer();
+            startLetterTimer();
         });
     });
 
-    // Hỗ trợ vuốt tay (Swipe) trực tiếp trên điện thoại
-    let touchStartX = 0;
-    let touchEndX = 0;
-    wrap.addEventListener("touchstart", (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    wrap.addEventListener("touchend", (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        const diff = touchEndX - touchStartX;
-        if (Math.abs(diff) > 40) {
-            if (diff < 0) goToSlide(curIndex + 1);
-            else goToSlide(curIndex - 1);
-            resetLetterTimer();
-        }
-    }, { passive: true });
-
-    // Tự động chuyển ảnh sau mỗi 3.8 giây
-    function startLetterTimer() {
-        if (letterCarouselTimer) clearInterval(letterCarouselTimer);
-        letterCarouselTimer = setInterval(() => {
-            goToSlide(curIndex + 1);
-        }, 3800);
+    if (wrap) {
+        wrap.addEventListener("click", () => {
+            openLightbox(memoryIndex, currentSlide);
+        });
+        wrap.addEventListener("mouseenter", () => {
+            if (letterCarouselTimer) clearInterval(letterCarouselTimer);
+        });
+        wrap.addEventListener("mouseleave", () => {
+            startLetterTimer();
+        });
     }
-
-    function resetLetterTimer() {
-        startLetterTimer();
-    }
-
-    wrap.addEventListener("mouseenter", () => {
-        if (letterCarouselTimer) clearInterval(letterCarouselTimer);
-    });
-    wrap.addEventListener("mouseleave", () => {
-        startLetterTimer();
-    });
 
     startLetterTimer();
 }
 
 function closeLetterModal() {
     const overlay = document.getElementById("letterModalOverlay");
-    // Tránh kích hoạt trùng lặp khi đang chạy hoạt cảnh đóng thư
     if (!overlay || !overlay.classList.contains("active") || overlay.classList.contains("closing")) return;
 
     if (letterCarouselTimer) {
@@ -881,7 +1070,13 @@ function closeLetterModal() {
         letterCarouselTimer = null;
     }
 
-    // Tách biệt hoàn toàn active và closing, ép reflow để hoạt cảnh gập thư diễn ra mượt mà không khựng
+    // Tạm dừng video đang phát nếu có
+    const vids = overlay.querySelectorAll("video");
+    vids.forEach(v => {
+        try { v.pause(); } catch(e) {}
+    });
+    resumeBgMusicAfterVideo();
+
     overlay.classList.remove("active");
     void overlay.offsetWidth;
     overlay.classList.add("closing");
@@ -890,37 +1085,70 @@ function closeLetterModal() {
         overlay.classList.remove("closing");
         overlay.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
-    }, 1400); // Đồng bộ thời gian 1.4s siêu mượt: Thư trượt vào -> nắp đóng -> dấu sáp niêm phong -> mờ dần
+    }, 1400);
 }
 
 /* ========================================================
-   LIGHTBOX PHÓNG TO & DUYỆT TẤT CẢ ẢNH TRONG KỶ NIỆM
+   LIGHTBOX PHÓNG TO & DUYỆT CẢ ẢNH VÀ VIDEO TRONG KỶ NIỆM
    ======================================================== */
 const lightboxOverlay = document.getElementById("lightboxOverlay");
 const lightboxImg = document.getElementById("lightboxImg");
+const lightboxVideo = document.getElementById("lightboxVideo");
 const lightboxCaption = document.getElementById("lightboxCaption");
 const lightboxClose = document.getElementById("lightboxClose");
 const lbPrevBtn = document.getElementById("lbPrevBtn");
 const lbNextBtn = document.getElementById("lbNextBtn");
 
+function getMemoryMediaList(memory) {
+    if (!memory) return [];
+    const list = [];
+    if (memory.video) {
+        list.push({
+            type: "video",
+            src: memory.video,
+            poster: memory.poster || (memory.images && memory.images[0]) || "",
+            title: memory.title,
+            date: memory.date
+        });
+    }
+    const photoList = memory.images || (memory.image ? [memory.image] : []);
+    const fbList = memory.fallbacks || photoList;
+    photoList.forEach((src, idx) => {
+        list.push({
+            type: "image",
+            src: src,
+            fallback: fbList[idx] || fbList[0] || src,
+            title: memory.title,
+            date: memory.date
+        });
+    });
+    return list;
+}
+
 function initLightboxSystem() {
-    lightboxClose.addEventListener("click", closeLightbox);
-    lightboxOverlay.addEventListener("click", (e) => {
-        if (e.target === lightboxOverlay) closeLightbox();
-    });
+    if (lightboxClose) lightboxClose.addEventListener("click", closeLightbox);
+    if (lightboxOverlay) {
+        lightboxOverlay.addEventListener("click", (e) => {
+            if (e.target === lightboxOverlay) closeLightbox();
+        });
+    }
 
-    lbPrevBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        stepLightboxPhoto(-1);
-    });
+    if (lbPrevBtn) {
+        lbPrevBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            stepLightboxPhoto(-1);
+        });
+    }
 
-    lbNextBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        stepLightboxPhoto(1);
-    });
+    if (lbNextBtn) {
+        lbNextBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            stepLightboxPhoto(1);
+        });
+    }
 
     document.addEventListener("keydown", (e) => {
-        if (!lightboxOverlay.classList.contains("active")) return;
+        if (!lightboxOverlay || !lightboxOverlay.classList.contains("active")) return;
         if (e.key === "Escape") closeLightbox();
         if (e.key === "ArrowLeft") stepLightboxPhoto(-1);
         if (e.key === "ArrowRight") stepLightboxPhoto(1);
@@ -936,36 +1164,71 @@ function openLightbox(memoryIndex, photoIndex = 0) {
     currentLbPhotoIndex = typeof photoIndex === "number" ? photoIndex : 0;
 
     updateLightboxView();
-    lightboxOverlay.classList.add("active");
-    document.body.style.overflow = "hidden";
+    if (lightboxOverlay) {
+        lightboxOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+    }
 }
 
 function updateLightboxView() {
     const memory = MEMORIES[currentLbMemoryIndex] || MEMORIES[0];
     if (!memory) return;
-    const photoList = memory.images || (memory.image ? [memory.image] : []);
-    const fallbackList = memory.fallbacks || (memory.fallback ? [memory.fallback] : photoList);
+    const mediaList = getMemoryMediaList(memory);
+    if (!mediaList || mediaList.length === 0) return;
 
-    const imgSrc = photoList[currentLbPhotoIndex] || fallbackList[0] || "";
-    const fbSrc = fallbackList[currentLbPhotoIndex] || fallbackList[0] || imgSrc;
+    if (currentLbPhotoIndex >= mediaList.length) {
+        currentLbPhotoIndex = 0;
+    }
 
-    lightboxImg.src = imgSrc;
-    lightboxImg.onerror = () => { lightboxImg.src = fbSrc; };
+    const currentMedia = mediaList[currentLbPhotoIndex];
+    const total = mediaList.length;
 
-    const pageText = photoList.length > 1 ? ` (${currentLbPhotoIndex + 1}/${photoList.length})` : '';
-    lightboxCaption.innerText = `${memory.title} - ${memory.date}${pageText}`;
+    const pageText = total > 1 ? ` (${currentLbPhotoIndex + 1}/${total})` : '';
+    const mediaTypeLabel = currentMedia.type === "video" ? "🎬 [Thước phim] " : "";
+    if (lightboxCaption) {
+        lightboxCaption.innerText = `${mediaTypeLabel}${memory.title} - ${memory.date}${pageText}`;
+    }
 
-    // Ẩn hiện nút điều hướng trong Lightbox nếu chỉ có 1 ảnh
-    const showNav = photoList.length > 1;
-    lbPrevBtn.style.display = showNav ? "flex" : "none";
-    lbNextBtn.style.display = showNav ? "flex" : "none";
+    if (currentMedia.type === "video") {
+        if (lightboxImg) lightboxImg.style.display = "none";
+        if (lightboxVideo) {
+            lightboxVideo.style.display = "block";
+            if (!lightboxVideo.src.endsWith(currentMedia.src)) {
+                lightboxVideo.src = currentMedia.src;
+            }
+            lightboxVideo.poster = currentMedia.poster || "";
+            lightboxVideo.load();
+            lightboxVideo.play().then(() => {
+                pauseBgMusicForVideo();
+            }).catch(() => {});
+
+            lightboxVideo.onplay = pauseBgMusicForVideo;
+            lightboxVideo.onpause = resumeBgMusicAfterVideo;
+            lightboxVideo.onended = resumeBgMusicAfterVideo;
+        }
+    } else {
+        if (lightboxVideo) {
+            lightboxVideo.pause();
+            lightboxVideo.style.display = "none";
+        }
+        if (lightboxImg) {
+            lightboxImg.style.display = "block";
+            lightboxImg.src = currentMedia.src;
+            lightboxImg.onerror = () => { lightboxImg.src = currentMedia.fallback || currentMedia.src; };
+        }
+        resumeBgMusicAfterVideo();
+    }
+
+    const showNav = total > 1;
+    if (lbPrevBtn) lbPrevBtn.style.display = showNav ? "flex" : "none";
+    if (lbNextBtn) lbNextBtn.style.display = showNav ? "flex" : "none";
 }
 
 function stepLightboxPhoto(direction) {
     const memory = MEMORIES[currentLbMemoryIndex] || MEMORIES[0];
     if (!memory) return;
-    const photoList = memory.images || (memory.image ? [memory.image] : []);
-    const total = photoList.length;
+    const mediaList = getMemoryMediaList(memory);
+    const total = mediaList.length;
     if (total <= 1) return;
 
     currentLbPhotoIndex = (currentLbPhotoIndex + direction + total) % total;
@@ -973,8 +1236,17 @@ function stepLightboxPhoto(direction) {
 }
 
 function closeLightbox() {
-    lightboxOverlay.classList.remove("active");
-    document.body.style.overflow = "";
+    if (lightboxVideo) {
+        lightboxVideo.pause();
+        lightboxVideo.removeAttribute("src");
+        lightboxVideo.load();
+        lightboxVideo.style.display = "none";
+    }
+    resumeBgMusicAfterVideo();
+    if (lightboxOverlay) {
+        lightboxOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+    }
 }
 
 /* ========================================================

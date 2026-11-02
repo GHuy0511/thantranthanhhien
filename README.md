@@ -80,6 +80,7 @@ Trang web dòng thời gian kỷ niệm ấm áp, đã được nâng cấp thê
 ```text
 D:\Jobs\Interaction Web for Love\
 ├── images/             <-- Nơi bỏ ảnh kỷ niệm (photo1.jpg, photo2.jpg,...)
+├── videos/             <-- Nơi bỏ video clip & thước phim kỷ niệm (.mp4, .mov, .webm)
 ├── music/              <-- Nơi bỏ file bài hát của bạn (audio.mp3)
 ├── favicon.svg         <-- Icon trái tim hiển thị trên tab trình duyệt
 ├── index.html          <-- Giao diện dòng thời gian & Box lời nhắn mở đầu
@@ -146,3 +147,41 @@ Hệ thống đã được thiết lập để tự động phát lần lượt 
 2. Tải toàn bộ thư mục và file lên: `images/`, `music/`, `index.html`, `style.css`, `script.js`.
 3. Vào **Settings** -> **Pages** -> Tại mục **Branch** chọn `main` rồi nhấn **Save**.
 4. Chờ 1 - 2 phút, GitHub sẽ cấp cho bạn một đường link web miễn phí để gửi cho người ấy!
+
+
+---
+
+## 🎬 3. Hướng dẫn lưu trữ và thêm Video kỷ niệm
+
+Trang web hỗ trợ lưu trữ và phát trực tiếp video với đầy đủ tính năng:
+- **Thư mục lưu trữ**: Thư mục `videos/` chứa các video kỷ niệm (`.mp4`, `.mov`, `.webm`).
+- **Phát video trong thư**: Khi mở thư, video được nhúng trực tiếp kèm trình phát hiện đại, thanh tua thời gian và âm lượng.
+- **Xem video toàn màn hình (Lightbox)**: Nhấp vào ảnh bìa video để mở xem rạp chiếu phim với độ nét cao.
+- **Tự động ngắt tiếng nhạc nền**: Khi bất kỳ video nào phát, nhạc nền đĩa than sẽ tự động tạm dừng để âm thanh video rõ ràng; khi đóng video hoặc tạm dừng, nhạc nền sẽ tự động tiếp tục phát.
+- **Bộ lọc thông minh**: Trên đầu bộ sưu tập có sẵn 3 tab: `✨ Tất cả`, `📸 Ảnh kỷ niệm`, `🎬 Thước phim` để dễ dàng chọn lọc nội dung muốn xem.
+
+### Cách cấu hình trong `script.js`:
+```javascript
+// Kỷ niệm dạng Video riêng:
+{
+    id: 4,
+    title: "Thước Phim Bên Nhau",
+    date: "Khoảnh khắc chuyển động",
+    type: "video",
+    video: "videos/khoanh-khac-ben-nhau.mp4",
+    poster: "images/DSC03635.jpeg",
+    story: "Những khoảnh khắc chuyển động đáng yêu..."
+}
+
+// Kỷ niệm kết hợp cả Video và Album Ảnh:
+{
+    id: 1,
+    title: "Quân sự",
+    date: "Kỷ niệm quân sự",
+    type: "mixed",
+    video: "videos/ky-niem-quan-su.mp4",
+    poster: "images/DSC03633.jpeg",
+    images: ["images/DSC03633.jpeg", "images/DSC03635.jpeg"],
+    story: "Tới khúc này chụp ảnh..."
+}
+```

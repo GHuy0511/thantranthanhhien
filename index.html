@@ -262,6 +262,26 @@
                     <span class="ornament-line"></span>
                 </div>
                 <h2 class="gallery-title">Khoảnh khắc</h2>
+                <p class="gallery-subtitle">Từng bức ảnh và thước phim ghi dấu hành trình bên nhau</p>
+
+                <!-- BỘ LỌC MEDIA: TẤT CẢ / ẢNH / THƯỚC PHIM VIDEO -->
+                <div class="gallery-filter-tabs" id="galleryFilterTabs" role="tablist" aria-label="Lọc định dạng kỷ niệm">
+                    <button class="gallery-filter-tab active" data-filter="all" type="button" role="tab" aria-selected="true">
+                        <span class="filter-tab-icon">✨</span>
+                        <span class="filter-tab-text">Tất cả</span>
+                        <span class="filter-tab-count" id="filterCountAll">5</span>
+                    </button>
+                    <button class="gallery-filter-tab" data-filter="photo" type="button" role="tab" aria-selected="false">
+                        <span class="filter-tab-icon">📸</span>
+                        <span class="filter-tab-text">Ảnh kỷ niệm</span>
+                        <span class="filter-tab-count" id="filterCountPhoto">4</span>
+                    </button>
+                    <button class="gallery-filter-tab" data-filter="video" type="button" role="tab" aria-selected="false">
+                        <span class="filter-tab-icon">🎬</span>
+                        <span class="filter-tab-text">Thước phim</span>
+                        <span class="filter-tab-count" id="filterCountVideo">2</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Khung bao bọc dòng chảy ảnh với 2 nút mũi tên điều hướng 2 bên -->
@@ -295,9 +315,10 @@
         <div class="lightbox-content">
             <button class="lightbox-close" id="lightboxClose" aria-label="Đóng">&times;</button>
             <div class="lightbox-media-wrap">
-                <button class="lightbox-nav-btn lb-prev" id="lbPrevBtn" title="Ảnh trước">‹</button>
+                <button class="lightbox-nav-btn lb-prev" id="lbPrevBtn" title="Trước">‹</button>
                 <img id="lightboxImg" src="" alt="Ảnh phóng to">
-                <button class="lightbox-nav-btn lb-next" id="lbNextBtn" title="Ảnh sau">›</button>
+                <video id="lightboxVideo" class="lightbox-video" controls playsinline preload="metadata" style="display:none;"></video>
+                <button class="lightbox-nav-btn lb-next" id="lbNextBtn" title="Sau">›</button>
             </div>
             <div class="lightbox-caption" id="lightboxCaption"></div>
         </div>

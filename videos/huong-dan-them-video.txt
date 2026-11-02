@@ -1,0 +1,60 @@
+========================================================================
+✨ HƯỚNG DẪN LƯU TRỮ VÀ THÊM VIDEO KỶ NIỆM VÀO TRANG WEB ✨
+========================================================================
+
+Chào Huy! Trang web hiện tại đã được nâng cấp hỗ trợ lưu trữ và phát video kỷ niệm
+với đầy đủ tính năng:
+- Xem trực tiếp video trong thư kỷ niệm (Letter Modal)
+- Phóng to toàn màn hình xem video chuẩn rạp chiếu phim (Lightbox Player)
+- Tự động tạm dừng nhạc nền khi phát video (tránh bị lẫn tiếng)
+- Huy hiệu "▶ Thước phim" gắn trên các thẻ kỷ niệm
+- Bộ lọc tiện lợi: "🌸 Tất cả", "📸 Ảnh", "🎬 Thước phim"
+
+------------------------------------------------------------------------
+1. CÁCH BỎ FILE VIDEO CỦA BẠN VÀO:
+------------------------------------------------------------------------
+- Sao chép trực tiếp các file video của bạn vào thư mục này:
+  `videos/` (Ví dụ: `videos/clip-quan-su.mp4`, `videos/chuyen-di-choi.mov`, `videos/hen-ho.mp4`)
+- Định dạng video hỗ trợ tốt nhất:
+  + `.mp4` (Khuyên dùng nhất, tương thích 100% mọi điện thoại iPhone, Android, máy tính)
+  + `.webm`
+  + `.mov` (Nếu quay từ iPhone, có thể đổi sang .mp4 hoặc để nguyên)
+- Mẹo nhỏ: Nên nén dung lượng video vừa phải (dưới 50MB - 100MB mỗi clip) để khi
+  Hiền mở bằng 4G trên điện thoại sẽ tải vèo vèo không bị giật lag!
+
+------------------------------------------------------------------------
+2. CÁCH KHAI BÁO VIDEO VÀO KỶ NIỆM (TRONG FILE script.js):
+------------------------------------------------------------------------
+Mở file `script.js`, tại mảng `MEMORIES` ở đầu file:
+
+CÁCH A: Kỷ niệm dạng video riêng biệt:
+------------------------------------------------------------------------
+{
+    id: 4,
+    title: "Thước Phim Quân Sự",
+    date: "Khoảnh khắc chuyển động",
+    location: "Trung tâm GDQP&AN",
+    type: "video",
+    video: "videos/ky-niem-quan-su.mp4",        // Đường dẫn file video trong thư mục videos/
+    poster: "images/DSC03633.jpeg",            // Ảnh bìa đại diện cho video trước khi bấm phát
+    story: "Nội dung câu chuyện gửi gắm cho Hiền khi xem đoạn video này..."
+}
+
+CÁCH B: Kỷ niệm có cả Ảnh VÀ Video kết hợp:
+------------------------------------------------------------------------
+{
+    id: 1,
+    title: "Quân sự",
+    date: "Kỷ niệm quân sự",
+    location: "Trung tâm GDQP&AN",
+    type: "mixed",
+    video: "videos/ky-niem-quan-su.mp4",        // Video đính kèm
+    poster: "images/DSC03633.jpeg",
+    images: [
+        "images/DSC03633.jpeg",
+        "images/DSC03635.jpeg"
+    ],
+    story: "Tới khúc này chụp ảnh ptb quân sự thì Huy cũng không nghĩ..."
+}
+
+Chúc hai bạn có những thước phim và kỷ niệm thật ngọt ngào bên nhau! 💕
