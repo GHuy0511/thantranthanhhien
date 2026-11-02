@@ -149,65 +149,50 @@
                         <span class="intro-hero-name">Thân Trần Thanh Hiền</span>
                     </h1>
 
-                    <!-- ĐỒNG HỒ ĐẾM NGÀY YÊU NHAU (CHÍNH THỨC 01/11/2026) -->
+                    <!-- ĐỒNG HỒ ĐẾM NGÀY YÊU NHAU (CHÍNH THỨC 01/11/2026 - PHONG CÁCH VINTAGE SCRAPBOOK KEEPSAKE) -->
                     <div class="love-counter-wrapper" id="loveCounter" aria-label="Đồng hồ đếm ngày yêu nhau">
+                        <!-- Miếng Washi tape pastel đính trên đỉnh thẻ kỷ niệm -->
+                        <div class="love-clock-washi washi-tape-strip tape-blush" aria-hidden="true"></div>
+
+                        <!-- Dải chữ mộc bưu thiếp cổ điển: Chính thức bên nhau -->
+                        <div class="love-clock-header">
+                            <span class="clock-heart-icon">♥</span>
+                            <span class="clock-header-text">CHÍNH THỨC BÊN NHAU TỪ 01.11.2026</span>
+                            <span class="clock-heart-icon">♥</span>
+                        </div>
+
+                        <!-- 4 Khung thẻ số lật giấy ngà Keepsake cổ điển -->
                         <div class="love-counter-board">
-                            <div class="counter-box">
+                            <div class="counter-box counter-tile">
                                 <span class="counter-val" id="loveCounterDays">0</span>
                                 <span class="counter-label">Ngày</span>
+                                <div class="tile-crease-line" aria-hidden="true"></div>
                             </div>
-                            <span class="counter-sep" aria-hidden="true">:</span>
-                            <div class="counter-box">
+                            <span class="counter-sep counter-heart-sep" aria-hidden="true">♥</span>
+                            <div class="counter-box counter-tile">
                                 <span class="counter-val" id="loveCounterHours">00</span>
                                 <span class="counter-label">Giờ</span>
+                                <div class="tile-crease-line" aria-hidden="true"></div>
                             </div>
-                            <span class="counter-sep" aria-hidden="true">:</span>
-                            <div class="counter-box">
+                            <span class="counter-sep counter-heart-sep" aria-hidden="true">♥</span>
+                            <div class="counter-box counter-tile">
                                 <span class="counter-val" id="loveCounterMinutes">00</span>
                                 <span class="counter-label">Phút</span>
+                                <div class="tile-crease-line" aria-hidden="true"></div>
                             </div>
-                            <span class="counter-sep" aria-hidden="true">:</span>
-                            <div class="counter-box">
+                            <span class="counter-sep counter-heart-sep" aria-hidden="true">♥</span>
+                            <div class="counter-box counter-tile">
                                 <span class="counter-val" id="loveCounterSeconds">00</span>
                                 <span class="counter-label">Giây</span>
-                            </div>
-                        </div>
-                        <div class="love-counter-quote">
-                            <span>"Từ hôm nay, chúng mình đã có nhau."</span>
-                        </div>
-                    </div>
-                    <!-- KHUNG TRẠNG THÁI CẢM XÚC TRỰC DIỆN (COUPLE STATUS IN HERO) -->
-                    <div class="hero-couple-status" id="heroCoupleStatus" aria-label="Tâm trạng của chúng mình">
-                        <div class="hero-status-partner-box">
-                            <div class="hero-avatar-wrap">
-                                <div class="hero-avatar-circle" id="heroPartnerAvatar">👧</div>
-                                <span class="hero-live-dot" title="Đang kết nối"></span>
-                            </div>
-                            <div class="hero-status-info">
-                                <div class="hero-status-top-line">
-                                    <span class="hero-status-name" id="heroPartnerName">Hiền nè</span>
-                                    <span class="hero-status-time" id="heroPartnerTime">5p trước</span>
-                                </div>
-                                <div class="hero-status-bubble" id="heroPartnerBubble">
-                                    <span class="hero-bubble-emoji" id="heroPartnerEmoji">💖</span>
-                                    <span class="hero-bubble-text" id="heroPartnerText">Đang nhớ Huy lắmm</span>
-                                </div>
+                                <div class="tile-crease-line" aria-hidden="true"></div>
                             </div>
                         </div>
 
-                        <!-- Hàng tương tác nhanh của bạn -->
-                        <div class="hero-self-actions">
-                            <div class="hero-self-avatar-wrap">
-                                <div class="hero-self-avatar" id="heroSelfAvatar">👦</div>
-                                <button class="hero-avatar-edit-btn" id="heroAvatarEditBtn" type="button" title="Đổi ảnh đại diện">📷</button>
-                            </div>
-                            <div class="hero-quick-chips">
-                                <button class="hero-chip-btn" type="button" data-text="Đang học bài nè" data-icon="📚" data-type="study">📚 Đang học</button>
-                                <button class="hero-chip-btn" type="button" data-text="Đang bận xíu nha" data-icon="💼" data-type="busy">💼 Đang bận</button>
-                                <button class="hero-chip-btn" type="button" data-text="Đang rảnh rỗi nè" data-icon="☕" data-type="free">☕ Đang rảnh</button>
-                                <button class="hero-chip-btn" type="button" data-text="Đang nhớ người yêu lắmm" data-icon="💖" data-type="love">💖 Nhớ cậu</button>
-                                <button class="hero-chip-btn chip-btn-custom" id="heroCustomBtn" type="button">✏️ Tự viết</button>
-                            </div>
+                        <!-- Lời nhắn chữ viết tay nắn nót -->
+                        <div class="love-counter-quote">
+                            <span class="quote-flourish">~ ♥ ~</span>
+                            <span class="quote-text">“Từ hôm nay, chúng mình đã có nhau.”</span>
+                            <span class="quote-flourish">~ ♥ ~</span>
                         </div>
                     </div>
 
@@ -448,6 +433,18 @@
                     <button class="status-quick-btn" type="button" data-text="Đang nhớ người yêu lắmm" data-icon="💖" data-type="love">
                         <span class="btn-icon">💖</span>
                         <span class="btn-text">Nhớ cậu</span>
+                    </button>
+                    <button class="status-quick-btn" type="button" data-text="Đang ăn cơm nè" data-icon="🍽️" data-type="eating">
+                        <span class="btn-icon">🍽️</span>
+                        <span class="btn-text">Đang ăn</span>
+                    </button>
+                    <button class="status-quick-btn" type="button" data-text="Chuẩn bị ngủ rồi nè" data-icon="😴" data-type="sleep">
+                        <span class="btn-icon">😴</span>
+                        <span class="btn-text">Đi ngủ</span>
+                    </button>
+                    <button class="status-quick-btn" type="button" data-text="Đang đi ngoài đường" data-icon="🛵" data-type="transit">
+                        <span class="btn-icon">🛵</span>
+                        <span class="btn-text">Đi đường</span>
                     </button>
                     <button class="status-quick-btn btn-custom" id="floatingCustomBtn" type="button">
                         <span class="btn-icon">✏️</span>
