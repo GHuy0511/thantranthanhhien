@@ -1828,6 +1828,29 @@ function initCoupleStatus() {
         if (pillPartnerTime) pillPartnerTime.textContent = formatTimeAgo(partnerData.timestamp);
         if (pillPartnerText) pillPartnerText.textContent = `${partnerData.emoji || '💭'} ${partnerData.text}`;
 
+
+        // CẬP NHẬT KHUNG TRẠNG THÁI TRỰC TIẾP TRONG HERO (HERO COUPLE STATUS)
+        const heroPartnerAvatar = document.getElementById("heroPartnerAvatar");
+        const heroPartnerName = document.getElementById("heroPartnerName");
+        const heroPartnerEmoji = document.getElementById("heroPartnerEmoji");
+        const heroPartnerText = document.getElementById("heroPartnerText");
+        const heroPartnerTime = document.getElementById("heroPartnerTime");
+        const heroSelfAvatar = document.getElementById("heroSelfAvatar");
+
+        if (heroPartnerAvatar) renderAvatarElement(heroPartnerAvatar, partnerData.avatar, partnerFallbackEmoji);
+        if (heroPartnerName) heroPartnerName.textContent = partnerNameStr + ' nè';
+        if (heroPartnerEmoji) heroPartnerEmoji.textContent = partnerData.emoji || '💖';
+        if (heroPartnerText) heroPartnerText.textContent = partnerData.text;
+        if (heroPartnerTime) heroPartnerTime.textContent = formatTimeAgo(partnerData.timestamp);
+        if (heroSelfAvatar) renderAvatarElement(heroSelfAvatar, selfData.avatar, selfFallbackEmoji);
+
+        // Đổi nhãn nút nhớ người yêu trong hero
+        const heroLoveBtn = document.querySelector('.hero-chip-btn[data-type="love"]');
+        if (heroLoveBtn) {
+            heroLoveBtn.setAttribute('data-text', isHuy ? 'Đang nhớ Hiền lắmm' : 'Đang nhớ Huy lắmm');
+            heroLoveBtn.textContent = isHuy ? '💖 Nhớ Hiền' : '💖 Nhớ Huy';
+        }
+
         // 2. Cập nhật khung tâm trạng đối phương trong bảng mở rộng
         if (panelTitle) panelTitle.textContent = `Tâm trạng của ${partnerNameStr}`;
         renderAvatarElement(partnerAvatarBig, partnerData.avatar, partnerFallbackEmoji);
@@ -1989,6 +2012,47 @@ function initCoupleStatus() {
 
         syncStateToCloud(selfKey, item);
         showToast("Đã cập nhật trạng thái của bạn! ✨", emoji || '✨');
+    }
+
+    
+    // Click nút trong Hero
+    document.querySelectorAll(".hero-chip-btn:not(.chip-btn-custom)").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const text = btn.getAttribute("data-text");
+            const icon = btn.getAttribute("data-icon");
+            const type = btn.getAttribute("data-type");
+            if (text) {
+                updateSelfStatus(text, icon, type);
+            }
+        });
+    });
+
+    const heroCustomBtn = document.getElementById("heroCustomBtn");
+    if (heroCustomBtn) {
+        heroCustomBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openCustomModal();
+        });
+    }
+
+    const heroAvatarEditBtn = document.getElementById("heroAvatarEditBtn");
+    if (heroAvatarEditBtn) {
+        heroAvatarEditBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openAvatarModal();
+        });
+    }
+
+    const heroScrollCue = document.getElementById("heroScrollCue");
+    if (heroScrollCue) {
+        heroScrollCue.addEventListener("click", (e) => {
+            e.preventDefault();
+            const gallerySection = document.getElementById("memoriesGallerySection");
+            if (gallerySection) {
+                gallerySection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     }
 
     // Click quick chip 1 chạm

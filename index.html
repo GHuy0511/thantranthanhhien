@@ -176,6 +176,47 @@
                             <span>"Từ hôm nay, chúng mình đã có nhau."</span>
                         </div>
                     </div>
+                    <!-- KHUNG TRẠNG THÁI CẢM XÚC TRỰC DIỆN (COUPLE STATUS IN HERO) -->
+                    <div class="hero-couple-status" id="heroCoupleStatus" aria-label="Tâm trạng của chúng mình">
+                        <div class="hero-status-partner-box">
+                            <div class="hero-avatar-wrap">
+                                <div class="hero-avatar-circle" id="heroPartnerAvatar">👧</div>
+                                <span class="hero-live-dot" title="Đang kết nối"></span>
+                            </div>
+                            <div class="hero-status-info">
+                                <div class="hero-status-top-line">
+                                    <span class="hero-status-name" id="heroPartnerName">Hiền nè</span>
+                                    <span class="hero-status-time" id="heroPartnerTime">5p trước</span>
+                                </div>
+                                <div class="hero-status-bubble" id="heroPartnerBubble">
+                                    <span class="hero-bubble-emoji" id="heroPartnerEmoji">💖</span>
+                                    <span class="hero-bubble-text" id="heroPartnerText">Đang nhớ Huy lắmm</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hàng tương tác nhanh của bạn -->
+                        <div class="hero-self-actions">
+                            <div class="hero-self-avatar-wrap">
+                                <div class="hero-self-avatar" id="heroSelfAvatar">👦</div>
+                                <button class="hero-avatar-edit-btn" id="heroAvatarEditBtn" type="button" title="Đổi ảnh đại diện">📷</button>
+                            </div>
+                            <div class="hero-quick-chips">
+                                <button class="hero-chip-btn" type="button" data-text="Đang học bài nè" data-icon="📚" data-type="study">📚 Đang học</button>
+                                <button class="hero-chip-btn" type="button" data-text="Đang bận xíu nha" data-icon="💼" data-type="busy">💼 Đang bận</button>
+                                <button class="hero-chip-btn" type="button" data-text="Đang rảnh rỗi nè" data-icon="☕" data-type="free">☕ Đang rảnh</button>
+                                <button class="hero-chip-btn" type="button" data-text="Đang nhớ người yêu lắmm" data-icon="💖" data-type="love">💖 Nhớ cậu</button>
+                                <button class="hero-chip-btn chip-btn-custom" id="heroCustomBtn" type="button">✏️ Tự viết</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nút cuộn xuống xem khoảnh khắc -->
+                    <a class="hero-scroll-cue" id="heroScrollCue" href="#memoriesGallerySection" aria-label="Cuộn xuống xem khoảnh khắc">
+                        <span>Khoảnh khắc kỷ niệm</span>
+                        <span class="scroll-cue-arrow" aria-hidden="true">⌄</span>
+                    </a>
+
                 </div>
             </div>
         </header>

@@ -4348,95 +4348,154 @@ html, body {
         overflow-x: hidden;
     }
 
-    /* 2. HERO / MỞ ĐẦU CHÍNH DIỆN */
+    /* 2. HERO / MỞ ĐẦU CHÍNH DIỆN - TỐI ƯU TRỌN VẸN 1 MÀN HÌNH ĐẦU TIÊN (100dvh) */
     .timeline-hero {
-        padding: 24px 8px 16px;
-        max-width: 100%;
+        min-height: calc(100dvh - 30px);
+        min-height: calc(100svh - 30px);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 8px calc(80px + env(safe-area-inset-bottom, 0px));
+        box-sizing: border-box;
+        margin: 0 auto;
+        position: relative;
         overflow: hidden;
     }
 
     .intro-showcase-wrapper,
     .intro-box-wrapper {
-        min-height: 480px;
+        min-height: auto;
         width: 100%;
         max-width: 100%;
-        margin: 8px auto 20px;
-        padding: 20px 8px;
+        margin: 0 auto;
+        padding: 6px 4px;
         position: relative;
-        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .intro-center-hero {
-        padding: 10px 12px;
+        padding: 4px;
         width: 100%;
         max-width: 100%;
         z-index: 5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    /* Tiêu đề tự động co giãn theo màn hình điện thoại, chống tràn ngang */
     .intro-hero-title {
-        gap: 4px;
+        gap: 2px;
         width: 100%;
+        margin-bottom: 2px;
     }
 
     .intro-hero-prefix {
-        font-size: clamp(22px, 5.8vw, 30px);
+        font-size: clamp(20px, 5.2vw, 24px);
         letter-spacing: 0.5px;
-        text-shadow: 0 1px 8px rgba(217, 107, 82, 0.16);
     }
 
     .intro-hero-name {
-        font-size: clamp(26px, 7.6vw, 36px);
+        font-size: clamp(24px, 6.8vw, 30px);
         letter-spacing: 0.5px;
         white-space: normal;
         word-break: keep-all;
         text-align: center;
         max-width: 90vw;
-        line-height: 1.25;
-        text-shadow: 
-            0 3px 18px rgba(217, 107, 82, 0.28),
-            0 1px 2px rgba(45, 30, 20, 0.08);
+        line-height: 1.2;
     }
 
-    /* Tối ưu Đồng hồ đếm ngày yêu trên mobile */
     .love-counter-wrapper {
-        margin-top: 14px;
-        padding: 8px 14px 7px;
-        max-width: 92vw;
-        border-radius: 18px;
-        gap: 5px;
+        margin-top: 8px;
+        padding: 6px 12px 5px;
+        max-width: 90vw;
+        border-radius: 16px;
+        gap: 3px;
     }
 
     .love-counter-board {
-        padding: 3px 8px;
-        gap: 4px;
-        border-radius: 12px;
+        padding: 2px 6px;
+        gap: 3px;
+        border-radius: 10px;
     }
 
     .counter-box {
-        min-width: 36px;
-        padding: 2px;
+        min-width: 32px;
+        padding: 1px;
     }
 
     .counter-val {
-        font-size: 19px;
+        font-size: 17px;
     }
 
     .counter-label {
-        font-size: 8px;
-        margin-top: 2px;
+        font-size: 7.5px;
+        margin-top: 1px;
     }
 
     .counter-sep {
-        font-size: 13px;
-        margin-top: -6px;
+        font-size: 11px;
+        margin-top: -4px;
     }
 
     .love-counter-quote {
-        font-size: 14px;
+        font-size: 13px;
+        line-height: 1.2;
     }
 
-    /* Ẩn các ảnh giữa trên mobile để tránh che lấp chữ, giữ 4 ảnh góc bo xung quanh */
+    /* 4 Tấm ảnh Polaroid góc nhỏ gọn, ôm sát không gây tràn màn hình */
+    .polaroid-item {
+        width: clamp(74px, 21vw, 86px);
+        padding: 4px 4px 10px 4px;
+        border-radius: 5px;
+        box-shadow: 0 6px 14px rgba(45, 30, 20, 0.1);
+        z-index: 3;
+    }
+
+    .polaroid-tl {
+        top: 2px;
+        left: 2px;
+        transform: rotate(-6deg);
+    }
+
+    .polaroid-tr {
+        top: 2px;
+        right: 2px;
+        transform: rotate(6deg);
+    }
+
+    .polaroid-bl {
+        bottom: 2px;
+        left: 4px;
+        transform: rotate(5deg);
+    }
+
+    .polaroid-br {
+        bottom: 2px;
+        right: 4px;
+        transform: rotate(-5deg);
+    }
+
+    .polaroid-tl .polaroid-caption,
+    .polaroid-tr .polaroid-caption,
+    .polaroid-bl .polaroid-caption,
+    .polaroid-br .polaroid-caption {
+        font-size: 8px;
+        margin-top: 3px;
+        line-height: 1.1;
+    }
+
+    .polaroid-tl .polaroid-date,
+    .polaroid-tr .polaroid-date,
+    .polaroid-bl .polaroid-date,
+    .polaroid-br .polaroid-date {
+        font-size: 7px;
+    }
+
+    /* Ẩn các ảnh polaroid cạnh trên mobile */
     .polaroid-tml,
     .polaroid-bml,
     .polaroid-tmr,
@@ -4446,133 +4505,60 @@ html, body {
         display: none !important;
     }
 
-    /* 4 Tấm ảnh Polaroid góc gọn gàng, nằm lọt hoàn toàn trong màn hình */
-    .polaroid-item {
-        width: clamp(94px, 27vw, 112px);
-        padding: 5px 5px 12px 5px;
-        border-radius: 6px;
-        box-shadow: 0 8px 18px rgba(45, 30, 20, 0.12);
-        z-index: 3;
+    /* Khung trạng thái cảm xúc trực diện trên mobile */
+    .hero-couple-status {
+        margin-top: 8px;
+        padding: 8px 10px;
+        border-radius: 16px;
+        gap: 6px;
+        max-width: 92vw;
     }
 
-    .polaroid-tl {
-        top: 8px;
-        left: 4px;
-        transform: rotate(-6deg);
+    .hero-avatar-circle,
+    .hero-self-avatar {
+        width: 34px;
+        height: 34px;
+        font-size: 18px;
     }
 
-    .polaroid-tr {
-        top: 8px;
-        right: 4px;
-        transform: rotate(6deg);
+    .hero-status-bubble {
+        font-size: 11.5px;
+        padding: 3px 8px;
     }
 
-    .polaroid-bl {
-        bottom: 8px;
-        left: 6px;
-        transform: rotate(5deg);
+    .hero-chip-btn {
+        padding: 3px 6px;
+        font-size: 10px;
     }
 
-    .polaroid-br {
-        bottom: 8px;
-        right: 6px;
-        transform: rotate(-5deg);
+    /* Đưa mục Khoảnh khắc xuống màn hình thứ 2 sạch sẽ, không bị che */
+    .memories-gallery-section {
+        margin-top: 20px;
+        padding-top: 30px;
     }
 
-    .polaroid-tl .polaroid-caption,
-    .polaroid-tr .polaroid-caption,
-    .polaroid-bl .polaroid-caption,
-    .polaroid-br .polaroid-caption {
-        text-align: center;
-        padding: 0 2px;
-        max-width: 100%;
-        font-size: 9px;
-        margin-top: 4px;
-        line-height: 1.2;
-    }
-
-    .polaroid-tl .polaroid-date,
-    .polaroid-tr .polaroid-date,
-    .polaroid-bl .polaroid-date,
-    .polaroid-br .polaroid-date {
-        text-align: center;
-        padding: 0;
-        font-size: 7.5px;
-        margin-top: 1px;
-    }
-
-    .polaroid-washi {
-        width: 30px;
-        height: 10px;
-        top: -5px;
-    }
-
-    
-    /* Tối ưu Widget nổi trên mobile: Thu nhỏ thành Bubble tròn siêu gọn 50px */
+    /* Đưa Widget nổi lên góc trên bên phải trên mobile (tránh đè thanh nhạc và nội dung dưới) */
     .couple-floating-widget {
-        bottom: calc(80px + env(safe-area-inset-bottom, 0px));
-        right: 14px;
+        top: calc(10px + env(safe-area-inset-top, 0px));
+        right: 10px;
+        bottom: auto;
     }
 
     .couple-pill-trigger {
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 8px 22px rgba(60, 30, 20, 0.22);
-        border: 2px solid rgba(255, 235, 225, 0.95);
-    }
-
-    .couple-pill-trigger .pill-info,
-    .couple-pill-trigger .pill-chevron {
-        display: none !important;
+        width: 44px;
+        height: 44px;
     }
 
     .pill-avatar-wrap {
-        width: 44px;
-        height: 44px;
-        font-size: 24px;
-        border: none;
-        background: transparent;
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
     }
 
-    .pill-pulse-dot {
-        width: 10px;
-        height: 10px;
-        bottom: 0px;
-        right: 0px;
-    }
-
-    .pill-mood-badge {
-        font-size: 14px;
-        top: -6px;
-        right: -6px;
-    }
-
-    /* Bảng điều khiển mở rộng trên mobile */
     .couple-floating-panel {
-        width: calc(100vw - 24px);
-        max-width: 380px;
+        top: calc(100% + 8px);
+        bottom: auto;
         right: 0;
-        bottom: calc(100% + 12px);
-        padding: 16px 14px 14px;
-        border-radius: 20px;
-    }
-
-    .self-quick-chips {
-        grid-template-columns: repeat(4, 1fr) auto;
-        gap: 4px;
-    }
-
-    .status-quick-btn {
-        padding: 6px 2px;
-    }
-
-    .status-quick-btn .btn-text {
-        font-size: 10px;
     }
     
     /* 3. MỤC "KHOẢNH KHẮC" (GALLERY STREAM) */
@@ -5461,4 +5447,219 @@ html, body {
     font-size: 11.5px;
     color: #a89489;
     margin: 0;
+}
+
+
+/* ========================================================
+   KHUNG TRẠNG THÁI CẢM XÚC TRONG HERO (HERO COUPLE STATUS)
+   ======================================================== */
+.hero-couple-status {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid rgba(235, 215, 205, 0.95);
+    border-radius: 20px;
+    padding: 11px 14px 10px;
+    box-shadow: 
+        0 8px 24px rgba(60, 30, 20, 0.08),
+        0 2px 6px rgba(0, 0, 0, 0.03);
+    margin-top: 12px;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10;
+}
+
+.hero-status-partner-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hero-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.hero-avatar-circle,
+.hero-self-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #fdf5f0;
+    border: 1.5px solid rgba(220, 190, 180, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    overflow: hidden;
+}
+
+.hero-avatar-circle img,
+.hero-self-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.hero-live-dot {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #38a169;
+    border: 1.5px solid #ffffff;
+    box-shadow: 0 0 6px rgba(56, 161, 105, 0.8);
+    animation: livePulse 2s infinite;
+}
+
+.hero-status-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.hero-status-top-line {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.hero-status-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #8c5a4b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.hero-status-time {
+    font-size: 10px;
+    color: #a49187;
+    font-weight: 500;
+}
+
+.hero-status-bubble {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #faf6f3;
+    padding: 4px 10px;
+    border-radius: 12px;
+    border: 1px dashed rgba(220, 195, 185, 0.8);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #3b2c26;
+    margin-top: 1px;
+}
+
+.hero-bubble-emoji {
+    font-size: 16px;
+    line-height: 1;
+    animation: gentleWobble 4s ease-in-out infinite;
+}
+
+.hero-self-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 7px;
+    border-top: 1px solid rgba(235, 215, 205, 0.6);
+}
+
+.hero-self-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.hero-avatar-edit-btn {
+    position: absolute;
+    bottom: -2px;
+    right: -3px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: #d96b52;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    font-size: 9px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.hero-quick-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    flex: 1;
+}
+
+.hero-chip-btn {
+    background: #fdf8f5;
+    border: 1px solid rgba(225, 205, 195, 0.8);
+    border-radius: 10px;
+    padding: 3.5px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #5d4c44;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.hero-chip-btn:hover {
+    background: rgba(217, 107, 82, 0.12);
+    border-color: #d96b52;
+    color: #d96b52;
+    transform: translateY(-1px);
+}
+
+.hero-chip-btn.chip-btn-custom {
+    background: #ffffff;
+    border-style: dashed;
+    border-color: #d96b52;
+    color: #d96b52;
+}
+
+/* NÚT CUỘN XUỐNG XEM KHOẢNH KHẮC */
+.hero-scroll-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #a48f84;
+    margin-top: 10px;
+    text-decoration: none;
+    padding: 4px 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(235, 215, 205, 0.6);
+    transition: all 0.2s ease;
+    animation: gentleCueBounce 2.5s infinite ease-in-out;
+}
+
+@keyframes gentleCueBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
+}
+
+.hero-scroll-cue:hover {
+    color: #d96b52;
+    background: #ffffff;
+    border-color: #d96b52;
+}
+
+.scroll-cue-arrow {
+    font-size: 13px;
+    font-weight: 700;
 }
