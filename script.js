@@ -82,15 +82,20 @@ const MEMORIES = [
         title: "Bên nhau",
         date: "01/11/2026",
         location: "Ngày chính thức thành đôi",
-        type: "photo",
+        type: "mixed",
+        video: "videos/IMG_4151.mp4",
+        videoMov: "videos/IMG_4151.MOV",
+        poster: "images/IMG_4151_poster.jpg",
         images: [
+            "images/IMG_4151_poster.jpg",
             "images/DSC03633.jpeg",
             "images/DSC03635.jpeg"
         ],
         fallbacks: [
+            "images/IMG_4151_poster.jpg",
             "images/DSC03633.jpeg"
         ],
-        story: "Từ hôm nay, chúng mình đã có nhau."
+        story: "Từ hôm nay, chúng mình đã có nhau. Khoảnh khắc Hiền ngồi chăm chú đọc từng dòng thư tay dưới ánh đèn là hình ảnh đẹp và dịu dàng nhất mà Huy sẽ luôn nâng niu và khắc ghi trong tim."
     }
 ];
 
@@ -851,6 +856,7 @@ function renderLetterModalGallery(galleryEl, photoList, fallbackList, title, mem
             <div class="letter-video-player-wrap">
                 <video id="letterModalVideoEl" class="letter-modal-video" controls playsinline preload="metadata" poster="${memory.poster || (photoList[0] || '')}">
                     <source src="${memory.video}" type="video/mp4">
+                    ${memory.videoMov ? `<source src="${memory.videoMov}" type="video/quicktime">` : ''}
                     <source src="${memory.video.replace('.mp4', '.webm')}" type="video/webm">
                     Trình duyệt của bạn không hỗ trợ phát video.
                 </video>
