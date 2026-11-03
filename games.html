@@ -34,10 +34,9 @@
         <div class="bg-glow-orb orb-2"></div>
     </div>
 
-    <!-- LỚP HIỆU ỨNG ĐẶC BIỆT (POLICE SIREN, CONFETTI & FLOATING FX) -->
+    <!-- LỚP HIỆU ỨNG ĐẶC BIỆT (POLICE SIREN & FLOATING FX - ĐÃ BỎ CONFETTI TRÁNH LAG) -->
     <div class="police-siren-overlay" id="policeSirenOverlay" aria-hidden="true"></div>
     <div class="floating-fx-layer" id="floatingFxLayer" aria-hidden="true"></div>
-    <canvas class="confetti-canvas" id="confettiCanvas" aria-hidden="true"></canvas>
 
     <!-- THANH ĐIỀU HƯỚNG TINH GỌN (TOP NAV) -->
     <header class="games-top-nav">
@@ -81,36 +80,49 @@
             </div>
         </section>
 
-        <!-- BÀN CỜ MONOPOLY VIỆT NAM (LƯỚI 7x7 - 24 Ô CHIẾN THUẬT) -->
+        <!-- BÀN CỜ MONOPOLY VIỆT NAM (LƯỚI 10x10 - 36 Ô CHIẾN THUẬT) -->
         <section class="monopoly-board-wrapper">
-            <div class="monopoly-board grid-7x7" id="monopolyBoard">
+            <div class="monopoly-board grid-10x10" id="monopolyBoard">
 
-                <!-- 24 Ô BÀN CỜ ĐƯỢC RENDER TINH GỌN HOÀN TOÀN BẰNG JAVASCRIPT -->
+                <!-- 36 Ô BÀN CỜ ĐƯỢC RENDER TINH GỌN HOÀN TOÀN BẰNG JAVASCRIPT -->
 
-                <!-- KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS - 3D DICE & ĐIỀU HÀNH) -->
+                <!-- KHU VỰC TRUNG TÂM BÀN CỜ (8x8 CELLS - XÚC XẮC ĐÔI 3D & ĐIỀU HÀNH) -->
                 <div class="board-center-hub" id="boardCenterHub">
-                    <!-- Khay nhung đổ xúc xắc sang trọng (Dice Arena Tray) -->
+                    <!-- Khay nhung đổ xúc xắc đôi sang trọng (Dice Arena Tray) -->
                     <div class="dice-arena-tray" id="diceArenaTray">
                         <div class="dice-arena-felt"></div>
-                        <div class="dice-shadow-spot" id="diceShadowSpot"></div>
+                        <div class="dice-shadow-spot" id="diceShadowSpot1"></div>
+                        <div class="dice-shadow-spot" id="diceShadowSpot2"></div>
 
-                        <!-- Xúc xắc 3D chân thực -->
-                        <div class="dice-scene" id="diceScene" title="Xúc xắc 3D">
-                            <div class="dice-cube" id="diceCube">
-                                <div class="dice-face face-1"><span class="pip pip-center"></span></div>
-                                <div class="dice-face face-2"><span class="pip pip-tl"></span><span class="pip pip-br"></span></div>
-                                <div class="dice-face face-3"><span class="pip pip-tl"></span><span class="pip pip-center"></span><span class="pip pip-br"></span></div>
-                                <div class="dice-face face-4"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
-                                <div class="dice-face face-5"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-center"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
-                                <div class="dice-face face-6"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-ml"></span><span class="pip pip-mr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                        <!-- Cặp xúc xắc đôi 3D chân thực -->
+                        <div class="dice-pair-container">
+                            <div class="dice-scene" id="diceScene1" title="Xúc xắc 1">
+                                <div class="dice-cube" id="diceCube1">
+                                    <div class="dice-face face-1"><span class="pip pip-center"></span></div>
+                                    <div class="dice-face face-2"><span class="pip pip-tl"></span><span class="pip pip-br"></span></div>
+                                    <div class="dice-face face-3"><span class="pip pip-tl"></span><span class="pip pip-center"></span><span class="pip pip-br"></span></div>
+                                    <div class="dice-face face-4"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                                    <div class="dice-face face-5"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-center"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                                    <div class="dice-face face-6"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-ml"></span><span class="pip pip-mr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                                </div>
+                            </div>
+                            <div class="dice-scene" id="diceScene2" title="Xúc xắc 2">
+                                <div class="dice-cube" id="diceCube2">
+                                    <div class="dice-face face-1"><span class="pip pip-center"></span></div>
+                                    <div class="dice-face face-2"><span class="pip pip-tl"></span><span class="pip pip-br"></span></div>
+                                    <div class="dice-face face-3"><span class="pip pip-tl"></span><span class="pip pip-center"></span><span class="pip pip-br"></span></div>
+                                    <div class="dice-face face-4"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                                    <div class="dice-face face-5"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-center"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                                    <div class="dice-face face-6"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-ml"></span><span class="pip pip-mr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Nút tung xúc xắc nổi bật với hiệu ứng 3D và màu sắc theo người chơi -->
                     <button class="roll-dice-btn" id="rollDiceBtn" type="button">
-                        <span class="btn-dice-icon" id="rollBtnIcon">🎲</span>
-                        <span class="btn-dice-text" id="rollBtnText">Huy Tung Xúc Xắc (🚗)</span>
+                        <span class="btn-dice-icon" id="rollBtnIcon">🎲🎲</span>
+                        <span class="btn-dice-text" id="rollBtnText">Huy Tung Xúc Xắc Đôi (🚗)</span>
                         <span class="btn-dice-shine" aria-hidden="true"></span>
                     </button>
 
@@ -118,7 +130,7 @@
                     <div class="action-status-capsule" id="actionStatusCapsule">
                         <span class="status-speaker-icon" id="statusSpeakerIcon">👉</span>
                         <div class="action-status-msg" id="actionStatusMsg">
-                            Tung xúc xắc để bắt đầu ván cờ!
+                            Tung xúc xắc đôi để bắt đầu ván cờ!
                         </div>
                     </div>
 
@@ -127,6 +139,10 @@
                         <button class="dock-btn" id="btnOpenPortfolio" type="button" title="Xem danh mục tài sản">
                             <span class="dock-icon">📊</span>
                             <span class="dock-label">Tài Sản</span>
+                        </button>
+                        <button class="dock-btn" id="btnOpenHistory" type="button" title="Xem lịch sử giao dịch & trừ tiền">
+                            <span class="dock-icon">📜</span>
+                            <span class="dock-label">Lịch Sử</span>
                         </button>
                         <button class="dock-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">
                             <span class="dock-icon">📖</span>
@@ -280,27 +296,42 @@
     </div>
 
     <!-- ========================================================
-         MODAL 3: THẺ CƠ HỘI & KHÍ VẬN (CHANCE & COMMUNITY CHEST)
+         MODAL 3: RÚT THẺ CƠ HỘI & THỬ THÁCH (3D CARD FLIP ANIMATION - KHÔNG LAG)
          ======================================================== -->
     <div class="game-modal-overlay" id="modalLoveCard" aria-hidden="true">
-        <div class="game-modal-card card-chance-box">
-            <div class="chance-card-icon" id="chanceIcon">❓</div>
-            <span class="love-card-tag" id="chanceTypeTag">THẺ CƠ HỘI</span>
-            <h3 class="love-card-headline" id="loveCardTitle">Trúng Thưởng Xổ Số</h3>
-            <div class="love-card-paper">
-                <p class="love-card-content" id="loveCardContent">
-                    Ngân hàng chi trả tiền thưởng cổ tức kinh doanh cho bạn.
-                </p>
-                <div class="love-card-reward" id="loveCardReward">+200M VNĐ</div>
-            </div>
-            <div class="game-modal-actions">
-                <button class="modal-btn-confirm" id="btnAcceptLoveCard" type="button">Xác nhận</button>
+        <div class="card-draw-stage" id="cardDrawStage">
+            <div class="card-draw-flipper" id="cardDrawFlipper">
+                <!-- Mặt úp ban đầu (Card Back) -->
+                <div class="card-side card-back" id="cardFaceBack">
+                    <div class="card-back-ornament"></div>
+                    <div class="card-back-emblem" id="cardBackEmblem">❓</div>
+                    <div class="card-back-type" id="cardBackTitle">THẺ CƠ HỘI</div>
+                    <div class="card-back-hint">Đang mở thẻ bí mật... ✨</div>
+                </div>
+
+                <!-- Mặt ngửa sau khi lật 180 độ (Card Front) -->
+                <div class="card-side card-front" id="cardFaceFront">
+                    <div class="card-front-top">
+                        <span class="love-card-tag" id="chanceTypeTag">THẺ CƠ HỘI</span>
+                        <div class="chance-card-icon" id="chanceIcon">❓</div>
+                    </div>
+                    <h3 class="love-card-headline" id="loveCardTitle">Trúng Thưởng Xổ Số</h3>
+                    <div class="love-card-paper">
+                        <p class="love-card-content" id="loveCardContent">
+                            Ngân hàng chi trả tiền thưởng cổ tức kinh doanh cho bạn.
+                        </p>
+                        <div class="love-card-reward" id="loveCardReward">+200M VNĐ</div>
+                    </div>
+                    <div class="game-modal-actions">
+                        <button class="modal-btn-confirm" id="btnAcceptLoveCard" type="button">Chấp Nhận & Tiếp Tục ✨</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- ========================================================
-         MODAL 4: VÀO TÙ & XỬ LÝ NHÀ TÙ (JAIL / BAILOUT)
+         MODAL 4: VÀO TÙ & XỬ LÝ NHÀ TÙ (JAIL / BAILOUT / DÙNG THẺ ÂN XÁ / ĐỔ ĐÔI)
          ======================================================== -->
     <div class="game-modal-overlay" id="modalJail" aria-hidden="true">
         <div class="game-modal-card jail-card">
@@ -311,12 +342,94 @@
                 Bạn bị giam giữ hành chính. Lựa chọn cách xử lý để tiếp tục ván đấu:
             </p>
             <div class="jail-actions-list">
+                <button class="jail-opt-btn jail-opt-card" id="btnUseJailCard" type="button" style="display:none;">
+                    <span>🎫 Dùng <strong>Thẻ Ân Xá Ra Tù</strong> (Tự do ngay lập tức)</span>
+                </button>
+                <button class="jail-opt-btn" id="btnTryRollJail" type="button">
+                    <span>🎲 Lắc xúc xắc đôi (Lắc ra <strong>cặp đôi</strong> để được thả tự do!)</span>
+                </button>
                 <button class="jail-opt-btn" id="btnPayBail" type="button">
                     <span>💵 Nộp tiền bảo lãnh <strong>50M</strong> để ra tù ngay lập tức</span>
                 </button>
-                <button class="jail-opt-btn" id="btnTryRollJail" type="button">
-                    <span>🎲 Đổ xúc xắc (Nếu đổ từ 4 nút trở lên được thả tự do)</span>
-                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 4.1: THÔNG BÁO NỘP TIỀN THUÊ ĐẤT (RENT NOTICE MODAL)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalRentNotice" aria-hidden="true">
+        <div class="game-modal-card rent-notice-card">
+            <div class="rent-modal-header">
+                <span class="rent-modal-icon">💸</span>
+                <h3 class="game-modal-title">Nộp Tiền Thuê Đất!</h3>
+                <p class="game-modal-desc" id="rentNoticeSub">Bạn vừa dừng chân tại bất động sản của đối thủ</p>
+            </div>
+            
+            <div class="rent-property-display" id="rentPropertyDisplay">
+                <!-- Nội dung ô đất, cấp nhà và tiền thuê được sinh từ JS -->
+            </div>
+
+            <div class="rent-transfer-box">
+                <div class="rent-transfer-col" id="rentPayerBox">
+                    <span class="transfer-role">Người trả</span>
+                    <strong class="transfer-name" id="rentPayerName">Huy</strong>
+                    <span class="transfer-diff negative" id="rentPayerDiff">-120M</span>
+                </div>
+                <div class="rent-transfer-arrow" aria-hidden="true">➡️</div>
+                <div class="rent-transfer-col" id="rentReceiverBox">
+                    <span class="transfer-role">Chủ đất</span>
+                    <strong class="transfer-name" id="rentReceiverName">Hiền</strong>
+                    <span class="transfer-diff positive" id="rentReceiverDiff">+120M</span>
+                </div>
+            </div>
+
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnConfirmPayRent" type="button">Đã Hiểu & Nộp Tiền</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 4.2: LỊCH SỬ GIAO DỊCH & DÒNG TIỀN (TRANSACTION HISTORY LOG)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalHistoryLog" aria-hidden="true">
+        <div class="game-modal-card history-card">
+            <div class="history-card-header">
+                <span class="history-emblem">📜</span>
+                <div>
+                    <h3 class="game-modal-title">Lịch Sử Giao Dịch & Dòng Tiền</h3>
+                    <p class="history-sub">Theo dõi chi tiết tất cả các khoản thu chi, tiền thuê và nộp phạt</p>
+                </div>
+                <button class="modal-close-corner" id="btnCloseHistoryCorner" type="button" aria-label="Đóng">&times;</button>
+            </div>
+
+            <div class="history-list-wrapper" id="historyListWrapper">
+                <!-- Danh sách lịch sử giao dịch sinh tự động từ games.js -->
+            </div>
+
+            <div class="game-modal-actions">
+                <button class="modal-btn-cancel" id="btnCloseHistory" type="button">Đóng Bảng Lịch Sử</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 4.3: ĐỔI TÊN NGƯỜI CHƠI (EDIT PLAYER NAME MODAL)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalEditPlayerName" aria-hidden="true">
+        <div class="game-modal-card edit-name-card">
+            <div class="edit-name-header">
+                <span class="edit-name-icon">✏️</span>
+                <h3 class="game-modal-title">Đổi Tên Người Chơi</h3>
+            </div>
+            <p class="game-modal-desc">Nhập tên mới hiển thị trên bàn cờ và trong toàn bộ ván đấu:</p>
+            <div class="edit-name-input-row">
+                <input type="text" class="edit-name-input" id="inputEditPlayerName" maxlength="15" placeholder="Nhập tên mới...">
+            </div>
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnSavePlayerName" type="button">Lưu Tên Mới</button>
+                <button class="modal-btn-cancel" id="btnCancelEditName" type="button">Hủy Bỏ</button>
             </div>
         </div>
     </div>
@@ -382,25 +495,30 @@
     </div>
 
     <!-- ========================================================
-         MODAL 8: HƯỚNG DẪN LUẬT CHƠI MONOPOLY CHUẨN
+         MODAL 8: HƯỚNG DẪN LUẬT CHƠI MONOPOLY CHUẨN (10x10 - XÚC XẮC ĐÔI)
          ======================================================== -->
     <div class="game-modal-overlay" id="modalHelp" aria-hidden="true">
         <div class="game-modal-card help-card">
             <div class="game-modal-emoji">📖</div>
-            <h3 class="game-modal-title">Luật Chơi Cờ Tỷ Phú Việt Nam</h3>
+            <h3 class="game-modal-title">Luật Chơi Cờ Tỷ Phú Việt Nam (10x10)</h3>
             <div class="help-content-scroll">
-                <p><strong>1. Mục tiêu:</strong> Tích lũy tài sản, đầu tư bất động sản và trở thành Tỷ Phú độc quyền lớn nhất trên bản đồ Việt Nam.</p>
-                <p><strong>2. Tiền khởi điểm:</strong> Mỗi người chơi bắt đầu với <strong>1,500M VNĐ</strong> tiền mặt.</p>
-                <p><strong>3. Mua & Xây dựng Bất động sản:</strong></p>
+                <p><strong>1. Bản đồ 10x10 & Xúc xắc đôi:</strong> Bản đồ gồm 36 ô địa danh khắp Việt Nam. Người chơi lắc <strong>cặp xúc xắc đôi 3D</strong> để di chuyển tổng số bước (từ 2 đến 12). Nếu đổ được <strong>cặp đôi</strong> (ví dụ 3-3, 5-5), bạn được <strong>tung thêm 1 lượt</strong>!</p>
+                <p><strong>2. Tiền khởi điểm:</strong> Mỗi người chơi khởi đầu với <strong>1,500M VNĐ</strong> tiền mặt.</p>
+                <p><strong>3. Mua đất & Xây công trình:</strong></p>
                 <ul>
-                    <li>Khi dừng chân tại ô đất chưa ai mua: Mua quyền sở hữu đất (Cấp 1: 1 Nhà 🏠).</li>
-                    <li>Khi đi vào ô đất do chính mình sở hữu: Chi tiền để nâng cấp lên <strong>2 Nhà (🏡)</strong> hoặc <strong>Khách Sạn (🏨)</strong> để tăng tiền thuê đất khi đối thủ ghé thăm!</li>
+                    <li>Khi dừng chân tại ô đất trống: Mua quyền sở hữu đất (Cấp 0 - Đất trống).</li>
+                    <li>Khi dừng chân tại đất của mình (hoặc bấm vào ô đất của mình): Xây nâng cấp lên <strong>1 Nhà Phố 🏠</strong>, <strong>2 Nhà Phố 🏠🏠</strong>, hoặc <strong>Khách Sạn Cao Cấp 🏨</strong> để tăng vọt tiền thuê!</li>
                 </ul>
-                <p><strong>4. Tiền thuê đất:</strong> Khi đối thủ bước vào ô đất của bạn, đối thủ phải trả tiền thuê đất theo cấp độ xây dựng tương ứng.</p>
-                <p><strong>5. Nhà Tù (⛓️) & Bắt Vào Tù (🚔):</strong> Dừng chân tại ô "Vào Tù" sẽ bị áp giải đến buồng giam. Có thể nộp tiền bảo lãnh 50M hoặc đổ xúc xắc từ 4 nút trở lên để ra tù.</p>
-                <p><strong>6. Bãi Đỗ Xe Miễn Phí (🅿️):</strong> Nơi gom tiền phạt và tiền thuế trong suốt ván đấu. Người chơi dừng chân tại đây sẽ ăn trọn toàn bộ hũ tiền thưởng!</p>
-                <p><strong>7. Sân Bay Quốc Tế (✈️):</strong> Mua vé 50M để bay tốc hành đến bất kỳ ô chiến lược nào trên bàn cờ.</p>
-                <p><strong>8. Phá sản & Thắng cuộc:</strong> Khi người chơi hết tiền mặt và không đủ khả năng thanh toán nợ thuê đất/thuế -> Bị loại / Phá sản! Người trụ lại cuối cùng giành chiến thắng.</p>
+                <p><strong>4. Nộp tiền thuê đất:</strong> Khi dừng chân tại bất động sản của đối thủ, bạn bắt buộc phải trả tiền thuê đất theo cấp độ công trình hiện hữu (Đất trống &lt; 1 Nhà &lt; 2 Nhà &lt; Khách Sạn). Thông báo trừ tiền sẽ hiện ra và được lưu vào <strong>Lịch Sử Giao Dịch</strong>.</p>
+                <p><strong>5. Nhà Tù & Cách Ra Tù:</strong></p>
+                <ul>
+                    <li><strong>Dùng Thẻ Ân Xá:</strong> Nếu trước đó bốc được Thẻ Ân Xá Ra Tù (lưu trong kho), bạn có thể dùng ngay để tự do!</li>
+                    <li><strong>Đổ xúc xắc đôi:</strong> Lắc xúc xắc đôi, nếu ra 2 viên cùng số sẽ được thả tự do và tiến bước ngay.</li>
+                    <li><strong>Nộp tiền bảo lãnh 50M:</strong> Nộp 50M để ra tù bất kỳ lúc nào. Sau 3 lượt không đổ được đôi, tự động nộp 50M để ra tù.</li>
+                </ul>
+                <p><strong>6. Ô Thử Thách (⚡) & Cơ Hội (❓):</strong> Lật mở các thẻ bất ngờ với hoạt ảnh 3D chân thực: nhận thưởng, chia cổ tức, hoặc đối mặt thử thách như lùi ô, nộp thuế, tạm dừng đi 2 lượt.</p>
+                <p><strong>7. Bãi Đỗ Xe Miễn Phí (🅿️):</strong> Thu gom toàn bộ các khoản thuế và phạt. Dừng chân tại đây sẽ ăn trọn Hũ Tiền Thưởng!</p>
+                <p><strong>8. Phá sản:</strong> Khi tài sản âm và không đủ tiền thanh toán thuê đất hoặc nộp phạt, người chơi sẽ phá sản. Người cuối cùng còn trụ lại là Nhà Vô Địch Tỷ Phú!</p>
             </div>
             <div class="game-modal-actions">
                 <button class="modal-btn-confirm" id="btnCloseHelp" type="button">Đã hiểu luật chơi</button>

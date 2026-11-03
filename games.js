@@ -1,15 +1,16 @@
 /**
  * ========================================================
- * CỜ TỶ PHÚ VIỆT NAM (MONOPOLY VIETNAM EDITION)
- * Game chiến thuật bàn cờ bất động sản & đầu tư tài chính chuẩn Monopoly
- * Lưới 7x7 (24 ô), xúc xắc 3D chân thực, hiệu ứng âm thanh sống động
- * Hỗ trợ 2, 3, 4 người chơi & Đấu với AI thông minh
+ * CỜ TỶ PHÚ VIỆT NAM (MONOPOLY VIETNAM EDITION 10x10)
+ * Bàn cờ 10x10 (36 ô địa danh chiến thuật khắp Việt Nam)
+ * Xúc xắc đôi 3D chân thực, hoạt ảnh mở thẻ 3D không lag
+ * Hệ thống kho thẻ Ân Xá, ô Thử Thách & Cơ Hội, Lịch sử giao dịch dòng tiền
+ * Đổi tên người chơi linh hoạt, điều chỉnh luật bất động sản minh bạch
  * ========================================================
  */
 
-// 1. DANH SÁCH 24 Ô BÀN CỜ MONOPOLY VIỆT NAM (7x7 GRID)
+// 1. DANH SÁCH 36 Ô BÀN CỜ MONOPOLY VIỆT NAM (10x10 GRID)
 const VIETNAM_TILES = [
-    // --- CẠNH TRÊN: TỪ TRÁI QUA PHẢI (ROW 1: COL 1 ĐẾN 7) ---
+    // --- CẠNH TRÊN: ROW 1 (Cols 1 -> 10) ---
     {
         id: 0, row: 1, col: 1,
         name: "Ga Hà Nội",
@@ -19,9 +20,9 @@ const VIETNAM_TILES = [
         regionName: "Bắt Đầu",
         type: "start",
         price: 0,
-        rent: [0, 0, 0],
+        rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Điểm xuất phát trên bàn cờ. Mỗi lần hoàn thành một vòng và đi qua đây nhận ngay 200M VNĐ tiền trợ cấp từ Ngân hàng.",
+        desc: "Điểm xuất phát trên bàn cờ. Mỗi lần đi qua nhận ngay 200M VNĐ tiền trợ cấp từ Ngân hàng.",
         owner: null,
         level: 0
     },
@@ -34,14 +35,29 @@ const VIETNAM_TILES = [
         regionName: "Bắc Bộ",
         type: "property",
         price: 100,
-        rent: [20, 60, 140],
+        rent: [15, 45, 110, 260],
         upgradeCost: 50,
-        desc: "Trái tim của Thủ đô ngàn năm văn hiến. Vị trí đắc địa với Tháp Rùa và cầu Thê Húc, giá trị đất tăng trưởng đều.",
+        desc: "Trái tim Thủ đô ngàn năm văn hiến. Vị trí đắc địa với Tháp Rùa và cầu Thê Húc.",
         owner: null,
         level: 0
     },
     {
         id: 2, row: 1, col: 3,
+        name: "Thử Thách",
+        subtitle: "Vượt Trở Ngại",
+        icon: "⚡",
+        region: "special",
+        regionName: "Thử Thách",
+        type: "challenge",
+        price: 0,
+        rent: [0, 0, 0, 0],
+        upgradeCost: 0,
+        desc: "Đối mặt thử thách bất ngờ: lùi ô, nộp thuế, tu sửa nhà hoặc tạm dừng di chuyển.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 3, row: 1, col: 4,
         name: "Vịnh Hạ Long",
         subtitle: "Quảng Ninh",
         icon: "⛵",
@@ -49,14 +65,59 @@ const VIETNAM_TILES = [
         regionName: "Bắc Bộ",
         type: "property",
         price: 120,
-        rent: [25, 75, 170],
+        rent: [20, 60, 140, 320],
         upgradeCost: 60,
-        desc: "Kỳ quan thiên nhiên thế giới với hàng nghìn hòn đảo đá vôi kỳ vĩ soi bóng xuống làn nước xanh ngọc bích.",
+        desc: "Kỳ quan thiên nhiên thế giới với hàng ngàn đảo đá vôi kỳ vĩ soi bóng làn nước ngọc bích.",
         owner: null,
         level: 0
     },
     {
-        id: 3, row: 1, col: 4,
+        id: 4, row: 1, col: 5,
+        name: "Thuế Doanh Thu",
+        subtitle: "Nộp Ngân Sách",
+        icon: "💰",
+        region: "special",
+        regionName: "Thuế",
+        type: "tax",
+        price: 100,
+        rent: [0, 0, 0, 0],
+        upgradeCost: 0,
+        desc: "Quyết toán thuế kinh doanh hàng năm: Nộp ngay 100M VNĐ vào Hũ Bãi Đỗ Xe.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 5, row: 1, col: 6,
+        name: "Sân Bay Nội Bài",
+        subtitle: "Cửa Ngõ Phía Bắc",
+        icon: "✈️",
+        region: "transport",
+        regionName: "Giao Thông",
+        type: "transport",
+        price: 200,
+        rent: [40, 80, 160, 350],
+        upgradeCost: 100,
+        desc: "Cảng hàng không quốc tế sầm uất. Thu phí dịch vụ và cho phép bay đến bất kỳ ô nào.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 6, row: 1, col: 7,
+        name: "Đỉnh Fansipan",
+        subtitle: "Lào Cai",
+        icon: "🏔️",
+        region: "northwest",
+        regionName: "Tây Bắc",
+        type: "property",
+        price: 150,
+        rent: [25, 75, 180, 400],
+        upgradeCost: 75,
+        desc: "Nóc nhà Đông Dương ở độ cao 3.143m ngập tràn biển mây bồng bềnh.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 7, row: 1, col: 8,
         name: "Cơ Hội",
         subtitle: "Rút Thẻ May Mắn",
         icon: "❓",
@@ -64,29 +125,14 @@ const VIETNAM_TILES = [
         regionName: "Cơ Hội",
         type: "chance",
         price: 0,
-        rent: [0, 0, 0],
+        rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Rút một thẻ Cơ Hội bất ngờ: Thưởng lớn, chia cổ tức hoặc nộp phạt hành chính.",
+        desc: "Rút thẻ Cơ Hội bất ngờ: trúng số, chia cổ tức hoặc nhận thẻ ân xá ra tù lưu vào kho.",
         owner: null,
         level: 0
     },
     {
-        id: 4, row: 1, col: 5,
-        name: "Đỉnh Fansipan",
-        subtitle: "Sa Pa",
-        icon: "🏔️",
-        region: "northwest",
-        regionName: "Tây Bắc",
-        type: "property",
-        price: 150,
-        rent: [35, 100, 220],
-        upgradeCost: 75,
-        desc: "Nóc nhà Đông Dương ở độ cao 3.143m. Khu du lịch trên mây đem lại dòng tiền tham quan đều đặn.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 5, row: 1, col: 6,
+        id: 8, row: 1, col: 9,
         name: "Tràng An",
         subtitle: "Ninh Bình",
         icon: "🚣",
@@ -94,291 +140,426 @@ const VIETNAM_TILES = [
         regionName: "Tây Bắc",
         type: "property",
         price: 170,
-        rent: [40, 115, 250],
+        rent: [30, 90, 210, 460],
         upgradeCost: 85,
-        desc: "Di sản thế giới với cảnh sắc non nước hữu tình, địa bàn bất động sản sinh thái cực kỳ tiềm năng.",
+        desc: "Di sản văn hóa và thiên nhiên thế giới với cảnh sắc non nước hữu tình.",
         owner: null,
         level: 0
     },
     {
-        id: 6, row: 1, col: 7,
+        id: 9, row: 1, col: 10,
         name: "Vào Tù",
-        subtitle: "Cảnh Sát Bắt",
+        subtitle: "Cảnh Sát Áp Giải",
         icon: "🚔",
         region: "special",
         regionName: "Vào Tù",
         type: "go_to_jail",
         price: 0,
-        rent: [0, 0, 0],
+        rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Bị lực lượng trật tự giao thông áp giải thẳng đến Nhà Tù! Bạn không được nhận trợ cấp 200M và phải giải quyết bảo lãnh.",
+        desc: "Bị lực lượng trật tự áp giải thẳng đến buồng giam! Phải đổ xúc xắc đôi hoặc dùng Thẻ Ân Xá.",
         owner: null,
         level: 0
     },
 
-    // --- CẠNH PHẢI: TỪ TRÊN XUỐNG DƯỚI (ROW 2 ĐẾN 7: COL 7) ---
+    // --- CẠNH PHẢI: COL 10 (Rows 2 -> 10) ---
     {
-        id: 7, row: 2, col: 7,
+        id: 10, row: 2, col: 10,
+        name: "Động Phong Nha",
+        subtitle: "Quảng Bình",
+        icon: "🦇",
+        region: "central",
+        regionName: "Bắc Trung Bộ",
+        type: "property",
+        price: 190,
+        rent: [35, 105, 240, 520],
+        upgradeCost: 95,
+        desc: "Kỳ quan đệ nhất động với thạch nhũ tráng lệ lung linh dưới lòng đất.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 11, row: 3, col: 10,
+        name: "Điện Lực VN",
+        subtitle: "Năng Lượng Quốc Gia",
+        icon: "⚡",
+        region: "utility",
+        regionName: "Dịch Vụ",
+        type: "utility",
+        price: 150,
+        rent: [30, 70, 150, 320],
+        upgradeCost: 80,
+        desc: "Tập đoàn Điện lực quốc gia, thu phí tiền điện kinh doanh theo lượt đổ.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 12, row: 4, col: 10,
         name: "Cố Đô Huế",
         subtitle: "Thừa Thiên Huế",
         icon: "🏯",
         region: "central",
-        regionName: "Miền Trung",
+        regionName: "Bắc Trung Bộ",
         type: "property",
-        price: 200,
-        rent: [50, 140, 300],
-        upgradeCost: 100,
-        desc: "Kinh thành triều Nguyễn với bề dày lịch sử vàng son. Bất động sản văn hóa có giá trị bảo tồn và tiền thuê cao.",
+        price: 210,
+        rent: [40, 120, 280, 580],
+        upgradeCost: 105,
+        desc: "Quần thể di tích Kinh thành Huế trầm mặc cổ kính bên bờ sông Hương.",
         owner: null,
         level: 0
     },
     {
-        id: 8, row: 3, col: 7,
+        id: 13, row: 5, col: 10,
+        name: "Thử Thách",
+        subtitle: "Vượt Trở Ngại",
+        icon: "⚡",
+        region: "special",
+        regionName: "Thử Thách",
+        type: "challenge",
+        price: 0,
+        rent: [0, 0, 0, 0],
+        upgradeCost: 0,
+        desc: "Đối mặt thử thách bất ngờ.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 14, row: 6, col: 10,
         name: "Cầu Vàng",
         subtitle: "Bà Nà Hills",
         icon: "🌉",
-        region: "central",
-        regionName: "Miền Trung",
+        region: "danang",
+        regionName: "Nam Trung Bộ",
         type: "property",
-        price: 220,
-        rent: [55, 155, 330],
-        upgradeCost: 110,
-        desc: "Biểu tượng du lịch hiện đại nổi tiếng toàn cầu. Lưu lượng khách tham quan liên tục đem về doanh thu khổng lồ.",
+        price: 230,
+        rent: [45, 135, 310, 640],
+        upgradeCost: 115,
+        desc: "Kỳ quan cầu Vàng nâng đỡ bởi bàn tay khổng lồ giữa đỉnh núi Chúa.",
         owner: null,
         level: 0
     },
     {
-        id: 9, row: 4, col: 7,
-        name: "Công Ty Điện Lực",
-        subtitle: "Dịch Vụ Tiện Ích",
-        icon: "⚡",
-        region: "special",
-        regionName: "Tiện Ích",
-        type: "utility",
-        price: 150,
-        rent: [0, 0, 0],
-        upgradeCost: 0,
-        desc: "Cung cấp điện lưới quốc gia. Người đi vào phải trả tiền điện bằng số nút xúc xắc x 15M VNĐ cho chủ sở hữu.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 10, row: 5, col: 7,
+        id: 15, row: 7, col: 10,
         name: "Phố Cổ Hội An",
         subtitle: "Quảng Nam",
         icon: "🏮",
-        region: "coastal",
-        regionName: "Duyên Hải",
+        region: "danang",
+        regionName: "Nam Trung Bộ",
         type: "property",
         price: 250,
-        rent: [65, 180, 380],
+        rent: [50, 150, 350, 720],
         upgradeCost: 125,
-        desc: "Thương cảng cổ phồn hoa với những ngôi nhà cổ tường vàng hoa giấy. Điểm kinh doanh dịch vụ đắt giá bậc nhất.",
+        desc: "Di sản văn hóa thương cảng đèn lồng lung linh lãng mạn bên sông Hoài.",
         owner: null,
         level: 0
     },
     {
-        id: 11, row: 6, col: 7,
+        id: 16, row: 8, col: 10,
+        name: "Cơ Hội",
+        subtitle: "Rút Thẻ May Mắn",
+        icon: "❓",
+        region: "special",
+        regionName: "Cơ Hội",
+        type: "chance",
+        price: 0,
+        rent: [0, 0, 0, 0],
+        upgradeCost: 0,
+        desc: "Rút thẻ Cơ Hội may mắn.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 17, row: 9, col: 10,
         name: "Biển Mỹ Khê",
         subtitle: "Đà Nẵng",
         icon: "🏖️",
-        region: "coastal",
-        regionName: "Duyên Hải",
+        region: "danang",
+        regionName: "Nam Trung Bộ",
         type: "property",
         price: 270,
-        rent: [70, 195, 410],
+        rent: [55, 165, 380, 780],
         upgradeCost: 135,
-        desc: "Một trong sáu bãi biển quyến rũ nhất hành tinh. Dải đất vàng ven biển luôn là mục tiêu săn đón của các tập đoàn khách sạn.",
+        desc: "Bãi biển quyến rũ hàng đầu hành tinh với dải cát trắng mịn và biển trong vắt.",
         owner: null,
         level: 0
     },
     {
-        id: 12, row: 7, col: 7,
+        id: 18, row: 10, col: 10,
         name: "Bãi Đỗ Xe",
-        subtitle: "Hũ Thưởng",
+        subtitle: "Hũ Thưởng Miễn Phí",
         icon: "🅿️",
         region: "special",
-        regionName: "Đỗ Xe",
+        regionName: "Hũ Thưởng",
         type: "parking",
         price: 0,
-        rent: [0, 0, 0],
+        rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Toàn bộ tiền thuế và tiền phạt trong suốt ván đấu được gom vào đây, người dừng chân sẽ ăn trọn hũ tiền thưởng!",
+        desc: "Trạm dừng chân miễn phí an toàn! Nhận trọn vẹn toàn bộ Hũ tiền thưởng tích lũy.",
         owner: null,
         level: 0
     },
 
-    // --- CẠNH DƯỚI: TỪ PHẢI QUA TRÁI (ROW 7: COL 6 XUỐNG 1) ---
+    // --- CẠNH DƯỚI: ROW 10 (Cols 9 -> 1) ---
     {
-        id: 13, row: 7, col: 6,
-        name: "Đà Lạt",
-        subtitle: "Lâm Đồng",
-        icon: "🌲",
-        region: "highlands",
-        regionName: "Tây Nguyên",
-        type: "property",
-        price: 300,
-        rent: [80, 220, 460],
-        upgradeCost: 150,
-        desc: "Thành phố sương mù và ngàn hoa thơ mộng. Khu biệt thự cổ điển tại đây luôn đạt tỷ lệ lấp đầy phòng cực cao.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 14, row: 7, col: 5,
-        name: "Buôn Ma Thuột",
-        subtitle: "Đắk Lắk",
-        icon: "☕",
-        region: "highlands",
-        regionName: "Tây Nguyên",
-        type: "property",
-        price: 320,
-        rent: [85, 235, 490],
-        upgradeCost: 160,
-        desc: "Thủ phủ cà phê lớn nhất Đông Nam Á. Đất trồng và cơ sở chế biến nông sản xuất khẩu có giá trị thương mại lớn.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 15, row: 7, col: 4,
-        name: "Khí Vận",
-        subtitle: "Rút Thẻ May Mắn",
-        icon: "📦",
-        region: "special",
-        regionName: "Khí Vận",
-        type: "chest",
-        price: 0,
-        rent: [0, 0, 0],
-        upgradeCost: 0,
-        desc: "Rút thẻ Khí Vận cộng đồng: Trợ cấp kinh tế, sửa chữa nhà cửa hoặc nhận quà tặng tài chính.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 16, row: 7, col: 3,
+        id: 19, row: 10, col: 9,
         name: "Vịnh Nha Trang",
         subtitle: "Khánh Hòa",
         icon: "🌊",
-        region: "south_coast",
+        region: "coastal",
         regionName: "Nam Trung Bộ",
         type: "property",
-        price: 350,
-        rent: [95, 260, 540],
-        upgradeCost: 175,
-        desc: "Vịnh biển thiên đường với chuỗi resort 5 sao sang trọng. Tiền thuê đất tại đây là gánh nặng lớn cho đối thủ.",
+        price: 290,
+        rent: [60, 180, 410, 840],
+        upgradeCost: 145,
+        desc: "Thiên đường du lịch biển đảo rực rỡ với rạn san hô lộng lẫy.",
         owner: null,
         level: 0
     },
     {
-        id: 17, row: 7, col: 2,
+        id: 20, row: 10, col: 8,
+        name: "Thử Thách",
+        subtitle: "Vượt Trở Ngại",
+        icon: "⚡",
+        region: "special",
+        regionName: "Thử Thách",
+        type: "challenge",
+        price: 0,
+        rent: [0, 0, 0, 0],
+        upgradeCost: 0,
+        desc: "Đối mặt thử thách bất ngờ.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 21, row: 10, col: 7,
+        name: "Đà Lạt",
+        subtitle: "Lâm Đồng",
+        icon: "🌸",
+        region: "highland",
+        regionName: "Tây Nguyên",
+        type: "property",
+        price: 310,
+        rent: [65, 195, 450, 900],
+        upgradeCost: 155,
+        desc: "Xứ sở sương mù ngàn hoa, bất động sản nghỉ dưỡng cao nguyên đắt giá.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 22, row: 10, col: 6,
+        name: "Cấp Nước Sạch",
+        subtitle: "Dịch Vụ Đô Thị",
+        icon: "💧",
+        region: "utility",
+        regionName: "Dịch Vụ",
+        type: "utility",
+        price: 160,
+        rent: [35, 80, 170, 360],
+        upgradeCost: 80,
+        desc: "Nhà máy xử lý và cung cấp nước sinh hoạt, thu phí theo biểu giá dịch vụ.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 23, row: 10, col: 5,
+        name: "Buôn Ma Thuột",
+        subtitle: "Đắk Lắk",
+        icon: "☕",
+        region: "highland",
+        regionName: "Tây Nguyên",
+        type: "property",
+        price: 330,
+        rent: [70, 210, 480, 960],
+        upgradeCost: 165,
+        desc: "Thủ phủ cà phê đất đỏ bazan bạt ngàn với văn hóa cồng chiêng đặc sắc.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 24, row: 10, col: 4,
+        name: "Cơ Hội",
+        subtitle: "Rút Thẻ May Mắn",
+        icon: "❓",
+        region: "special",
+        regionName: "Cơ Hội",
+        type: "chance",
+        price: 0,
+        rent: [0, 0, 0, 0],
+        upgradeCost: 0,
+        desc: "Rút thẻ Cơ Hội may mắn.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 25, row: 10, col: 3,
+        name: "Bãi Sau Vũng Tàu",
+        subtitle: "Bà Rịa - Vũng Tàu",
+        icon: "🏖️",
+        region: "southeast",
+        regionName: "Đông Nam Bộ",
+        type: "property",
+        price: 350,
+        rent: [75, 225, 510, 1020],
+        upgradeCost: 175,
+        desc: "Bờ biển nghỉ dưỡng sôi động thu hút hàng triệu du khách mỗi dịp cuối tuần.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 26, row: 10, col: 2,
         name: "Đồi Cát Mũi Né",
         subtitle: "Bình Thuận",
         icon: "🏜️",
-        region: "south_coast",
-        regionName: "Nam Trung Bộ",
+        region: "southeast",
+        regionName: "Đông Nam Bộ",
         type: "property",
         price: 370,
-        rent: [100, 280, 580],
+        rent: [80, 240, 540, 1080],
         upgradeCost: 185,
-        desc: "Tiểu sa mạc ven biển độc đáo của Việt Nam. Điểm du lịch thể thao mạo hiểm thu hút nhiều dòng tiền đầu tư giải trí.",
+        desc: "Tiểu sa mạc đồi cát bay rực rỡ với các khu resort ven biển đẳng cấp.",
         owner: null,
         level: 0
     },
     {
-        id: 18, row: 7, col: 1,
+        id: 27, row: 10, col: 1,
         name: "Nhà Tù",
-        subtitle: "Thăm Tù / Bị Giam",
+        subtitle: "Thăm Tù / Tạm Giam",
         icon: "⛓️",
         region: "special",
         regionName: "Nhà Tù",
         type: "jail",
         price: 0,
-        rent: [0, 0, 0],
+        rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Nếu chỉ đi qua: Thăm tù bình an vô sự. Nếu bị bắt vào tù: Phải nộp 50M bảo lãnh hoặc tung xúc xắc từ 4 điểm trở lên để thoát.",
+        desc: "Đi qua đây: Thăm tù an toàn. Nếu bị áp giải vào tù: Cần đổ xúc xắc đôi hoặc dùng Thẻ Ân Xá.",
         owner: null,
         level: 0
     },
 
-    // --- CẠNH TRÁI: TỪ DƯỚI LÊN TRÊN (ROW 6 XUỐNG 2: COL 1) ---
+    // --- CẠNH TRÁI: COL 1 (Rows 9 -> 2) ---
     {
-        id: 19, row: 6, col: 1,
-        name: "Sân Bay",
-        subtitle: "Cảng Hàng Không",
-        icon: "✈️",
-        region: "special",
-        regionName: "Sân Bay",
-        type: "airport",
-        price: 0,
-        rent: [0, 0, 0],
-        upgradeCost: 0,
-        desc: "Dịch vụ bay tốc hành. Chỉ với 50M tiền vé, bạn có quyền bay thẳng đến bất kỳ ô chiến lược nào trên toàn bản đồ!",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 20, row: 5, col: 1,
+        id: 28, row: 9, col: 1,
         name: "Bến Ninh Kiều",
         subtitle: "Cần Thơ",
         icon: "🚢",
-        region: "south",
-        regionName: "Nam Bộ",
+        region: "mekong",
+        regionName: "Tây Nam Bộ",
         type: "property",
-        price: 400,
-        rent: [110, 310, 640],
-        upgradeCost: 200,
-        desc: "Thủ phủ miền Tây sông nước bên dòng sông Hậu hiền hòa. Trung tâm giao thương sầm uất với chợ nổi và bến cảng tấp nập.",
+        price: 390,
+        rent: [85, 255, 570, 1140],
+        upgradeCost: 195,
+        desc: "Biểu tượng miền Tây Đô sông nước thanh bình, gạo trắng nước trong.",
         owner: null,
         level: 0
     },
     {
-        id: 21, row: 4, col: 1,
+        id: 29, row: 8, col: 1,
+        name: "Tân Sơn Nhất",
+        subtitle: "Cửa Ngõ Phương Nam",
+        icon: "🛫",
+        region: "transport",
+        regionName: "Giao Thông",
+        type: "transport",
+        price: 200,
+        rent: [40, 80, 160, 350],
+        upgradeCost: 100,
+        desc: "Cảng hàng không quốc tế nhộn nhịp bậc nhất cả nước, kết nối toàn cầu.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 30, row: 7, col: 1,
+        name: "Rừng Trà Sư",
+        subtitle: "An Giang",
+        icon: "🛶",
+        region: "mekong",
+        regionName: "Tây Nam Bộ",
+        type: "property",
+        price: 410,
+        rent: [90, 270, 600, 1200],
+        upgradeCost: 205,
+        desc: "Hệ sinh thái rừng tràm ngập nước mùa bèo xanh phủ ngút ngàn tuyệt mỹ.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 31, row: 6, col: 1,
         name: "Chợ Bến Thành",
         subtitle: "TP. Hồ Chí Minh",
-        icon: "🏢",
-        region: "south",
-        regionName: "Nam Bộ",
+        icon: "🏬",
+        region: "saigon",
+        regionName: "Sài Gòn",
         type: "property",
         price: 430,
-        rent: [120, 340, 700],
+        rent: [95, 285, 630, 1260],
         upgradeCost: 215,
-        desc: "Biểu tượng kinh tế hàng đầu tại trung tâm Quận 1 Sài Gòn. Giá đất kim cương với dòng tiền thuê mặt bằng siêu khủng.",
+        desc: "Biểu tượng thương mại lịch sử trăm năm giữa lòng Sài Gòn phồn hoa.",
         owner: null,
         level: 0
     },
     {
-        id: 22, row: 3, col: 1,
-        name: "Thuế Thu Nhập",
-        subtitle: "Nộp Ngân Khố",
-        icon: "💰",
+        id: 32, row: 5, col: 1,
+        name: "Thuế Xa Xỉ",
+        subtitle: "Hàng Hiệu & Siêu Xe",
+        icon: "💎",
         region: "special",
         regionName: "Thuế",
         type: "tax",
-        price: 0,
-        rent: [0, 0, 0],
+        price: 150,
+        rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Cơ quan thuế kiểm tra tài chính. Bạn phải nộp ngay 100M VNĐ thuế doanh nghiệp (tiền này được dồn vào hũ Bãi Đỗ Xe).",
+        desc: "Thuế tiêu thụ đặc biệt cho hàng xa xỉ: Nộp 150M VNĐ vào Hũ Bãi Đỗ Xe.",
         owner: null,
         level: 0
     },
     {
-        id: 23, row: 2, col: 1,
+        id: 33, row: 4, col: 1,
+        name: "Dinh Độc Lập",
+        subtitle: "TP. Hồ Chí Minh",
+        icon: "🏛️",
+        region: "saigon",
+        regionName: "Sài Gòn",
+        type: "property",
+        price: 450,
+        rent: [100, 300, 670, 1340],
+        upgradeCost: 225,
+        desc: "Di tích lịch sử quốc gia đặc biệt với kiến trúc độc đáo giữa công viên rợp bóng mát.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 34, row: 3, col: 1,
+        name: "Landmark 81",
+        subtitle: "TP. Hồ Chí Minh",
+        icon: "🏙️",
+        region: "saigon",
+        regionName: "Sài Gòn",
+        type: "property",
+        price: 480,
+        rent: [110, 330, 740, 1500],
+        upgradeCost: 240,
+        desc: "Tòa tháp cao nhất Việt Nam, vị trí kim cương bất động sản siêu sang.",
+        owner: null,
+        level: 0
+    },
+    {
+        id: 35, row: 2, col: 1,
         name: "Đảo Phú Quốc",
         subtitle: "Kiên Giang",
         icon: "🏝️",
-        region: "islands",
-        regionName: "Biển Đảo",
+        region: "saigon",
+        regionName: "Đảo Ngọc",
         type: "property",
-        price: 480,
-        rent: [140, 400, 850],
-        upgradeCost: 240,
-        desc: "Đảo Ngọc thiên đường nhiệt đới lớn nhất Việt Nam. Mảnh đất vàng đắt đỏ nhất trên bàn cờ với tiền thuê phòng cao nhất ván cờ!",
+        price: 500,
+        rent: [120, 360, 800, 1600],
+        upgradeCost: 250,
+        desc: "Đảo Ngọc thiên đường nghỉ dưỡng triệu đô, ô đất có giá trị và tiền thuê cao nhất!",
         owner: null,
         level: 0
     }
 ];
 
-// 2. BỘ 4 NHÂN VẬT NGƯỜI CHƠI (TỐI ĐA 4 NGƯỜI)
+// 2. BỘ CẤU HÌNH 4 NHÂN VẬT NGƯỜI CHƠI
 const ALL_PLAYER_CONFIGS = [
     {
         id: "p0",
@@ -414,105 +595,171 @@ const ALL_PLAYER_CONFIGS = [
     }
 ];
 
-// 3. BỘ THẺ CƠ HỘI & KHÍ VẬN
+// 3. BỘ THẺ CƠ HỘI (CHANCE CARDS - MAY MẮN & TIỀN THƯỞNG)
 const CHANCE_CARDS = [
     {
-        title: "Trúng Thưởng Xổ Số Kiến Thiết",
-        desc: "Vé số Vietlott mang lại giải thưởng bất ngờ! Bạn được Ngân hàng thanh toán trực tiếp.",
-        type: "gain_cash",
-        amount: 200,
-        rewardText: "+200M VNĐ"
-    },
-    {
-        title: "Nộp Phạt Vi Phạm Tốc Độ",
-        desc: "Lái xe quá tốc độ trên cao tốc Bắc - Nam. Bạn phải nộp phạt 50M vào hũ thưởng Bãi Đỗ Xe.",
-        type: "pay_parking",
-        amount: 50,
-        rewardText: "-50M VNĐ"
-    },
-    {
-        title: "Chia Cổ Tức Doanh Nghiệp",
-        desc: "Khoản đầu tư cổ phiếu sinh lời xuất sắc trong quý. Bạn nhận tiền chia cổ tức.",
-        type: "gain_cash",
-        amount: 150,
-        rewardText: "+150M VNĐ"
-    },
-    {
-        title: "Nâng Cấp Hạ Tầng Đô Thị",
-        desc: "Đô thị tiến hành cải tạo đường xá. Bạn phải đóng phí bảo trì 80M cho ngân quỹ.",
-        type: "pay_parking",
-        amount: 80,
-        rewardText: "-80M VNĐ"
-    },
-    {
-        title: "Thẻ Miễn Giam Giữ Tự Do",
-        desc: "Được viện kiểm sát cấp lệnh ân xá đặc biệt. Ra tù ngay lập tức nếu đang bị tạm giam!",
+        title: "Thẻ Ân Xá Tự Do",
+        desc: "Lệnh đặc xá từ Tòa án nhân dân: Miễn toàn bộ án phạt tù! Thẻ này được cất vào kho hành lý để sử dụng khi bạn bị vào tù.",
         type: "free_jail",
         amount: 0,
-        rewardText: "Ân Xá Ngay Lập Tức"
+        rewardText: "🎫 Cất Vào Kho Hành Lý",
+        isNegative: false
     },
     {
-        title: "Chuyến Tàu Siêu Tốc Về Ga Hà Nội",
+        title: "Trúng Thưởng Xổ Số Vietlott",
+        desc: "Dãy số may mắn trúng giải độc đắc Jackpot! Ngân hàng chi trả trực tiếp cho bạn.",
+        type: "gain_cash",
+        amount: 250,
+        rewardText: "+250M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Chuyến Tàu Tốc Hành Về Ga Hà Nội",
         desc: "Vé tàu siêu tốc đưa bạn thẳng về ô Khởi Hành (Ga Hà Nội) và nhận ngay 200M trợ cấp!",
         type: "advance_go",
         amount: 200,
-        rewardText: "Về Ga Hà Nội (+200M)"
-    }
-];
-
-const CHEST_CARDS = [
+        rewardText: "Về Ga Hà Nội (+200M)",
+        isNegative: false
+    },
     {
-        title: "Khen Thưởng Doanh Nghiệp Tiêu Biểu",
-        desc: "UBND trao tặng giải thưởng doanh nhân đóng góp xuất sắc cho phát triển du lịch địa phương.",
+        title: "Chia Cổ Tức Chứng Khoán",
+        desc: "Danh mục đầu tư bất động sản và cổ phiếu sinh lời ấn tượng trong quý. Bạn nhận tiền chia cổ tức.",
         type: "gain_cash",
-        amount: 180,
-        rewardText: "+180M VNĐ"
+        amount: 150,
+        rewardText: "+150M VNĐ",
+        isNegative: false
     },
     {
-        title: "Bảo Trì Định Kỳ Toàn Bộ Bất Động Sản",
-        desc: "Sơn sửa và nâng cấp hệ thống phòng cháy chữa cháy cho các tài sản hiện có. Nộp 70M.",
-        type: "pay_parking",
-        amount: 70,
-        rewardText: "-70M VNĐ"
-    },
-    {
-        title: "Nhận Lãi Tiền Gửi Tiết Kiệm",
-        desc: "Sổ tiết kiệm ngân hàng kỳ hạn 12 tháng đáo hạn thành công. Nhận toàn bộ tiền lãi.",
+        title: "Hoàn Thuế Doanh Nghiệp",
+        desc: "Cơ quan thuế quyết toán thừa và hoàn trả ngân sách hỗ trợ khởi nghiệp cho bạn.",
         type: "gain_cash",
         amount: 120,
-        rewardText: "+120M VNĐ"
+        rewardText: "+120M VNĐ",
+        isNegative: false
     },
     {
-        title: "Ủng Hộ Quỹ Cứu Trợ Thiên Tai",
-        desc: "Đóng góp ngân sách giúp đồng bào khắc phục hậu quả bão lũ miền Trung. Nộp 60M.",
-        type: "pay_parking",
-        amount: 60,
-        rewardText: "-60M VNĐ"
+        title: "Thưởng Khu Phố Du Lịch Kiểu Mẫu",
+        desc: "Bộ Văn hóa & Du lịch khen thưởng các công trình của bạn: Nhận 30M cho mỗi Nhà Phố 🏠 và 60M cho mỗi Khách Sạn 🏨 đang sở hữu!",
+        type: "property_bonus",
+        houseBonus: 30,
+        hotelBonus: 60,
+        rewardText: "Thưởng BĐS (+30M/🏠, +60M/🏨)",
+        isNegative: false
     },
     {
-        title: "Bồi Thường Bảo Hiểm Tài Sản",
-        desc: "Công ty bảo hiểm thanh toán khoản bồi hoàn thiệt hại thiết bị kinh doanh.",
-        type: "gain_cash",
-        amount: 100,
-        rewardText: "+100M VNĐ"
+        title: "Tiệc Mừng Thắng Lợi Cùng Bạn Bè",
+        desc: "Hôm nay là ngày đặc biệt của bạn! Tất cả các người chơi khác phải mừng cho bạn 30M VNĐ.",
+        type: "dividend_all",
+        amount: 30,
+        rewardText: "Nhận 30M từ mỗi đối thủ",
+        isNegative: false
+    },
+    {
+        title: "Vé Máy Bay Hạng Thương Gia",
+        desc: "Hãng hàng không tài trợ 1 chuyến bay VIP miễn phí: Bay ngay đến bất kỳ ô nào trên bàn cờ!",
+        type: "fly_anywhere",
+        amount: 0,
+        rewardText: "Bay Tốc Hành Miễn Phí",
+        isNegative: false
     }
 ];
 
-// 4. TRẠNG THÁI TOÀN BỘ VÁN ĐẤU (GAME STATE)
+// 4. BỘ THẺ THỬ THÁCH (CHALLENGE CARDS - TRỞ NGẠI, PHẠT & LÙI Ô)
+const CHALLENGE_CARDS = [
+    {
+        title: "Sạt Lở Đèo Hải Vân - Lùi 3 Ô",
+        desc: "Cung đèo hiểm trở bị mưa bão phong tỏa, đoàn xe buộc phải quay đầu lùi lại 3 ô và chịu tác động của ô dừng chân mới!",
+        type: "step_back",
+        steps: 3,
+        rewardText: "Lùi lại 3 ô ↩️",
+        isNegative: true
+    },
+    {
+        title: "Quên Giấy Tờ Xe - Lùi 2 Ô",
+        desc: "Bạn để quên giấy phép lái xe tại trạm nghỉ, phải quay ngược lại 2 ô để lấy giấy tờ!",
+        type: "step_back",
+        steps: 2,
+        rewardText: "Lùi lại 2 ô ↩️",
+        isNegative: true
+    },
+    {
+        title: "Hỏng Động Cơ Giữa Rừng - Dừng 2 Lượt",
+        desc: "Xe bị thủng lốp và hỏng động cơ giữa đường đèo, phải chờ cứu hộ: Tạm dừng di chuyển trong 2 lượt tiếp theo!",
+        type: "freeze_turns",
+        turns: 2,
+        rewardText: "Dừng đi 2 lượt ❄️",
+        isNegative: true
+    },
+    {
+        title: "Kiểm Toán Thuế Đột Xuất",
+        desc: "Đoàn thanh tra tài chính kiểm tra đột xuất: Bạn phải nộp phạt 100M VNĐ vào Hũ Bãi Đỗ Xe.",
+        type: "pay_parking",
+        amount: 100,
+        rewardText: "-100M VNĐ",
+        isNegative: true
+    },
+    {
+        title: "Bắn Tốc Độ Trên Cao Tốc",
+        desc: "Vi phạm tốc độ tối đa trên cao tốc Bắc - Nam. Bị lập biên bản phạt 80M VNĐ sung quỹ Bãi Đỗ Xe.",
+        type: "pay_parking",
+        amount: 80,
+        rewardText: "-80M VNĐ",
+        isNegative: true
+    },
+    {
+        title: "Bão Lũ Cần Đại Tu Toàn Diện",
+        desc: "Bão lớn gây hư hại mái ngói và cơ sở vật chất: Nộp 25M cho mỗi Nhà Phố 🏠 và 50M cho mỗi Khách Sạn 🏨 vào Hũ Bãi Đỗ Xe.",
+        type: "property_repair",
+        houseFee: 25,
+        hotelFee: 50,
+        rewardText: "Phí tu sửa (-25M/🏠, -50M/🏨)",
+        isNegative: true
+    },
+    {
+        title: "Đãi Tiệc Mọi Người Thịnh Soạn",
+        desc: "Bạn hào phóng mời tất cả đối thủ trên bàn cờ một bữa buffet thịnh soạn: Trả cho mỗi người 40M VNĐ.",
+        type: "pay_all",
+        amount: 40,
+        rewardText: "Trả 40M cho mỗi đối thủ",
+        isNegative: true
+    }
+];
+
+// 5. TRẠNG THÁI TOÀN BỘ VÁN ĐẤU (GAME STATE)
 const gameState = {
-    playerCount: 2, // 2, 3 hoặc 4 người chơi
-    gameMode: "pass_play", // "pass_play" (bạn bè chuyền tay) hoặc "ai" (đấu máy AI)
+    playerCount: 2,
+    gameMode: "pass_play",
     currentTurnIndex: 0,
     isRolling: false,
     soundEnabled: true,
-    parkingPool: 100, // Hũ thưởng bãi đỗ xe khởi điểm 100M
+    parkingPool: 100,
     roundCount: 1,
     pendingCardAction: null,
     pendingPropertyTile: null,
-    players: [] // Danh sách người chơi thực tế
+    editingPlayerId: null,
+    transactions: [], // Danh sách lịch sử giao dịch dòng tiền
+    players: []
 };
 
-// 5. TRÌNH TẠO ÂM THANH (WEB AUDIO API SYNTHESIZER)
+// Ghi nhận lịch sử giao dịch
+function recordTransaction(entry) {
+    gameState.transactions.unshift({
+        id: Date.now() + Math.random(),
+        round: gameState.roundCount,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        type: entry.type || 'info',
+        title: entry.title,
+        from: entry.from,
+        to: entry.to,
+        amount: entry.amount || null,
+        isPositive: entry.isPositive !== undefined ? entry.isPositive : (entry.amount > 0),
+        desc: entry.desc,
+        icon: entry.icon || '💸'
+    });
+    if (gameState.transactions.length > 60) gameState.transactions.pop();
+}
+
+// 6. TRÌNH TẠO ÂM THANH (WEB AUDIO API SYNTHESIZER)
 const soundEffects = {
     ctx: null,
     init() {
@@ -544,18 +791,18 @@ const soundEffects = {
         } catch (e) {}
     },
     diceRoll() {
-        for (let i = 0; i < 5; i++) {
-            this.playTone(320 + Math.random() * 260, 'triangle', 0.06, i * 70);
+        for (let i = 0; i < 6; i++) {
+            this.playTone(300 + Math.random() * 280, 'triangle', 0.06, i * 65);
         }
     },
     stepSound() {
         this.playTone(520, 'sine', 0.07);
     },
     cashChime() {
-        this.playTone(523.25, 'triangle', 0.1, 0); // C5
-        this.playTone(659.25, 'triangle', 0.12, 80); // E5
-        this.playTone(783.99, 'triangle', 0.18, 160); // G5
-        this.playTone(1046.50, 'triangle', 0.25, 240); // C6
+        this.playTone(523.25, 'triangle', 0.1, 0);
+        this.playTone(659.25, 'triangle', 0.12, 80);
+        this.playTone(783.99, 'triangle', 0.18, 160);
+        this.playTone(1046.50, 'triangle', 0.25, 240);
     },
     payRent() {
         this.playTone(392, 'sawtooth', 0.12, 0);
@@ -579,9 +826,8 @@ const soundEffects = {
     }
 };
 
-// 6. HIỆU ỨNG ĐỒ HỌA MƯỢT MÀ & HẤP DẪN (ANIMATIONS & PARTICLES)
+// 7. HIỆU ỨNG ĐỒ HỌA MƯỢT MÀ (KHÔNG CONFETTI CANVAS TRÁNH LAG)
 const visualFX = {
-    // 6.1 Tiền bay lơ lửng (+200M / -100M)
     spawnFloatingMoney(tileId, text, isPositive = true) {
         const layer = document.getElementById("floatingFxLayer");
         const cell = document.getElementById(`tile-${tileId}`);
@@ -597,18 +843,6 @@ const visualFX = {
         layer.appendChild(tag);
         setTimeout(() => tag.remove(), 1650);
     },
-
-    // 6.2 Bụi sóng lan tỏa khi chạm ô (Landing Ripple)
-    triggerLandingRipple(tileId) {
-        const cell = document.getElementById(`tile-${tileId}`);
-        if (!cell) return;
-        const ripple = document.createElement("div");
-        ripple.className = "tile-landing-ripple";
-        cell.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 750);
-    },
-
-    // 6.3 Đèn còi cảnh sát chớp nháy khi Vào Tù (Police Siren)
     triggerPoliceSiren() {
         soundEffects.jailLock();
         const siren = document.getElementById("policeSirenOverlay");
@@ -617,121 +851,18 @@ const visualFX = {
         setTimeout(() => {
             siren.classList.remove("active");
         }, 1500);
-    },
-
-    // 6.4 Pháo hoa giấy & Tiền vàng khi nổ hũ Bãi Đỗ Xe (Confetti Cannon)
-    triggerConfetti() {
-        const canvas = document.getElementById("confettiCanvas");
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const particles = [];
-        const colors = ["#eab308", "#16a34a", "#2563eb", "#db2777", "#ea580c", "#ffffff"];
-        const emojis = ["🪙", "✨", "🎉", "💵", "⭐"];
-
-        for (let i = 0; i < 70; i++) {
-            particles.push({
-                x: canvas.width / 2 + (Math.random() - 0.5) * 200,
-                y: canvas.height / 2 + (Math.random() - 0.5) * 150,
-                vx: (Math.random() - 0.5) * 16,
-                vy: (Math.random() - 1.2) * 18,
-                size: 8 + Math.random() * 8,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                emoji: Math.random() > 0.4 ? emojis[Math.floor(Math.random() * emojis.length)] : null,
-                rotation: Math.random() * 360,
-                vRot: (Math.random() - 0.5) * 12,
-                opacity: 1
-            });
-        }
-
-        let animationFrame;
-        const startTime = Date.now();
-
-        function renderConfetti() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const elapsed = Date.now() - startTime;
-            let alive = 0;
-
-            particles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.45; // Gravity
-                p.rotation += p.vRot;
-                p.opacity = Math.max(0, 1 - elapsed / 2800);
-
-                if (p.opacity > 0) {
-                    alive++;
-                    ctx.save();
-                    ctx.globalAlpha = p.opacity;
-                    ctx.translate(p.x, p.y);
-                    ctx.rotate((p.rotation * Math.PI) / 180);
-
-                    if (p.emoji) {
-                        ctx.font = `${p.size * 1.5}px sans-serif`;
-                        ctx.textAlign = "center";
-                        ctx.textBaseline = "middle";
-                        ctx.fillText(p.emoji, 0, 0);
-                    } else {
-                        ctx.fillStyle = p.color;
-                        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-                    }
-                    ctx.restore();
-                }
-            });
-
-            if (alive > 0 && elapsed < 3000) {
-                animationFrame = requestAnimationFrame(renderConfetti);
-            } else {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                cancelAnimationFrame(animationFrame);
-            }
-        }
-
-        renderConfetti();
     }
 };
 
-// 7. KHỞI TẠO CÁC NGƯỜI CHƠI THEO CÀI ĐẶT
-function initPlayers() {
-    gameState.players = [];
-    const count = gameState.playerCount;
-    const isAiMode = gameState.gameMode === "ai";
-
-    for (let i = 0; i < count; i++) {
-        const cfg = ALL_PLAYER_CONFIGS[i];
-        gameState.players.push({
-            id: cfg.id,
-            name: cfg.name,
-            icon: cfg.icon,
-            color: cfg.color,
-            glow: cfg.glow,
-            bg: cfg.bg,
-            position: 0,
-            cash: 1500, // Khởi điểm 1,500M VNĐ
-            props: [],
-            inJail: false,
-            jailTurns: 0,
-            isAi: isAiMode ? (i > 0) : false, // Nếu chế độ AI: người đầu là người thật, còn lại là AI
-            isBankrupt: false
-        });
-    }
-
-    gameState.currentTurnIndex = 0;
-}
-
-// 8. KHỞI TẠO BÀN CỜ MONOPOLY TRÊN DOM (TINH GỌN KHÔNG THÔNG TIN THỪA)
+// 8. KHỞI TẠO BÀN CỜ 10x10 (36 Ô)
 function initMonopolyBoard() {
     const boardEl = document.getElementById("monopolyBoard");
     if (!boardEl) return;
 
-    // Giữ lại trung tâm boardCenterHub, xóa các ô cũ
     const centerHub = document.getElementById("boardCenterHub");
     boardEl.innerHTML = "";
     if (centerHub) boardEl.appendChild(centerHub);
 
-    // Render từng ô trong 24 ô
     VIETNAM_TILES.forEach(tile => {
         const isCorner = tile.type === 'start' || tile.type === 'jail' || tile.type === 'go_to_jail' || tile.type === 'parking';
         const cell = document.createElement("div");
@@ -741,7 +872,7 @@ function initMonopolyBoard() {
         cell.style.gridColumn = tile.col;
         cell.title = `${tile.name} - Bấm để xem Sổ Đỏ`;
 
-        // Dải màu vùng miền trên đầu
+        // Dải màu vùng miền
         const colorBand = document.createElement("div");
         colorBand.className = `tile-region-strip strip-${tile.region}`;
 
@@ -750,12 +881,12 @@ function initMonopolyBoard() {
         iconEl.className = "tile-icon";
         iconEl.textContent = tile.icon;
 
-        // Tên danh lam thắng cảnh (Đã gỡ bỏ toàn bộ phụ đề rườm rà)
+        // Tên danh lam
         const nameEl = document.createElement("div");
         nameEl.className = "tile-name";
         nameEl.textContent = tile.name;
 
-        // Giá mua hoặc thông tin hành động
+        // Giá / Trạng thái
         const priceEl = document.createElement("div");
         priceEl.className = "tile-price";
         if (tile.type === "property") {
@@ -763,23 +894,27 @@ function initMonopolyBoard() {
         } else if (tile.type === "start") {
             priceEl.textContent = "+200M";
             priceEl.style.color = "#ea580c";
-        } else if (tile.type === "utility") {
+        } else if (tile.type === "transport" || tile.type === "utility") {
             priceEl.textContent = `${tile.price}M`;
+            priceEl.style.color = "#0284c7";
         } else if (tile.type === "tax") {
-            priceEl.textContent = "-100M";
+            priceEl.textContent = `-${tile.price}M`;
             priceEl.style.color = "#dc2626";
         } else if (tile.type === "parking") {
             priceEl.textContent = "Hũ 🅿️";
             priceEl.style.color = "#d97706";
-        } else if (tile.type === "airport") {
-            priceEl.textContent = "Vé 50M";
-            priceEl.style.color = "#0284c7";
         } else if (tile.type === "go_to_jail") {
             priceEl.textContent = "Vào Tù";
             priceEl.style.color = "#dc2626";
-        } else {
-            priceEl.textContent = "Rút thẻ";
+        } else if (tile.type === "challenge") {
+            priceEl.textContent = "Thử Thách";
+            priceEl.style.color = "#ea580c";
+        } else if (tile.type === "chance") {
+            priceEl.textContent = "Cơ Hội";
             priceEl.style.color = "#9333ea";
+        } else {
+            priceEl.textContent = "Thăm tù";
+            priceEl.style.color = "#64748b";
         }
 
         // Cụm hiển thị ngôi nhà thật (🏠 1 nhà, 🏠🏠 2 nhà, 🏨 khách sạn)
@@ -794,7 +929,7 @@ function initMonopolyBoard() {
         ownerBadge.id = `owner-badge-${tile.id}`;
         ownerBadge.style.display = "none";
 
-        // Khung chứa quân cờ
+        // Khung quân cờ
         const tokensWrap = document.createElement("div");
         tokensWrap.className = "tile-tokens-wrap";
         tokensWrap.id = `tokens-wrap-${tile.id}`;
@@ -807,7 +942,6 @@ function initMonopolyBoard() {
         cell.appendChild(ownerBadge);
         cell.appendChild(tokensWrap);
 
-        // Sự kiện click vào ô bất kỳ để soi chi tiết Sổ Đỏ
         cell.addEventListener("click", () => {
             inspectTileTitleDeed(tile.id);
         });
@@ -818,91 +952,88 @@ function initMonopolyBoard() {
     renderPlayerHUD();
     renderPlayerTokens();
     updateUI();
-    populateAirportSelect();
 }
 
-// 9. RENDER DANH SÁCH BẢNG HUD NGƯỜI CHƠI ĐỘNG (2 - 4 NGƯỜI)
+// 9. RENDER DANH SÁCH BẢNG TÀI CHÍNH NGƯỜI CHƠI (HUD)
 function renderPlayerHUD() {
-    const listEl = document.getElementById("playersHudList");
-    if (!listEl) return;
-    listEl.innerHTML = "";
+    const hudContainer = document.getElementById("playersHudList");
+    if (!hudContainer) return;
+    hudContainer.innerHTML = "";
+
+    hudContainer.style.gridTemplateColumns = `repeat(${Math.min(gameState.players.length, 4)}, 1fr)`;
 
     gameState.players.forEach((player, idx) => {
         const card = document.createElement("div");
         card.className = `player-hud-card ${idx === gameState.currentTurnIndex ? 'active-turn' : ''} ${player.isBankrupt ? 'is-bankrupt' : ''}`;
-        card.id = `hud-${player.id}`;
-        card.style.setProperty("--player-theme-color", player.color);
-        card.style.setProperty("--player-glow-color", player.glow);
-        card.style.setProperty("--player-bg", player.bg);
+        card.id = `playerCard-${player.id}`;
+
+        // Thẻ Ân Xá Badge
+        const jailCardBadge = player.jailCardsCount > 0 ? `<span class="badge-jail-card" title="Có ${player.jailCardsCount} Thẻ Ân Xá">🎫 x${player.jailCardsCount}</span>` : "";
+        // Đóng băng badge
+        const freezeBadge = player.frozenTurns > 0 ? `<span class="badge-freeze" title="Bị tạm dừng đi ${player.frozenTurns} lượt">❄️ ${player.frozenTurns}L</span>` : "";
 
         card.innerHTML = `
-            <div class="player-hud-avatar-wrap">
+            <div class="player-hud-avatar-wrap" style="background:${player.bg}; border: 2px solid ${player.color};">
                 <span class="player-avatar-icon">${player.icon}</span>
-                ${player.isAi ? '<span class="player-ai-badge">AI</span>' : ''}
             </div>
             <div class="player-hud-info">
-                <div class="player-hud-name-row">
-                    <span class="player-name">${player.name}</span>
-                    <span class="player-color-dot" style="background:${player.color};"></span>
+                <div class="player-name-row">
+                    <span class="player-name" id="hudName-${player.id}" style="color:${player.color};">${player.name}</span>
+                    <button class="player-name-edit-btn" type="button" title="Đổi tên người chơi" onclick="promptChangePlayerName('${player.id}')">✏️</button>
+                    ${player.isAi ? '<span class="player-ai-tag">AI</span>' : ''}
+                    ${jailCardBadge}
+                    ${freezeBadge}
                 </div>
                 <div class="player-score-row">
-                    <span class="player-score" id="cash-${player.id}">${Number(player.cash).toLocaleString()}</span>
+                    <span class="player-score" id="score-${player.id}">${Number(player.cash).toLocaleString()}</span>
                     <span class="score-unit">M VNĐ</span>
                 </div>
-                <div class="player-stats-mini" id="stats-${player.id}">
-                    🏛️ ${player.props.length} BĐS • ${Number(calculateNetWorth(player)).toLocaleString()}M
+                <div class="player-stats-mini">
+                    <span id="propsCount-${player.id}">🏛️ ${player.props.length} BĐS</span>
+                    <span>•</span>
+                    <span id="netWorth-${player.id}">Tổng: ${Number(calculateNetWorth(player)).toLocaleString()}M</span>
                 </div>
             </div>
         `;
-
-        listEl.appendChild(card);
+        hudContainer.appendChild(card);
     });
-
-    // Cập nhật nhãn số người ở thanh công cụ trên cùng
-    const topLabel = document.getElementById("topPlayersLabel");
-    if (topLabel) {
-        topLabel.textContent = `${gameState.playerCount} Người ${gameState.gameMode === 'ai' ? '(Đấu AI)' : ''}`;
-    }
 }
 
-// 10. CẬP NHẬT QUÂN CỜ TRÊN BÀN CỜ
+// 10. RENDER QUÂN CỜ TRÊN CÁC Ô BÀN CỜ
 function renderPlayerTokens() {
-    // Xóa quân cờ khỏi tất cả các ô
-    document.querySelectorAll(".tile-tokens-wrap").forEach(slot => slot.innerHTML = "");
+    VIETNAM_TILES.forEach(tile => {
+        const wrap = document.getElementById(`tokens-wrap-${tile.id}`);
+        if (wrap) wrap.innerHTML = "";
+    });
 
-    // Đặt từng quân cờ người chơi vào ô tương ứng
-    gameState.players.forEach(player => {
+    gameState.players.forEach((player, idx) => {
         if (player.isBankrupt) return;
+        const wrap = document.getElementById(`tokens-wrap-${player.position}`);
+        if (!wrap) return;
 
-        const slot = document.getElementById(`tokens-wrap-${player.position}`);
-        if (slot) {
-            const token = document.createElement("div");
-            token.className = "token-pin";
-            token.id = `token-${player.id}`;
-            token.textContent = player.icon;
-            token.style.background = player.color;
-            token.title = `${player.name} (${player.icon})`;
-            slot.appendChild(token);
-        }
+        const token = document.createElement("div");
+        token.className = `token-pin token-p${idx}`;
+        token.style.background = player.color;
+        token.style.boxShadow = `0 2px 6px ${player.glow}`;
+        token.textContent = player.icon;
+        token.title = `${player.name} (${player.cash}M)`;
+
+        wrap.appendChild(token);
     });
 }
 
-// 11. TÍNH TOÁN TỔNG TÀI SẢN (NET WORTH)
 function calculateNetWorth(player) {
     let net = player.cash;
     player.props.forEach(propId => {
         const t = VIETNAM_TILES.find(item => item.id === propId);
         if (t) {
             net += t.price;
-            if (t.level > 1) {
-                net += (t.level - 1) * t.upgradeCost;
-            }
+            net += t.level * t.upgradeCost;
         }
     });
     return net;
 }
 
-// HÀM ĐIỀU CHỈNH ĐỘ SÁNG MÀU HEX
 function adjustBrightness(hex, percent) {
     if (!hex || hex.length < 6) return "#1d4ed8";
     let num = parseInt(hex.replace("#", ""), 16);
@@ -915,20 +1046,21 @@ function adjustBrightness(hex, percent) {
         (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
 }
 
-// 12. CẬP NHẬT GIAO DIỆN CHÍNH (HUD & STATS)
+// 11. CẬP NHẬT GIAO DIỆN CHÍNH (HUD & STATS)
 function updateUI() {
     const current = gameState.players[gameState.currentTurnIndex] || gameState.players[0];
 
-    // Cập nhật tiền và tài sản từng người chơi
     gameState.players.forEach((player, idx) => {
-        const cashEl = document.getElementById(`cash-${player.id}`);
-        const statsEl = document.getElementById(`stats-${player.id}`);
-        const cardEl = document.getElementById(`hud-${player.id}`);
+        const scoreEl = document.getElementById(`score-${player.id}`);
+        const propsEl = document.getElementById(`propsCount-${player.id}`);
+        const netEl = document.getElementById(`netWorth-${player.id}`);
+        const cardEl = document.getElementById(`playerCard-${player.id}`);
+        const nameEl = document.getElementById(`hudName-${player.id}`);
 
-        if (cashEl) cashEl.textContent = Number(player.cash).toLocaleString();
-        if (statsEl) {
-            statsEl.textContent = `🏛️ ${player.props.length} BĐS • ${Number(calculateNetWorth(player)).toLocaleString()}M`;
-        }
+        if (nameEl) nameEl.textContent = player.name;
+        if (scoreEl) scoreEl.textContent = Number(player.cash).toLocaleString();
+        if (propsEl) propsEl.textContent = `🏛️ ${player.props.length} BĐS`;
+        if (netEl) netEl.textContent = `Tổng: ${Number(calculateNetWorth(player)).toLocaleString()}M`;
 
         if (cardEl) {
             if (idx === gameState.currentTurnIndex) {
@@ -942,7 +1074,6 @@ function updateUI() {
         }
     });
 
-    // Cập nhật nhãn lượt chơi và màu chấm
     const turnTextEl = document.getElementById("turnStatusText");
     const turnDotEl = document.getElementById("turnDot");
     if (turnTextEl && current) {
@@ -952,11 +1083,10 @@ function updateUI() {
         turnDotEl.style.background = current.color;
     }
 
-    // Cập nhật hũ thưởng Bãi Đỗ Xe
     const poolEl = document.getElementById("parkingPoolDisplay");
     if (poolEl) poolEl.textContent = `${Number(gameState.parkingPool).toLocaleString()}M`;
 
-    // Cập nhật Sổ đỏ và công trình nhà thật trên bàn cờ
+    // Cập nhật Sổ đỏ và công trình nhà thật trên 36 ô
     VIETNAM_TILES.forEach(tile => {
         const ownerEl = document.getElementById(`owner-badge-${tile.id}`);
         const estateEl = document.getElementById(`estate-${tile.id}`);
@@ -970,7 +1100,7 @@ function updateUI() {
                 ownerEl.style.display = "block";
             }
 
-            // HIỂN THỊ NGÔI NHÀ THẬT THAY VÌ L1, L2, L3
+            // HIỂN THỊ NGÔI NHÀ THẬT
             if (tile.level === 1) {
                 estateEl.innerHTML = '<span class="mini-house-token" title="1 Nhà Phố">🏠</span>';
                 estateEl.style.display = "flex";
@@ -991,36 +1121,32 @@ function updateUI() {
         }
     });
 
-    // Cập nhật nút tung xúc xắc & đổi màu theo theme người chơi hiện tại
+    // Cập nhật nút tung xúc xắc đôi theo người chơi
     const rollBtn = document.getElementById("rollDiceBtn");
     const rollBtnText = document.getElementById("rollBtnText");
     const rollBtnIcon = document.getElementById("rollBtnIcon");
     if (rollBtn && current) {
         rollBtn.disabled = gameState.isRolling || current.isAi;
-
-        // Đổi màu nền nút theo đúng màu của người đang tới lượt
         rollBtn.style.setProperty("--active-roll-gradient", `linear-gradient(135deg, ${current.color}, ${adjustBrightness(current.color, -25)})`);
         rollBtn.style.setProperty("--active-roll-glow", current.glow);
 
         if (rollBtnText) {
             if (current.isAi) {
-                rollBtnText.textContent = `🤖 ${current.name} Đang Đi...`;
-                if (rollBtnIcon) rollBtnIcon.textContent = "⚙️";
+                rollBtnText.textContent = `🤖 ${current.name} Đang Đổ Xúc Xắc...`;
             } else {
-                rollBtnText.textContent = `${current.name} Tung Xúc Xắc (${current.icon})`;
-                if (rollBtnIcon) rollBtnIcon.textContent = "🎲";
+                rollBtnText.textContent = `${current.name} Tung Xúc Xắc Đôi (${current.icon})`;
             }
+        }
+        if (rollBtnIcon) {
+            rollBtnIcon.textContent = "🎲🎲";
         }
     }
 }
 
-// 13. ĐIỀU KHIỂN XÚC XẮC 3D VỚI GÓC QUAY VẬT LÝ CHÂN THỰC
-function roll3DDice(targetValue, callback) {
-    const diceCube = document.getElementById("diceCube");
-    if (!diceCube) {
-        if (callback) callback();
-        return;
-    }
+// 12. HÀM TUNG XÚC XẮC ĐÔI 3D (DOUBLE DICE ROLLING)
+function roll3DDice(callback) {
+    const diceCube1 = document.getElementById("diceCube1");
+    const diceCube2 = document.getElementById("diceCube2");
 
     soundEffects.diceRoll();
 
@@ -1033,29 +1159,46 @@ function roll3DDice(targetValue, callback) {
         6: { x: 90, y: 0 }
     };
 
-    const targetRot = faceRotations[targetValue] || { x: 0, y: 0 };
-    const extraRotX = (3 + Math.floor(Math.random() * 3)) * 360;
-    const extraRotY = (3 + Math.floor(Math.random() * 3)) * 360;
+    const val1 = Math.floor(Math.random() * 6) + 1;
+    const val2 = Math.floor(Math.random() * 6) + 1;
+    const isDouble = val1 === val2;
+    const sum = val1 + val2;
 
-    diceCube.style.transition = "transform 1.1s cubic-bezier(0.15, 0.9, 0.25, 1)";
-    diceCube.style.transform = `rotateX(${targetRot.x + extraRotX}deg) rotateY(${targetRot.y + extraRotY}deg)`;
-
-    const shadowEl = document.getElementById("diceShadowSpot");
-    if (shadowEl) {
-        shadowEl.style.transform = "scale(0.55)";
-        shadowEl.style.opacity = "0.35";
-        setTimeout(() => {
-            shadowEl.style.transform = "scale(1)";
-            shadowEl.style.opacity = "1";
-        }, 1100);
+    if (diceCube1) {
+        const rot1 = faceRotations[val1] || { x: 0, y: 0 };
+        const extraX1 = (3 + Math.floor(Math.random() * 3)) * 360;
+        const extraY1 = (3 + Math.floor(Math.random() * 3)) * 360;
+        diceCube1.style.transition = "transform 1.1s cubic-bezier(0.15, 0.9, 0.25, 1)";
+        diceCube1.style.transform = `rotateX(${rot1.x + extraX1}deg) rotateY(${rot1.y + extraY1}deg)`;
     }
 
+    if (diceCube2) {
+        const rot2 = faceRotations[val2] || { x: 0, y: 0 };
+        const extraX2 = (3 + Math.floor(Math.random() * 3)) * 360;
+        const extraY2 = (3 + Math.floor(Math.random() * 3)) * 360;
+        diceCube2.style.transition = "transform 1.1s cubic-bezier(0.15, 0.9, 0.25, 1)";
+        diceCube2.style.transform = `rotateX(${rot2.x + extraX2}deg) rotateY(${rot2.y + extraY2}deg)`;
+    }
+
+    const s1 = document.getElementById("diceShadowSpot1");
+    const s2 = document.getElementById("diceShadowSpot2");
+    [s1, s2].forEach(s => {
+        if (s) {
+            s.style.transform = "scale(0.55)";
+            s.style.opacity = "0.35";
+            setTimeout(() => {
+                s.style.transform = "scale(1)";
+                s.style.opacity = "1";
+            }, 1100);
+        }
+    });
+
     setTimeout(() => {
-        if (callback) callback();
+        if (callback) callback({ d1: val1, d2: val2, sum, isDouble });
     }, 1150);
 }
 
-// 14. HÀM TUNG XÚC XẮC CHÍNH (ĐƯỢC GỌI BỞI NGƯỜI CHƠI HOẶC AI)
+// 13. HÀM TUNG XÚC XẮC CHÍNH (HANDLE ROLL DICE)
 function handleRollDice() {
     if (gameState.isRolling) return;
 
@@ -1065,7 +1208,16 @@ function handleRollDice() {
         return;
     }
 
-    // Nếu người chơi đang bị giam trong tù
+    // Kiểm tra đóng băng (frozen turns)
+    if (player.frozenTurns > 0) {
+        player.frozenTurns--;
+        showStatusNotice(`❄️ <strong>${player.name}</strong> bị dừng di chuyển (còn ${player.frozenTurns} lượt đóng băng)!`);
+        renderPlayerHUD();
+        setTimeout(() => finishTurn(), 1400);
+        return;
+    }
+
+    // Nếu đang ở trong tù
     if (player.inJail) {
         if (player.isAi) {
             handleAiJailTurn(player);
@@ -1080,24 +1232,30 @@ function handleRollDice() {
 
     const rollStatus = document.getElementById("actionStatusMsg");
     if (rollStatus) {
-        rollStatus.textContent = `${player.name} đang tung xúc xắc...`;
+        rollStatus.textContent = `${player.name} đang tung cặp xúc xắc đôi...`;
     }
 
-    const diceResult = Math.floor(Math.random() * 6) + 1;
+    roll3DDice((rollRes) => {
+        const { d1, d2, sum, isDouble } = rollRes;
 
-    roll3DDice(diceResult, () => {
-        if (rollStatus) {
-            rollStatus.innerHTML = `🎲 <strong>${player.name}</strong> đổ được <strong>${diceResult} điểm</strong>!`;
+        let doubleMsg = "";
+        if (isDouble) {
+            doubleMsg = " <strong>[CẶP ĐÔI! ĐƯỢC TUNG THÊM 1 LƯỢT]</strong>";
+            soundEffects.cashChime();
         }
-        // Di chuyển quân cờ mượt mà từng bước với hoạt họa nhảy
-        movePlayerStepByStep(player, diceResult, () => {
+
+        if (rollStatus) {
+            rollStatus.innerHTML = `🎲🎲 <strong>${player.name}</strong> đổ được <strong>${d1} + ${d2} = ${sum} bước</strong>!${doubleMsg}`;
+        }
+
+        movePlayerStepByStep(player, sum, () => {
             gameState.isRolling = false;
-            handleTileAction(player, player.position, diceResult);
+            handleTileAction(player, player.position, sum, isDouble);
         });
     });
 }
 
-// 15. DI CHUYỂN QUÂN CỜ TỪNG BƯỚC VỚI HOẠT HỌA NHẢY VÒNG CUNG (PARABOLIC HOP)
+// 14. DI CHUYỂN QUÂN CỜ TỪNG BƯỚC MƯỢT MÀ
 function movePlayerStepByStep(player, steps, onComplete) {
     let remaining = steps;
 
@@ -1113,21 +1271,21 @@ function movePlayerStepByStep(player, steps, onComplete) {
         soundEffects.stepSound();
         renderPlayerTokens();
 
-        // Gắn hoạt họa nhảy và hiệu ứng bụi chạm đất
-        const tokenEl = document.getElementById(`token-${player.id}`);
-        if (tokenEl) {
-            tokenEl.classList.remove("token-jumping");
-            void tokenEl.offsetWidth; // Trigger reflow
-            tokenEl.classList.add("token-jumping");
-        }
-        visualFX.triggerLandingRipple(player.position);
-
-        // Đi qua Ga Hà Nội nhận trợ cấp 200M
+        // Thưởng 200M khi đi qua ô Khởi Hành
         if (player.position === 0) {
-            player.cash += 200;
             soundEffects.cashChime();
+            player.cash += 200;
             visualFX.spawnFloatingMoney(0, "+200M", true);
-            showStatusNotice(`🚩 <strong>${player.name}</strong> đi qua Ga Hà Nội nhận trợ cấp <strong>+200M VNĐ</strong>!`);
+            showStatusNotice(`🚩 <strong>${player.name}</strong> hoàn thành một vòng bản đồ Việt Nam, nhận trợ cấp <strong>+200M VNĐ</strong>!`);
+            recordTransaction({
+                type: 'salary',
+                from: 'Ngân Hàng',
+                to: player.name,
+                amount: 200,
+                title: 'Trợ cấp vòng quay (GO)',
+                desc: `${player.name} đi qua Ga Hà Nội nhận 200M trợ cấp`,
+                icon: '🚩'
+            });
             updateUI();
         }
 
@@ -1137,20 +1295,23 @@ function movePlayerStepByStep(player, steps, onComplete) {
     nextStep();
 }
 
-// 16. XỬ LÝ SỰ KIỆN KHI ĐÁP XUỐNG Ô (TILE ACTIONS)
-function handleTileAction(player, tileId, diceRollValue = 1) {
+// 15. XỬ LÝ SỰ KIỆN KHI ĐÁP XUỐNG TỪNG Ô (TILE ACTIONS)
+function handleTileAction(player, tileId, diceRollValue = 2, rolledDouble = false) {
     const tile = VIETNAM_TILES[tileId];
     if (!tile) return;
 
-    // 1. Ô BẤT ĐỘNG SẢN (PROPERTY)
-    if (tile.type === "property") {
+    // Lưu cờ tung thêm lượt nếu lắc được xúc xắc đôi
+    gameState.rolledDoubleTurn = rolledDouble;
+
+    // 1. Ô BẤT ĐỘNG SẢN & GIAO THÔNG (PROPERTY / TRANSPORT)
+    if (tile.type === "property" || tile.type === "transport") {
         if (!tile.owner) {
             promptBuyProperty(player, tile);
         } else if (tile.owner === player.id) {
             if (tile.level < 3) {
                 promptUpgradeProperty(player, tile);
             } else {
-                showStatusNotice(`🏨 <strong>${player.name}</strong> ghé thăm Khách Sạn của chính mình tại ${tile.name}.`);
+                showStatusNotice(`🏨 <strong>${player.name}</strong> nghỉ chân tại Khách Sạn của chính mình tại ${tile.name}.`);
                 finishTurn();
             }
         } else {
@@ -1159,7 +1320,7 @@ function handleTileAction(player, tileId, diceRollValue = 1) {
         return;
     }
 
-    // 2. Ô CÔNG TY ĐIỆN LỰC (UTILITY)
+    // 2. Ô DỊCH VỤ CÔNG (UTILITY: ĐIỆN / NƯỚC)
     if (tile.type === "utility") {
         if (!tile.owner) {
             promptBuyProperty(player, tile);
@@ -1169,12 +1330,24 @@ function handleTileAction(player, tileId, diceRollValue = 1) {
             soundEffects.payRent();
             player.cash -= bill;
             if (ownerObj) ownerObj.cash += bill;
+
             visualFX.spawnFloatingMoney(tileId, `-${bill}M`, false);
-            showStatusNotice(`⚡ <strong>${player.name}</strong> nộp tiền điện <strong>${bill}M VNĐ</strong> cho ${ownerObj ? ownerObj.name : 'Chủ điện lực'}!`);
+            showStatusNotice(`⚡ <strong>${player.name}</strong> nộp phí dịch vụ <strong>${bill}M VNĐ</strong> cho ${ownerObj ? ownerObj.name : 'Chủ nhà máy'}!`);
+
+            recordTransaction({
+                type: 'rent',
+                from: player.name,
+                to: ownerObj ? ownerObj.name : 'Chủ nhà máy',
+                amount: bill,
+                title: `Phí tiện ích ${tile.name}`,
+                desc: `${player.name} trả ${bill}M tiền điện/nước cho ${ownerObj ? ownerObj.name : 'Chủ'}`,
+                icon: '⚡'
+            });
+
             updateUI();
             checkBankruptcy(player, () => finishTurn());
         } else {
-            showStatusNotice(`⚡ <strong>${player.name}</strong> ghé thăm trụ sở Công Ty Điện Lực.`);
+            showStatusNotice(`💧 <strong>${player.name}</strong> ghé thăm nhà máy của mình.`);
             finishTurn();
         }
         return;
@@ -1184,18 +1357,19 @@ function handleTileAction(player, tileId, diceRollValue = 1) {
     if (tile.type === "go_to_jail") {
         visualFX.triggerPoliceSiren();
         showStatusNotice(`🚔 <strong>${player.name}</strong> bị áp giải thẳng vào Nhà Tù!`);
-        player.position = 18;
+        player.position = 27; // Vị trí Nhà Tù góc dưới-trái
         player.inJail = true;
         player.jailTurns = 0;
+        gameState.rolledDoubleTurn = false; // Mất lượt tung thêm nếu bị vào tù
         renderPlayerTokens();
         updateUI();
         setTimeout(() => finishTurn(), 1400);
         return;
     }
 
-    // 4. Ô NHÀ TÙ (JAIL ⛓️)
+    // 4. Ô NHÀ TÙ (JAIL ⛓️ - THĂM TÙ)
     if (tile.type === "jail") {
-        showStatusNotice(`⛓️ <strong>${player.name}</strong> ghé thăm phạm nhân tại Nhà Tù (Thăm tù bình an).`);
+        showStatusNotice(`⛓️ <strong>${player.name}</strong> ghé thăm phạm nhân tại Nhà Tù (Thăm tù an toàn).`);
         finishTurn();
         return;
     }
@@ -1205,92 +1379,158 @@ function handleTileAction(player, tileId, diceRollValue = 1) {
         const jackpot = gameState.parkingPool;
         if (jackpot > 0) {
             soundEffects.jackpotWin();
-            visualFX.triggerConfetti();
             visualFX.spawnFloatingMoney(tileId, `+${jackpot}M`, true);
             player.cash += jackpot;
             gameState.parkingPool = 0;
             showStatusNotice(`🎉 <strong>${player.name}</strong> dừng chân tại Bãi Đỗ Xe và <strong>ĂN TRỌN HŨ THƯỞNG ${jackpot}M VNĐ</strong>!`);
+
+            recordTransaction({
+                type: 'jackpot',
+                from: 'Hũ Bãi Đỗ Xe',
+                to: player.name,
+                amount: jackpot,
+                title: 'Trúng Hũ Bãi Đỗ Xe',
+                desc: `${player.name} dừng chân tại Bãi Đỗ Xe và nhận toàn bộ ${jackpot}M trong hũ`,
+                icon: '🅿️'
+            });
+
             updateUI();
         } else {
-            showStatusNotice(`🅿️ <strong>${player.name}</strong> nghỉ chân tại Bãi Đỗ Xe Miễn Phí.`);
+            showStatusNotice(`🅿️ <strong>${player.name}</strong> nghỉ ngơi tại Bãi Đỗ Xe Miễn Phí.`);
         }
         finishTurn();
         return;
     }
 
-    // 6. Ô SÂN BAY QUỐC TẾ (AIRPORT ✈️)
-    if (tile.type === "airport") {
-        openAirportModal(player);
-        return;
-    }
-
-    // 7. Ô THUẾ THU NHẬP (TAX 💰)
+    // 6. Ô THUẾ THU NHẬP & THUẾ XA XỈ (TAX 💰 / 💎)
     if (tile.type === "tax") {
-        const taxAmount = 100;
+        const taxAmount = tile.price || 100;
         soundEffects.payRent();
         player.cash -= taxAmount;
         gameState.parkingPool += taxAmount;
         visualFX.spawnFloatingMoney(tileId, `-${taxAmount}M`, false);
-        showStatusNotice(`💰 <strong>${player.name}</strong> nộp 100M VNĐ Thuế (Được dồn vào Hũ Bãi Đỗ Xe)!`);
+        showStatusNotice(`💰 <strong>${player.name}</strong> nộp <strong>${taxAmount}M VNĐ</strong> Thuế vào Hũ Bãi Đỗ Xe!`);
+
+        recordTransaction({
+            type: 'tax',
+            from: player.name,
+            to: 'Hũ Bãi Đỗ Xe',
+            amount: taxAmount,
+            title: tile.name,
+            desc: `${player.name} nộp ${taxAmount}M vào hũ tiền thưởng`,
+            icon: '💰'
+        });
+
         updateUI();
         checkBankruptcy(player, () => finishTurn());
         return;
     }
 
-    // 8. Ô CƠ HỘI (❓)
+    // 7. Ô CƠ HỘI (❓)
     if (tile.type === "chance") {
         drawCardAction(player, "chance");
         return;
     }
 
-    // 9. Ô KHÍ VẬN (📦)
-    if (tile.type === "chest") {
-        drawCardAction(player, "chest");
+    // 8. Ô THỬ THÁCH (⚡)
+    if (tile.type === "challenge") {
+        drawCardAction(player, "challenge");
         return;
     }
 
-    // 10. Ô KHỞI HÀNH (START 🚩)
-    if (tile.type === "start") {
-        showStatusNotice(`🚩 <strong>${player.name}</strong> dừng chân ngay tại Ga Hà Nội!`);
-        finishTurn();
-        return;
-    }
-
+    // 9. Ô KHỞI HÀNH (START)
     finishTurn();
 }
 
-// 17. TRẢ TIỀN THUÊ ĐẤT (PAY RENT)
+// 16. TRẢ TIỀN THUÊ ĐẤT VÀ HIỆN THÔNG BÁO MINH BẠCH (RENT PAYMENT MODAL)
 function handlePayRent(player, tile) {
     const ownerObj = gameState.players.find(p => p.id === tile.owner);
-    const rentAmount = tile.rent[tile.level - 1] || tile.rent[0];
+    const rentAmount = tile.rent[tile.level] || tile.rent[0];
 
     soundEffects.payRent();
     player.cash -= rentAmount;
     if (ownerObj) ownerObj.cash += rentAmount;
 
     visualFX.spawnFloatingMoney(tile.id, `-${rentAmount}M`, false);
-    showStatusNotice(`💸 <strong>${player.name}</strong> trả <strong>${rentAmount}M VNĐ</strong> tiền thuê tại ${tile.name} cho <strong>${ownerObj ? ownerObj.name : 'Chủ đất'}</strong>!`);
-    updateUI();
 
-    checkBankruptcy(player, () => finishTurn());
+    const estateName = tile.level === 0 ? "Đất Trống" : tile.level === 1 ? "🏠 1 Nhà Phố" : tile.level === 2 ? "🏠🏠 2 Nhà Phố" : "🏨 Khách Sạn Cao Cấp";
+
+    // Ghi nhận vào lịch sử giao dịch
+    recordTransaction({
+        type: 'rent',
+        from: player.name,
+        to: ownerObj ? ownerObj.name : 'Chủ đất',
+        amount: rentAmount,
+        title: `Tiền thuê ${tile.name}`,
+        desc: `${player.name} trả ${rentAmount}M cho ${ownerObj ? ownerObj.name : 'Chủ đất'} (${estateName})`,
+        icon: '💸'
+    });
+
+    // Mở modal thông báo nộp tiền thuê đất
+    openRentModal(player, ownerObj, tile, rentAmount, estateName);
 }
 
-// 18. HỎI MUA BẤT ĐỘNG SẢN (BUY PROPERTY)
+function openRentModal(player, ownerObj, tile, rentAmount, estateName) {
+    const modal = document.getElementById("modalRentNotice");
+    if (!modal) {
+        checkBankruptcy(player, () => finishTurn());
+        return;
+    }
+
+    const propDisplay = document.getElementById("rentPropertyDisplay");
+    if (propDisplay) {
+        propDisplay.innerHTML = `
+            <div class="rent-prop-name">${tile.icon} ${tile.name} (${tile.regionName})</div>
+            <div class="rent-prop-level">Công trình: <strong>${estateName}</strong></div>
+            <div class="rent-prop-amount">-${rentAmount}M VNĐ</div>
+        `;
+    }
+
+    const pName = document.getElementById("rentPayerName");
+    const pDiff = document.getElementById("rentPayerDiff");
+    if (pName) pName.textContent = player.name;
+    if (pDiff) pDiff.textContent = `-${rentAmount}M`;
+
+    const rName = document.getElementById("rentReceiverName");
+    const rDiff = document.getElementById("rentReceiverDiff");
+    if (rName) rName.textContent = ownerObj ? ownerObj.name : "Chủ đất";
+    if (rDiff) rDiff.textContent = `+${rentAmount}M`;
+
+    modal.classList.add("active");
+
+    const btnConfirm = document.getElementById("btnConfirmPayRent");
+    if (btnConfirm) {
+        btnConfirm.onclick = () => {
+            closeModal("modalRentNotice");
+            updateUI();
+            checkBankruptcy(player, () => finishTurn());
+        };
+    }
+
+    // Nếu là AI tự đóng sau 1.5s
+    if (player.isAi) {
+        setTimeout(() => {
+            closeModal("modalRentNotice");
+            updateUI();
+            checkBankruptcy(player, () => finishTurn());
+        }, 1500);
+    }
+}
+
+// 17. HỎI MUA BẤT ĐỘNG SẢN (PROMPT BUY PROPERTY)
 function promptBuyProperty(player, tile) {
     gameState.pendingPropertyTile = tile;
 
-    // Nếu người chơi là AI
     if (player.isAi) {
         if (player.cash >= tile.price * 1.25) {
             confirmBuyProperty(player, tile);
         } else {
-            showStatusNotice(`🤖 <strong>${player.name}</strong> quyết định bỏ qua cơ hội mua ${tile.name}.`);
+            showStatusNotice(`🤖 <strong>${player.name}</strong> bỏ qua cơ hội mua ${tile.name}.`);
             finishTurn();
         }
         return;
     }
 
-    // Mở modal mua đất cho người chơi thật
     const modal = document.getElementById("modalBuyProperty");
     if (!modal) return;
 
@@ -1299,13 +1539,13 @@ function promptBuyProperty(player, tile) {
     document.getElementById("buyPropEmoji").textContent = tile.icon;
     document.getElementById("buyPropDesc").textContent = tile.desc;
     document.getElementById("buyModalRegion").textContent = tile.regionName.toUpperCase();
-    document.getElementById("buyCostLabel").textContent = "Giá mua quyền sở hữu:";
+    document.getElementById("buyCostLabel").textContent = "Giá mua đất:";
     document.getElementById("buyPropCost").textContent = `${tile.price}M VNĐ`;
     document.getElementById("buyPropRent").textContent = `${tile.rent[0]}M VNĐ`;
 
-    document.getElementById("lvl1Rent").textContent = `${tile.rent[0]}M`;
-    document.getElementById("lvl2Rent").textContent = `${tile.rent[1]}M`;
-    document.getElementById("lvl3Rent").textContent = `${tile.rent[2]}M`;
+    document.getElementById("lvl1Rent").textContent = `${tile.rent[1]}M`;
+    document.getElementById("lvl2Rent").textContent = `${tile.rent[2]}M`;
+    document.getElementById("lvl3Rent").textContent = `${tile.rent[3]}M`;
 
     document.getElementById("lvlStep1").className = "level-step-card current";
     document.getElementById("lvlStep2").className = "level-step-card";
@@ -1323,15 +1563,46 @@ function promptBuyProperty(player, tile) {
     modal.classList.add("active");
 }
 
-// 19. HỎI NÂNG CẤP NHÀ (UPGRADE PROPERTY)
+function confirmBuyProperty(player, tile) {
+    if (player.cash < tile.price) return;
+
+    soundEffects.cashChime();
+    player.cash -= tile.price;
+    tile.owner = player.id;
+    tile.level = 0; // Khởi đầu là đất trống
+    player.props.push(tile.id);
+
+    visualFX.spawnFloatingMoney(tile.id, `-${tile.price}M`, false);
+    showStatusNotice(`🏠 <strong>${player.name}</strong> đã mua thành công <strong>${tile.name}</strong> (${tile.price}M VNĐ)!`);
+
+    recordTransaction({
+        type: 'buy',
+        from: player.name,
+        to: 'Ngân Hàng',
+        amount: tile.price,
+        title: `Mua đất ${tile.name}`,
+        desc: `${player.name} mua quyền sở hữu đất ${tile.name} với giá ${tile.price}M`,
+        icon: '🏠'
+    });
+
+    closeModal("modalBuyProperty");
+    updateUI();
+    finishTurn();
+}
+
+// 18. NÂNG CẤP XÂY NHÀ & KHÁCH SẠN (UPGRADE PROPERTY)
 function promptUpgradeProperty(player, tile) {
-    gameState.pendingPropertyTile = tile;
+    if (tile.level >= 3) {
+        finishTurn();
+        return;
+    }
+
     const nextLevel = tile.level + 1;
     const upgradePrice = tile.upgradeCost;
-    const newRent = tile.rent[nextLevel - 1];
+    gameState.pendingPropertyTile = tile;
 
     if (player.isAi) {
-        if (player.cash >= upgradePrice * 1.35) {
+        if (player.cash >= upgradePrice * 1.5) {
             confirmUpgradeProperty(player, tile);
         } else {
             finishTurn();
@@ -1350,7 +1621,7 @@ function promptUpgradeProperty(player, tile) {
     document.getElementById("buyModalRegion").textContent = tile.regionName.toUpperCase();
     document.getElementById("buyCostLabel").textContent = "Chi phí xây dựng:";
     document.getElementById("buyPropCost").textContent = `${upgradePrice}M VNĐ`;
-    document.getElementById("buyPropRent").textContent = `${newRent}M VNĐ`;
+    document.getElementById("buyPropRent").textContent = `${tile.rent[nextLevel]}M VNĐ`;
 
     document.getElementById("lvlStep1").className = `level-step-card ${nextLevel === 1 ? 'current' : ''}`;
     document.getElementById("lvlStep2").className = `level-step-card ${nextLevel === 2 ? 'current' : ''}`;
@@ -1368,22 +1639,6 @@ function promptUpgradeProperty(player, tile) {
     modal.classList.add("active");
 }
 
-function confirmBuyProperty(player, tile) {
-    if (player.cash < tile.price) return;
-
-    soundEffects.cashChime();
-    player.cash -= tile.price;
-    tile.owner = player.id;
-    tile.level = 1;
-    player.props.push(tile.id);
-
-    visualFX.spawnFloatingMoney(tile.id, `-${tile.price}M`, false);
-    showStatusNotice(`🏠 <strong>${player.name}</strong> đã mua thành công <strong>${tile.name}</strong> và xây <strong>1 Nhà Phố 🏠</strong>!`);
-    closeModal("modalBuyProperty");
-    updateUI();
-    finishTurn();
-}
-
 function confirmUpgradeProperty(player, tile) {
     if (player.cash < tile.upgradeCost) return;
 
@@ -1391,57 +1646,140 @@ function confirmUpgradeProperty(player, tile) {
     player.cash -= tile.upgradeCost;
     tile.level += 1;
 
-    const levelIcon = tile.level === 2 ? "2 Nhà Phố 🏠🏠" : "Khách Sạn Cao Cấp 🏨";
+    const levelIcon = tile.level === 1 ? "1 Nhà Phố 🏠" : tile.level === 2 ? "2 Nhà Phố 🏠🏠" : "Khách Sạn Cao Cấp 🏨";
     visualFX.spawnFloatingMoney(tile.id, `-${tile.upgradeCost}M`, false);
     showStatusNotice(`✨ <strong>${player.name}</strong> đã nâng cấp <strong>${tile.name}</strong> lên <strong>${levelIcon}</strong>!`);
+
+    recordTransaction({
+        type: 'upgrade',
+        from: player.name,
+        to: 'Ngân Hàng',
+        amount: tile.upgradeCost,
+        title: `Xây ${levelIcon}`,
+        desc: `${player.name} nâng cấp ${tile.name} lên ${levelIcon} chi phí ${tile.upgradeCost}M`,
+        icon: '🏗️'
+    });
+
     closeModal("modalBuyProperty");
     updateUI();
     finishTurn();
 }
 
-// 20. RÚT THẺ CƠ HỘI HOẶC KHÍ VẬN
+// 19. RÚT THẺ CƠ HỘI / THỬ THÁCH VỚI HOẠT ẢNH 3D FLIP (ZERO CONFETTI LAG)
 function drawCardAction(player, cardType) {
     const isChance = cardType === "chance";
-    const deck = isChance ? CHANCE_CARDS : CHEST_CARDS;
+    const deck = isChance ? CHANCE_CARDS : CHALLENGE_CARDS;
     const card = deck[Math.floor(Math.random() * deck.length)];
 
     gameState.pendingCardAction = { player, card, cardType };
 
-    if (player.isAi) {
-        applyCardEffect(player, card);
+    const modal = document.getElementById("modalLoveCard");
+    const flipper = document.getElementById("cardDrawFlipper");
+    const backFace = document.getElementById("cardFaceBack");
+    if (!modal || !flipper || !backFace) {
+        applyCardEffect(player, card, cardType);
         finishTurn();
         return;
     }
 
-    const modal = document.getElementById("modalLoveCard");
-    if (!modal) return;
+    // Thiết lập phong cách mặt úp 3D
+    if (isChance) {
+        backFace.className = "card-side card-back card-theme-chance";
+        document.getElementById("cardBackEmblem").textContent = "❓";
+        document.getElementById("cardBackTitle").textContent = "THẺ CƠ HỘI";
+        document.getElementById("chanceTypeTag").textContent = "THẺ CƠ HỘI";
+        document.getElementById("chanceTypeTag").style.color = "#d97706";
+        document.getElementById("chanceIcon").textContent = "❓";
+    } else {
+        backFace.className = "card-side card-back card-theme-challenge";
+        document.getElementById("cardBackEmblem").textContent = "⚡";
+        document.getElementById("cardBackTitle").textContent = "THẺ THỬ THÁCH";
+        document.getElementById("chanceTypeTag").textContent = "THẺ THỬ THÁCH";
+        document.getElementById("chanceTypeTag").style.color = "#ea580c";
+        document.getElementById("chanceIcon").textContent = "⚡";
+    }
 
-    document.getElementById("chanceIcon").textContent = isChance ? "❓" : "📦";
-    document.getElementById("chanceTypeTag").textContent = isChance ? "THẺ CƠ HỘI" : "THẺ KHÍ VẬN";
+    // Thiết lập nội dung mặt ngửa
     document.getElementById("loveCardTitle").textContent = card.title;
     document.getElementById("loveCardContent").textContent = card.desc;
-    document.getElementById("loveCardReward").textContent = card.rewardText;
+    const rewardEl = document.getElementById("loveCardReward");
+    if (rewardEl) {
+        rewardEl.textContent = card.rewardText;
+        rewardEl.className = `love-card-reward ${card.isNegative ? 'negative' : ''}`;
+    }
 
+    // Mở modal dạng úp
+    flipper.classList.remove("is-flipped");
     modal.classList.add("active");
+
+    // Lật 180 độ sau 250ms
+    setTimeout(() => {
+        flipper.classList.add("is-flipped");
+        soundEffects.playTone(isChance ? 659.25 : 329.63, 'triangle', 0.2);
+    }, 250);
+
+    const btnAccept = document.getElementById("btnAcceptLoveCard");
+    if (btnAccept) {
+        if (card.type === "free_jail") {
+            btnAccept.textContent = "Cất Vào Kho Hành Lý 🎫";
+        } else {
+            btnAccept.textContent = "Chấp Nhận & Tiếp Tục ✨";
+        }
+    }
+
+    if (player.isAi) {
+        setTimeout(() => {
+            closeModal("modalLoveCard");
+            applyCardEffect(player, card, cardType);
+            finishTurn();
+        }, 1900);
+    }
 }
 
-function applyCardEffect(player, card) {
+function applyCardEffect(player, card, cardType) {
     if (card.type === "gain_cash") {
         soundEffects.cashChime();
         player.cash += card.amount;
         visualFX.spawnFloatingMoney(player.position, `+${card.amount}M`, true);
         showStatusNotice(`💵 <strong>${player.name}</strong> nhận được <strong>+${card.amount}M VNĐ</strong>!`);
+        recordTransaction({
+            type: 'chance',
+            from: 'Ngân Hàng',
+            to: player.name,
+            amount: card.amount,
+            title: card.title,
+            desc: card.desc,
+            icon: '💵'
+        });
     } else if (card.type === "pay_parking") {
         soundEffects.payRent();
         player.cash -= card.amount;
         gameState.parkingPool += card.amount;
         visualFX.spawnFloatingMoney(player.position, `-${card.amount}M`, false);
         showStatusNotice(`💸 <strong>${player.name}</strong> nộp <strong>${card.amount}M VNĐ</strong> vào Hũ Bãi Đỗ Xe!`);
+        recordTransaction({
+            type: 'challenge',
+            from: player.name,
+            to: 'Hũ Bãi Đỗ Xe',
+            amount: card.amount,
+            title: card.title,
+            desc: card.desc,
+            icon: '💸'
+        });
         checkBankruptcy(player);
     } else if (card.type === "free_jail") {
-        player.inJail = false;
-        player.jailTurns = 0;
-        showStatusNotice(`🕊️ <strong>${player.name}</strong> nhận được quyền ân xá tự do!`);
+        player.jailCardsCount = (player.jailCardsCount || 0) + 1;
+        showStatusNotice(`🎫 <strong>${player.name}</strong> nhận được <strong>Thẻ Ân Xá Ra Tù</strong>! Thẻ đã cất vào kho hành lý.`);
+        recordTransaction({
+            type: 'chance',
+            from: 'Tòa Án',
+            to: player.name,
+            amount: null,
+            title: 'Nhận Thẻ Ân Xá',
+            desc: `${player.name} cất Thẻ Ân Xá vào kho`,
+            icon: '🎫'
+        });
+        renderPlayerHUD();
     } else if (card.type === "advance_go") {
         player.position = 0;
         player.cash += 200;
@@ -1449,18 +1787,163 @@ function applyCardEffect(player, card) {
         renderPlayerTokens();
         visualFX.spawnFloatingMoney(0, "+200M", true);
         showStatusNotice(`🚩 <strong>${player.name}</strong> đi thẳng về Ga Hà Nội nhận <strong>+200M VNĐ</strong>!`);
+        recordTransaction({
+            type: 'chance',
+            from: 'Ngân Hàng',
+            to: player.name,
+            amount: 200,
+            title: 'Về Ga Hà Nội',
+            desc: `${player.name} đi thẳng về Ga Hà Nội`,
+            icon: '🚩'
+        });
+    } else if (card.type === "step_back") {
+        const steps = card.steps || 3;
+        showStatusNotice(`↩️ <strong>${player.name}</strong> phải lùi lại <strong>${steps} ô</strong>!`);
+        player.position = (player.position - steps + VIETNAM_TILES.length) % VIETNAM_TILES.length;
+        renderPlayerTokens();
+        recordTransaction({
+            type: 'challenge',
+            from: player.name,
+            to: 'Bàn Cờ',
+            amount: null,
+            title: card.title,
+            desc: `${player.name} lùi lại ${steps} ô`,
+            icon: '↩️'
+        });
+        setTimeout(() => {
+            handleTileAction(player, player.position);
+        }, 400);
+        return;
+    } else if (card.type === "freeze_turns") {
+        player.frozenTurns = card.turns || 2;
+        showStatusNotice(`❄️ <strong>${player.name}</strong> bị hỏng xe: Tạm dừng di chuyển trong <strong>${player.frozenTurns} lượt</strong>!`);
+        recordTransaction({
+            type: 'challenge',
+            from: 'Sự Cố',
+            to: player.name,
+            amount: null,
+            title: card.title,
+            desc: `${player.name} bị dừng đi ${player.frozenTurns} lượt`,
+            icon: '❄️'
+        });
+        renderPlayerHUD();
+    } else if (card.type === "dividend_all") {
+        let total = 0;
+        gameState.players.forEach(p => {
+            if (p.id !== player.id && !p.isBankrupt) {
+                const take = Math.min(p.cash, card.amount || 30);
+                p.cash -= take;
+                total += take;
+            }
+        });
+        player.cash += total;
+        soundEffects.cashChime();
+        showStatusNotice(`🎉 <strong>${player.name}</strong> nhận được tổng cộng <strong>+${total}M VNĐ</strong> từ bạn bè!`);
+        recordTransaction({
+            type: 'chance',
+            from: 'Bạn Bè',
+            to: player.name,
+            amount: total,
+            title: card.title,
+            desc: `${player.name} nhận ${total}M từ mọi người`,
+            icon: '🎉'
+        });
+    } else if (card.type === "pay_all") {
+        const amt = card.amount || 40;
+        let totalPaid = 0;
+        gameState.players.forEach(p => {
+            if (p.id !== player.id && !p.isBankrupt) {
+                player.cash -= amt;
+                p.cash += amt;
+                totalPaid += amt;
+            }
+        });
+        soundEffects.payRent();
+        showStatusNotice(`💸 <strong>${player.name}</strong> đã chiêu đãi tất cả đối thủ tổng cộng <strong>${totalPaid}M VNĐ</strong>!`);
+        recordTransaction({
+            type: 'challenge',
+            from: player.name,
+            to: 'Mọi Người',
+            amount: totalPaid,
+            title: card.title,
+            desc: `${player.name} đãi tiệc hết ${totalPaid}M`,
+            icon: '🍽️'
+        });
+        checkBankruptcy(player);
+    } else if (card.type === "property_bonus") {
+        let bonus = 0;
+        player.props.forEach(pId => {
+            const t = VIETNAM_TILES.find(item => item.id === pId);
+            if (t) {
+                if (t.level === 1) bonus += card.houseBonus || 30;
+                else if (t.level === 2) bonus += (card.houseBonus || 30) * 2;
+                else if (t.level >= 3) bonus += card.hotelBonus || 60;
+            }
+        });
+        player.cash += bonus;
+        soundEffects.cashChime();
+        showStatusNotice(`🏆 <strong>${player.name}</strong> nhận thưởng <strong>+${bonus}M VNĐ</strong> phát triển đô thị!`);
+        recordTransaction({
+            type: 'chance',
+            from: 'Ngân Hàng',
+            to: player.name,
+            amount: bonus,
+            title: card.title,
+            desc: `Thưởng tài sản +${bonus}M`,
+            icon: '🏆'
+        });
+    } else if (card.type === "property_repair") {
+        let fee = 0;
+        player.props.forEach(pId => {
+            const t = VIETNAM_TILES.find(item => item.id === pId);
+            if (t) {
+                if (t.level === 1) fee += card.houseFee || 25;
+                else if (t.level === 2) fee += (card.houseFee || 25) * 2;
+                else if (t.level >= 3) fee += card.hotelFee || 50;
+            }
+        });
+        player.cash -= fee;
+        gameState.parkingPool += fee;
+        soundEffects.payRent();
+        showStatusNotice(`🔧 <strong>${player.name}</strong> nộp <strong>${fee}M VNĐ</strong> phí sửa chữa nhà cửa vào Hũ!`);
+        recordTransaction({
+            type: 'challenge',
+            from: player.name,
+            to: 'Hũ Bãi Đỗ Xe',
+            amount: fee,
+            title: card.title,
+            desc: `Sửa chữa BĐS -${fee}M`,
+            icon: '🔧'
+        });
+        checkBankruptcy(player);
+    } else if (card.type === "fly_anywhere") {
+        openAirportModal(player);
+        return;
     }
+
     updateUI();
 }
 
-// 21. XỬ LÝ NHÀ TÙ & BẢO LÃNH
+// 20. XỬ LÝ NHÀ TÙ & BẢO LÃNH & THẺ ÂN XÁ
 function openJailModal() {
     const player = gameState.players[gameState.currentTurnIndex];
     const modal = document.getElementById("modalJail");
     if (!modal) return;
 
     document.getElementById("jailTitle").textContent = `${player.name} Đang Ở Trong Tù!`;
-    document.getElementById("jailDesc").textContent = `Bạn đã thụ án được ${player.jailTurns} lượt. Chọn cách xử lý để ra tù:`;
+    document.getElementById("jailDesc").textContent = `Bạn đã thụ án được ${player.jailTurns} lượt. Lựa chọn cách xử lý để ra tù:`;
+
+    // Nút Dùng Thẻ Ân Xá
+    const btnCard = document.getElementById("btnUseJailCard");
+    if (btnCard) {
+        if (player.jailCardsCount > 0) {
+            btnCard.style.display = "block";
+            btnCard.innerHTML = `<span>🎫 Dùng <strong>Thẻ Ân Xá Ra Tù</strong> (Còn ${player.jailCardsCount} thẻ) - Tự Do Ngay!</span>`;
+            btnCard.onclick = () => handleUseJailCard(player);
+        } else {
+            btnCard.style.display = "none";
+        }
+    }
 
     const btnBail = document.getElementById("btnPayBail");
     if (player.cash < 50) {
@@ -1472,6 +1955,31 @@ function openJailModal() {
     }
 
     modal.classList.add("active");
+}
+
+function handleUseJailCard(player) {
+    if (!player) player = gameState.players[gameState.turnIndex];
+    if (!player || player.jailCardsCount <= 0) return;
+    player.jailCardsCount--;
+    player.inJail = false;
+    player.jailTurns = 0;
+
+    closeModal("modalJail");
+    soundEffects.cashChime();
+    showStatusNotice(`🕊️ <strong>${player.name}</strong> đã dùng <strong>Thẻ Ân Xá</strong> và được trả tự do ngay lập tức! Hãy tung xúc xắc.`);
+
+    recordTransaction({
+        type: 'chance',
+        from: player.name,
+        to: 'Tòa Án',
+        amount: null,
+        title: 'Dùng Thẻ Ân Xá Ra Tù',
+        desc: `${player.name} dùng thẻ ân xá để thoát khỏi nhà tù`,
+        icon: '🕊️'
+    });
+
+    renderPlayerHUD();
+    updateUI();
 }
 
 function handlePayBail() {
@@ -1486,6 +1994,17 @@ function handlePayBail() {
 
     closeModal("modalJail");
     showStatusNotice(`🕊️ <strong>${player.name}</strong> đã nộp 50M bảo lãnh và được tự do! Hãy tung xúc xắc.`);
+
+    recordTransaction({
+        type: 'tax',
+        from: player.name,
+        to: 'Hũ Bãi Đỗ Xe',
+        amount: 50,
+        title: 'Tiền bảo lãnh ra tù',
+        desc: `${player.name} nộp 50M tiền bảo lãnh`,
+        icon: '💵'
+    });
+
     updateUI();
 }
 
@@ -1496,16 +2015,17 @@ function handleTryRollJail() {
     gameState.isRolling = true;
     updateUI();
 
-    const diceResult = Math.floor(Math.random() * 6) + 1;
-    roll3DDice(diceResult, () => {
+    roll3DDice((rollRes) => {
         gameState.isRolling = false;
-        if (diceResult >= 4) {
+        const { d1, d2, sum, isDouble } = rollRes;
+
+        if (isDouble) {
             player.inJail = false;
             player.jailTurns = 0;
             soundEffects.cashChime();
-            showStatusNotice(`🎉 <strong>${player.name}</strong> đổ được ${diceResult} điểm (>= 4) và <strong>ĐÃ ĐƯỢC THẢ TỰ DO</strong>!`);
-            movePlayerStepByStep(player, diceResult, () => {
-                handleTileAction(player, player.position, diceResult);
+            showStatusNotice(`🎉 <strong>${player.name}</strong> đổ được <strong>cặp đôi (${d1} - ${d2})</strong> và <strong>ĐÃ ĐƯỢC THẢ TỰ DO</strong>!`);
+            movePlayerStepByStep(player, sum, () => {
+                handleTileAction(player, player.position, sum, false);
             });
         } else {
             player.jailTurns += 1;
@@ -1515,10 +2035,10 @@ function handleTryRollJail() {
                 gameState.parkingPool += 50;
                 player.inJail = false;
                 player.jailTurns = 0;
-                showStatusNotice(`⏳ <strong>${player.name}</strong> hết hạn tạm giam 3 lượt, tự động trừ 50M và ra tù!`);
+                showStatusNotice(`⏳ <strong>${player.name}</strong> hết hạn tạm giam 3 lượt, tự động trừ 50M bảo lãnh và ra tù!`);
                 finishTurn();
             } else {
-                showStatusNotice(`❌ <strong>${player.name}</strong> đổ được ${diceResult} điểm (< 4). Chưa thoát khỏi nhà tù!`);
+                showStatusNotice(`❌ <strong>${player.name}</strong> đổ được ${d1} - ${d2} (Không phải cặp đôi). Chưa thoát khỏi nhà tù!`);
                 finishTurn();
             }
         }
@@ -1527,105 +2047,70 @@ function handleTryRollJail() {
 }
 
 function handleAiJailTurn(player) {
-    if (player.cash >= 150) {
-        player.cash -= 50;
-        gameState.parkingPool += 50;
-        player.inJail = false;
-        player.jailTurns = 0;
-        showStatusNotice(`🤖 <strong>${player.name}</strong> đã chi 50M bảo lãnh để ra tù ngay lập tức!`);
-        updateUI();
-        setTimeout(() => handleRollDice(), 800);
+    if (player.jailCardsCount > 0) {
+        handleUseJailCard(player);
+        setTimeout(() => handleRollDice(), 1000);
+        return;
+    }
+    if (player.cash >= 200) {
+        handlePayBail();
+        setTimeout(() => handleRollDice(), 1000);
     } else {
-        const diceResult = Math.floor(Math.random() * 6) + 1;
-        roll3DDice(diceResult, () => {
-            if (diceResult >= 4) {
-                player.inJail = false;
-                player.jailTurns = 0;
-                showStatusNotice(`🎉 <strong>${player.name}</strong> đổ được ${diceResult} điểm và đã thoát khỏi tù!`);
-                movePlayerStepByStep(player, diceResult, () => {
-                    handleTileAction(player, player.position, diceResult);
-                });
-            } else {
-                player.jailTurns += 1;
-                showStatusNotice(`❌ <strong>${player.name}</strong> đổ được ${diceResult} điểm (< 4). Chưa thoát khỏi tù!`);
-                finishTurn();
-            }
-            updateUI();
-        });
+        handleTryRollJail();
     }
 }
 
-// 22. SÂN BAY QUỐC TẾ
-function populateAirportSelect() {
-    const sel = document.getElementById("airportDestSelect");
-    if (!sel) return;
-    sel.innerHTML = "";
-    VIETNAM_TILES.forEach(t => {
-        if (t.id !== 19) {
-            const opt = document.createElement("option");
-            opt.value = t.id;
-            opt.textContent = `${t.id}. ${t.name} (${t.regionName})`;
-            sel.appendChild(opt);
-        }
-    });
-}
-
+// 21. SÂN BAY QUỐC TẾ (BAY TỐC HÀNH)
 function openAirportModal(player) {
+    const modal = document.getElementById("modalAirportFlight");
+    if (!modal) return;
+
+    const select = document.getElementById("airportDestSelect");
+    if (select) {
+        select.innerHTML = "";
+        VIETNAM_TILES.forEach(t => {
+            if (t.id !== player.position) {
+                const opt = document.createElement("option");
+                opt.value = t.id;
+                opt.textContent = `${t.icon} ${t.name} (${t.regionName}) - ${t.price > 0 ? t.price + 'M' : t.subtitle}`;
+                select.appendChild(opt);
+            }
+        });
+    }
+
     if (player.isAi) {
-        const unowned = VIETNAM_TILES.filter(t => t.type === 'property' && !t.owner && player.cash >= t.price + 50);
-        if (unowned.length > 0) {
-            const dest = unowned[unowned.length - 1];
-            player.cash -= 50;
-            player.position = dest.id;
-            soundEffects.flightWhoosh();
-            renderPlayerTokens();
-            updateUI();
-            showStatusNotice(`✈️ <strong>${player.name}</strong> chi 50M bay tốc hành tới <strong>${dest.name}</strong>!`);
-            setTimeout(() => handleTileAction(player, dest.id, 1), 700);
+        const unowned = VIETNAM_TILES.filter(t => (t.type === 'property' || t.type === 'transport') && !t.owner && player.cash >= t.price + 50);
+        if (unowned.length > 0 && player.cash >= 100) {
+            const pick = unowned[Math.floor(Math.random() * unowned.length)];
+            confirmAirportFly(player, pick.id);
         } else {
-            showStatusNotice(`✈️ <strong>${player.name}</strong> ghé qua Sân Bay.`);
             finishTurn();
         }
         return;
     }
 
-    const modal = document.getElementById("modalAirportFlight");
-    if (!modal) return;
-
-    const btnConfirm = document.getElementById("btnConfirmAirportFly");
-    if (player.cash < 50) {
-        btnConfirm.disabled = true;
-        btnConfirm.textContent = "Không đủ tiền vé (50M)";
-    } else {
-        btnConfirm.disabled = false;
-        btnConfirm.textContent = "Cất cánh ngay (-50M)";
-    }
-
     modal.classList.add("active");
 }
 
-function handleConfirmAirportFly() {
-    const player = gameState.players[gameState.currentTurnIndex];
-    if (player.cash < 50) return;
-
-    const sel = document.getElementById("airportDestSelect");
-    const destId = parseInt(sel.value, 10);
+function confirmAirportFly(player, targetTileId = null) {
+    const destId = targetTileId !== null ? targetTileId : parseInt(document.getElementById("airportDestSelect").value);
     const destTile = VIETNAM_TILES.find(t => t.id === destId);
+    if (!destTile) return;
 
     soundEffects.flightWhoosh();
-    player.cash -= 50;
-    gameState.parkingPool += 50;
-    player.position = destId;
-
     closeModal("modalAirportFlight");
+
+    player.position = destId;
     renderPlayerTokens();
+    showStatusNotice(`✈️ <strong>${player.name}</strong> đã đáp chuyến bay tốc hành đến <strong>${destTile.name}</strong>!`);
     updateUI();
 
-    showStatusNotice(`✈️ <strong>${player.name}</strong> đã mua vé bay tốc hành tới <strong>${destTile.name}</strong>!`);
-    setTimeout(() => handleTileAction(player, destId, 1), 600);
+    setTimeout(() => {
+        handleTileAction(player, destId);
+    }, 500);
 }
 
-// 23. SOI CHI TIẾT SỔ ĐỎ BẤT ĐỘNG SẢN
+// 22. SOI CHI TIẾT SỔ ĐỎ BẤT ĐỘNG SẢN (TITLE DEED INSPECTOR)
 function inspectTileTitleDeed(tileId) {
     const tile = VIETNAM_TILES.find(t => t.id === tileId);
     if (!tile) return;
@@ -1637,25 +2122,29 @@ function inspectTileTitleDeed(tileId) {
     document.getElementById("inspectSubtitle").textContent = tile.subtitle;
     document.getElementById("inspectDesc").textContent = tile.desc;
 
+    const rentTable = document.querySelector(".inspect-rent-table");
     const ownerBox = document.getElementById("inspectOwnerBox");
     const btnUpgrade = document.getElementById("btnInspectUpgrade");
 
-    if (tile.type === "property") {
-        document.getElementById("inspectRentL1").textContent = `${tile.rent[0]}M`;
-        document.getElementById("inspectRentL2").textContent = `${tile.rent[1]}M`;
-        document.getElementById("inspectRentL3").textContent = `${tile.rent[2]}M`;
+    if (tile.type === "property" || tile.type === "transport" || tile.type === "utility") {
+        if (rentTable) {
+            rentTable.style.display = "flex";
+            document.getElementById("inspectRentL1").textContent = `${tile.rent[1] || tile.rent[0]}M`;
+            document.getElementById("inspectRentL2").textContent = `${tile.rent[2] || tile.rent[0]}M`;
+            document.getElementById("inspectRentL3").textContent = `${tile.rent[3] || tile.rent[0]}M`;
+        }
 
         if (tile.owner) {
             const ownerObj = gameState.players.find(p => p.id === tile.owner);
             const ownerName = ownerObj ? ownerObj.name : "Người chơi";
             const ownerColor = ownerObj ? ownerObj.color : "#2563eb";
-            const houseModelStr = tile.level === 1 ? '🏠 1 Nhà Phố' : tile.level === 2 ? '🏠🏠 2 Nhà Phố' : '🏨 Khách Sạn Cao Cấp';
+            const houseModelStr = tile.level === 0 ? 'Đất trống' : tile.level === 1 ? '🏠 1 Nhà Phố' : tile.level === 2 ? '🏠🏠 2 Nhà Phố' : '🏨 Khách Sạn Cao Cấp';
             ownerBox.innerHTML = `Chủ sở hữu: <strong style="color:${ownerColor};">${ownerName}</strong> (${houseModelStr})`;
 
             const current = gameState.players[gameState.currentTurnIndex];
             if (tile.owner === current.id && tile.level < 3 && !gameState.isRolling && !current.isAi) {
                 btnUpgrade.style.display = "inline-block";
-                btnUpgrade.textContent = tile.level === 1 ? `Xây thêm Nhà thứ 2 (+${tile.upgradeCost}M)` : `Xây Khách Sạn (+${tile.upgradeCost}M)`;
+                btnUpgrade.textContent = tile.level === 0 ? `Xây Nhà Phố (+${tile.upgradeCost}M)` : tile.level === 1 ? `Xây thêm Nhà thứ 2 (+${tile.upgradeCost}M)` : `Xây Khách Sạn (+${tile.upgradeCost}M)`;
                 btnUpgrade.onclick = () => {
                     closeModal("modalPostcardInspector");
                     promptUpgradeProperty(current, tile);
@@ -1664,21 +2153,19 @@ function inspectTileTitleDeed(tileId) {
                 btnUpgrade.style.display = "none";
             }
         } else {
-            ownerBox.innerHTML = `Trạng thái: <strong>Chưa ai sở hữu</strong> (Giá mua: ${tile.price}M)`;
+            ownerBox.innerHTML = `Chưa có người sở hữu • Giá niêm yết: <strong style="color:#16a34a;">${tile.price}M VNĐ</strong>`;
             btnUpgrade.style.display = "none";
         }
     } else {
-        ownerBox.innerHTML = `Khu vực đặc biệt: <strong>${tile.regionName}</strong>`;
-        document.getElementById("inspectRentL1").textContent = "-";
-        document.getElementById("inspectRentL2").textContent = "-";
-        document.getElementById("inspectRentL3").textContent = "-";
+        if (rentTable) rentTable.style.display = "none";
+        ownerBox.innerHTML = `<span style="color:#64748b;">Ô đặc biệt: ${tile.regionName}</span>`;
         btnUpgrade.style.display = "none";
     }
 
     modal.classList.add("active");
 }
 
-// 24. MỞ BẢNG DANH MỤC TÀI SẢN (PORTFOLIO)
+// 23. DANH MỤC BẤT ĐỘNG SẢN & TÀI SẢN (PORTFOLIO MODAL)
 function openPortfolioModal() {
     const modal = document.getElementById("modalPassport");
     if (!modal) return;
@@ -1687,26 +2174,31 @@ function openPortfolioModal() {
     if (statsRow) {
         statsRow.innerHTML = "";
         gameState.players.forEach(p => {
-            const stat = document.createElement("div");
-            stat.className = "pass-stat";
-            stat.innerHTML = `<span>${p.name}:</span><strong style="color:${p.color};">${Number(calculateNetWorth(p)).toLocaleString()}M</strong>`;
-            statsRow.appendChild(stat);
+            const col = document.createElement("div");
+            col.className = "passport-stat-col";
+            col.innerHTML = `
+                <div style="font-weight:800; color:${p.color};">${p.name} ${p.icon}</div>
+                <div style="font-size:16px; font-weight:800; margin:2px 0;">${Number(p.cash).toLocaleString()}M</div>
+                <div style="font-size:11px; color:#64748b;">${p.props.length} BĐS • ${playerJailStatus(p)}</div>
+            `;
+            statsRow.appendChild(col);
         });
     }
 
     const grid = document.getElementById("passportLandmarksGrid");
+    if (!grid) return;
     grid.innerHTML = "";
 
-    const properties = VIETNAM_TILES.filter(t => t.type === "property");
+    const properties = VIETNAM_TILES.filter(t => t.type === "property" || t.type === "transport" || t.type === "utility");
     properties.forEach(t => {
         const item = document.createElement("div");
-        item.className = "passport-item";
-        let statusBadge = `<span class="badge-unlocked" style="background:#64748b;">Chưa mua</span>`;
+        item.className = `pass-item ${t.owner ? 'unlocked' : ''}`;
 
+        let statusBadge = `<span class="badge-locked">Còn trống</span>`;
         if (t.owner) {
             const ownerObj = gameState.players.find(p => p.id === t.owner);
             if (ownerObj) {
-                const houseTag = t.level === 1 ? '🏠 1 Nhà' : t.level === 2 ? '🏠🏠 2 Nhà' : '🏨 Khách Sạn';
+                const houseTag = t.level === 0 ? 'Đất trống' : t.level === 1 ? '🏠 1 Nhà' : t.level === 2 ? '🏠🏠 2 Nhà' : '🏨 Khách Sạn';
                 statusBadge = `<span class="badge-unlocked" style="background:${ownerObj.color};">Sở hữu: ${ownerObj.name} (${houseTag})</span>`;
             }
         }
@@ -1714,7 +2206,7 @@ function openPortfolioModal() {
         item.innerHTML = `
             <div class="pass-item-icon">${t.icon}</div>
             <div class="pass-item-name">${t.name}</div>
-            <div class="pass-item-region">${t.price}M</div>
+            <div class="pass-item-region">${t.price}M • ${t.regionName}</div>
             ${statusBadge}
         `;
         grid.appendChild(item);
@@ -1723,14 +2215,89 @@ function openPortfolioModal() {
     modal.classList.add("active");
 }
 
-// 25. KIỂM TRA PHÁ SẢN & KẾT THÚC GAME (BANKRUPTCY CHECK)
+function playerJailStatus(player) {
+    if (player.inJail) return `<span style="color:#ef4444;">Trong tù (${player.jailTurns}L)</span>`;
+    if (player.jailCardsCount > 0) return `<span style="color:#f59e0b;">🎫 Có Ân Xá</span>`;
+    return "Tự do";
+}
+
+// 24. LỊCH SỬ GIAO DỊCH DÒNG TIỀN (TRANSACTION HISTORY MODAL)
+function openHistoryModal() {
+    const modal = document.getElementById("modalHistoryLog");
+    if (!modal) return;
+
+    const listWrap = document.getElementById("historyListWrapper");
+    if (listWrap) {
+        listWrap.innerHTML = "";
+        if (gameState.transactions.length === 0) {
+            listWrap.innerHTML = `<div style="text-align:center; padding:30px; color:#64748b; font-style:italic;">Chưa có giao dịch phát sinh nào. Hãy tung xúc xắc để bắt đầu!</div>`;
+        } else {
+            gameState.transactions.forEach(tx => {
+                const item = document.createElement("div");
+                item.className = "history-item";
+
+                const amtHtml = tx.amount !== null
+                    ? `<span class="history-item-amt ${tx.isPositive ? 'positive' : 'negative'}">${tx.isPositive ? '+' : '-'}${Number(tx.amount).toLocaleString()}M</span>`
+                    : '';
+
+                item.innerHTML = `
+                    <div class="history-item-icon">${tx.icon}</div>
+                    <div class="history-item-body">
+                        <div class="history-item-top">
+                            <span class="history-item-title">${tx.title}</span>
+                            <span class="history-item-round">Vòng ${tx.round} • ${tx.timestamp}</span>
+                        </div>
+                        <div class="history-item-desc">${tx.desc}</div>
+                    </div>
+                    ${amtHtml}
+                `;
+                listWrap.appendChild(item);
+            });
+        }
+    }
+
+    modal.classList.add("active");
+}
+
+// 25. ĐỔI TÊN NGƯỜI CHƠI (EDIT PLAYER NAME ENGINE)
+function promptChangePlayerName(playerId) {
+    const player = gameState.players.find(p => p.id === playerId);
+    if (!player) return;
+
+    gameState.editingPlayerId = playerId;
+    const modal = document.getElementById("modalEditPlayerName");
+    const input = document.getElementById("inputEditPlayerName");
+    if (modal && input) {
+        input.value = player.name;
+        modal.classList.add("active");
+        setTimeout(() => input.focus(), 150);
+    }
+}
+
+function saveEditedPlayerName() {
+    const input = document.getElementById("inputEditPlayerName");
+    if (!input || !gameState.editingPlayerId) return;
+
+    const newName = input.value.trim();
+    if (newName) {
+        const player = gameState.players.find(p => p.id === gameState.editingPlayerId);
+        if (player) {
+            player.name = newName;
+            showStatusNotice(`✏️ Đã đổi tên người chơi thành: <strong>${player.name}</strong>`);
+            renderPlayerHUD();
+            updateUI();
+        }
+    }
+    closeModal("modalEditPlayerName");
+    gameState.editingPlayerId = null;
+}
+
+// 26. KIỂM TRA PHÁ SẢN & KẾT THÚC GAME
 function checkBankruptcy(player, onContinue) {
     if (player.cash < 0) {
         const netWorth = calculateNetWorth(player);
         if (netWorth < 0) {
-            // Người chơi chính thức phá sản
             player.isBankrupt = true;
-            // Trả lại đất về ngân hàng
             player.props.forEach(propId => {
                 const t = VIETNAM_TILES.find(item => item.id === propId);
                 if (t) {
@@ -1739,186 +2306,231 @@ function checkBankruptcy(player, onContinue) {
                 }
             });
             player.props = [];
-            showStatusNotice(`☠️ <strong>${player.name}</strong> đã cạn kiệt vốn và <strong>CHÍNH THỨC PHÁ SẢN</strong>!`);
-            updateUI();
+            showStatusNotice(`💀 <strong>${player.name}</strong> chính thức PHÁ SẢN và bị loại khỏi ván cờ!`);
+            recordTransaction({
+                type: 'info',
+                from: player.name,
+                to: 'Tòa Án',
+                amount: null,
+                title: 'Phá Sản',
+                desc: `${player.name} phá sản và rời khỏi cuộc chơi`,
+                icon: '💀'
+            });
 
-            // Kiểm tra xem còn lại bao nhiêu người chưa phá sản
             const activePlayers = gameState.players.filter(p => !p.isBankrupt);
-            if (activePlayers.length <= 1) {
-                triggerGameOver(activePlayers[0] || player);
+            if (activePlayers.length === 1) {
+                triggerGameOver(activePlayers[0]);
                 return;
             }
-        } else {
-            showStatusNotice(`⚠️ <strong>${player.name}</strong> đang âm tiền mặt (${player.cash}M)! Cần thu xếp tài chính.`);
         }
     }
     if (onContinue) onContinue();
 }
 
-function triggerGameOver(winner) {
-    soundEffects.jackpotWin();
-    visualFX.triggerConfetti();
-
-    const modal = document.getElementById("modalGameOver");
-    if (modal) {
-        document.getElementById("winnerText").innerHTML = `
-            Chúc mừng <strong>${winner.name} (${winner.icon})</strong> đã xuất sắc trở thành ĐẠI TỶ PHÚ DUY NHẤT!<br>
-            Tổng tài sản chung cuộc: <strong>${Number(calculateNetWorth(winner)).toLocaleString()}M VNĐ</strong>! 👑
-        `;
-        modal.classList.add("active");
-    }
-}
-
-// 26. KẾT THÚC LƯỢT CHƠI & CHUYỂN TIẾP (FINISH TURN)
+// 27. KẾT THÚC LƯỢT VÀ CHUYỂN NGƯỜI TIẾP THEO
 function finishTurn() {
-    let nextIdx = (gameState.currentTurnIndex + 1) % gameState.players.length;
-    let attempts = 0;
+    // Nếu lắc được cặp đôi và không ở tù: ĐƯỢC TUNG THÊM 1 LƯỢT!
+    const current = gameState.players[gameState.currentTurnIndex];
+    if (gameState.rolledDoubleTurn && current && !current.inJail && !current.isBankrupt) {
+        gameState.rolledDoubleTurn = false;
+        showStatusNotice(`🎲 <strong>${current.name}</strong> lắc được cặp đôi nên <strong>ĐƯỢC TUNG THÊM 1 LƯỢT NỮA</strong>!`);
+        updateUI();
+        if (current.isAi) {
+            setTimeout(handleRollDice, 1200);
+        }
+        return;
+    }
 
-    // Bỏ qua người chơi đã phá sản
-    while (gameState.players[nextIdx].isBankrupt && attempts < gameState.players.length) {
+    gameState.rolledDoubleTurn = false;
+
+    let nextIdx = (gameState.currentTurnIndex + 1) % gameState.players.length;
+    let loopCount = 0;
+    while (gameState.players[nextIdx].isBankrupt && loopCount < gameState.players.length) {
         nextIdx = (nextIdx + 1) % gameState.players.length;
-        attempts++;
+        loopCount++;
+    }
+
+    if (nextIdx === 0) {
+        gameState.roundCount++;
     }
 
     gameState.currentTurnIndex = nextIdx;
     updateUI();
 
-    const current = gameState.players[gameState.currentTurnIndex];
-    showStatusNotice(`👉 Đang tới lượt của <strong>${current.name}</strong> (${current.icon})!`);
+    const nextPlayer = gameState.players[gameState.currentTurnIndex];
+    showStatusNotice(`👉 Đang tới lượt của <strong>${nextPlayer.name}</strong> (${nextPlayer.icon})!`);
 
-    // Nếu người chơi tiếp theo là AI
-    if (current.isAi && !current.isBankrupt) {
-        setTimeout(() => {
-            handleRollDice();
-        }, 1100);
+    if (nextPlayer.isAi && !nextPlayer.isBankrupt) {
+        setTimeout(handleRollDice, 1200);
     }
 }
 
-// 27. THÔNG BÁO TRẠNG THÁI TRÊN HUB
-function showStatusNotice(htmlMsg) {
-    const statusEl = document.getElementById("actionStatusMsg");
-    if (statusEl) {
-        statusEl.innerHTML = htmlMsg;
+function triggerGameOver(winner) {
+    const modal = document.getElementById("modalGameOver");
+    if (!modal) return;
+
+    soundEffects.jackpotWin();
+    document.getElementById("winnerText").innerHTML = `🎉 Người chiến thắng: <strong style="color:${winner.color}; font-size:22px;">${winner.name}</strong> (${winner.icon}) với khối tài sản khổng lồ <strong>${Number(calculateNetWorth(winner)).toLocaleString()}M VNĐ</strong>!`;
+
+    modal.classList.add("active");
+}
+
+function showStatusNotice(msg) {
+    const noticeEl = document.getElementById("actionStatusMsg");
+    if (noticeEl) {
+        noticeEl.innerHTML = msg;
     }
 }
 
-// 28. ĐÓNG CÁC MODAL
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove("active");
+// 28. CÀI ĐẶT VÁN ĐẤU (CHỌN 2 - 4 NGƯỜI, ĐỔI TÊN & ĐẤU AI)
+function initGameSetupModal() {
+    const modal = document.getElementById("modalGameSetup");
+    const countBtns = document.querySelectorAll(".count-opt-btn");
+    const modePass = document.getElementById("optModePassPlay");
+    const modeAi = document.getElementById("optModeAI");
+    const rosterEl = document.getElementById("setupPlayersRoster");
+
+    countBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            countBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            gameState.playerCount = parseInt(btn.getAttribute("data-count"));
+            renderSetupRoster();
+        });
+    });
+
+    if (modePass && modeAi) {
+        modePass.addEventListener("click", () => {
+            modePass.classList.add("active");
+            modeAi.classList.remove("active");
+            gameState.gameMode = "pass_play";
+            renderSetupRoster();
+        });
+        modeAi.addEventListener("click", () => {
+            modeAi.classList.add("active");
+            modePass.classList.remove("active");
+            gameState.gameMode = "ai";
+            renderSetupRoster();
+        });
+    }
+
+    function renderSetupRoster() {
+        if (!rosterEl) return;
+        rosterEl.innerHTML = "";
+
+        const count = gameState.playerCount;
+        const isAiMode = gameState.gameMode === "ai";
+
+        for (let i = 0; i < count; i++) {
+            const cfg = ALL_PLAYER_CONFIGS[i];
+            const isAi = isAiMode && i > 0;
+            const row = document.createElement("div");
+            row.className = "setup-player-row";
+            row.innerHTML = `
+                <div class="setup-p-icon" style="background:${cfg.bg}; color:${cfg.color};">${cfg.icon}</div>
+                <input type="text" class="setup-player-name-input" data-player-idx="${i}" value="${cfg.name}" maxlength="12" placeholder="Tên người chơi">
+                <span class="setup-p-type-badge ${isAi ? 'type-ai' : 'type-human'}">${isAi ? 'Máy (AI)' : 'Người chơi'}</span>
+            `;
+            rosterEl.appendChild(row);
+        }
+    }
+
+    renderSetupRoster();
+
+    const btnStart = document.getElementById("btnStartCustomGame");
+    if (btnStart) {
+        btnStart.addEventListener("click", () => {
+            const inputs = document.querySelectorAll(".setup-player-name-input");
+            inputs.forEach(inp => {
+                const idx = parseInt(inp.getAttribute("data-player-idx"));
+                const val = inp.value.trim();
+                if (val && ALL_PLAYER_CONFIGS[idx]) {
+                    ALL_PLAYER_CONFIGS[idx].name = val;
+                }
+            });
+
+            closeModal("modalGameSetup");
+            startNewGame(gameState.playerCount, gameState.gameMode);
+        });
+    }
+
+    const btnClose = document.getElementById("btnCloseSetup");
+    if (btnClose) {
+        btnClose.addEventListener("click", () => closeModal("modalGameSetup"));
     }
 }
 
-// 29. BẮT ĐẦU VÁN MỚI THEO CÀI ĐẶT
-function startNewGameWithConfig(count, mode) {
-    gameState.playerCount = count;
-    gameState.gameMode = mode;
+// 29. BẮT ĐẦU VÁN ĐẤU MỚI (START NEW GAME)
+function startNewGame(playerCount = 2, gameMode = "pass_play") {
+    gameState.playerCount = playerCount;
+    gameState.gameMode = gameMode;
     gameState.currentTurnIndex = 0;
-    gameState.isRolling = false;
-    gameState.parkingPool = 100;
     gameState.roundCount = 1;
+    gameState.parkingPool = 100;
+    gameState.isRolling = false;
+    gameState.rolledDoubleTurn = false;
+    gameState.transactions = [];
 
+    // Reset toàn bộ 36 ô đất
     VIETNAM_TILES.forEach(t => {
         t.owner = null;
         t.level = 0;
     });
 
-    closeModal("modalGameSetup");
-    closeModal("modalGameOver");
-    closeModal("modalBuyProperty");
-    closeModal("modalPostcardInspector");
-    closeModal("modalLoveCard");
-    closeModal("modalJail");
-    closeModal("modalAirportFlight");
-    closeModal("modalPassport");
-
-    initPlayers();
-    initMonopolyBoard();
-
-    showStatusNotice(`🚩 Ván cờ ${count} người chơi (${mode === 'ai' ? 'Đấu với AI' : 'Chơi cùng nhau'}) đã bắt đầu!`);
-}
-
-// 30. GIAO DIỆN CÀI ĐẶT VÁN ĐẤU (SETUP MODAL)
-function openSetupModal() {
-    const modal = document.getElementById("modalGameSetup");
-    if (!modal) return;
-
-    let selectedCount = gameState.playerCount;
-    let selectedMode = gameState.gameMode;
-
-    // Cập nhật nút số người
-    document.querySelectorAll(".count-opt-btn").forEach(btn => {
-        const c = parseInt(btn.getAttribute("data-count"), 10);
-        if (c === selectedCount) {
-            btn.classList.add("active");
-        } else {
-            btn.classList.remove("active");
-        }
-    });
-
-    // Cập nhật chế độ
-    const btnPass = document.getElementById("optModePassPlay");
-    const btnAi = document.getElementById("optModeAI");
-    if (btnPass && btnAi) {
-        btnPass.className = `mode-card-opt ${selectedMode === 'pass_play' ? 'active' : ''}`;
-        btnAi.className = `mode-card-opt ${selectedMode === 'ai' ? 'active' : ''}`;
-    }
-
-    renderSetupRoster(selectedCount, selectedMode);
-    modal.classList.add("active");
-}
-
-function renderSetupRoster(count, mode) {
-    const rosterEl = document.getElementById("setupPlayersRoster");
-    if (!rosterEl) return;
-    rosterEl.innerHTML = "";
-
-    for (let i = 0; i < count; i++) {
+    gameState.players = [];
+    for (let i = 0; i < playerCount; i++) {
         const cfg = ALL_PLAYER_CONFIGS[i];
-        const isAi = (mode === "ai" && i > 0);
-
-        const row = document.createElement("div");
-        row.className = "setup-player-row";
-        row.innerHTML = `
-            <div class="setup-p-left">
-                <span class="setup-p-icon">${cfg.icon}</span>
-                <span class="setup-p-name" style="color:${cfg.color};">${cfg.name}</span>
-            </div>
-            <span class="setup-p-type-badge ${isAi ? 'type-ai' : 'type-human'}">
-                ${isAi ? '🤖 Máy AI' : '👤 Người chơi'}
-            </span>
-        `;
-        rosterEl.appendChild(row);
-    }
-}
-
-// 31. GẮN SỰ KIỆN DOM SAU KHI TẢI TRANG
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Khởi tạo người chơi & bàn cờ
-    initPlayers();
-    initMonopolyBoard();
-
-    // 2. Nút tung xúc xắc
-    const rollBtn = document.getElementById("rollDiceBtn");
-    if (rollBtn) {
-        rollBtn.addEventListener("click", () => {
-            soundEffects.init();
-            handleRollDice();
+        gameState.players.push({
+            id: `p${i}`,
+            name: cfg.name,
+            icon: cfg.icon,
+            color: cfg.color,
+            glow: cfg.glow,
+            bg: cfg.bg,
+            cash: 1500,
+            position: 0,
+            props: [],
+            isBankrupt: false,
+            inJail: false,
+            jailTurns: 0,
+            jailCardsCount: 0, // Kho thẻ ân xá
+            frozenTurns: 0,    // Số lượt tạm dừng
+            isAi: gameMode === "ai" && i > 0
         });
     }
 
-    // 3. Nút mua / bỏ qua bất động sản
+    recordTransaction({
+        type: 'info',
+        from: 'Hệ Thống',
+        to: 'Tất Cả',
+        amount: 1500,
+        title: 'Bắt đầu ván đấu mới',
+        desc: `Ván đấu ${playerCount} người khởi động, mỗi người nhận 1,500M tiền mặt`,
+        icon: '🎲'
+    });
+
+    initMonopolyBoard();
+    showStatusNotice(`🎲 Ván cờ bắt đầu! Người chơi đầu tiên: <strong>${gameState.players[0].name}</strong>`);
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) modal.classList.remove("active");
+}
+
+// 30. GẮN SỰ KIỆN CÁC NÚT BẤM (BUTTON EVENT LISTENERS)
+function setupEventListeners() {
+    const rollBtn = document.getElementById("rollDiceBtn");
+    if (rollBtn) rollBtn.addEventListener("click", handleRollDice);
+
     const btnConfirmBuy = document.getElementById("btnConfirmBuy");
     if (btnConfirmBuy) {
         btnConfirmBuy.addEventListener("click", () => {
             const player = gameState.players[gameState.currentTurnIndex];
             const tile = gameState.pendingPropertyTile;
-            if (!tile || !player) return;
-            if (!tile.owner) {
-                confirmBuyProperty(player, tile);
-            } else if (tile.owner === player.id) {
-                confirmUpgradeProperty(player, tile);
+            if (player && tile) {
+                if (!tile.owner) confirmBuyProperty(player, tile);
+                else confirmUpgradeProperty(player, tile);
             }
         });
     }
@@ -1931,40 +2543,83 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 4. Modal Sổ Đỏ
-    const btnCloseInspect = document.getElementById("btnCloseInspect");
-    if (btnCloseInspect) {
-        btnCloseInspect.addEventListener("click", () => closeModal("modalPostcardInspector"));
-    }
-
-    // 5. Modal Cơ hội & Khí vận
     const btnAcceptCard = document.getElementById("btnAcceptLoveCard");
     if (btnAcceptCard) {
         btnAcceptCard.addEventListener("click", () => {
             closeModal("modalLoveCard");
             if (gameState.pendingCardAction) {
-                applyCardEffect(gameState.pendingCardAction.player, gameState.pendingCardAction.card);
+                const { player, card, cardType } = gameState.pendingCardAction;
+                applyCardEffect(player, card, cardType);
                 gameState.pendingCardAction = null;
+                finishTurn();
             }
-            finishTurn();
         });
     }
 
-    // 6. Modal Nhà tù
     const btnPayBail = document.getElementById("btnPayBail");
-    if (btnPayBail) {
-        btnPayBail.addEventListener("click", handlePayBail);
-    }
+    if (btnPayBail) btnPayBail.addEventListener("click", handlePayBail);
 
     const btnTryRollJail = document.getElementById("btnTryRollJail");
-    if (btnTryRollJail) {
-        btnTryRollJail.addEventListener("click", handleTryRollJail);
+    if (btnTryRollJail) btnTryRollJail.addEventListener("click", handleTryRollJail);
+
+    const btnCloseInspect = document.getElementById("btnCloseInspect");
+    if (btnCloseInspect) btnCloseInspect.addEventListener("click", () => closeModal("modalPostcardInspector"));
+
+    const btnOpenPort = document.getElementById("btnOpenPortfolio");
+    if (btnOpenPort) btnOpenPort.addEventListener("click", openPortfolioModal);
+
+    const btnClosePort = document.getElementById("btnClosePassport");
+    if (btnClosePort) btnClosePort.addEventListener("click", () => closeModal("modalPassport"));
+
+    const btnOpenHistory = document.getElementById("btnOpenHistory");
+    if (btnOpenHistory) btnOpenHistory.addEventListener("click", openHistoryModal);
+
+    const btnCloseHist = document.getElementById("btnCloseHistory");
+    if (btnCloseHist) btnCloseHist.addEventListener("click", () => closeModal("modalHistoryLog"));
+
+    const btnCloseHistCorner = document.getElementById("btnCloseHistoryCorner");
+    if (btnCloseHistCorner) btnCloseHistCorner.addEventListener("click", () => closeModal("modalHistoryLog"));
+
+    const btnSaveName = document.getElementById("btnSavePlayerName");
+    if (btnSaveName) btnSaveName.addEventListener("click", saveEditedPlayerName);
+
+    const btnCancelName = document.getElementById("btnCancelEditName");
+    if (btnCancelName) btnCancelName.addEventListener("click", () => closeModal("modalEditPlayerName"));
+
+    const btnHelp = document.getElementById("btnHelpGuide");
+    if (btnHelp) btnHelp.addEventListener("click", () => {
+        const m = document.getElementById("modalHelp");
+        if (m) m.classList.add("active");
+    });
+
+    const btnCloseHelp = document.getElementById("btnCloseHelp");
+    if (btnCloseHelp) btnCloseHelp.addEventListener("click", () => closeModal("modalHelp"));
+
+    const btnSound = document.getElementById("btnToggleSound");
+    const soundIcon = document.getElementById("soundIcon");
+    if (btnSound) {
+        btnSound.addEventListener("click", () => {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            if (soundIcon) soundIcon.textContent = gameState.soundEnabled ? "🔔" : "🔕";
+            showStatusNotice(gameState.soundEnabled ? "🔔 Đã bật âm thanh trò chơi" : "🔕 Đã tắt âm thanh trò chơi");
+        });
     }
 
-    // 7. Modal Sân bay
-    const btnConfirmFly = document.getElementById("btnConfirmAirportFly");
-    if (btnConfirmFly) {
-        btnConfirmFly.addEventListener("click", handleConfirmAirportFly);
+    const btnRestartQuick = document.getElementById("btnRestartQuick");
+    if (btnRestartQuick) {
+        btnRestartQuick.addEventListener("click", () => {
+            const m = document.getElementById("modalGameSetup");
+            if (m) m.classList.add("active");
+        });
+    }
+
+    const btnRestartFromWin = document.getElementById("btnRestartFromWinner");
+    if (btnRestartFromWin) {
+        btnRestartFromWin.addEventListener("click", () => {
+            closeModal("modalGameOver");
+            const m = document.getElementById("modalGameSetup");
+            if (m) m.classList.add("active");
+        });
     }
 
     const btnCancelFly = document.getElementById("btnCancelAirportFly");
@@ -1975,163 +2630,72 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 8. Modal Danh mục tài sản
-    const btnOpenPort = document.getElementById("btnOpenPortfolio");
-    if (btnOpenPort) {
-        btnOpenPort.addEventListener("click", openPortfolioModal);
-    }
-
-    const btnClosePort = document.getElementById("btnClosePassport");
-    if (btnClosePort) {
-        btnClosePort.addEventListener("click", () => closeModal("modalPassport"));
-    }
-
-    // 9. Nút Luật chơi
-    const btnHelp = document.getElementById("btnHelpGuide");
-    const modalHelp = document.getElementById("modalHelp");
-    const btnCloseHelp = document.getElementById("btnCloseHelp");
-    if (btnHelp && modalHelp) {
-        btnHelp.addEventListener("click", () => modalHelp.classList.add("active"));
-    }
-    if (btnCloseHelp && modalHelp) {
-        btnCloseHelp.addEventListener("click", () => modalHelp.classList.remove("active"));
-    }
-
-    // 10. Nút Bật/Tắt âm thanh
-    const btnSound = document.getElementById("btnToggleSound");
-    const soundIcon = document.getElementById("soundIcon");
-    if (btnSound) {
-        btnSound.addEventListener("click", () => {
-            gameState.soundEnabled = !gameState.soundEnabled;
-            if (soundIcon) soundIcon.textContent = gameState.soundEnabled ? "🔔" : "🔕";
+    const btnConfirmFly = document.getElementById("btnConfirmAirportFly");
+    if (btnConfirmFly) {
+        btnConfirmFly.addEventListener("click", () => {
+            const player = gameState.players[gameState.currentTurnIndex];
+            confirmAirportFly(player);
         });
     }
+}
 
-    // 11. Nút mở cài đặt ván đấu (2 - 4 người & AI)
-    const btnOpenSetup = document.getElementById("btnOpenSetup");
-    if (btnOpenSetup) {
-        btnOpenSetup.addEventListener("click", openSetupModal);
-    }
+// 31. ĐỒNG BỘ THEME VỚI TRANG CHỦ
+const THEME_NAMES = {
+    "sunset": "Hoàng Hôn",
+    "vintage-rose": "Hoa Hồng Cổ",
+    "midnight": "Đêm Đầy Sao",
+    "autumn": "Mùa Thu",
+    "cotton-candy": "Kẹo Ngọt",
+    "ocean": "Biển Xanh",
+    "secret-garden": "Vườn Bí Mật",
+    "bordeaux": "Rượu Vang",
+    "mocha": "Cà Phê",
+    "lavender": "Oải Hương",
+    "peach": "Trà Đào",
+    "aurora-night": "Đêm Đông"
+};
 
-    const btnCloseSetup = document.getElementById("btnCloseSetup");
-    if (btnCloseSetup) {
-        btnCloseSetup.addEventListener("click", () => closeModal("modalGameSetup"));
-    }
+function initThemeSwitcher() {
+    const savedTheme = localStorage.getItem("preferred_theme") || "sunset";
+    document.documentElement.setAttribute("data-theme", savedTheme);
 
-    // Tương tác trong modal Cài đặt
-    let tempCount = gameState.playerCount;
-    let tempMode = gameState.gameMode;
-
-    document.querySelectorAll(".count-opt-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
-            document.querySelectorAll(".count-opt-btn").forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            tempCount = parseInt(btn.getAttribute("data-count"), 10);
-            renderSetupRoster(tempCount, tempMode);
-        });
-    });
-
-    const optPass = document.getElementById("optModePassPlay");
-    const optAi = document.getElementById("optModeAI");
-    if (optPass && optAi) {
-        optPass.addEventListener("click", () => {
-            optPass.classList.add("active");
-            optAi.classList.remove("active");
-            tempMode = "pass_play";
-            renderSetupRoster(tempCount, tempMode);
-        });
-        optAi.addEventListener("click", () => {
-            optAi.classList.add("active");
-            optPass.classList.remove("active");
-            tempMode = "ai";
-            renderSetupRoster(tempCount, tempMode);
-        });
-    }
-
-    const btnStartCustom = document.getElementById("btnStartCustomGame");
-    if (btnStartCustom) {
-        btnStartCustom.addEventListener("click", () => {
-            startNewGameWithConfig(tempCount, tempMode);
-        });
-    }
-
-    // 12. Nút Ván mới nhanh
-    const btnRestartQuick = document.getElementById("btnRestartQuick");
-    if (btnRestartQuick) {
-        btnRestartQuick.addEventListener("click", openSetupModal);
-    }
-
-    const btnRestartFromWinner = document.getElementById("btnRestartFromWinner");
-    if (btnRestartFromWinner) {
-        btnRestartFromWinner.addEventListener("click", openSetupModal);
-    }
-
-    // 13. Khởi tạo bộ chọn theme giao diện
-    initThemeManager();
-});
-
-// 32. ĐỒNG BỘ THEME VỚI TRANG CHỦ
-function initThemeManager() {
-    const themeBtn = document.getElementById("themeSettingBtn");
-    const themeModal = document.getElementById("themeModalOverlay");
+    const settingBtn = document.getElementById("themeSettingBtn");
+    const modal = document.getElementById("themeModalOverlay");
     const closeBtn = document.getElementById("themeModalCloseBtn");
     const applyBtn = document.getElementById("themeApplyBtn");
     const currentNameEl = document.getElementById("themeCurrentName");
 
-    const THEME_NAMES = {
-        sunset: "Hoàng Hôn",
-        "vintage-rose": "Hoa Hồng Cổ",
-        midnight: "Đêm Đầy Sao",
-        autumn: "Mùa Thu",
-        "cotton-candy": "Kẹo Ngọt",
-        ocean: "Biển Xanh",
-        "secret-garden": "Vườn Bí Mật",
-        bordeaux: "Rượu Vang",
-        mocha: "Cà Phê",
-        lavender: "Oải Hương",
-        peach: "Trà Đào",
-        "aurora-night": "Đêm Đông"
-    };
+    if (currentNameEl) {
+        currentNameEl.textContent = THEME_NAMES[savedTheme] || savedTheme;
+    }
 
-    function setTheme(themeKey) {
-        document.documentElement.setAttribute("data-theme", themeKey);
-        try {
-            localStorage.setItem("couple_love_theme", themeKey);
-        } catch (e) {}
+    if (settingBtn && modal) {
+        settingBtn.addEventListener("click", () => modal.classList.add("active"));
+    }
+    if (closeBtn && modal) {
+        closeBtn.addEventListener("click", () => modal.classList.remove("active"));
+    }
+    if (applyBtn && modal) {
+        applyBtn.addEventListener("click", () => modal.classList.remove("active"));
+    }
 
-        if (currentNameEl) {
-            currentNameEl.textContent = THEME_NAMES[themeKey] || themeKey;
-        }
-
-        document.querySelectorAll(".theme-card-option").forEach(card => {
-            if (card.getAttribute("data-theme") === themeKey) {
-                card.classList.add("selected");
-            } else {
-                card.classList.remove("selected");
+    const cards = document.querySelectorAll(".theme-card-option");
+    cards.forEach(card => {
+        card.addEventListener("click", () => {
+            const themeKey = card.getAttribute("data-theme");
+            document.documentElement.setAttribute("data-theme", themeKey);
+            localStorage.setItem("preferred_theme", themeKey);
+            if (currentNameEl) {
+                currentNameEl.textContent = THEME_NAMES[themeKey] || themeKey;
             }
-        });
-    }
-
-    let savedTheme = "sunset";
-    try {
-        savedTheme = localStorage.getItem("couple_love_theme") || "sunset";
-    } catch (e) {}
-    setTheme(savedTheme);
-
-    if (themeBtn && themeModal) {
-        themeBtn.addEventListener("click", () => themeModal.classList.add("active"));
-    }
-    if (closeBtn && themeModal) {
-        closeBtn.addEventListener("click", () => themeModal.classList.remove("active"));
-    }
-    if (applyBtn && themeModal) {
-        applyBtn.addEventListener("click", () => themeModal.classList.remove("active"));
-    }
-
-    document.querySelectorAll(".theme-card-option").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const t = btn.getAttribute("data-theme");
-            if (t) setTheme(t);
         });
     });
 }
+
+// 32. KHỞI CHẠY KHI TẢI TRANG (DOM CONTENT LOADED)
+document.addEventListener("DOMContentLoaded", () => {
+    initThemeSwitcher();
+    setupEventListeners();
+    initGameSetupModal();
+    startNewGame(2, "pass_play");
+});
