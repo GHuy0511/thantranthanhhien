@@ -1,13 +1,12 @@
 /**
  * ========================================================
- * CSS CỜ TỶ PHÚ DU LỊCH VIỆT NAM (HÀNH TRÌNH XUYÊN VIỆT)
- * Lưới 7x7 - 24 Danh Lam Thắng Cảnh Nổi Tiếng Bậc Nhất Việt Nam
- * Đầy đủ tính năng: Nâng Cấp Kỳ Quan, Sân Bay, Hộ Chiếu, Thư Tình Duyên
- * Hoạt họa 3D mượt mà, tối ưu trên cả Máy tính & Điện thoại di động
+ * CSS CỜ TỶ PHÚ VIỆT NAM (MONOPOLY VIETNAM EDITION)
+ * Game chiến thuật bất động sản & đầu tư chuẩn Monopoly
+ * Thiết kế bảng cờ 7x7 (24 ô), xúc xắc 3D chân thực, tối ưu màn hình
  * ========================================================
  */
 
-/* KHUNG CHÍNH */
+/* KHUNG CHÍNH CỦA TRANG GAME */
 .games-body {
     min-height: 100vh;
     background-color: var(--bg-page, #fbf8f4);
@@ -66,8 +65,8 @@
 
 .games-brand-tag {
     display: inline-block;
-    font-size: 10.5px;
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 800;
     letter-spacing: 1.5px;
     color: var(--accent-warm, #d96b52);
     text-transform: uppercase;
@@ -75,11 +74,12 @@
 
 .games-brand-title {
     margin: 2px 0 0;
-    font-family: 'Dancing Script', cursive, var(--font-serif);
-    font-size: clamp(22px, 3.8vw, 32px);
-    font-weight: 700;
-    color: var(--accent-warm, #d96b52);
+    font-family: var(--font-sans);
+    font-size: clamp(20px, 3.5vw, 28px);
+    font-weight: 800;
+    color: var(--text-primary);
     line-height: 1.2;
+    letter-spacing: -0.5px;
 }
 
 .games-theme-btn {
@@ -100,7 +100,7 @@
     gap: 14px;
 }
 
-/* SECTION THÔNG TIN 2 NGƯỜI CHƠI (PLAYER HUD) */
+/* SECTION THÔNG TIN TÀI CHÍNH 2 NGƯỜI CHƠI (PLAYER HUD) */
 .players-hud-section {
     width: 100%;
     display: flex;
@@ -115,7 +115,7 @@
     align-items: center;
     gap: 12px;
     padding: 12px 16px;
-    border-radius: 20px;
+    border-radius: 18px;
     background: var(--card-surface, #ffffff);
     border: 1.5px solid var(--border-card, rgba(0, 0, 0, 0.08));
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
@@ -128,20 +128,20 @@
 }
 
 .player-hud-card.hud-huy.active-turn {
-    border-color: #3b82f6;
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+    border-color: #2563eb;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.22);
 }
 
 .player-hud-card.hud-hien.active-turn {
-    border-color: #ec4899;
-    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.25);
+    border-color: #db2777;
+    box-shadow: 0 6px 20px rgba(219, 39, 119, 0.22);
 }
 
 .player-hud-avatar-wrap {
     position: relative;
     width: 46px;
     height: 46px;
-    border-radius: 50%;
+    border-radius: 14px;
     background: var(--bg-page);
     display: flex;
     align-items: center;
@@ -150,7 +150,7 @@
 }
 
 .player-avatar-icon {
-    font-size: 26px;
+    font-size: 24px;
 }
 
 .player-turn-indicator {
@@ -159,10 +159,10 @@
     left: 50%;
     transform: translateX(-50%);
     color: #ffffff;
-    font-size: 9px;
+    font-size: 8.5px;
     font-weight: 700;
-    padding: 1px 7px;
-    border-radius: 8px;
+    padding: 1px 6px;
+    border-radius: 6px;
     white-space: nowrap;
     opacity: 0;
     visibility: hidden;
@@ -170,13 +170,13 @@
 }
 
 .player-hud-card.hud-huy.active-turn .player-turn-indicator {
-    background: #3b82f6;
+    background: #2563eb;
     opacity: 1;
     visibility: visible;
 }
 
 .player-hud-card.hud-hien.active-turn .player-turn-indicator {
-    background: #ec4899;
+    background: #db2777;
     opacity: 1;
     visibility: visible;
 }
@@ -193,7 +193,7 @@
 }
 
 .player-name {
-    font-weight: 700;
+    font-weight: 800;
     font-size: 15px;
     color: var(--text-primary);
 }
@@ -204,13 +204,16 @@
     border-radius: 50%;
 }
 
-.dot-huy { background: #3b82f6; }
-.dot-hien { background: #ec4899; }
+.dot-huy { background: #2563eb; }
+.dot-hien { background: #db2777; }
 
-.player-badge-role {
+.player-token-badge {
     font-size: 10px;
-    font-weight: 600;
-    opacity: 0.8;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1px 6px;
+    border-radius: 6px;
+    color: var(--text-secondary);
 }
 
 .player-score-row {
@@ -221,15 +224,16 @@
 }
 
 .player-score {
-    font-family: var(--font-serif);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--accent-warm, #d96b52);
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 800;
+    color: #16a34a; /* Màu tiền mặt xanh lá uy tín */
     line-height: 1;
 }
 
 .score-unit {
     font-size: 11px;
+    font-weight: 700;
     color: var(--text-muted);
 }
 
@@ -239,13 +243,13 @@
     margin-top: 2px;
 }
 
-/* ĐIỀU KHIỂN CHẾ ĐỘ Ở GIỮA HUD */
+/* ĐIỀU KHIỂN CHẾ ĐỘ & HŨ TIỀN PHẠT Ở GIỮA HUD */
 .hud-center-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 5px;
     padding: 0 4px;
 }
 
@@ -263,7 +267,7 @@
     padding: 4px 10px;
     border-radius: 999px;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -273,25 +277,39 @@
 .mode-btn.active {
     background: var(--accent-warm, #d96b52);
     color: #ffffff;
-    box-shadow: 0 2px 6px rgba(217, 107, 82, 0.25);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-.hud-turn-badge {
+.free-parking-pool-badge {
     display: inline-flex;
     align-items: center;
     gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #b45309;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    padding: 2px 8px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+[data-theme="midnight"] .free-parking-pool-badge,
+[data-theme="aurora-night"] .free-parking-pool-badge {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+    color: #fde68a;
+}
+
+.hud-turn-badge {
     font-size: 11.5px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--accent-warm);
     white-space: nowrap;
 }
 
-.turn-heart-anim {
-    animation: gentlePulse 2s infinite ease-in-out;
-}
-
 /* ========================================================
-   BÀN CỜ 7x7 (24 Ô DANH LAM THẮNG CẢNH)
+   BÀN CỜ MONOPOLY VIỆT NAM (7x7 GRID - 24 Ô)
    ======================================================== */
 .monopoly-board-wrapper {
     width: 100%;
@@ -309,14 +327,14 @@
     aspect-ratio: 1 / 1;
     background: var(--card-surface, #ffffff);
     padding: 8px;
-    border-radius: 26px;
-    border: 1.5px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    border-radius: 24px;
+    border: 2px solid var(--border-card, rgba(0, 0, 0, 0.1));
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
     position: relative;
     user-select: none;
 }
 
-/* TỪNG Ô ĐỊA DANH TRÊN BÀN CỜ */
+/* TỪNG Ô TRÊN BÀN CỜ */
 .board-tile {
     position: relative;
     display: flex;
@@ -324,9 +342,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 4px 2px;
-    border-radius: 10px;
+    border-radius: 8px;
     background: var(--bg-page, #fbf8f4);
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.06));
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
     text-align: center;
     overflow: hidden;
     cursor: pointer;
@@ -336,33 +354,32 @@
 .board-tile:hover {
     transform: translateY(-2px);
     border-color: var(--accent-warm);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     z-index: 5;
 }
 
 .board-tile.is-corner {
-    background: var(--accent-soft, rgba(217, 107, 82, 0.08));
-    border-color: rgba(217, 107, 82, 0.25);
+    background: var(--accent-soft, rgba(0, 0, 0, 0.04));
+    border-color: var(--border-card);
 }
 
-/* Dải màu vùng miền trên đầu mỗi ô */
+/* Dải màu vùng miền trên đầu mỗi ô bất động sản */
 .tile-region-strip {
     width: 100%;
-    height: 4px;
-    border-radius: 4px;
+    height: 6px;
+    border-radius: 3px;
     margin-bottom: 2px;
 }
 
-/* Màu sắc từng vùng miền */
-.strip-hanoi { background: #f97316; }
-.strip-northwest { background: #10b981; }
-.strip-central { background: #8b5cf6; }
-.strip-coastal { background: #f59e0b; }
-.strip-highlands { background: #ec4899; }
-.strip-south_coast { background: #06b6d4; }
-.strip-south { background: #14b8a6; }
-.strip-islands { background: #0284c7; }
-.strip-special { background: #d96b52; }
+.strip-hanoi { background: #ea580c; }
+.strip-northwest { background: #16a34a; }
+.strip-central { background: #9333ea; }
+.strip-coastal { background: #eab308; }
+.strip-highlands { background: #db2777; }
+.strip-south_coast { background: #0284c7; }
+.strip-south { background: #0d9488; }
+.strip-islands { background: #2563eb; }
+.strip-special { background: #475569; }
 
 .tile-icon {
     font-size: clamp(14px, 2.3vw, 20px);
@@ -371,8 +388,8 @@
 }
 
 .tile-name {
-    font-size: clamp(8px, 1.25vw, 10.5px);
-    font-weight: 700;
+    font-size: clamp(8px, 1.2vw, 10.5px);
+    font-weight: 800;
     line-height: 1.15;
     color: var(--text-primary);
     max-width: 100%;
@@ -384,7 +401,7 @@
 }
 
 .tile-subtitle {
-    font-size: clamp(7px, 1vw, 8.5px);
+    font-size: clamp(7px, 0.9vw, 8px);
     color: var(--text-muted);
     line-height: 1.1;
     white-space: nowrap;
@@ -395,22 +412,24 @@
 
 .tile-price {
     font-size: clamp(7.5px, 1.1vw, 9.5px);
-    font-weight: 700;
-    color: var(--accent-warm);
+    font-weight: 800;
+    color: #16a34a;
     margin-top: 1px;
 }
 
-/* Huy hiệu cấp độ xây dựng trên ô (🏡 L1, 🏖️ L2, 🏰 L3) */
+/* Huy hiệu cấp độ công trình: 🏠 L1, 🏠🏠 L2, 🏨 L3 */
 .tile-level-badge {
     position: absolute;
     top: 2px;
     left: 2px;
     font-size: 8px;
+    font-weight: 800;
     padding: 1px 3px;
     border-radius: 4px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    color: #1f2937;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     z-index: 2;
 }
 
@@ -421,15 +440,15 @@
     right: 2px;
     font-size: 8px;
     padding: 1px 4px;
-    border-radius: 5px;
-    font-weight: 700;
+    border-radius: 4px;
+    font-weight: 800;
     color: #ffffff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
     z-index: 2;
 }
 
-.tile-owner-badge.owner-huy { background: #3b82f6; }
-.tile-owner-badge.owner-hien { background: #ec4899; }
+.tile-owner-badge.owner-huy { background: #2563eb; }
+.tile-owner-badge.owner-hien { background: #db2777; }
 
 /* Vị trí quân cờ người chơi */
 .tile-tokens-wrap {
@@ -440,26 +459,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2px;
+    gap: 3px;
     z-index: 3;
     pointer-events: none;
 }
 
 .token-pin {
-    width: 17px;
-    height: 17px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10.5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    font-size: 11px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     border: 1.5px solid #ffffff;
     animation: tokenHop 0.35s ease;
 }
 
-.token-huy { background: #3b82f6; color: #ffffff; }
-.token-hien { background: #ec4899; color: #ffffff; }
+.token-huy { background: #2563eb; color: #ffffff; }
+.token-hien { background: #db2777; color: #ffffff; }
 
 @keyframes tokenHop {
     0% { transform: translateY(-10px) scale(1.2); }
@@ -478,18 +497,18 @@
     justify-content: center;
     padding: 18px 12px;
     text-align: center;
-    background: radial-gradient(circle, var(--accent-soft, rgba(217, 107, 82, 0.09)) 0%, transparent 85%);
-    border-radius: 18px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.03) 0%, transparent 85%);
+    border-radius: 16px;
     position: relative;
     overflow: hidden;
 }
 
-.hub-decor-map {
+.hub-decor-grid {
     position: absolute;
     inset: 0;
-    background-image: radial-gradient(rgba(217, 107, 82, 0.08) 1px, transparent 1px);
+    background-image: radial-gradient(var(--border-card) 1px, transparent 1px);
     background-size: 16px 16px;
-    opacity: 0.6;
+    opacity: 0.5;
     pointer-events: none;
 }
 
@@ -517,22 +536,22 @@
     width: 58px;
     height: 58px;
     background: #ffffff;
-    border: 2px solid var(--accent-warm, #d96b52);
+    border: 2px solid #374151;
     border-radius: 12px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     padding: 6px;
     box-sizing: border-box;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.08);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .dice-face .pip {
     display: block;
-    width: 9.5px;
-    height: 9.5px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: var(--accent-warm, #d96b52);
+    background: #dc2626; /* Chấm xúc xắc đỏ đậm chuẩn quốc tế */
     align-self: center;
     justify-self: center;
 }
@@ -573,19 +592,20 @@
     gap: 8px;
     padding: 10px 24px;
     border-radius: 999px;
-    background: var(--accent-warm, #d96b52);
+    background: #2563eb;
     color: #ffffff;
     border: none;
     font-size: 14.5px;
-    font-weight: 700;
+    font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 4px 18px rgba(217, 107, 82, 0.38);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.38);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .roll-dice-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(217, 107, 82, 0.48);
+    box-shadow: 0 6px 24px rgba(37, 99, 235, 0.48);
+    background: #1d4ed8;
 }
 
 .roll-dice-btn:disabled {
@@ -599,9 +619,9 @@
     z-index: 2;
     margin-top: 10px;
     font-size: 12.5px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-secondary);
-    max-width: 280px;
+    max-width: 290px;
     line-height: 1.35;
     min-height: 32px;
     display: flex;
@@ -619,23 +639,23 @@
 }
 
 .quick-act-btn {
-    padding: 4px 12px;
+    padding: 5px 12px;
     border-radius: 999px;
     background: var(--card-surface, #ffffff);
     border: 1px solid var(--border-card);
     font-size: 11.5px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-secondary);
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .quick-act-btn:hover {
-    color: var(--accent-warm);
-    border-color: var(--accent-warm);
+    color: #2563eb;
+    border-color: #2563eb;
 }
 
-/* THANH GHI CHÚ MÀU SẮC DƯỚI CÙNG */
+/* THANH GHI CHÚ VÙNG MIỀN DƯỚI CÙNG */
 .game-action-toolbar {
     display: flex;
     align-items: center;
@@ -656,7 +676,7 @@
     border: 1px solid var(--border-card);
     color: var(--text-secondary);
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s ease;
@@ -674,6 +694,8 @@
     gap: 10px;
     font-size: 11px;
     color: var(--text-muted);
+    font-weight: 600;
+    flex-wrap: wrap;
 }
 
 .legend-item {
@@ -688,19 +710,21 @@
     border-radius: 2px;
 }
 
-.color-north { background: #f97316; }
-.color-central { background: #8b5cf6; }
-.color-highlands { background: #ec4899; }
-.color-south { background: #14b8a6; }
+.color-north { background: #ea580c; }
+.color-northwest { background: #16a34a; }
+.color-central { background: #9333ea; }
+.color-coastal { background: #eab308; }
+.color-highlands { background: #db2777; }
+.color-south { background: #0d9488; }
 .color-islands { background: #0284c7; }
 
 /* ========================================================
-   MODALS TƯƠNG TÁC CỦA GAME (TỐI GIẢN & ĐẶC SẮC)
+   MODALS TƯƠNG TÁC GAME CHIẾN THUẬT (CHUYÊN NGHIỆP)
    ======================================================== */
 .game-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(12, 10, 10, 0.68);
+    background: rgba(15, 23, 42, 0.72);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 2000;
@@ -710,7 +734,7 @@
     padding: 16px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
 .game-modal-overlay.active {
@@ -723,13 +747,13 @@
     color: var(--text-primary);
     width: 100%;
     max-width: 460px;
-    border-radius: 24px;
+    border-radius: 20px;
     padding: 22px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
     border: 1.5px solid var(--border-card);
     text-align: center;
-    transform: scale(0.92);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(0.94);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     max-height: 90vh;
     overflow-y: auto;
@@ -739,9 +763,8 @@
     transform: scale(1);
 }
 
-/* Header địa danh trên modal */
 .landmark-modal-header {
-    border-radius: 16px;
+    border-radius: 14px;
     padding: 14px 10px 10px;
     background: var(--bg-page);
     margin-bottom: 12px;
@@ -750,23 +773,38 @@
 .landmark-region-tag {
     display: inline-block;
     font-size: 10px;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 1.2px;
     color: #ffffff;
-    background: var(--accent-warm);
+    background: #374151;
     padding: 2px 8px;
-    border-radius: 6px;
+    border-radius: 5px;
     text-transform: uppercase;
+}
+
+.game-modal-title {
+    font-family: var(--font-sans);
+    font-size: 20px;
+    font-weight: 800;
+    margin: 4px 0 2px;
+    color: var(--text-primary);
 }
 
 .landmark-subtitle {
     display: block;
     font-size: 12px;
     color: var(--text-muted);
-    margin-top: 2px;
+    font-weight: 600;
 }
 
-/* Thang cấp độ nâng cấp */
+.game-modal-desc {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    margin: 8px 0 14px;
+    line-height: 1.45;
+}
+
+/* Thang cấp độ công trình */
 .upgrade-levels-preview {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -777,7 +815,7 @@
 .level-step-card {
     background: var(--bg-page);
     border: 1px solid var(--border-card);
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 8px 4px;
     display: flex;
     flex-direction: column;
@@ -788,18 +826,18 @@
 
 .level-step-card.current {
     opacity: 1;
-    border-color: var(--accent-warm);
+    border-color: #2563eb;
     background: var(--card-surface);
-    box-shadow: 0 2px 8px rgba(217, 107, 82, 0.2);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
 }
 
-.step-icon { font-size: 18px; }
-.step-title { font-size: 10px; font-weight: 700; }
-.step-rent { font-size: 10px; color: var(--accent-warm); font-weight: 600; }
+.step-icon { font-size: 20px; }
+.step-title { font-size: 10px; font-weight: 800; }
+.step-rent { font-size: 11px; color: #16a34a; font-weight: 800; }
 
 .prop-stat-box {
     background: var(--bg-page);
-    border-radius: 14px;
+    border-radius: 12px;
     padding: 10px 14px;
     margin-bottom: 16px;
     display: flex;
@@ -816,12 +854,13 @@
 .stat-lbl {
     font-size: 11px;
     color: var(--text-muted);
+    font-weight: 600;
 }
 
 .stat-val {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--accent-warm);
+    font-size: 18px;
+    font-weight: 800;
+    color: #16a34a;
 }
 
 .game-modal-actions {
@@ -832,20 +871,21 @@
 }
 
 .modal-btn-confirm {
-    padding: 10px 22px;
+    padding: 10px 24px;
     border-radius: 999px;
-    background: var(--accent-warm, #d96b52);
+    background: #2563eb;
     color: #ffffff;
     border: none;
-    font-weight: 700;
+    font-weight: 800;
     font-size: 13.5px;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(217, 107, 82, 0.3);
-    transition: transform 0.2s ease;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .modal-btn-confirm:hover {
     transform: translateY(-2px);
+    background: #1d4ed8;
 }
 
 .modal-btn-cancel {
@@ -854,38 +894,35 @@
     background: transparent;
     color: var(--text-secondary);
     border: 1px solid var(--border-card);
-    font-weight: 600;
+    font-weight: 700;
     font-size: 13.5px;
     cursor: pointer;
     transition: background 0.2s ease;
 }
 
 .modal-btn-cancel:hover {
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 0, 0.05);
 }
 
-/* THẺ BƯU THIẾP ĐỊA DANH (POSTCARD) */
-.postcard-card {
-    border: 2px dashed var(--accent-warm);
-    background: #fffdfa !important;
+/* THẺ SỔ ĐỎ BẤT ĐỘNG SẢN (TITLE DEED) */
+.deed-card {
+    border: 2px solid #374151;
 }
 
-[data-theme="midnight"] .postcard-card,
-[data-theme="aurora-night"] .postcard-card {
-    background: #151c2e !important;
+.deed-header-banner {
+    border-radius: 12px;
+    padding: 12px 10px;
+    background: #f1f5f9;
+    margin-bottom: 12px;
+    border: 1px solid var(--border-card);
 }
 
-.postcard-stamp {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    font-size: 8px;
-    font-weight: 700;
-    padding: 3px 6px;
-    border: 1.5px dashed var(--accent-warm);
-    color: var(--accent-warm);
-    border-radius: 4px;
-    transform: rotate(12deg);
+.deed-badge {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #475569;
+    text-transform: uppercase;
 }
 
 .postcard-owner-status {
@@ -893,10 +930,11 @@
     border-radius: 999px;
     background: var(--bg-page);
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-secondary);
     display: inline-block;
     margin-bottom: 12px;
+    border: 1px solid var(--border-card);
 }
 
 .inspect-rent-table {
@@ -904,9 +942,10 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
     background: var(--bg-page);
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 10px 8px;
     margin-bottom: 16px;
+    border: 1px solid var(--border-card);
 }
 
 .rent-col {
@@ -914,13 +953,101 @@
     flex-direction: column;
     gap: 2px;
     font-size: 11px;
+    font-weight: 600;
 }
 
 .rent-col strong {
-    color: var(--accent-warm);
+    color: #16a34a;
+    font-size: 13px;
+    font-weight: 800;
 }
 
-/* SÂN BAY QUỐC TẾ MODAL */
+/* THẺ CƠ HỘI & KHÍ VẬN */
+.card-chance-box {
+    border-color: #f59e0b !important;
+}
+
+.chance-card-icon {
+    font-size: 40px;
+    margin-bottom: 4px;
+}
+
+.love-card-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #d97706;
+    text-transform: uppercase;
+}
+
+.love-card-headline {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin: 4px 0 12px;
+}
+
+.love-card-paper {
+    background: var(--bg-page);
+    border: 1.5px dashed #f59e0b;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 18px;
+}
+
+.love-card-content {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    margin: 0;
+    font-weight: 600;
+}
+
+.love-card-reward {
+    font-size: 16px;
+    font-weight: 800;
+    color: #16a34a;
+    margin-top: 10px;
+}
+
+/* MODAL NHÀ TÙ */
+.jail-card {
+    border-color: #ef4444;
+}
+
+.jail-bars-icon {
+    font-size: 44px;
+    margin-bottom: 6px;
+}
+
+.jail-actions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.jail-opt-btn {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--bg-page);
+    border: 1.5px solid var(--border-card);
+    text-align: left;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.jail-opt-btn:hover {
+    border-color: #ef4444;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+/* SÂN BAY QUỐC TẾ */
 .airport-card .airport-plane-icon {
     font-size: 42px;
     animation: planeFloat 2.5s infinite ease-in-out;
@@ -931,136 +1058,36 @@
     50% { transform: translateY(-8px); }
 }
 
-.flight-options-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 14px;
-}
-
-.flight-opt-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    border-radius: 16px;
-    background: var(--bg-page);
-    border: 1.5px solid var(--border-card);
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.flight-opt-btn:hover {
-    border-color: var(--accent-warm);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-}
-
-.flight-btn-icon {
-    font-size: 24px;
-}
-
-.flight-btn-text strong {
-    display: block;
-    font-size: 13.5px;
-    color: var(--text-primary);
-}
-
-.flight-btn-text span {
-    font-size: 11.5px;
-    color: var(--text-muted);
-}
-
 .flight-selector-row {
     background: var(--bg-page);
-    border-radius: 16px;
-    padding: 12px 14px;
+    border-radius: 14px;
+    padding: 14px;
     display: flex;
     flex-direction: column;
     gap: 8px;
     text-align: left;
+    margin-top: 10px;
 }
 
 .flight-label {
     font-size: 12px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-secondary);
 }
 
 .flight-select-input {
     width: 100%;
     padding: 8px 12px;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid var(--border-card);
     background: var(--card-surface);
     color: var(--text-primary);
     font-size: 13px;
+    font-weight: 600;
     outline: none;
 }
 
-/* THƯ TÌNH DUYÊN (LOVE CARD) */
-.card-love-letter {
-    background: #fffbf5 !important;
-    border-color: #f0dfcb !important;
-}
-
-[data-theme="midnight"] .card-love-letter,
-[data-theme="aurora-night"] .card-love-letter {
-    background: #191f34 !important;
-    border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-.wax-seal-icon {
-    font-size: 34px;
-    margin-bottom: 4px;
-}
-
-.love-card-tag {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    color: var(--accent-warm);
-    text-transform: uppercase;
-}
-
-.love-card-headline {
-    font-family: 'Dancing Script', cursive, var(--font-serif);
-    font-size: 25px;
-    color: var(--accent-warm);
-    margin: 4px 0 12px;
-}
-
-.love-card-paper {
-    background: #ffffff;
-    border: 1px dashed var(--accent-warm);
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 18px;
-}
-
-[data-theme="midnight"] .love-card-paper,
-[data-theme="aurora-night"] .love-card-paper {
-    background: #111827;
-}
-
-.love-card-content {
-    font-family: 'Dancing Script', cursive, var(--font-serif);
-    font-size: 19px;
-    line-height: 1.45;
-    color: var(--text-primary);
-    margin: 0;
-}
-
-.love-card-reward {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--accent-warm);
-    margin-top: 10px;
-}
-
-/* HỘ CHIẾU DU LỊCH MODAL */
+/* MODAL DANH MỤC TÀI SẢN (PORTFOLIO) */
 .passport-card {
     max-width: 520px;
 }
@@ -1076,6 +1103,7 @@
 .passport-sub {
     font-size: 12px;
     color: var(--text-muted);
+    font-weight: 600;
 }
 
 .passport-stats-row {
@@ -1083,14 +1111,16 @@
     align-items: center;
     justify-content: space-around;
     background: var(--bg-page);
-    border-radius: 14px;
-    padding: 8px 12px;
+    border-radius: 12px;
+    padding: 10px 12px;
     margin-bottom: 14px;
-    font-size: 11.5px;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .pass-stat strong {
-    color: var(--accent-warm);
+    color: #16a34a;
+    font-weight: 800;
 }
 
 .passport-landmarks-grid {
@@ -1105,7 +1135,7 @@
 
 .passport-stamp-item {
     background: var(--bg-page);
-    border-radius: 10px;
+    border-radius: 8px;
     padding: 6px 4px;
     font-size: 10px;
     text-align: center;
@@ -1113,20 +1143,45 @@
 }
 
 .passport-stamp-item.owned-huy {
-    border-color: #3b82f6;
-    background: rgba(59, 130, 246, 0.08);
+    border-color: #2563eb;
+    background: rgba(37, 99, 235, 0.08);
 }
 
 .passport-stamp-item.owned-hien {
-    border-color: #ec4899;
-    background: rgba(236, 72, 153, 0.08);
+    border-color: #db2777;
+    background: rgba(219, 39, 119, 0.08);
 }
 
 .stamp-badge {
     display: block;
-    font-size: 8px;
-    font-weight: 700;
+    font-size: 8.5px;
+    font-weight: 800;
     margin-top: 2px;
+}
+
+/* MODAL HƯỚNG DẪN */
+.help-card {
+    max-width: 520px;
+    text-align: left;
+}
+
+.help-card .game-modal-emoji,
+.help-card .game-modal-title {
+    text-align: center;
+}
+
+.help-content-scroll {
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    padding-right: 6px;
+    margin-bottom: 16px;
+}
+
+.help-content-scroll strong {
+    color: var(--text-primary);
 }
 
 /* ========================================================
@@ -1137,58 +1192,75 @@
         padding: 10px 12px 4px;
     }
     .games-brand-title {
-        font-size: 20px;
+        font-size: 18px;
     }
     .games-brand-tag {
-        font-size: 9px;
+        font-size: 8.5px;
     }
     .games-main-container {
         padding: 2px 8px 30px;
         gap: 10px;
     }
     .players-hud-section {
-        gap: 4px;
+        gap: 6px;
     }
     .player-hud-card {
         padding: 6px 8px;
         gap: 6px;
-        border-radius: 14px;
+        border-radius: 12px;
+        min-width: 0;
     }
     .player-hud-avatar-wrap {
         width: 32px;
         height: 32px;
+        border-radius: 8px;
+        flex-shrink: 0;
     }
     .player-avatar-icon {
-        font-size: 18px;
+        font-size: 16px;
+    }
+    .player-turn-indicator {
+        display: none;
     }
     .player-name {
-        font-size: 12.5px;
+        font-size: 12px;
     }
-    .player-badge-role {
+    .player-token-badge {
         display: none;
     }
     .player-score {
         font-size: 15px;
     }
     .score-unit {
-        font-size: 9px;
+        font-size: 8.5px;
     }
     .player-stats-mini {
-        font-size: 9px;
+        font-size: 8.5px;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .free-parking-pool-badge {
+        font-size: 8.5px;
+        padding: 1px 5px;
     }
     .hud-turn-badge {
-        font-size: 9.5px;
+        font-size: 8.5px;
     }
 
     /* BÀN CỜ 7x7 TRÊN MOBILE */
     .monopoly-board.grid-7x7 {
         padding: 4px;
         gap: 3px;
-        border-radius: 18px;
+        border-radius: 16px;
     }
     .board-tile {
         padding: 2px 1px;
-        border-radius: 6px;
+        border-radius: 5px;
+    }
+    .tile-region-strip {
+        height: 4px;
     }
     .tile-icon {
         font-size: 12px;
@@ -1265,8 +1337,8 @@
         font-size: 9.5px;
     }
     .game-legend-bar {
-        font-size: 9.5px;
-        gap: 6px;
+        font-size: 9px;
+        gap: 5px;
     }
     .passport-landmarks-grid {
         grid-template-columns: repeat(3, 1fr);
