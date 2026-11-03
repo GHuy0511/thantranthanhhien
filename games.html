@@ -89,37 +89,57 @@
 
                 <!-- KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS - 3D DICE & ĐIỀU HÀNH) -->
                 <div class="board-center-hub" id="boardCenterHub">
-                    <!-- Xúc xắc 3D chân thực -->
-                    <div class="dice-scene" id="diceScene" title="Xúc xắc 3D">
-                        <div class="dice-cube" id="diceCube">
-                            <div class="dice-face face-1"><span class="pip pip-center"></span></div>
-                            <div class="dice-face face-2"><span class="pip pip-tl"></span><span class="pip pip-br"></span></div>
-                            <div class="dice-face face-3"><span class="pip pip-tl"></span><span class="pip pip-center"></span><span class="pip pip-br"></span></div>
-                            <div class="dice-face face-4"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
-                            <div class="dice-face face-5"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-center"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
-                            <div class="dice-face face-6"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-ml"></span><span class="pip pip-mr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                    <!-- Khay nhung đổ xúc xắc sang trọng (Dice Arena Tray) -->
+                    <div class="dice-arena-tray" id="diceArenaTray">
+                        <div class="dice-arena-felt"></div>
+                        <div class="dice-shadow-spot" id="diceShadowSpot"></div>
+
+                        <!-- Xúc xắc 3D chân thực -->
+                        <div class="dice-scene" id="diceScene" title="Xúc xắc 3D">
+                            <div class="dice-cube" id="diceCube">
+                                <div class="dice-face face-1"><span class="pip pip-center"></span></div>
+                                <div class="dice-face face-2"><span class="pip pip-tl"></span><span class="pip pip-br"></span></div>
+                                <div class="dice-face face-3"><span class="pip pip-tl"></span><span class="pip pip-center"></span><span class="pip pip-br"></span></div>
+                                <div class="dice-face face-4"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                                <div class="dice-face face-5"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-center"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                                <div class="dice-face face-6"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-ml"></span><span class="pip pip-mr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Nút tung xúc xắc nổi bật -->
+                    <!-- Nút tung xúc xắc nổi bật với hiệu ứng 3D và màu sắc theo người chơi -->
                     <button class="roll-dice-btn" id="rollDiceBtn" type="button">
-                        <span class="btn-dice-icon">🎲</span>
-                        <span class="btn-dice-text" id="rollBtnText">Huy Tung Xúc Xắc</span>
+                        <span class="btn-dice-icon" id="rollBtnIcon">🎲</span>
+                        <span class="btn-dice-text" id="rollBtnText">Huy Tung Xúc Xắc (🚗)</span>
+                        <span class="btn-dice-shine" aria-hidden="true"></span>
                     </button>
 
-                    <!-- Thông báo diễn biến ván cờ tinh gọn -->
-                    <div class="action-status-msg" id="actionStatusMsg">
-                        Tung xúc xắc để bắt đầu ván cờ!
+                    <!-- Hộp capsule thông báo diễn biến ván cờ -->
+                    <div class="action-status-capsule" id="actionStatusCapsule">
+                        <span class="status-speaker-icon" id="statusSpeakerIcon">👉</span>
+                        <div class="action-status-msg" id="actionStatusMsg">
+                            Tung xúc xắc để bắt đầu ván cờ!
+                        </div>
                     </div>
 
-                    <!-- Các nút tiện ích tinh tế dưới trung tâm -->
-                    <div class="center-quick-actions">
-                        <button class="quick-act-btn" id="btnOpenPortfolio" type="button" title="Xem danh mục bất động sản">📊 Tài Sản</button>
-                        <button class="quick-act-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">📖 Luật Chơi</button>
-                        <button class="quick-act-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh">
-                            <span id="soundIcon">🔔</span>
+                    <!-- Thanh Dock công cụ tiện ích nổi thanh lịch -->
+                    <div class="center-quick-dock" role="toolbar" aria-label="Công cụ ván cờ">
+                        <button class="dock-btn" id="btnOpenPortfolio" type="button" title="Xem danh mục tài sản">
+                            <span class="dock-icon">📊</span>
+                            <span class="dock-label">Tài Sản</span>
                         </button>
-                        <button class="quick-act-btn" id="btnRestartQuick" type="button" title="Chơi lại ván mới">🔄 Ván Mới</button>
+                        <button class="dock-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">
+                            <span class="dock-icon">📖</span>
+                            <span class="dock-label">Luật Chơi</span>
+                        </button>
+                        <button class="dock-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh">
+                            <span class="dock-icon" id="soundIcon">🔔</span>
+                            <span class="dock-label">Âm Thanh</span>
+                        </button>
+                        <button class="dock-btn" id="btnRestartQuick" type="button" title="Chơi lại ván mới">
+                            <span class="dock-icon">🔄</span>
+                            <span class="dock-label">Ván Mới</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -196,17 +216,17 @@
             <div class="upgrade-levels-preview" id="upgradeLevelsPreview">
                 <div class="level-step-card current" id="lvlStep1">
                     <span class="step-icon">🏠</span>
-                    <span class="step-title">Nhà Phố (Cấp 1)</span>
+                    <span class="step-title">1 Nhà Phố</span>
                     <span class="step-rent" id="lvl1Rent">20M</span>
                 </div>
                 <div class="level-step-card" id="lvlStep2">
-                    <span class="step-icon">🏡</span>
-                    <span class="step-title">Biệt Thự (Cấp 2)</span>
+                    <span class="step-icon">🏠🏠</span>
+                    <span class="step-title">2 Nhà Phố</span>
                     <span class="step-rent" id="lvl2Rent">60M</span>
                 </div>
                 <div class="level-step-card" id="lvlStep3">
                     <span class="step-icon">🏨</span>
-                    <span class="step-title">Khách Sạn (Cấp 3)</span>
+                    <span class="step-title">Khách Sạn</span>
                     <span class="step-rent" id="lvl3Rent">140M</span>
                 </div>
             </div>
@@ -248,7 +268,7 @@
 
             <div class="inspect-rent-table">
                 <div class="rent-col"><span>🏠 1 Nhà</span><strong id="inspectRentL1">40M</strong></div>
-                <div class="rent-col"><span>🏡 2 Nhà</span><strong id="inspectRentL2">120M</strong></div>
+                <div class="rent-col"><span>🏠🏠 2 Nhà</span><strong id="inspectRentL2">120M</strong></div>
                 <div class="rent-col"><span>🏨 Khách Sạn</span><strong id="inspectRentL3">260M</strong></div>
             </div>
 

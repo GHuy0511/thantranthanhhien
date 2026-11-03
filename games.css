@@ -541,25 +541,39 @@
     margin-top: 1px;
 }
 
-/* Huy hiệu cấp độ công trình: 🏠 L1, 🏡 L2, 🏨 L3 */
-.tile-level-badge {
+/* KHU VỰC HIỂN THỊ CÔNG TRÌNH / NGÔI NHÀ THẬT TRÊN TỪNG Ô ĐẤT */
+.tile-real-estate-view {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    font-size: 7.5px;
-    font-weight: 800;
-    padding: 1px 3px;
-    border-radius: 4px;
-    background: #ffffff;
-    color: #1f2937;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-    z-index: 2;
-    animation: houseDropIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    top: 3px;
+    left: 3px;
+    display: flex;
+    align-items: center;
+    gap: 1.5px;
+    z-index: 4;
+    pointer-events: none;
 }
 
-@keyframes houseDropIn {
-    0% { transform: translateY(-12px) scale(0.6); opacity: 0; }
+.mini-house-token {
+    font-size: clamp(9px, 1.35vw, 13.5px);
+    line-height: 1;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+    animation: realHouseDropIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mini-hotel-token {
+    font-size: clamp(11.5px, 1.7vw, 17px);
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.5));
+    animation: realHotelDropIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes realHouseDropIn {
+    0% { transform: translateY(-10px) scale(0.4); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes realHotelDropIn {
+    0% { transform: translateY(-14px) scale(0.4); opacity: 0; }
     100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
@@ -625,7 +639,7 @@
 }
 
 /* ========================================================
-   KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS)
+   KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS) - CUSTOM ĐÀI ĐẤU XÚC XẮC
    ======================================================== */
 .board-center-hub {
     grid-column: 2 / 7;
@@ -634,19 +648,54 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 12px 10px;
+    padding: 10px 8px;
     text-align: center;
     background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 0%, transparent 80%);
     position: relative;
     border-radius: 16px;
 }
 
-/* XÚC XẮC 3D CHÂN THỰC */
-.dice-scene {
-    width: 60px;
-    height: 60px;
-    perspective: 600px;
+/* KHAY NHUNG ĐỔ XÚC XẮC SANG TRỌNG (DICE ARENA TRAY) */
+.dice-arena-tray {
+    width: 106px;
+    height: 106px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--card-surface, #ffffff) 20%, var(--bg-page, #f3ece4) 85%);
+    border: 2px solid var(--border-card, rgba(0, 0, 0, 0.1));
+    box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.07), 0 8px 24px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
     margin-bottom: 8px;
+}
+
+.dice-arena-felt {
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    border: 1px dashed rgba(0, 0, 0, 0.09);
+    pointer-events: none;
+}
+
+.dice-shadow-spot {
+    position: absolute;
+    bottom: 12px;
+    width: 50px;
+    height: 13px;
+    background: radial-gradient(ellipse, rgba(0, 0, 0, 0.28) 0%, transparent 75%);
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* XÚC XẮC 3D CHÂN THỰC & KHÔNG BỊ LỖI VIỀN */
+.dice-scene {
+    width: 54px;
+    height: 54px;
+    perspective: 600px;
+    position: relative;
+    z-index: 2;
 }
 
 .dice-cube {
@@ -655,28 +704,29 @@
     position: relative;
     transform-style: preserve-3d;
     transform: rotateX(-15deg) rotateY(25deg);
-    transition: transform 1.2s cubic-bezier(0.15, 0.9, 0.25, 1);
+    transition: transform 1.1s cubic-bezier(0.15, 0.9, 0.25, 1);
 }
 
 .dice-face {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 54px;
+    height: 54px;
     background: #ffffff;
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
-    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.06);
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.06);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    padding: 6px;
+    padding: 5px;
     box-sizing: border-box;
+    backface-visibility: hidden; /* Triệt tiêu hoàn toàn viền xám thừa ở các góc! */
 }
 
 .pip {
     display: block;
-    width: 9px;
-    height: 9px;
+    width: 8px;
+    height: 8px;
     background: #1e293b;
     border-radius: 50%;
     margin: auto;
@@ -684,9 +734,9 @@
 }
 
 .face-1 .pip-center {
-    width: 15px;
-    height: 15px;
-    background: #ef4444; /* Chấm đỏ mặt 1 may mắn */
+    width: 14px;
+    height: 14px;
+    background: #ef4444; /* Chấm đỏ may mắn */
 }
 
 .pip-tl { grid-column: 1; grid-row: 1; }
@@ -697,34 +747,37 @@
 .pip-bl { grid-column: 1; grid-row: 3; }
 .pip-br { grid-column: 3; grid-row: 3; }
 
-.face-1 { transform: rotateY(0deg) translateZ(30px); }
-.face-2 { transform: rotateY(90deg) translateZ(30px); }
-.face-3 { transform: rotateY(180deg) translateZ(30px); }
-.face-4 { transform: rotateY(-90deg) translateZ(30px); }
-.face-5 { transform: rotateX(90deg) translateZ(30px); }
-.face-6 { transform: rotateX(-90deg) translateZ(30px); }
+.face-1 { transform: rotateY(0deg) translateZ(27px); }
+.face-2 { transform: rotateY(90deg) translateZ(27px); }
+.face-3 { transform: rotateY(180deg) translateZ(27px); }
+.face-4 { transform: rotateY(-90deg) translateZ(27px); }
+.face-5 { transform: rotateX(90deg) translateZ(27px); }
+.face-6 { transform: rotateX(-90deg) translateZ(27px); }
 
-/* NÚT TUNG XÚC XẮC NỔI BẬT */
+/* NÚT TUNG XÚC XẮC ĐỘNG THEO MÀU NGƯỜI CHƠI */
 .roll-dice-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     padding: 10px 22px;
     border-radius: 999px;
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    background: var(--active-roll-gradient, linear-gradient(135deg, #2563eb, #1d4ed8));
     color: #ffffff;
     font-family: var(--font-sans);
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 800;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 5px 18px var(--active-roll-glow, rgba(37, 99, 235, 0.35));
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.3s ease;
 }
 
 .roll-dice-btn:hover:not(:disabled) {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 6px 22px rgba(37, 99, 235, 0.45);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 24px var(--active-roll-glow, rgba(37, 99, 235, 0.45));
 }
 
 .roll-dice-btn:active:not(:disabled) {
@@ -732,57 +785,100 @@
 }
 
 .roll-dice-btn:disabled {
-    opacity: 0.6;
+    opacity: 0.65;
     cursor: not-allowed;
     transform: none;
 }
 
-.btn-dice-icon {
-    font-size: 17px;
+.btn-dice-shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.32), transparent);
+    border-radius: 999px 999px 0 0;
+    pointer-events: none;
 }
 
-/* THÔNG BÁO DIỄN BIẾN TRẬN ĐẤU */
+.btn-dice-icon {
+    font-size: 16px;
+}
+
+/* CAPSULE THÔNG BÁO DIỄN BIẾN TRẬN ĐẤU */
+.action-status-capsule {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--card-surface, rgba(255, 255, 255, 0.9));
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    margin-top: 7px;
+    max-width: 90%;
+}
+
+.status-speaker-icon {
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
 .action-status-msg {
-    margin-top: 8px;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 700;
     color: var(--text-secondary);
-    min-height: 24px;
-    line-height: 1.35;
-    padding: 0 8px;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .action-status-msg strong {
     color: var(--text-primary);
 }
 
-/* CÁC NÚT TIỆN ÍCH DƯỚI TRUNG TÂM */
-.center-quick-actions {
-    display: flex;
+/* THANH DOCK CÔNG CỤ TIỆN ÍCH NỔI */
+.center-quick-dock {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-}
-
-.quick-act-btn {
-    padding: 5px 10px;
+    gap: 4px;
+    padding: 3px 6px;
     border-radius: 999px;
     background: var(--card-surface, #ffffff);
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.1));
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    margin-top: 8px;
+}
+
+.dock-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 9px;
+    border-radius: 999px;
+    background: transparent;
+    border: none;
     color: var(--text-secondary);
+    font-family: var(--font-sans);
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     transition: all 0.2s ease;
 }
 
-.quick-act-btn:hover {
+.dock-btn:hover {
+    background: var(--bg-hover, rgba(0, 0, 0, 0.05));
     color: var(--text-primary);
-    border-color: var(--accent-warm);
     transform: translateY(-1px);
+}
+
+.dock-icon {
+    font-size: 13px;
+}
+
+.dock-label {
+    line-height: 1;
 }
 
 /* ========================================================
@@ -1539,9 +1635,11 @@
         height: 12px;
         font-size: 7.5px;
     }
-    .tile-level-badge {
-        font-size: 6.5px;
-        padding: 0 2px;
+    .mini-house-token {
+        font-size: 8px;
+    }
+    .mini-hotel-token {
+        font-size: 10px;
     }
     .tile-owner-badge {
         font-size: 6.5px;
@@ -1549,47 +1647,71 @@
     }
 
     /* TRUNG TÂM BÀN CỜ TRÊN MOBILE */
-    .dice-scene {
-        width: 44px;
-        height: 44px;
+    .dice-arena-tray {
+        width: 76px;
+        height: 76px;
         margin-bottom: 4px;
     }
+    .dice-shadow-spot {
+        bottom: 8px;
+        width: 36px;
+        height: 10px;
+    }
+    .dice-scene {
+        width: 40px;
+        height: 40px;
+    }
     .dice-face {
-        width: 44px;
-        height: 44px;
-        border-radius: 8px;
-        padding: 4px;
+        width: 40px;
+        height: 40px;
+        border-radius: 7px;
+        padding: 3px;
     }
     .pip {
-        width: 6.5px;
-        height: 6.5px;
+        width: 6px;
+        height: 6px;
     }
     .face-1 .pip-center {
-        width: 11px;
-        height: 11px;
+        width: 10px;
+        height: 10px;
     }
-    .face-1 { transform: rotateY(0deg) translateZ(22px); }
-    .face-2 { transform: rotateY(90deg) translateZ(22px); }
-    .face-3 { transform: rotateY(180deg) translateZ(22px); }
-    .face-4 { transform: rotateY(-90deg) translateZ(22px); }
-    .face-5 { transform: rotateX(90deg) translateZ(22px); }
-    .face-6 { transform: rotateX(-90deg) translateZ(22px); }
+    .face-1 { transform: rotateY(0deg) translateZ(20px); }
+    .face-2 { transform: rotateY(90deg) translateZ(20px); }
+    .face-3 { transform: rotateY(180deg) translateZ(20px); }
+    .face-4 { transform: rotateY(-90deg) translateZ(20px); }
+    .face-5 { transform: rotateX(90deg) translateZ(20px); }
+    .face-6 { transform: rotateX(-90deg) translateZ(20px); }
 
     .roll-dice-btn {
         padding: 7px 14px;
-        font-size: 11.5px;
+        font-size: 11px;
         gap: 5px;
     }
     .btn-dice-icon {
-        font-size: 14px;
+        font-size: 13px;
     }
-    .action-status-msg {
-        font-size: 10px;
-        min-height: 20px;
+    .action-status-capsule {
+        padding: 3px 8px;
         margin-top: 4px;
     }
-    .quick-act-btn {
-        padding: 3px 7px;
+    .status-speaker-icon {
+        font-size: 11px;
+    }
+    .action-status-msg {
         font-size: 9.5px;
+        min-height: 16px;
+    }
+    .center-quick-dock {
+        padding: 2px 4px;
+        gap: 2px;
+        margin-top: 5px;
+    }
+    .dock-btn {
+        padding: 3px 6px;
+        font-size: 9.5px;
+        gap: 2px;
+    }
+    .dock-icon {
+        font-size: 11px;
     }
 }

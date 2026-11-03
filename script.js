@@ -158,7 +158,7 @@ function resumeBgMusicAfterVideo() {
 
 function updateFilterCounts() {
     const allCount = MEMORIES.length;
-    const photoCount = MEMORIES.filter(m => m.images && m.images.length > 0 && m.type !== "video").length;
+    const photoCount = MEMORIES.filter(m => (m.images && m.images.length > 0 && m.type !== "video") || m.type === "photo").length;
     const videoCount = MEMORIES.filter(m => Boolean(m.video || m.type === "video" || m.type === "mixed")).length;
     const elAll = document.getElementById("filterCountAll");
     const elPhoto = document.getElementById("filterCountPhoto");
@@ -169,9 +169,11 @@ function updateFilterCounts() {
 }
 
 function initGalleryFilterTabs() {
+    updateFilterCounts();
     const tabs = document.querySelectorAll(".gallery-filter-tab");
     tabs.forEach(tab => {
         tab.addEventListener("click", () => {
+            if (tab.classList.contains("active")) return;
             tabs.forEach(t => {
                 t.classList.remove("active");
                 t.setAttribute("aria-selected", "false");
@@ -179,7 +181,19 @@ function initGalleryFilterTabs() {
             tab.classList.add("active");
             tab.setAttribute("aria-selected", "true");
             currentGalleryFilter = tab.getAttribute("data-filter") || "all";
-            renderTimelineWithCarousels();
+
+            const viewport = document.getElementById("memoriesStreamViewport");
+            if (viewport) {
+                viewport.style.opacity = "0.35";
+                viewport.style.transform = "scale(0.99)";
+                setTimeout(() => {
+                    renderTimelineWithCarousels();
+                    viewport.style.opacity = "1";
+                    viewport.style.transform = "none";
+                }, 150);
+            } else {
+                renderTimelineWithCarousels();
+            }
         });
     });
 }
@@ -190,6 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initIntroSection();
     initLoveCounter();
     initPolaroidFlatlay();
+    initGalleryFilterTabs();
     renderTimelineWithCarousels();
     initScrollObserver();
     initLetterModal();
@@ -471,8 +486,14 @@ function renderTimelineWithCarousels() {
     if (!container) return;
     container.innerHTML = "";
 
-    // Hiển thị trực tiếp 4 kỷ niệm trọn vẹn theo 1 dòng mạch lạc (không chia tab)
-    const displayList = MEMORIES;
+    // Lọc danh sách hiển thị theo tab đã chọn (Tất cả / Ảnh kỷ niệm / Thước phim)
+    let displayList = MEMORIES;
+    if (currentGalleryFilter === "photo") {
+        displayList = MEMORIES.filter(m => (m.images && m.images.length > 0 && m.type !== "video") || m.type === "photo");
+    } else if (currentGalleryFilter === "video") {
+        displayList = MEMORIES.filter(m => Boolean(m.video || m.type === "video" || m.type === "mixed"));
+    }
+    if (!displayList || displayList.length === 0) displayList = MEMORIES;
 
     // Nhân bản danh sách đủ số lần để tạo vòng lặp vô tận liền mạch
     const minSets = Math.max(4, Math.ceil((window.innerWidth * 2.5) / Math.max(1, displayList.length * 360)));

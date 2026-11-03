@@ -782,11 +782,11 @@ function initMonopolyBoard() {
             priceEl.style.color = "#9333ea";
         }
 
-        // Cụm hiển thị cấp độ nhà (🏠 L1, 🏡 L2, 🏨 L3)
-        const levelBadge = document.createElement("div");
-        levelBadge.className = "tile-level-badge";
-        levelBadge.id = `level-badge-${tile.id}`;
-        levelBadge.style.display = "none";
+        // Cụm hiển thị ngôi nhà thật (🏠 1 nhà, 🏠🏠 2 nhà, 🏨 khách sạn)
+        const estateView = document.createElement("div");
+        estateView.className = "tile-real-estate-view";
+        estateView.id = `estate-${tile.id}`;
+        estateView.style.display = "none";
 
         // Huy hiệu người sở hữu (Sổ đỏ)
         const ownerBadge = document.createElement("div");
@@ -803,7 +803,7 @@ function initMonopolyBoard() {
         cell.appendChild(iconEl);
         cell.appendChild(nameEl);
         cell.appendChild(priceEl);
-        cell.appendChild(levelBadge);
+        cell.appendChild(estateView);
         cell.appendChild(ownerBadge);
         cell.appendChild(tokensWrap);
 
@@ -902,6 +902,19 @@ function calculateNetWorth(player) {
     return net;
 }
 
+// HÀM ĐIỀU CHỈNH ĐỘ SÁNG MÀU HEX
+function adjustBrightness(hex, percent) {
+    if (!hex || hex.length < 6) return "#1d4ed8";
+    let num = parseInt(hex.replace("#", ""), 16);
+    let amt = Math.round(2.55 * percent);
+    let R = (num >> 16) + amt;
+    let G = (num >> 8 & 0x00FF) + amt;
+    let B = (num & 0x0000FF) + amt;
+    return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+        (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+        (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+}
+
 // 12. CẬP NHẬT GIAO DIỆN CHÍNH (HUD & STATS)
 function updateUI() {
     const current = gameState.players[gameState.currentTurnIndex] || gameState.players[0];
@@ -943,11 +956,11 @@ function updateUI() {
     const poolEl = document.getElementById("parkingPoolDisplay");
     if (poolEl) poolEl.textContent = `${Number(gameState.parkingPool).toLocaleString()}M`;
 
-    // Cập nhật Sổ đỏ và cấp độ nhà trên bàn cờ
+    // Cập nhật Sổ đỏ và công trình nhà thật trên bàn cờ
     VIETNAM_TILES.forEach(tile => {
         const ownerEl = document.getElementById(`owner-badge-${tile.id}`);
-        const levelEl = document.getElementById(`level-badge-${tile.id}`);
-        if (!ownerEl || !levelEl) return;
+        const estateEl = document.getElementById(`estate-${tile.id}`);
+        if (!ownerEl || !estateEl) return;
 
         if (tile.owner) {
             const ownerObj = gameState.players.find(p => p.id === tile.owner);
@@ -957,34 +970,45 @@ function updateUI() {
                 ownerEl.style.display = "block";
             }
 
+            // HIỂN THỊ NGÔI NHÀ THẬT THAY VÌ L1, L2, L3
             if (tile.level === 1) {
-                levelEl.textContent = "🏠 L1";
-                levelEl.style.display = "block";
+                estateEl.innerHTML = '<span class="mini-house-token" title="1 Nhà Phố">🏠</span>';
+                estateEl.style.display = "flex";
             } else if (tile.level === 2) {
-                levelEl.textContent = "🏡 L2";
-                levelEl.style.display = "block";
+                estateEl.innerHTML = '<span class="mini-house-token" title="2 Nhà Phố">🏠</span><span class="mini-house-token" title="2 Nhà Phố">🏠</span>';
+                estateEl.style.display = "flex";
             } else if (tile.level >= 3) {
-                levelEl.textContent = "🏨 L3";
-                levelEl.style.display = "block";
+                estateEl.innerHTML = '<span class="mini-hotel-token" title="Khách Sạn Cao Cấp">🏨</span>';
+                estateEl.style.display = "flex";
             } else {
-                levelEl.style.display = "none";
+                estateEl.innerHTML = '';
+                estateEl.style.display = "none";
             }
         } else {
             ownerEl.style.display = "none";
-            levelEl.style.display = "none";
+            estateEl.innerHTML = '';
+            estateEl.style.display = "none";
         }
     });
 
-    // Cập nhật nút tung xúc xắc
+    // Cập nhật nút tung xúc xắc & đổi màu theo theme người chơi hiện tại
     const rollBtn = document.getElementById("rollDiceBtn");
     const rollBtnText = document.getElementById("rollBtnText");
+    const rollBtnIcon = document.getElementById("rollBtnIcon");
     if (rollBtn && current) {
         rollBtn.disabled = gameState.isRolling || current.isAi;
+
+        // Đổi màu nền nút theo đúng màu của người đang tới lượt
+        rollBtn.style.setProperty("--active-roll-gradient", `linear-gradient(135deg, ${current.color}, ${adjustBrightness(current.color, -25)})`);
+        rollBtn.style.setProperty("--active-roll-glow", current.glow);
+
         if (rollBtnText) {
             if (current.isAi) {
                 rollBtnText.textContent = `🤖 ${current.name} Đang Đi...`;
+                if (rollBtnIcon) rollBtnIcon.textContent = "⚙️";
             } else {
                 rollBtnText.textContent = `${current.name} Tung Xúc Xắc (${current.icon})`;
+                if (rollBtnIcon) rollBtnIcon.textContent = "🎲";
             }
         }
     }
@@ -1015,6 +1039,16 @@ function roll3DDice(targetValue, callback) {
 
     diceCube.style.transition = "transform 1.1s cubic-bezier(0.15, 0.9, 0.25, 1)";
     diceCube.style.transform = `rotateX(${targetRot.x + extraRotX}deg) rotateY(${targetRot.y + extraRotY}deg)`;
+
+    const shadowEl = document.getElementById("diceShadowSpot");
+    if (shadowEl) {
+        shadowEl.style.transform = "scale(0.55)";
+        shadowEl.style.opacity = "0.35";
+        setTimeout(() => {
+            shadowEl.style.transform = "scale(1)";
+            shadowEl.style.opacity = "1";
+        }, 1100);
+    }
 
     setTimeout(() => {
         if (callback) callback();
@@ -1308,11 +1342,11 @@ function promptUpgradeProperty(player, tile) {
     const modal = document.getElementById("modalBuyProperty");
     if (!modal) return;
 
-    const levelNames = ["", "Nhà Phố (Cấp 1)", "Biệt Thự (Cấp 2)", "Khách Sạn (Cấp 3)"];
-    document.getElementById("buyPropTitle").textContent = `${tile.name} (Nâng Cấp)`;
-    document.getElementById("buyPropSubtitle").textContent = `Lên ${levelNames[nextLevel]}`;
-    document.getElementById("buyPropEmoji").textContent = nextLevel === 2 ? "🏡" : "🏨";
-    document.getElementById("buyPropDesc").textContent = `Nâng cấp bất động sản để tăng tiền thuê đất khi đối thủ ghé thăm!`;
+    const levelNames = ["", "1 Nhà Phố 🏠", "2 Nhà Phố 🏠🏠", "Khách Sạn Cao Cấp 🏨"];
+    document.getElementById("buyPropTitle").textContent = `${tile.name} (Xây Thêm)`;
+    document.getElementById("buyPropSubtitle").textContent = `Nâng lên ${levelNames[nextLevel]}`;
+    document.getElementById("buyPropEmoji").textContent = nextLevel === 2 ? "🏠🏠" : "🏨";
+    document.getElementById("buyPropDesc").textContent = `Xây thêm công trình để tăng mạnh tiền thuê đất khi đối thủ dừng chân!`;
     document.getElementById("buyModalRegion").textContent = tile.regionName.toUpperCase();
     document.getElementById("buyCostLabel").textContent = "Chi phí xây dựng:";
     document.getElementById("buyPropCost").textContent = `${upgradePrice}M VNĐ`;
@@ -1328,7 +1362,7 @@ function promptUpgradeProperty(player, tile) {
         btnConfirm.textContent = `Không đủ tiền (-${upgradePrice}M)`;
     } else {
         btnConfirm.disabled = false;
-        btnConfirm.textContent = `Xây thêm (-${upgradePrice}M)`;
+        btnConfirm.textContent = `Xây ngay (-${upgradePrice}M)`;
     }
 
     modal.classList.add("active");
@@ -1344,7 +1378,7 @@ function confirmBuyProperty(player, tile) {
     player.props.push(tile.id);
 
     visualFX.spawnFloatingMoney(tile.id, `-${tile.price}M`, false);
-    showStatusNotice(`🏠 <strong>${player.name}</strong> đã mua thành công bất động sản <strong>${tile.name}</strong> (${tile.price}M VNĐ)!`);
+    showStatusNotice(`🏠 <strong>${player.name}</strong> đã mua thành công <strong>${tile.name}</strong> và xây <strong>1 Nhà Phố 🏠</strong>!`);
     closeModal("modalBuyProperty");
     updateUI();
     finishTurn();
@@ -1357,9 +1391,9 @@ function confirmUpgradeProperty(player, tile) {
     player.cash -= tile.upgradeCost;
     tile.level += 1;
 
-    const levelIcon = tile.level === 2 ? "🏡 Biệt Thự (Cấp 2)" : "🏨 Khách Sạn Cao Cấp (Cấp 3)";
+    const levelIcon = tile.level === 2 ? "2 Nhà Phố 🏠🏠" : "Khách Sạn Cao Cấp 🏨";
     visualFX.spawnFloatingMoney(tile.id, `-${tile.upgradeCost}M`, false);
-    showStatusNotice(`✨ <strong>${player.name}</strong> đã nâng cấp <strong>${tile.name}</strong> lên ${levelIcon}!`);
+    showStatusNotice(`✨ <strong>${player.name}</strong> đã nâng cấp <strong>${tile.name}</strong> lên <strong>${levelIcon}</strong>!`);
     closeModal("modalBuyProperty");
     updateUI();
     finishTurn();
@@ -1615,12 +1649,13 @@ function inspectTileTitleDeed(tileId) {
             const ownerObj = gameState.players.find(p => p.id === tile.owner);
             const ownerName = ownerObj ? ownerObj.name : "Người chơi";
             const ownerColor = ownerObj ? ownerObj.color : "#2563eb";
-            ownerBox.innerHTML = `Chủ sở hữu: <strong style="color:${ownerColor};">${ownerName}</strong> (Cấp ${tile.level})`;
+            const houseModelStr = tile.level === 1 ? '🏠 1 Nhà Phố' : tile.level === 2 ? '🏠🏠 2 Nhà Phố' : '🏨 Khách Sạn Cao Cấp';
+            ownerBox.innerHTML = `Chủ sở hữu: <strong style="color:${ownerColor};">${ownerName}</strong> (${houseModelStr})`;
 
             const current = gameState.players[gameState.currentTurnIndex];
             if (tile.owner === current.id && tile.level < 3 && !gameState.isRolling && !current.isAi) {
                 btnUpgrade.style.display = "inline-block";
-                btnUpgrade.textContent = `Xây thêm Cấp ${tile.level + 1} (+${tile.upgradeCost}M)`;
+                btnUpgrade.textContent = tile.level === 1 ? `Xây thêm Nhà thứ 2 (+${tile.upgradeCost}M)` : `Xây Khách Sạn (+${tile.upgradeCost}M)`;
                 btnUpgrade.onclick = () => {
                     closeModal("modalPostcardInspector");
                     promptUpgradeProperty(current, tile);
@@ -1671,7 +1706,8 @@ function openPortfolioModal() {
         if (t.owner) {
             const ownerObj = gameState.players.find(p => p.id === t.owner);
             if (ownerObj) {
-                statusBadge = `<span class="badge-unlocked" style="background:${ownerObj.color};">Sở hữu: ${ownerObj.name} (L${t.level})</span>`;
+                const houseTag = t.level === 1 ? '🏠 1 Nhà' : t.level === 2 ? '🏠🏠 2 Nhà' : '🏨 Khách Sạn';
+                statusBadge = `<span class="badge-unlocked" style="background:${ownerObj.color};">Sở hữu: ${ownerObj.name} (${houseTag})</span>`;
             }
         }
 
