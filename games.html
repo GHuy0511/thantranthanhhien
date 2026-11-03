@@ -34,82 +34,49 @@
         <div class="bg-glow-orb orb-2"></div>
     </div>
 
-    <!-- THANH ĐIỀU HƯỚNG GÓC TRÊN CÙNG -->
+    <!-- LỚP HIỆU ỨNG ĐẶC BIỆT (POLICE SIREN, CONFETTI & FLOATING FX) -->
+    <div class="police-siren-overlay" id="policeSirenOverlay" aria-hidden="true"></div>
+    <div class="floating-fx-layer" id="floatingFxLayer" aria-hidden="true"></div>
+    <canvas class="confetti-canvas" id="confettiCanvas" aria-hidden="true"></canvas>
+
+    <!-- THANH ĐIỀU HƯỚNG TINH GỌN (TOP NAV) -->
     <header class="games-top-nav">
         <a class="nav-back-home-btn" href="index.html" title="Trở về trang chủ">
             <span class="nav-back-icon">‹</span>
             <span class="nav-back-text">Trang chủ</span>
         </a>
+
         <div class="games-brand">
-            <span class="games-brand-tag">CHIẾN THUẬT & ĐẦU TƯ BẤT ĐỘNG SẢN</span>
             <h1 class="games-brand-title">Cờ Tỷ Phú Việt Nam</h1>
         </div>
-        <button class="theme-setting-btn games-theme-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện" title="Đổi màu sắc giao diện">
-            <span class="theme-gear-icon">⚙️</span>
-        </button>
+
+        <div class="games-top-tools">
+            <button class="top-tool-btn setup-tool-btn" id="btnOpenSetup" type="button" title="Cài đặt số người chơi (2, 3, 4 người & Đấu AI)">
+                <span class="tool-icon">👥</span>
+                <span class="tool-label" id="topPlayersLabel">2 Người</span>
+            </button>
+            <button class="top-tool-btn theme-tool-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện" title="Đổi màu sắc giao diện">
+                <span class="theme-gear-icon">⚙️</span>
+            </button>
+        </div>
     </header>
 
     <main class="games-main-container">
-        <!-- KHU VỰC THÔNG TIN TÀI CHÍNH 2 NGƯỜI CHƠI (PLAYER HUD) -->
+        <!-- BẢNG THEO DÕI TÀI CHÍNH ĐỘNG CHO 2 - 4 NGƯỜI CHƠI (DYNAMIC PLAYER HUD) -->
         <section class="players-hud-section" aria-label="Bảng tài chính người chơi">
-            <!-- Người chơi 1: Huy -->
-            <div class="player-hud-card hud-huy active-turn" id="hudHuy">
-                <div class="player-hud-avatar-wrap">
-                    <span class="player-avatar-icon">🚗</span>
-                    <span class="player-turn-indicator" id="turnIndicatorHuy">Đang tới lượt</span>
-                </div>
-                <div class="player-hud-info">
-                    <div class="player-hud-name-row">
-                        <span class="player-name">Huy</span>
-                        <span class="player-color-dot dot-huy"></span>
-                        <span class="player-token-badge">Tay đua 🚗</span>
-                    </div>
-                    <div class="player-score-row">
-                        <span class="player-score" id="huyCash">1,500</span>
-                        <span class="score-unit">M VNĐ</span>
-                    </div>
-                    <div class="player-stats-mini">
-                        <span>BĐS: <strong id="huyPropsCount">0</strong></span> • 
-                        <span>Tài sản: <strong id="huyNetWorth">1,500M</strong></span>
-                    </div>
-                </div>
+            <div class="players-hud-list" id="playersHudList">
+                <!-- Danh sách người chơi được tạo tự động động từ games.js (2, 3 hoặc 4 người) -->
             </div>
 
-            <!-- Khu vực trung tâm HUD: Chế độ chơi & Hũ tiền phạt bãi đỗ xe -->
-            <div class="hud-center-controls">
-                <div class="game-mode-toggle" role="group" aria-label="Chế độ chơi">
-                    <button class="mode-btn active" id="btnModePassPlay" type="button" title="2 người chơi luân phiên">👥 2 Người</button>
-                    <button class="mode-btn" id="btnModeAI" type="button" title="Chơi với máy AI tự động">🤖 Đấu AI</button>
-                </div>
-                <div class="free-parking-pool-badge" id="parkingPoolBadge" title="Hũ tiền phạt tích lũy tại Bãi Đỗ Xe Miễn Phí">
+            <!-- Thanh thông tin trung tâm: Hũ bãi đỗ xe & Trạng thái lượt -->
+            <div class="hud-center-pill">
+                <div class="parking-pool-tag" id="parkingPoolBadge" title="Hũ tiền phạt tích lũy tại Bãi Đỗ Xe Miễn Phí">
                     <span class="pool-icon">🅿️</span>
-                    <span>Hũ thưởng: <strong id="parkingPoolAmount">100M</strong></span>
+                    <span class="pool-text">Hũ: <strong id="parkingPoolDisplay">100M</strong></span>
                 </div>
-                <div class="hud-turn-badge" id="turnHeadline">
-                    <span id="turnText">Lượt của Huy (🚗)</span>
-                </div>
-            </div>
-
-            <!-- Người chơi 2: Hiền -->
-            <div class="player-hud-card hud-hien" id="hudHien">
-                <div class="player-hud-avatar-wrap">
-                    <span class="player-avatar-icon">✈️</span>
-                    <span class="player-turn-indicator" id="turnIndicatorHien">Đang tới lượt</span>
-                </div>
-                <div class="player-hud-info">
-                    <div class="player-hud-name-row">
-                        <span class="player-name">Hiền</span>
-                        <span class="player-color-dot dot-hien"></span>
-                        <span class="player-token-badge">Phi công ✈️</span>
-                    </div>
-                    <div class="player-score-row">
-                        <span class="player-score" id="hienCash">1,500</span>
-                        <span class="score-unit">M VNĐ</span>
-                    </div>
-                    <div class="player-stats-mini">
-                        <span>BĐS: <strong id="hienPropsCount">0</strong></span> • 
-                        <span>Tài sản: <strong id="hienNetWorth">1,500M</strong></span>
-                    </div>
+                <div class="turn-status-tag" id="turnStatusTag">
+                    <span class="turn-dot" id="turnDot"></span>
+                    <span class="turn-text" id="turnStatusText">Lượt: Huy (🚗)</span>
                 </div>
             </div>
         </section>
@@ -118,14 +85,12 @@
         <section class="monopoly-board-wrapper">
             <div class="monopoly-board grid-7x7" id="monopolyBoard">
 
-                <!-- 24 Ô BÀN CỜ ĐƯỢC RENDER HOÀN TOÀN BẰNG JAVASCRIPT -->
+                <!-- 24 Ô BÀN CỜ ĐƯỢC RENDER TINH GỌN HOÀN TOÀN BẰNG JAVASCRIPT -->
 
                 <!-- KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS - 3D DICE & ĐIỀU HÀNH) -->
                 <div class="board-center-hub" id="boardCenterHub">
-                    <div class="hub-decor-grid" aria-hidden="true"></div>
-
                     <!-- Xúc xắc 3D chân thực -->
-                    <div class="dice-scene" id="diceScene" title="Xúc xắc">
+                    <div class="dice-scene" id="diceScene" title="Xúc xắc 3D">
                         <div class="dice-cube" id="diceCube">
                             <div class="dice-face face-1"><span class="pip pip-center"></span></div>
                             <div class="dice-face face-2"><span class="pip pip-tl"></span><span class="pip pip-br"></span></div>
@@ -136,45 +101,83 @@
                         </div>
                     </div>
 
-                    <!-- Nút tung xúc xắc -->
+                    <!-- Nút tung xúc xắc nổi bật -->
                     <button class="roll-dice-btn" id="rollDiceBtn" type="button">
                         <span class="btn-dice-icon">🎲</span>
-                        <span class="btn-dice-text">Tung Xúc Xắc</span>
+                        <span class="btn-dice-text" id="rollBtnText">Huy Tung Xúc Xắc</span>
                     </button>
 
-                    <!-- Trạng thái diễn biến ván cờ -->
+                    <!-- Thông báo diễn biến ván cờ tinh gọn -->
                     <div class="action-status-msg" id="actionStatusMsg">
-                        Tung xúc xắc để bắt đầu ván cờ tỷ phú!
+                        Tung xúc xắc để bắt đầu ván cờ!
                     </div>
 
-                    <!-- Lối tắt nhanh dưới trung tâm -->
+                    <!-- Các nút tiện ích tinh tế dưới trung tâm -->
                     <div class="center-quick-actions">
                         <button class="quick-act-btn" id="btnOpenPortfolio" type="button" title="Xem danh mục bất động sản">📊 Tài Sản</button>
-                        <button class="quick-act-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">ℹ️ Luật Chơi</button>
+                        <button class="quick-act-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">📖 Luật Chơi</button>
                         <button class="quick-act-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh">
                             <span id="soundIcon">🔔</span>
                         </button>
+                        <button class="quick-act-btn" id="btnRestartQuick" type="button" title="Chơi lại ván mới">🔄 Ván Mới</button>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- THANH CÔNG CỤ DƯỚI CÙNG -->
-        <footer class="game-action-toolbar">
-            <button class="tool-btn" id="btnRestartGame" type="button" title="Bắt đầu ván mới">
-                <span>🔄 Bắt đầu ván mới</span>
-            </button>
-            <div class="game-legend-bar">
-                <span class="legend-item"><span class="legend-color color-north"></span> Bắc Bộ</span>
-                <span class="legend-item"><span class="legend-color color-northwest"></span> Tây Bắc</span>
-                <span class="legend-item"><span class="legend-color color-central"></span> Miền Trung</span>
-                <span class="legend-item"><span class="legend-color color-coastal"></span> Duyên Hải</span>
-                <span class="legend-item"><span class="legend-color color-highlands"></span> Tây Nguyên</span>
-                <span class="legend-item"><span class="legend-color color-south"></span> Nam Bộ</span>
-                <span class="legend-item"><span class="legend-color color-islands"></span> Biển Đảo</span>
-            </div>
-        </footer>
     </main>
+
+    <!-- ========================================================
+         MODAL CÀI ĐẶT VÁN ĐẤU (CHỌN 2, 3, 4 NGƯỜI & ĐẤU AI)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalGameSetup" aria-hidden="true">
+        <div class="game-modal-card setup-card">
+            <div class="setup-header">
+                <span class="setup-emblem">⚙️</span>
+                <h3 class="game-modal-title">Cài Đặt Ván Đấu</h3>
+                <p class="game-modal-desc">Tùy chỉnh số lượng người chơi và chế độ đấu AI</p>
+            </div>
+
+            <!-- 1. Chọn số người chơi -->
+            <div class="setup-section">
+                <label class="setup-label">Số Lượng Người Chơi:</label>
+                <div class="player-count-selector" role="group">
+                    <button class="count-opt-btn active" data-count="2" type="button">2 Người</button>
+                    <button class="count-opt-btn" data-count="3" type="button">3 Người</button>
+                    <button class="count-opt-btn" data-count="4" type="button">4 Người</button>
+                </div>
+            </div>
+
+            <!-- 2. Chọn chế độ đấu -->
+            <div class="setup-section">
+                <label class="setup-label">Chế Độ Chơi:</label>
+                <div class="mode-select-grid">
+                    <button class="mode-card-opt active" id="optModePassPlay" type="button">
+                        <span class="mode-icon">👥</span>
+                        <span class="mode-title">Chơi Cùng Bạn Bè</span>
+                        <span class="mode-sub">Chuyền tay cùng chơi trên thiết bị</span>
+                    </button>
+                    <button class="mode-card-opt" id="optModeAI" type="button">
+                        <span class="mode-icon">🤖</span>
+                        <span class="mode-title">Đấu Với Máy (AI)</span>
+                        <span class="mode-sub">Huy đấu cùng các đối thủ AI thông minh</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Danh sách người chơi tham gia -->
+            <div class="setup-section">
+                <label class="setup-label">Người Chơi Tham Gia:</label>
+                <div class="setup-players-roster" id="setupPlayersRoster">
+                    <!-- Danh sách hiển thị động theo số người chọn -->
+                </div>
+            </div>
+
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnStartCustomGame" type="button">Bắt Đầu Ván Đấu 🎲</button>
+                <button class="modal-btn-cancel" id="btnCloseSetup" type="button">Đóng</button>
+            </div>
+        </div>
+    </div>
 
     <!-- ========================================================
          MODAL 1: MUA ĐẤT / XÂY NHÀ & KHÁCH SẠN
@@ -327,22 +330,11 @@
             <div class="passport-cover-header">
                 <span class="passport-emblem">📊</span>
                 <h3 class="game-modal-title">Danh Mục Bất Động Sản & Tài Sản</h3>
-                <span class="passport-sub">Huy vs Hiền</span>
+                <span class="passport-sub" id="portfolioSubTitle">Thống kê tài sản người chơi</span>
             </div>
 
-            <div class="passport-stats-row">
-                <div class="pass-stat">
-                    <span>Bất động sản đã bán:</span>
-                    <strong id="passTotalUnlocked">0 / 16</strong>
-                </div>
-                <div class="pass-stat">
-                    <span>Tổng tài sản Huy:</span>
-                    <strong id="passHuyTotal">1,500M</strong>
-                </div>
-                <div class="pass-stat">
-                    <span>Tổng tài sản Hiền:</span>
-                    <strong id="passHienTotal">1,500M</strong>
-                </div>
+            <div class="passport-stats-row" id="portfolioPlayersStats">
+                <!-- Thống kê tài sản của từng người chơi được sinh tự động -->
             </div>
 
             <div class="passport-landmarks-grid" id="passportLandmarksGrid">
@@ -356,15 +348,15 @@
     </div>
 
     <!-- ========================================================
-         MODAL 7: THÔNG BÁO CHUNG, THUẾ, TIỀN THUÊ & KẾT THÚC
+         MODAL 7: KẾT THÚC GAME / PHÁ SẢN (VICTORY & GAME OVER)
          ======================================================== -->
-    <div class="game-modal-overlay" id="modalGenericAlert" aria-hidden="true">
-        <div class="game-modal-card">
-            <div class="game-modal-emoji" id="alertEmoji">⚡</div>
-            <h3 class="game-modal-title" id="alertTitle">Thông Báo</h3>
-            <p class="game-modal-desc" id="alertMessage">Nội dung thông báo</p>
+    <div class="game-modal-overlay" id="modalGameOver" aria-hidden="true">
+        <div class="game-modal-card victory-card">
+            <div class="game-modal-emoji">🏆</div>
+            <h3 class="game-modal-title">Ván Cờ Kết Thúc!</h3>
+            <p class="game-modal-desc" id="winnerText">Chúc mừng nhà vô địch!</p>
             <div class="game-modal-actions">
-                <button class="modal-btn-confirm" id="btnAlertOk" type="button">Xác nhận</button>
+                <button class="modal-btn-confirm" id="btnRestartFromWinner" type="button">Chơi Ván Mới 🔄</button>
             </div>
         </div>
     </div>
@@ -381,14 +373,14 @@
                 <p><strong>2. Tiền khởi điểm:</strong> Mỗi người chơi bắt đầu với <strong>1,500M VNĐ</strong> tiền mặt.</p>
                 <p><strong>3. Mua & Xây dựng Bất động sản:</strong></p>
                 <ul>
-                    <li>Khi dừng chân tại ô đất chưa ai mua: Bạn có thể bỏ tiền mua quyền sở hữu đất (Cấp 1: 1 Nhà 🏠).</li>
-                    <li>Khi đi vào ô đất do chính mình sở hữu: Có thể chi tiền để nâng cấp lên <strong>2 Nhà (🏠🏠)</strong> hoặc <strong>Khách Sạn (🏨)</strong> để tăng tiền thuê đất khi đối thủ ghé thăm!</li>
+                    <li>Khi dừng chân tại ô đất chưa ai mua: Mua quyền sở hữu đất (Cấp 1: 1 Nhà 🏠).</li>
+                    <li>Khi đi vào ô đất do chính mình sở hữu: Chi tiền để nâng cấp lên <strong>2 Nhà (🏡)</strong> hoặc <strong>Khách Sạn (🏨)</strong> để tăng tiền thuê đất khi đối thủ ghé thăm!</li>
                 </ul>
                 <p><strong>4. Tiền thuê đất:</strong> Khi đối thủ bước vào ô đất của bạn, đối thủ phải trả tiền thuê đất theo cấp độ xây dựng tương ứng.</p>
-                <p><strong>5. Nhà Tù (⛓️) & Bắt Vào Tù (🚔):</strong> Khi đi vào ô "Vào Tù", bạn bị đưa thẳng vào nhà tù và tạm giam. Có thể nộp tiền bảo lãnh 50M hoặc đổ xúc xắc từ 4 nút trở lên để được thả tự do.</p>
+                <p><strong>5. Nhà Tù (⛓️) & Bắt Vào Tù (🚔):</strong> Dừng chân tại ô "Vào Tù" sẽ bị áp giải đến buồng giam. Có thể nộp tiền bảo lãnh 50M hoặc đổ xúc xắc từ 4 nút trở lên để ra tù.</p>
                 <p><strong>6. Bãi Đỗ Xe Miễn Phí (🅿️):</strong> Nơi gom tiền phạt và tiền thuế trong suốt ván đấu. Người chơi dừng chân tại đây sẽ ăn trọn toàn bộ hũ tiền thưởng!</p>
-                <p><strong>7. Sân Bay Quốc Tế (✈️):</strong> Cho phép bạn mua vé 50M để bay tốc hành đến bất kỳ ô chiến lược nào trên bàn cờ.</p>
-                <p><strong>8. Phá sản & Thắng cuộc:</strong> Khi một người chơi hết tiền mặt và không đủ khả năng chi trả tiền thuê đất hoặc thuế -> PHÁ SẢN! Người còn lại giành chiến thắng chung cuộc.</p>
+                <p><strong>7. Sân Bay Quốc Tế (✈️):</strong> Mua vé 50M để bay tốc hành đến bất kỳ ô chiến lược nào trên bàn cờ.</p>
+                <p><strong>8. Phá sản & Thắng cuộc:</strong> Khi người chơi hết tiền mặt và không đủ khả năng thanh toán nợ thuê đất/thuế -> Bị loại / Phá sản! Người trụ lại cuối cùng giành chiến thắng.</p>
             </div>
             <div class="game-modal-actions">
                 <button class="modal-btn-confirm" id="btnCloseHelp" type="button">Đã hiểu luật chơi</button>
