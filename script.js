@@ -12,9 +12,7 @@ const MEMORIES = [
         title: "Quân sự",
         date: "Kỷ niệm quân sự",
         location: "Trung tâm GDQP&AN",
-        type: "mixed",
-        video: "videos/ky-niem-quan-su.mp4",
-        poster: "images/DSC03633.jpeg",
+        type: "photo",
         images: [
             "images/DSC03633.jpeg",
             "images/DSC03635.jpeg",
@@ -63,22 +61,6 @@ const MEMORIES = [
     },
     {
         id: 4,
-        title: "Thước Phim Bên Nhau",
-        date: "Khoảnh khắc chuyển động",
-        location: "Kỷ niệm của chúng mình",
-        type: "video",
-        video: "videos/khoanh-khac-ben-nhau.mp4",
-        poster: "images/DSC03635.jpeg",
-        images: [
-            "images/DSC03635.jpeg"
-        ],
-        fallbacks: [
-            "images/DSC03635.jpeg"
-        ],
-        story: "Những khoảnh khắc chuyển động ấm áp và nụ cười rạng rỡ của Hiền. Từng giây từng phút được bên cạnh Hiền đều là những thước phim đẹp nhất mà Huy muốn cất giữ cả cuộc đời."
-    },
-    {
-        id: 5,
         title: "Bên nhau",
         date: "01/11/2026",
         location: "Ngày chính thức thành đôi",
@@ -213,8 +195,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initLetterModal();
     initLightboxSystem();
     initAudioSystem();
-    initGalleryFilterTabs();
-    updateFilterCounts();
 });
 
 /* ========================================================
@@ -486,18 +466,8 @@ function renderTimelineWithCarousels() {
     if (!container) return;
     container.innerHTML = "";
 
-    // Lọc danh sách kỷ niệm theo bộ lọc đang chọn
-    const activeList = MEMORIES.filter(item => {
-        if (currentGalleryFilter === "photo") {
-            return (item.images && item.images.length > 0) && item.type !== "video";
-        }
-        if (currentGalleryFilter === "video") {
-            return Boolean(item.video || item.type === "video" || item.type === "mixed");
-        }
-        return true;
-    });
-
-    const displayList = activeList.length > 0 ? activeList : MEMORIES;
+    // Hiển thị trực tiếp 4 kỷ niệm trọn vẹn theo 1 dòng mạch lạc (không chia tab)
+    const displayList = MEMORIES;
 
     // Nhân bản danh sách đủ số lần để tạo vòng lặp vô tận liền mạch
     const minSets = Math.max(4, Math.ceil((window.innerWidth * 2.5) / Math.max(1, displayList.length * 360)));

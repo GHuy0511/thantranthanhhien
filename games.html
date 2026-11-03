@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Góc Trò Chơi Tình Yêu • Huy & Hiền</title>
+
+    <!-- Đồng bộ ngay theme đã chọn từ trang chính để không bị chớp nháy màu -->
+    <script>
+        (function() {
+            try {
+                var savedTheme = localStorage.getItem('couple_love_theme');
+                if (savedTheme) {
+                    document.documentElement.setAttribute('data-theme', savedTheme);
+                }
+            } catch(e) {}
+        })();
+    </script>
+
+    <!-- Google Fonts đồng nhất với website -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS chung & CSS riêng cho game -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="games.css">
+</head>
+<body class="games-body">
+
+    <!-- Đốm sáng hào quang nền đồng nhất với trang chủ -->
+    <div class="bg-decor-wrapper" aria-hidden="true">
+        <div class="bg-glow-orb orb-1"></div>
+        <div class="bg-glow-orb orb-2"></div>
+    </div>
+
+    <!-- THANH ĐIỀU HƯỚNG GÓC TRÊN CÙNG -->
+    <header class="games-top-nav">
+        <a class="nav-back-home-btn" href="index.html" title="Trở về trang nhật ký">
+            <span class="nav-back-icon">‹</span>
+            <span class="nav-back-text">Nhật ký</span>
+        </a>
+        <div class="games-brand">
+            <span class="games-brand-tag">GÓC KỶ NIỆM</span>
+            <h1 class="games-brand-title">Cờ Tỷ Phú Yêu Thương</h1>
+        </div>
+        <button class="theme-setting-btn games-theme-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện" title="Đổi màu sắc giao diện">
+            <span class="theme-gear-icon">⚙️</span>
+        </button>
+    </header>
+
+    <main class="games-main-container">
+        <!-- TAB CHỌN TRÒ CHƠI (TỐI GIẢN & MẠCH LẠC) -->
+        <nav class="game-select-tabs" aria-label="Danh mục trò chơi">
+            <button class="game-tab-btn active" type="button">
+                <span>🎲 Cờ Tỷ Phú</span>
+            </button>
+            <button class="game-tab-btn disabled" type="button" title="Sắp ra mắt">
+                <span>🌸 Thử Thách & Câu Hỏi</span>
+                <span class="tab-badge-soon">Sắp có</span>
+            </button>
+            <button class="game-tab-btn disabled" type="button" title="Sắp ra mắt">
+                <span>🎡 Vòng Quay Kỷ Niệm</span>
+                <span class="tab-badge-soon">Sắp có</span>
+            </button>
+        </nav>
+
+        <!-- KHU VỰC THÔNG TIN 2 NGƯỜI CHƠI (PLAYER HUD) -->
+        <section class="players-hud-section" aria-label="Thông tin người chơi">
+            <!-- Thẻ Người chơi 1: Huy -->
+            <div class="player-hud-card hud-huy" id="hudHuy">
+                <div class="player-hud-avatar-wrap">
+                    <span class="player-avatar-icon">👦</span>
+                    <span class="player-turn-indicator" id="turnIndicatorHuy">Đến lượt</span>
+                </div>
+                <div class="player-hud-info">
+                    <div class="player-hud-name-row">
+                        <span class="player-name">Huy</span>
+                        <span class="player-color-dot dot-huy"></span>
+                    </div>
+                    <div class="player-score-row">
+                        <span class="player-score" id="huyScore">1000</span>
+                        <span class="score-unit">💕 Điểm Yêu</span>
+                    </div>
+                    <div class="player-prop-count">
+                        <span id="huyPropsCount">0</span> địa điểm sở hữu
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trái tim ngăn cách -->
+            <div class="hud-center-divider" aria-hidden="true">
+                <span class="hud-divider-heart">♥</span>
+                <span class="hud-turn-text" id="turnHeadline">Đến lượt của Huy</span>
+            </div>
+
+            <!-- Thẻ Người chơi 2: Hiền -->
+            <div class="player-hud-card hud-hien" id="hudHien">
+                <div class="player-hud-avatar-wrap">
+                    <span class="player-avatar-icon">👧</span>
+                    <span class="player-turn-indicator" id="turnIndicatorHien">Đến lượt</span>
+                </div>
+                <div class="player-hud-info">
+                    <div class="player-hud-name-row">
+                        <span class="player-name">Hiền</span>
+                        <span class="player-color-dot dot-hien"></span>
+                    </div>
+                    <div class="player-score-row">
+                        <span class="player-score" id="hienScore">1000</span>
+                        <span class="score-unit">💕 Điểm Yêu</span>
+                    </div>
+                    <div class="player-prop-count">
+                        <span id="hienPropsCount">0</span> địa điểm sở hữu
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BÀN CỜ TỶ PHÚ (MONOPOLY BOARD 5x5 - 16 Ô VÒNG QUANH) -->
+        <section class="monopoly-board-wrapper">
+            <div class="monopoly-board" id="monopolyBoard">
+
+                <!-- 16 Ô BÀN CỜ ĐƯỢC RENDER NĂNG ĐỘNG BẰNG JAVASCRIPT -->
+
+                <!-- KHU VỰC TRUNG TÂM BÀN CỜ (DICE & STATUS) -->
+                <div class="board-center-hub">
+                    <div class="dice-scene">
+                        <div class="dice-cube" id="diceCube">
+                            <div class="dice-face face-1">
+                                <span class="pip pip-center"></span>
+                            </div>
+                            <div class="dice-face face-2">
+                                <span class="pip pip-tl"></span>
+                                <span class="pip pip-br"></span>
+                            </div>
+                            <div class="dice-face face-3">
+                                <span class="pip pip-tl"></span>
+                                <span class="pip pip-center"></span>
+                                <span class="pip pip-br"></span>
+                            </div>
+                            <div class="dice-face face-4">
+                                <span class="pip pip-tl"></span>
+                                <span class="pip pip-tr"></span>
+                                <span class="pip pip-bl"></span>
+                                <span class="pip pip-br"></span>
+                            </div>
+                            <div class="dice-face face-5">
+                                <span class="pip pip-tl"></span>
+                                <span class="pip pip-tr"></span>
+                                <span class="pip pip-center"></span>
+                                <span class="pip pip-bl"></span>
+                                <span class="pip pip-br"></span>
+                            </div>
+                            <div class="dice-face face-6">
+                                <span class="pip pip-tl"></span>
+                                <span class="pip pip-tr"></span>
+                                <span class="pip pip-ml"></span>
+                                <span class="pip pip-mr"></span>
+                                <span class="pip pip-bl"></span>
+                                <span class="pip pip-br"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nút tung xúc xắc -->
+                    <button class="roll-dice-btn" id="rollDiceBtn" type="button">
+                        <span class="btn-dice-icon">🎲</span>
+                        <span class="btn-dice-text">Tung Xúc Xắc</span>
+                    </button>
+
+                    <!-- Tin nhắn cập nhật diễn biến -->
+                    <div class="action-status-msg" id="actionStatusMsg">
+                        Chạm vào "Tung Xúc Xắc" để bắt đầu chuyến hành trình!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THANH CÔNG CỤ DƯỚI BÀN CỜ -->
+        <footer class="game-action-toolbar">
+            <button class="tool-btn" id="btnRestartGame" type="button" title="Chơi lại từ đầu">
+                <span>🔄 Bắt đầu ván mới</span>
+            </button>
+            <button class="tool-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh">
+                <span id="soundIcon">🔔</span>
+                <span id="soundLabel">Âm thanh</span>
+            </button>
+            <button class="tool-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">
+                <span>📖 Luật chơi</span>
+            </button>
+        </footer>
+    </main>
+
+    <!-- ========================================================
+         MODAL 1: MUA ĐỊA ĐIỂM (XÂY DỰNG TỔ ẤM)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalBuyProperty" aria-hidden="true">
+        <div class="game-modal-card">
+            <div class="game-modal-emoji" id="buyPropEmoji">🏡</div>
+            <h3 class="game-modal-title" id="buyPropTitle">Xây dựng Tổ Ấm</h3>
+            <p class="game-modal-desc" id="buyPropDesc">Bạn vừa đặt chân đến địa điểm này!</p>
+            <div class="prop-stat-box">
+                <div class="stat-item">
+                    <span class="stat-lbl">Giá xây dựng:</span>
+                    <strong class="stat-val" id="buyPropCost">150 💕</strong>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-lbl">Tiền hẹn hò:</span>
+                    <strong class="stat-val" id="buyPropRent">30 💕</strong>
+                </div>
+            </div>
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnConfirmBuy" type="button">Xây dựng ngay 💕</button>
+                <button class="modal-btn-cancel" id="btnCancelBuy" type="button">Để dịp khác</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 2: THƯ BẤT NGỜ (SWEET LOVE CARDS)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalLoveCard" aria-hidden="true">
+        <div class="game-modal-card card-love-letter">
+            <div class="envelope-mini-icon">💌</div>
+            <span class="love-card-tag">THƯ BẤT NGỜ DÀNH CHO BẠN</span>
+            <h3 class="love-card-headline" id="loveCardTitle">Lời Thì Thầm</h3>
+            <div class="love-card-paper">
+                <p class="love-card-content" id="loveCardContent">
+                    Nắm tay đối phương trong 10 giây và nhìn vào mắt nhau thật dịu dàng.
+                </p>
+                <div class="love-card-reward" id="loveCardReward">+50 Điểm Yêu Thương 💕</div>
+            </div>
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnAcceptLoveCard" type="button">Đã thực hiện xong nè 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 3: THÔNG BÁO CHUNG (TIỀN HẸN HÒ / CHECK-IN / CHIẾN THẮNG)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalGenericAlert" aria-hidden="true">
+        <div class="game-modal-card">
+            <div class="game-modal-emoji" id="alertEmoji">✨</div>
+            <h3 class="game-modal-title" id="alertTitle">Thông Báo</h3>
+            <p class="game-modal-desc" id="alertMessage">Nội dung thông báo</p>
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnAlertOk" type="button">Đã hiểu nè 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 4: HƯỚNG DẪN LUẬT CHƠI
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalHelp" aria-hidden="true">
+        <div class="game-modal-card help-card">
+            <div class="game-modal-emoji">📖</div>
+            <h3 class="game-modal-title">Luật Chơi Cờ Tỷ Phú Yêu Thương</h3>
+            <div class="help-content-scroll">
+                <p><strong>1. Mục đích:</strong> Cùng nhau du hành qua 16 địa điểm kỷ niệm đáng nhớ của Huy và Hiền.</p>
+                <p><strong>2. Cách chơi:</strong> Thay phiên nhau tung xúc xắc. Khi bước vào địa điểm trống, bạn có thể dùng Điểm Yêu Thương 💕 để xây dựng tổ ấm.</p>
+                <p><strong>3. Tiền hẹn hò:</strong> Khi người yêu bước vào địa điểm của bạn, đối phương sẽ tặng bạn điểm hẹn hò ngọt ngào.</p>
+                <p><strong>4. Ô Thư Bất Ngờ (💌):</strong> Rút lá thiệp nhiệm vụ ngọt ngào để thực hiện cho người yêu ngoài đời thật!</p>
+                <p><strong>5. Xuất phát (🚩):</strong> Mỗi vòng hoàn thành khi đi qua ô xuất phát được tặng 200 Điểm Yêu Thương!</p>
+            </div>
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnCloseHelp" type="button">Bắt đầu chơi thôi 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL ĐỔI THEME GIAO DIỆN TỐI GIẢN (ĐỒNG NHẤT 100% VỚI WEB CHÍNH)
+         ======================================================== -->
+    <div class="theme-modal-overlay" id="themeModalOverlay" aria-hidden="true">
+        <div class="theme-modal-box">
+            <button class="theme-modal-close" id="themeModalCloseBtn" type="button" aria-label="Đóng bảng màu">✕</button>
+            <div class="theme-modal-header">
+                <h2 class="theme-modal-title">Bảng Màu Kỷ Niệm</h2>
+                <div class="theme-modal-sub">Giao diện đang dùng: <strong id="themeCurrentName">Hoàng Hôn</strong></div>
+            </div>
+            <div class="theme-options-grid">
+                <button class="theme-card-option" type="button" data-theme="sunset">
+                    <div class="theme-swatch-pill theme-swatch-sunset"></div>
+                    <span class="theme-card-name">Hoàng Hôn</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="vintage-rose">
+                    <div class="theme-swatch-pill theme-swatch-vintage-rose"></div>
+                    <span class="theme-card-name">Hoa Hồng Cổ</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="midnight">
+                    <div class="theme-swatch-pill theme-swatch-midnight"></div>
+                    <span class="theme-card-name">Đêm Đầy Sao</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="autumn">
+                    <div class="theme-swatch-pill theme-swatch-autumn"></div>
+                    <span class="theme-card-name">Mùa Thu</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="cotton-candy">
+                    <div class="theme-swatch-pill theme-swatch-cotton-candy"></div>
+                    <span class="theme-card-name">Kẹo Ngọt</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="ocean">
+                    <div class="theme-swatch-pill theme-swatch-ocean"></div>
+                    <span class="theme-card-name">Biển Xanh</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="secret-garden">
+                    <div class="theme-swatch-pill theme-swatch-secret-garden"></div>
+                    <span class="theme-card-name">Vườn Bí Mật</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="bordeaux">
+                    <div class="theme-swatch-pill theme-swatch-bordeaux"></div>
+                    <span class="theme-card-name">Rượu Vang</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="mocha">
+                    <div class="theme-swatch-pill theme-swatch-mocha"></div>
+                    <span class="theme-card-name">Cà Phê</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="lavender">
+                    <div class="theme-swatch-pill theme-swatch-lavender"></div>
+                    <span class="theme-card-name">Oải Hương</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="peach">
+                    <div class="theme-swatch-pill theme-swatch-peach"></div>
+                    <span class="theme-card-name">Trà Đào</span>
+                </button>
+                <button class="theme-card-option" type="button" data-theme="aurora-night">
+                    <div class="theme-swatch-pill theme-swatch-aurora-night"></div>
+                    <span class="theme-card-name">Đêm Đông</span>
+                </button>
+            </div>
+            <div class="theme-modal-footer">
+                <button class="theme-apply-btn" id="themeApplyBtn" type="button">Xong rồi nè 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script điều khiển Game Cờ Tỷ Phú -->
+    <script src="games.js"></script>
+</body>
+</html>

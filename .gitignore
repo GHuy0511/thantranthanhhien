@@ -11,3 +11,7 @@ music/TỪ THÍCH THÍCH THÀNH THƯƠNG THƯƠNG.mp3
 music/50 Năm Về Sau.mp3
 music/Dù Cho Mai Về Sau.mp3
 music/Hẹn Một Mai.mp3
+
+# Log & dữ liệu tạm
+*.csv
+videos/*.csv

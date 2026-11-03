@@ -5807,3 +5807,231 @@ html, body {
         margin-bottom: 6px;
     }
 }
+
+/* ========================================================
+   THANH ĐIỀU HƯỚNG GÓC TRÊN CÙNG (THEME & GÓC TRÒ CHƠI)
+   ======================================================== */
+.top-nav-bar {
+    position: fixed;
+    top: 22px;
+    left: 24px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.top-nav-bar .theme-setting-btn {
+    position: static;
+    top: auto;
+    left: auto;
+}
+
+.nav-games-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    background: var(--theme-gear-bg, rgba(255, 255, 255, 0.88));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1.5px solid var(--theme-gear-border, rgba(217, 107, 82, 0.25));
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
+}
+
+.nav-games-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(217, 107, 82, 0.25);
+    background: var(--card-surface, #ffffff);
+}
+
+.nav-games-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* ========================================================
+   ĐỒNG HỒ CÁCH ĐIỆU THƯ PHÁP LÃNG MẠN (ROMANTIC CALLIGRAPHY CLOCK)
+   Đồng điệu tuyệt đối với tiêu đề "Gửi cho Thân Trần Thanh Hiền"
+   ======================================================== */
+.calligraphy-clock-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 18px 0 24px;
+    width: 100%;
+}
+
+.calligraphy-clock-glow {
+    position: absolute;
+    width: min(560px, 92vw);
+    height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-soft, rgba(217, 107, 82, 0.22)) 0%, transparent 70%);
+    filter: blur(28px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.calligraphy-clock-display {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: clamp(10px, 2.8vw, 30px);
+    padding: 10px 18px;
+    user-select: none;
+}
+
+.calligraphy-clock-col {
+    display: inline-flex;
+    align-items: baseline;
+    gap: clamp(4px, 1.2vw, 8px);
+}
+
+.calligraphy-clock-digit {
+    font-family: 'Dancing Script', cursive, var(--font-serif);
+    font-size: clamp(52px, 8.5vw, 88px);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent-warm, #d96b52);
+    letter-spacing: 0.5px;
+    text-shadow: 
+        0 4px 24px rgba(217, 107, 82, 0.32),
+        0 1px 3px rgba(45, 30, 20, 0.1);
+    transition: color 0.4s ease;
+}
+
+.calligraphy-clock-text {
+    font-family: 'Dancing Script', cursive, var(--font-serif);
+    font-size: clamp(18px, 2.6vw, 26px);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--text-secondary, #8c6e63);
+    letter-spacing: 0.5px;
+    opacity: 0.88;
+}
+
+.calligraphy-clock-dot {
+    font-family: 'Dancing Script', cursive, Georgia, serif;
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 700;
+    color: var(--accent-warm, #d96b52);
+    opacity: 0.55;
+    animation: gentlePulse 2s infinite ease-in-out;
+    margin: 0 -2px;
+}
+
+/* ========================================================
+   GIAO DIỆN CHỌN THEME TỐI GIẢN (MINIMALIST PALETTE STUDIO)
+   ======================================================== */
+.theme-options-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 10px !important;
+    max-height: 380px !important;
+    overflow-y: auto !important;
+    padding: 8px 4px !important;
+}
+
+.theme-card-option {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 10px 14px !important;
+    background: var(--bg-page) !important;
+    border: 1.5px solid var(--border-card) !important;
+    border-radius: 16px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-align: left !important;
+    outline: none !important;
+    user-select: none !important;
+    height: auto !important;
+}
+
+.theme-card-option:hover {
+    transform: translateY(-2px) !important;
+    border-color: var(--accent-warm) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+}
+
+.theme-card-option.active {
+    border-color: var(--accent-warm) !important;
+    background: var(--card-surface) !important;
+    box-shadow: 
+        0 0 0 2px var(--accent-warm),
+        0 4px 16px rgba(217, 107, 82, 0.2) !important;
+}
+
+.theme-swatch-pill {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), inset 0 0 0 1.5px rgba(255, 255, 255, 0.7);
+}
+
+.theme-card-name {
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 12 Swatches */
+.theme-swatch-sunset { background: linear-gradient(135deg, #ffd3b6, #ffaaa5, #d96b52); }
+.theme-swatch-vintage-rose { background: linear-gradient(135deg, #fff0f3, #e8a598, #b85d58); }
+.theme-swatch-midnight { background: linear-gradient(135deg, #1b263b, #415a77, #e0a96d); }
+.theme-swatch-autumn { background: linear-gradient(135deg, #fed9b7, #ee8959, #b23a22); }
+.theme-swatch-cotton-candy { background: linear-gradient(135deg, #ffc6ff, #bdb2ff, #a0c4ff); }
+.theme-swatch-ocean { background: linear-gradient(135deg, #bde0fe, #a2d2ff, #437f97); }
+.theme-swatch-secret-garden { background: linear-gradient(135deg, #d8f3dc, #74c69d, #2d6a4f); }
+.theme-swatch-bordeaux { background: linear-gradient(135deg, #590d22, #a4133c, #ff758f); }
+.theme-swatch-mocha { background: linear-gradient(135deg, #ddb892, #9c6644, #7f4f24); }
+.theme-swatch-lavender { background: linear-gradient(135deg, #f3e8ff, #c084fc, #7e22ce); }
+.theme-swatch-peach { background: linear-gradient(135deg, #ffe5d9, #ff9b85, #ea580c); }
+.theme-swatch-aurora-night { background: linear-gradient(135deg, #0b132b, #1c2541, #5bc0be); }
+
+@media (max-width: 600px) {
+    .top-nav-bar {
+        top: calc(10px + env(safe-area-inset-top, 0px));
+        left: 12px;
+        gap: 8px;
+    }
+    .nav-games-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    .calligraphy-clock-display {
+        gap: 8px;
+        padding: 6px 2px;
+    }
+    .calligraphy-clock-digit {
+        font-size: clamp(36px, 10vw, 48px);
+    }
+    .calligraphy-clock-text {
+        font-size: 14px;
+    }
+    .calligraphy-clock-dot {
+        font-size: 20px;
+        opacity: 0.45;
+    }
+    .theme-options-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+}

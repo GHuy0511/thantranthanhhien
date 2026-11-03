@@ -33,10 +33,16 @@
 </head>
 <body>
 
-    <!-- NÚT CÀI ĐẶT ĐỔI THEME GIAO DIỆN (GÓC TRÊN CÙNG BÊN TRÁI) -->
-    <button class="theme-setting-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện / Theme" title="Cài đặt giao diện màu sắc">
-        <span class="theme-gear-icon">⚙️</span>
-    </button>
+    <!-- THANH ĐIỀU HƯỚNG GÓC TRÊN (ĐỔI THEME & GÓC TRÒ CHƠI) -->
+    <nav class="top-nav-bar" aria-label="Điều hướng chính">
+        <button class="theme-setting-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện / Theme" title="Cài đặt giao diện màu sắc">
+            <span class="theme-gear-icon">⚙️</span>
+        </button>
+        <a class="nav-games-btn" href="games.html" title="Chơi trò chơi cùng người yêu">
+            <span class="nav-games-icon">🎲</span>
+            <span class="nav-games-label">Góc trò chơi</span>
+        </a>
+    </nav>
 <!-- Đốm sáng hào quang cực quang mờ ảo làm nền (Dreamy Background Glow Orbs) -->
     <div class="bg-decor-wrapper" aria-hidden="true">
         <div class="bg-glow-orb orb-1"></div>
@@ -193,56 +199,36 @@
                     </div>
                 </div>
 
-                <!-- ĐỒNG HỒ CÁCH ĐIỆU NGHỆ THUẬT (ARTISTIC TIME KEEPSAKE) -->
-                <div class="artistic-clock-display" id="loveCounter" role="timer" aria-live="off">
-                    <!-- Ô Ngày -->
-                    <div class="artistic-clock-card">
-                        <div class="artistic-num-wrap">
-                            <span class="artistic-clock-num" id="loveCounterDays">0</span>
+                <!-- ĐỒNG HỒ CÁCH ĐIỆU THƯ PHÁP LÃNG MẠN (ROMANTIC CALLIGRAPHY CLOCK) -->
+                <div class="calligraphy-clock-wrap">
+                    <div class="calligraphy-clock-glow" aria-hidden="true"></div>
+                    <div class="calligraphy-clock-display" id="loveCounter" role="timer" aria-live="off">
+                        <div class="calligraphy-clock-col">
+                            <span class="calligraphy-clock-digit" id="loveCounterDays">0</span>
+                            <span class="calligraphy-clock-text">ngày</span>
                         </div>
-                        <span class="artistic-clock-label">Ngày</span>
-                        <div class="artistic-card-crease" aria-hidden="true"></div>
-                    </div>
-
-                    <span class="artistic-clock-sep" aria-hidden="true">♥</span>
-
-                    <!-- Ô Giờ -->
-                    <div class="artistic-clock-card">
-                        <div class="artistic-num-wrap">
-                            <span class="artistic-clock-num" id="loveCounterHours">00</span>
+                        <span class="calligraphy-clock-dot" aria-hidden="true">·</span>
+                        <div class="calligraphy-clock-col">
+                            <span class="calligraphy-clock-digit" id="loveCounterHours">00</span>
+                            <span class="calligraphy-clock-text">giờ</span>
                         </div>
-                        <span class="artistic-clock-label">Giờ</span>
-                        <div class="artistic-card-crease" aria-hidden="true"></div>
-                    </div>
-
-                    <span class="artistic-clock-sep" aria-hidden="true">♥</span>
-
-                    <!-- Ô Phút -->
-                    <div class="artistic-clock-card">
-                        <div class="artistic-num-wrap">
-                            <span class="artistic-clock-num" id="loveCounterMinutes">00</span>
+                        <span class="calligraphy-clock-dot" aria-hidden="true">·</span>
+                        <div class="calligraphy-clock-col">
+                            <span class="calligraphy-clock-digit" id="loveCounterMinutes">00</span>
+                            <span class="calligraphy-clock-text">phút</span>
                         </div>
-                        <span class="artistic-clock-label">Phút</span>
-                        <div class="artistic-card-crease" aria-hidden="true"></div>
-                    </div>
-
-                    <span class="artistic-clock-sep" aria-hidden="true">♥</span>
-
-                    <!-- Ô Giây -->
-                    <div class="artistic-clock-card">
-                        <div class="artistic-num-wrap">
-                            <span class="artistic-clock-num" id="loveCounterSeconds">00</span>
+                        <span class="calligraphy-clock-dot" aria-hidden="true">·</span>
+                        <div class="calligraphy-clock-col">
+                            <span class="calligraphy-clock-digit" id="loveCounterSeconds">00</span>
+                            <span class="calligraphy-clock-text">giây</span>
                         </div>
-                        <span class="artistic-clock-label">Giây</span>
-                        <div class="artistic-card-crease" aria-hidden="true"></div>
                     </div>
                 </div>
 
                 <!-- Trích dẫn thư tình viết tay bay bổng -->
                 <div class="clock-artistic-quote-card">
-                    <div class="quote-heart-flourish">~ ♥ ~</div>
                     <p class="quote-main-text">“Từ hôm nay, chúng mình đã có nhau.”</p>
-                    <p class="quote-sub-note">Dù là bao nhiêu ngày trôi qua, từng giây phút bên em đều là vô giá.</p>
+                    <p class="quote-sub-note">Từng giây phút trôi qua bên em đều là vô giá.</p>
                 </div>
 
                 <!-- Nút cuộn xuống tiếp tục xem bộ sưu tập kỷ niệm -->
@@ -262,26 +248,6 @@
                     <span class="ornament-line"></span>
                 </div>
                 <h2 class="gallery-title">Khoảnh khắc</h2>
-                <p class="gallery-subtitle">Từng bức ảnh và thước phim ghi dấu hành trình bên nhau</p>
-
-                <!-- BỘ LỌC MEDIA: TẤT CẢ / ẢNH / THƯỚC PHIM VIDEO -->
-                <div class="gallery-filter-tabs" id="galleryFilterTabs" role="tablist" aria-label="Lọc định dạng kỷ niệm">
-                    <button class="gallery-filter-tab active" data-filter="all" type="button" role="tab" aria-selected="true">
-                        <span class="filter-tab-icon">✨</span>
-                        <span class="filter-tab-text">Tất cả</span>
-                        <span class="filter-tab-count" id="filterCountAll">5</span>
-                    </button>
-                    <button class="gallery-filter-tab" data-filter="photo" type="button" role="tab" aria-selected="false">
-                        <span class="filter-tab-icon">📸</span>
-                        <span class="filter-tab-text">Ảnh kỷ niệm</span>
-                        <span class="filter-tab-count" id="filterCountPhoto">4</span>
-                    </button>
-                    <button class="gallery-filter-tab" data-filter="video" type="button" role="tab" aria-selected="false">
-                        <span class="filter-tab-icon">🎬</span>
-                        <span class="filter-tab-text">Thước phim</span>
-                        <span class="filter-tab-count" id="filterCountVideo">3</span>
-                    </button>
-                </div>
             </div>
 
             <!-- Khung bao bọc dòng chảy ảnh với 2 nút mũi tên điều hướng 2 bên -->
@@ -421,280 +387,93 @@
     </div>
 
     
-    <!-- MODAL ĐỔI THEME GIAO DIỆN (12 THEMES LÃNG MẠN - REDESIGNED LUXURY PALETTE) -->
-    <div class="theme-modal-overlay" id="themeModalOverlay" aria-hidden="true" role="dialog" aria-labelledby="themeModalTitle">
-        <div class="theme-modal-box">
-            <!-- Nút đóng tròn kính mờ góc phải -->
-            <button class="theme-modal-close" id="themeModalCloseBtn" type="button" aria-label="Đóng bảng đổi theme">✕</button>
+    <!-- MODAL ĐỔI THEME GIAO DIỆN (MINIMALIST PALETTE STUDIO) -->
+    <div class="theme-modal-overlay" id="themeModalOverlay" aria-hidden="true">
+        <div class="theme-modal-card">
+            <!-- Nút đóng x ở góc trên bên phải -->
+            <button class="theme-modal-close-btn" id="themeModalCloseBtn" type="button" aria-label="Đóng bảng màu">✕</button>
 
-            <!-- Header với icon đổi màu & thanh trạng thái đang dùng -->
             <div class="theme-modal-header">
-                <div class="theme-header-badge">
-                    <span class="theme-modal-icon">🎨</span>
-                    <span class="theme-current-label">Đang chọn: <strong id="themeCurrentName">Hoàng Hôn Ấm Áp</strong></span>
-                </div>
-                <h3 class="theme-modal-title" id="themeModalTitle">Giao Diện Kỷ Niệm</h3>
-                <p class="theme-modal-sub">12 gam màu lãng mạn cho cuốn nhật ký của chúng mình</p>
+                <h3 class="theme-modal-title">Tông Màu Kỷ Niệm</h3>
+                <p class="theme-modal-sub">Chọn gam màu bạn yêu thích</p>
             </div>
 
-            <!-- Thanh lọc theo phong cách / cảm xúc (Category Segmented Tabs) -->
-            <div class="theme-filter-bar" role="tablist" aria-label="Phân loại giao diện">
-                <button class="theme-tab-btn active" type="button" data-filter="all" role="tab" aria-selected="true">
-                    <span>✨ Tất cả</span>
-                    <span class="tab-count">12</span>
-                </button>
-                <button class="theme-tab-btn" type="button" data-filter="sweet" role="tab" aria-selected="false">
-                    <span>🌸 Ngọt ngào</span>
-                    <span class="tab-count">4</span>
-                </button>
-                <button class="theme-tab-btn" type="button" data-filter="warm" role="tab" aria-selected="false">
-                    <span>🍂 Ấm cúng</span>
-                    <span class="tab-count">4</span>
-                </button>
-                <button class="theme-tab-btn" type="button" data-filter="fresh" role="tab" aria-selected="false">
-                    <span>🌿 Thanh mát</span>
-                    <span class="tab-count">2</span>
-                </button>
-                <button class="theme-tab-btn" type="button" data-filter="dark" role="tab" aria-selected="false">
-                    <span>🌌 Huyền ảo</span>
-                    <span class="tab-count">2</span>
-                </button>
-            </div>
-
-            <!-- Lưới danh sách 12 theme dạng thẻ Palette Studio hiện đại -->
+            <!-- Lưới 12 theme tối giản, thanh lịch, không thông tin thừa -->
             <div class="theme-options-grid" id="themeOptionsGrid">
                 <!-- Theme 1 -->
-                <button class="theme-card-option" type="button" data-theme="sunset" data-category="warm">
-                    <div class="theme-card-swatch-banner theme-banner-sunset">
-                        <span class="theme-card-emoji">🌅</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1" title="Màu chính"></span>
-                            <span class="theme-dot dot-2" title="Màu phụ"></span>
-                            <span class="theme-dot dot-3" title="Màu nền"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Hoàng Hôn Ấm Áp</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Cam đất terracotta & kem ngà ấm áp (Mặc định)</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="sunset">
+                    <div class="theme-swatch-pill theme-swatch-sunset"></div>
+                    <span class="theme-card-name">Hoàng Hôn</span>
                 </button>
 
                 <!-- Theme 2 -->
-                <button class="theme-card-option" type="button" data-theme="vintage-rose" data-category="sweet">
-                    <div class="theme-card-swatch-banner theme-banner-vintage-rose">
-                        <span class="theme-card-emoji">🌸</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Vườn Hoa Cổ Điển</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Hồng khô vintage & xanh xô thơm thanh khiết</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="vintage-rose">
+                    <div class="theme-swatch-pill theme-swatch-vintage-rose"></div>
+                    <span class="theme-card-name">Vườn Hoa</span>
                 </button>
 
                 <!-- Theme 3 -->
-                <button class="theme-card-option" type="button" data-theme="midnight" data-category="dark">
-                    <div class="theme-card-swatch-banner theme-banner-midnight">
-                        <span class="theme-card-emoji">🌌</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Đêm Đầy Sao</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Tím oải hương & xanh đêm lấp lánh ngàn sao</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="midnight">
+                    <div class="theme-swatch-pill theme-swatch-midnight"></div>
+                    <span class="theme-card-name">Đêm Sao</span>
                 </button>
 
                 <!-- Theme 4 -->
-                <button class="theme-card-option" type="button" data-theme="autumn" data-category="warm">
-                    <div class="theme-card-swatch-banner theme-banner-autumn">
-                        <span class="theme-card-emoji">🍂</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Mùa Thu Dịu Dàng</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Caramel nồng nàn & tách latte ấm giữa chiều thu</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="cotton-candy">
+                    <div class="theme-swatch-pill theme-swatch-cotton-candy"></div>
+                    <span class="theme-card-name">Kẹo Ngọt</span>
                 </button>
 
                 <!-- Theme 5 -->
-                <button class="theme-card-option" type="button" data-theme="cotton-candy" data-category="sweet">
-                    <div class="theme-card-swatch-banner theme-banner-cotton-candy">
-                        <span class="theme-card-emoji">🍓</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Kẹo Ngọt Tình Yêu</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Hồng dâu ngọt ngào & pastel mint mộng mơ</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="autumn-breeze">
+                    <div class="theme-swatch-pill theme-swatch-autumn-breeze"></div>
+                    <span class="theme-card-name">Mùa Thu</span>
                 </button>
 
                 <!-- Theme 6 -->
-                <button class="theme-card-option" type="button" data-theme="ocean" data-category="fresh">
-                    <div class="theme-card-swatch-banner theme-banner-ocean">
-                        <span class="theme-card-emoji">🌊</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Biển Chiều Yên Bình</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Xanh ngọc bích, bọt sóng trắng & cát vàng san hô</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="sea-breeze">
+                    <div class="theme-swatch-pill theme-swatch-sea-breeze"></div>
+                    <span class="theme-card-name">Biển Chiều</span>
                 </button>
 
                 <!-- Theme 7 -->
-                <button class="theme-card-option" type="button" data-theme="secret-garden" data-category="fresh">
-                    <div class="theme-card-swatch-banner theme-banner-secret-garden">
-                        <span class="theme-card-emoji">🌿</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Khu Vườn Bí Mật</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Xanh rêu olive cổ điển & mộc lan thanh khiết</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="secret-garden">
+                    <div class="theme-swatch-pill theme-swatch-secret-garden"></div>
+                    <span class="theme-card-name">Khu Vườn</span>
                 </button>
 
                 <!-- Theme 8 -->
-                <button class="theme-card-option" type="button" data-theme="bordeaux" data-category="warm">
-                    <div class="theme-card-swatch-banner theme-banner-bordeaux">
-                        <span class="theme-card-emoji">🍷</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Rượu Vang Lãng Mạn</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Đỏ Bordeaux quyến rũ, nhung tuyết & nến thơm</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="bordeaux">
+                    <div class="theme-swatch-pill theme-swatch-bordeaux"></div>
+                    <span class="theme-card-name">Rượu Vang</span>
                 </button>
 
                 <!-- Theme 9 -->
-                <button class="theme-card-option" type="button" data-theme="mocha" data-category="warm">
-                    <div class="theme-card-swatch-banner theme-banner-mocha">
-                        <span class="theme-card-emoji">☕</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Cà Phê & Sách Cũ</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Nâu espresso ấm nồng, gỗ trầm & hương vani</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="mocha">
+                    <div class="theme-swatch-pill theme-swatch-mocha"></div>
+                    <span class="theme-card-name">Cà Phê</span>
                 </button>
 
                 <!-- Theme 10 -->
-                <button class="theme-card-option" type="button" data-theme="lavender" data-category="sweet">
-                    <div class="theme-card-swatch-banner theme-banner-lavender">
-                        <span class="theme-card-emoji">💜</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Đồng Hoa Oải Hương</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Tím pastel dịu mát của đồng hoa Provence</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="lavender">
+                    <div class="theme-swatch-pill theme-swatch-lavender"></div>
+                    <span class="theme-card-name">Oải Hương</span>
                 </button>
 
                 <!-- Theme 11 -->
-                <button class="theme-card-option" type="button" data-theme="peach" data-category="sweet">
-                    <div class="theme-card-swatch-banner theme-banner-peach">
-                        <span class="theme-card-emoji">🍑</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Trà Đào Thanh Xuân</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Cam đào rạng rỡ, ngọt ngào và căng tràn sức sống</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="peach">
+                    <div class="theme-swatch-pill theme-swatch-peach"></div>
+                    <span class="theme-card-name">Trà Đào</span>
                 </button>
 
                 <!-- Theme 12 -->
-                <button class="theme-card-option" type="button" data-theme="aurora-night" data-category="dark">
-                    <div class="theme-card-swatch-banner theme-banner-aurora-night">
-                        <span class="theme-card-emoji">❄️</span>
-                        <div class="theme-palette-dots">
-                            <span class="theme-dot dot-1"></span>
-                            <span class="theme-dot dot-2"></span>
-                            <span class="theme-dot dot-3"></span>
-                        </div>
-                    </div>
-                    <div class="theme-card-body">
-                        <div class="theme-card-title-row">
-                            <span class="theme-card-name">Đêm Đông Tuyết Trắng</span>
-                            <span class="theme-active-tag">✓ Đang chọn</span>
-                        </div>
-                        <span class="theme-card-desc">Cực quang xanh ngọc, bầu trời đêm & bông tuyết</span>
-                    </div>
+                <button class="theme-card-option" type="button" data-theme="aurora-night">
+                    <div class="theme-swatch-pill theme-swatch-aurora-night"></div>
+                    <span class="theme-card-name">Đêm Đông</span>
                 </button>
             </div>
 
-            <!-- Footer với nút chốt Áp dụng -->
             <div class="theme-modal-footer">
-                <span class="theme-footer-hint">✨ Chạm để xem thử ngay • Tự động lưu</span>
                 <button class="theme-apply-btn" id="themeApplyBtn" type="button">Xong rồi nè 💕</button>
             </div>
         </div>
