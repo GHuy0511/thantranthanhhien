@@ -1,12 +1,13 @@
 /**
  * ========================================================
- * CSS GIAO DIỆN TRÒ CHƠI CỜ TỶ PHÚ TÌNH YÊU (COUPLE MONOPOLY)
- * Đồng nhất 100% về Theme, Typography, Font chữ và Màu sắc
- * Tối giản, không rườm rà, tinh tế và tương thích mọi kích thước màn hình
+ * CSS CỜ TỶ PHÚ DU LỊCH VIỆT NAM (HÀNH TRÌNH XUYÊN VIỆT)
+ * Lưới 7x7 - 24 Danh Lam Thắng Cảnh Nổi Tiếng Bậc Nhất Việt Nam
+ * Đầy đủ tính năng: Nâng Cấp Kỳ Quan, Sân Bay, Hộ Chiếu, Thư Tình Duyên
+ * Hoạt họa 3D mượt mà, tối ưu trên cả Máy tính & Điện thoại di động
  * ========================================================
  */
 
-/* KHUNG CHÍNH CỦA TRANG GAME */
+/* KHUNG CHÍNH */
 .games-body {
     min-height: 100vh;
     background-color: var(--bg-page, #fbf8f4);
@@ -25,7 +26,7 @@
 /* THANH ĐIỀU HƯỚNG GÓC TRÊN */
 .games-top-nav {
     width: 100%;
-    max-width: 900px;
+    max-width: 960px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -75,7 +76,7 @@
 .games-brand-title {
     margin: 2px 0 0;
     font-family: 'Dancing Script', cursive, var(--font-serif);
-    font-size: clamp(22px, 4vw, 32px);
+    font-size: clamp(22px, 3.8vw, 32px);
     font-weight: 700;
     color: var(--accent-warm, #d96b52);
     line-height: 1.2;
@@ -91,61 +92,12 @@
 /* KHUNG CHỨA NỘI DUNG CHÍNH */
 .games-main-container {
     width: 100%;
-    max-width: 820px;
-    padding: 6px 16px 40px;
+    max-width: 920px;
+    padding: 4px 14px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-}
-
-/* TAB CHỌN GAME (TỐI GIẢN) */
-.game-select-tabs {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px;
-    border-radius: 999px;
-    background: var(--card-surface, #ffffff);
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    max-width: 100%;
-    overflow-x: auto;
-}
-
-.game-tab-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 16px;
-    border-radius: 999px;
-    border: none;
-    background: transparent;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary, #78645a);
-    cursor: pointer;
-    transition: all 0.25s ease;
-    white-space: nowrap;
-}
-
-.game-tab-btn.active {
-    background: var(--accent-warm, #d96b52);
-    color: #ffffff;
-    box-shadow: 0 2px 8px rgba(217, 107, 82, 0.3);
-}
-
-.game-tab-btn.disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-}
-
-.tab-badge-soon {
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.06);
-    color: var(--text-muted);
+    gap: 14px;
 }
 
 /* SECTION THÔNG TIN 2 NGƯỜI CHƠI (PLAYER HUD) */
@@ -172,25 +124,23 @@
 }
 
 .player-hud-card.active-turn {
-    border-color: var(--accent-warm, #d96b52);
-    box-shadow: 0 6px 20px rgba(217, 107, 82, 0.22);
     transform: scale(1.02);
 }
 
 .player-hud-card.hud-huy.active-turn {
     border-color: #3b82f6;
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.22);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
 }
 
 .player-hud-card.hud-hien.active-turn {
     border-color: #ec4899;
-    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.22);
+    box-shadow: 0 6px 20px rgba(236, 72, 153, 0.25);
 }
 
 .player-hud-avatar-wrap {
     position: relative;
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     background: var(--bg-page);
     display: flex;
@@ -200,7 +150,7 @@
 }
 
 .player-avatar-icon {
-    font-size: 24px;
+    font-size: 26px;
 }
 
 .player-turn-indicator {
@@ -208,11 +158,10 @@
     bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
-    background: var(--accent-warm);
     color: #ffffff;
     font-size: 9px;
     font-weight: 700;
-    padding: 1px 6px;
+    padding: 1px 7px;
     border-radius: 8px;
     white-space: nowrap;
     opacity: 0;
@@ -220,17 +169,16 @@
     transition: opacity 0.2s ease;
 }
 
-.player-hud-card.active-turn .player-turn-indicator {
+.player-hud-card.hud-huy.active-turn .player-turn-indicator {
+    background: #3b82f6;
     opacity: 1;
     visibility: visible;
 }
 
-.player-hud-card.hud-huy.active-turn .player-turn-indicator {
-    background: #3b82f6;
-}
-
 .player-hud-card.hud-hien.active-turn .player-turn-indicator {
     background: #ec4899;
+    opacity: 1;
+    visibility: visible;
 }
 
 .player-hud-info {
@@ -259,6 +207,12 @@
 .dot-huy { background: #3b82f6; }
 .dot-hien { background: #ec4899; }
 
+.player-badge-role {
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
 .player-score-row {
     display: flex;
     align-items: baseline;
@@ -279,37 +233,65 @@
     color: var(--text-muted);
 }
 
-.player-prop-count {
+.player-stats-mini {
     font-size: 11px;
     color: var(--text-secondary);
     margin-top: 2px;
 }
 
-.hud-center-divider {
+/* ĐIỀU KHIỂN CHẾ ĐỘ Ở GIỮA HUD */
+.hud-center-controls {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     padding: 0 4px;
-    text-align: center;
 }
 
-.hud-divider-heart {
-    font-size: 18px;
-    color: var(--accent-warm);
-    animation: gentlePulse 2s infinite ease-in-out;
+.game-mode-toggle {
+    display: inline-flex;
+    background: var(--card-surface, #ffffff);
+    border: 1px solid var(--border-card);
+    border-radius: 999px;
+    padding: 2px;
 }
 
-.hud-turn-text {
+.mode-btn {
+    border: none;
+    background: transparent;
+    padding: 4px 10px;
+    border-radius: 999px;
     font-size: 11px;
     font-weight: 600;
     color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
     white-space: nowrap;
-    margin-top: 2px;
+}
+
+.mode-btn.active {
+    background: var(--accent-warm, #d96b52);
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(217, 107, 82, 0.25);
+}
+
+.hud-turn-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--accent-warm);
+    white-space: nowrap;
+}
+
+.turn-heart-anim {
+    animation: gentlePulse 2s infinite ease-in-out;
 }
 
 /* ========================================================
-   BÀN CỜ TỶ PHÚ (MONOPOLY 5x5 - 16 TILES)
+   BÀN CỜ 7x7 (24 Ô DANH LAM THẮNG CẢNH)
    ======================================================== */
 .monopoly-board-wrapper {
     width: 100%;
@@ -317,67 +299,80 @@
     justify-content: center;
 }
 
-.monopoly-board {
+.monopoly-board.grid-7x7 {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 6px;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    gap: 5px;
     width: 100%;
-    max-width: 640px;
+    max-width: 760px;
     aspect-ratio: 1 / 1;
     background: var(--card-surface, #ffffff);
     padding: 8px;
     border-radius: 26px;
     border: 1.5px solid var(--border-card, rgba(0, 0, 0, 0.08));
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
     position: relative;
     user-select: none;
 }
 
-/* TỪNG Ô TRÊN BÀN CỜ */
+/* TỪNG Ô ĐỊA DANH TRÊN BÀN CỜ */
 .board-tile {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 5px 3px;
-    border-radius: 12px;
+    padding: 4px 2px;
+    border-radius: 10px;
     background: var(--bg-page, #fbf8f4);
     border: 1px solid var(--border-card, rgba(0, 0, 0, 0.06));
     text-align: center;
     overflow: hidden;
-    transition: transform 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .board-tile:hover {
     transform: translateY(-2px);
     border-color: var(--accent-warm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 5;
 }
 
 .board-tile.is-corner {
     background: var(--accent-soft, rgba(217, 107, 82, 0.08));
-    border-color: rgba(217, 107, 82, 0.2);
+    border-color: rgba(217, 107, 82, 0.25);
 }
 
-/* Header màu sắc / huy hiệu ô */
-.tile-type-strip {
+/* Dải màu vùng miền trên đầu mỗi ô */
+.tile-region-strip {
     width: 100%;
     height: 4px;
     border-radius: 4px;
-    background: rgba(0, 0, 0, 0.06);
     margin-bottom: 2px;
 }
 
+/* Màu sắc từng vùng miền */
+.strip-hanoi { background: #f97316; }
+.strip-northwest { background: #10b981; }
+.strip-central { background: #8b5cf6; }
+.strip-coastal { background: #f59e0b; }
+.strip-highlands { background: #ec4899; }
+.strip-south_coast { background: #06b6d4; }
+.strip-south { background: #14b8a6; }
+.strip-islands { background: #0284c7; }
+.strip-special { background: #d96b52; }
+
 .tile-icon {
-    font-size: clamp(14px, 2.8vw, 20px);
+    font-size: clamp(14px, 2.3vw, 20px);
     line-height: 1;
     margin: 1px 0;
 }
 
 .tile-name {
-    font-size: clamp(9px, 1.6vw, 11px);
-    font-weight: 600;
+    font-size: clamp(8px, 1.25vw, 10.5px);
+    font-weight: 700;
     line-height: 1.15;
     color: var(--text-primary);
     max-width: 100%;
@@ -388,36 +383,55 @@
     -webkit-box-orient: vertical;
 }
 
-.tile-price {
-    font-size: clamp(8px, 1.4vw, 10px);
-    font-weight: 700;
-    color: var(--accent-warm);
-    margin-top: 2px;
+.tile-subtitle {
+    font-size: clamp(7px, 1vw, 8.5px);
+    color: var(--text-muted);
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
-/* Thẻ sở hữu (Owner Badge) */
+.tile-price {
+    font-size: clamp(7.5px, 1.1vw, 9.5px);
+    font-weight: 700;
+    color: var(--accent-warm);
+    margin-top: 1px;
+}
+
+/* Huy hiệu cấp độ xây dựng trên ô (🏡 L1, 🏖️ L2, 🏰 L3) */
+.tile-level-badge {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 8px;
+    padding: 1px 3px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+/* Huy hiệu chủ sở hữu */
 .tile-owner-badge {
     position: absolute;
     top: 2px;
     right: 2px;
-    font-size: 9px;
+    font-size: 8px;
     padding: 1px 4px;
-    border-radius: 6px;
+    border-radius: 5px;
     font-weight: 700;
     color: #ffffff;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     z-index: 2;
 }
 
-.tile-owner-badge.owner-huy {
-    background: #3b82f6;
-}
+.tile-owner-badge.owner-huy { background: #3b82f6; }
+.tile-owner-badge.owner-hien { background: #ec4899; }
 
-.tile-owner-badge.owner-hien {
-    background: #ec4899;
-}
-
-/* Vị trí quân cờ người chơi trên ô (Player Tokens) */
+/* Vị trí quân cờ người chơi */
 .tile-tokens-wrap {
     position: absolute;
     bottom: 2px;
@@ -426,33 +440,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3px;
+    gap: 2px;
     z-index: 3;
     pointer-events: none;
 }
 
 .token-pin {
-    width: 18px;
-    height: 18px;
+    width: 17px;
+    height: 17px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 10.5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-    animation: tokenHop 0.4s ease;
     border: 1.5px solid #ffffff;
+    animation: tokenHop 0.35s ease;
 }
 
-.token-huy {
-    background: #3b82f6;
-    color: #ffffff;
-}
-
-.token-hien {
-    background: #ec4899;
-    color: #ffffff;
-}
+.token-huy { background: #3b82f6; color: #ffffff; }
+.token-hien { background: #ec4899; color: #ffffff; }
 
 @keyframes tokenHop {
     0% { transform: translateY(-10px) scale(1.2); }
@@ -460,27 +467,40 @@
 }
 
 /* ========================================================
-   KHU VỰC TRUNG TÂM BÀN CỜ (HUB 3x3)
+   KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS)
    ======================================================== */
 .board-center-hub {
-    grid-column: 2 / 5;
-    grid-row: 2 / 5;
+    grid-column: 2 / 7;
+    grid-row: 2 / 7;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 16px;
+    padding: 18px 12px;
     text-align: center;
-    background: radial-gradient(circle, var(--accent-soft, rgba(217, 107, 82, 0.08)) 0%, transparent 80%);
+    background: radial-gradient(circle, var(--accent-soft, rgba(217, 107, 82, 0.09)) 0%, transparent 85%);
     border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hub-decor-map {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(217, 107, 82, 0.08) 1px, transparent 1px);
+    background-size: 16px 16px;
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 /* KHUNG 3D XÚC XẮC */
 .dice-scene {
-    width: 60px;
-    height: 60px;
+    width: 58px;
+    height: 58px;
     perspective: 400px;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
 }
 
 .dice-cube {
@@ -494,8 +514,8 @@
 
 .dice-face {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: 58px;
+    height: 58px;
     background: #ffffff;
     border: 2px solid var(--accent-warm, #d96b52);
     border-radius: 12px;
@@ -509,22 +529,21 @@
 
 .dice-face .pip {
     display: block;
-    width: 10px;
-    height: 10px;
+    width: 9.5px;
+    height: 9.5px;
     border-radius: 50%;
     background: var(--accent-warm, #d96b52);
     align-self: center;
     justify-self: center;
 }
 
-.face-1 { transform: rotateY(0deg) translateZ(30px); }
-.face-6 { transform: rotateY(180deg) translateZ(30px); }
-.face-2 { transform: rotateY(90deg) translateZ(30px); }
-.face-5 { transform: rotateY(-90deg) translateZ(30px); }
-.face-3 { transform: rotateX(90deg) translateZ(30px); }
-.face-4 { transform: rotateX(-90deg) translateZ(30px); }
+.face-1 { transform: rotateY(0deg) translateZ(29px); }
+.face-6 { transform: rotateY(180deg) translateZ(29px); }
+.face-2 { transform: rotateY(90deg) translateZ(29px); }
+.face-5 { transform: rotateY(-90deg) translateZ(29px); }
+.face-3 { transform: rotateX(90deg) translateZ(29px); }
+.face-4 { transform: rotateX(-90deg) translateZ(29px); }
 
-/* Vị trí các chấm (Pips) */
 .pip-center { grid-column: 2; grid-row: 2; }
 .pip-tl { grid-column: 1; grid-row: 1; }
 .pip-tr { grid-column: 3; grid-row: 1; }
@@ -533,7 +552,6 @@
 .pip-bl { grid-column: 1; grid-row: 3; }
 .pip-br { grid-column: 3; grid-row: 3; }
 
-/* Trạng thái lăn xúc xắc (Rolling Animation) */
 .dice-cube.rolling {
     animation: rollDiceAnim 0.7s cubic-bezier(0.25, 1, 0.5, 1) infinite;
 }
@@ -548,10 +566,12 @@
 
 /* NÚT TUNG XÚC XẮC */
 .roll-dice-btn {
+    position: relative;
+    z-index: 2;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 22px;
+    padding: 10px 24px;
     border-radius: 999px;
     background: var(--accent-warm, #d96b52);
     color: #ffffff;
@@ -559,17 +579,13 @@
     font-size: 14.5px;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(217, 107, 82, 0.35);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 4px 18px rgba(217, 107, 82, 0.38);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .roll-dice-btn:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(217, 107, 82, 0.45);
-}
-
-.roll-dice-btn:active:not(:disabled) {
-    transform: translateY(1px);
+    box-shadow: 0 6px 24px rgba(217, 107, 82, 0.48);
 }
 
 .roll-dice-btn:disabled {
@@ -579,54 +595,112 @@
 }
 
 .action-status-msg {
-    margin-top: 12px;
+    position: relative;
+    z-index: 2;
+    margin-top: 10px;
     font-size: 12.5px;
     font-weight: 500;
     color: var(--text-secondary);
-    max-width: 260px;
+    max-width: 280px;
     line-height: 1.35;
-    min-height: 34px;
+    min-height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* THANH CÔNG CỤ DƯỚI CÙNG */
+.center-quick-actions {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.quick-act-btn {
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--card-surface, #ffffff);
+    border: 1px solid var(--border-card);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quick-act-btn:hover {
+    color: var(--accent-warm);
+    border-color: var(--accent-warm);
+}
+
+/* THANH GHI CHÚ MÀU SẮC DƯỚI CÙNG */
 .game-action-toolbar {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
+    justify-content: space-between;
     width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
 }
 
 .tool-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 8px 16px;
+    padding: 7px 16px;
     border-radius: 999px;
     background: var(--card-surface, #ffffff);
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    border: 1px solid var(--border-card);
     color: var(--text-secondary);
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
     transition: all 0.2s ease;
 }
 
 .tool-btn:hover {
     color: var(--accent-warm);
     border-color: var(--accent-warm);
+    transform: translateY(-1px);
 }
 
+.game-legend-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.legend-color {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+}
+
+.color-north { background: #f97316; }
+.color-central { background: #8b5cf6; }
+.color-highlands { background: #ec4899; }
+.color-south { background: #14b8a6; }
+.color-islands { background: #0284c7; }
+
 /* ========================================================
-   MODALS TƯƠNG TÁC CỦA GAME (TỐI GIẢN & ẤM ÁP)
+   MODALS TƯƠNG TÁC CỦA GAME (TỐI GIẢN & ĐẶC SẮC)
    ======================================================== */
 .game-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(12, 10, 10, 0.65);
+    background: rgba(12, 10, 10, 0.68);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 2000;
@@ -648,44 +722,86 @@
     background: var(--card-surface, #ffffff);
     color: var(--text-primary);
     width: 100%;
-    max-width: 440px;
+    max-width: 460px;
     border-radius: 24px;
-    padding: 24px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+    padding: 22px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
     border: 1.5px solid var(--border-card);
     text-align: center;
     transform: scale(0.92);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .game-modal-overlay.active .game-modal-card {
     transform: scale(1);
 }
 
-.game-modal-emoji {
-    font-size: 40px;
-    margin-bottom: 8px;
+/* Header địa danh trên modal */
+.landmark-modal-header {
+    border-radius: 16px;
+    padding: 14px 10px 10px;
+    background: var(--bg-page);
+    margin-bottom: 12px;
 }
 
-.game-modal-title {
-    font-family: var(--font-serif);
-    font-size: 20px;
-    margin: 0 0 6px;
-    color: var(--text-primary);
+.landmark-region-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #ffffff;
+    background: var(--accent-warm);
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
 }
 
-.game-modal-desc {
-    font-size: 13.5px;
-    color: var(--text-secondary);
-    margin: 0 0 16px;
-    line-height: 1.45;
+.landmark-subtitle {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
 }
+
+/* Thang cấp độ nâng cấp */
+.upgrade-levels-preview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.level-step-card {
+    background: var(--bg-page);
+    border: 1px solid var(--border-card);
+    border-radius: 12px;
+    padding: 8px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    opacity: 0.65;
+}
+
+.level-step-card.current {
+    opacity: 1;
+    border-color: var(--accent-warm);
+    background: var(--card-surface);
+    box-shadow: 0 2px 8px rgba(217, 107, 82, 0.2);
+}
+
+.step-icon { font-size: 18px; }
+.step-title { font-size: 10px; font-weight: 700; }
+.step-rent { font-size: 10px; color: var(--accent-warm); font-weight: 600; }
 
 .prop-stat-box {
     background: var(--bg-page);
     border-radius: 14px;
     padding: 10px 14px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -703,7 +819,7 @@
 }
 
 .stat-val {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--accent-warm);
 }
@@ -748,7 +864,142 @@
     background: rgba(0, 0, 0, 0.04);
 }
 
-/* THIỆP THƯ BẤT NGỜ (LOVE CARD STYLING) */
+/* THẺ BƯU THIẾP ĐỊA DANH (POSTCARD) */
+.postcard-card {
+    border: 2px dashed var(--accent-warm);
+    background: #fffdfa !important;
+}
+
+[data-theme="midnight"] .postcard-card,
+[data-theme="aurora-night"] .postcard-card {
+    background: #151c2e !important;
+}
+
+.postcard-stamp {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    font-size: 8px;
+    font-weight: 700;
+    padding: 3px 6px;
+    border: 1.5px dashed var(--accent-warm);
+    color: var(--accent-warm);
+    border-radius: 4px;
+    transform: rotate(12deg);
+}
+
+.postcard-owner-status {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: var(--bg-page);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.inspect-rent-table {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    background: var(--bg-page);
+    border-radius: 12px;
+    padding: 10px 8px;
+    margin-bottom: 16px;
+}
+
+.rent-col {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 11px;
+}
+
+.rent-col strong {
+    color: var(--accent-warm);
+}
+
+/* SÂN BAY QUỐC TẾ MODAL */
+.airport-card .airport-plane-icon {
+    font-size: 42px;
+    animation: planeFloat 2.5s infinite ease-in-out;
+}
+
+@keyframes planeFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.flight-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.flight-opt-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background: var(--bg-page);
+    border: 1.5px solid var(--border-card);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.flight-opt-btn:hover {
+    border-color: var(--accent-warm);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.flight-btn-icon {
+    font-size: 24px;
+}
+
+.flight-btn-text strong {
+    display: block;
+    font-size: 13.5px;
+    color: var(--text-primary);
+}
+
+.flight-btn-text span {
+    font-size: 11.5px;
+    color: var(--text-muted);
+}
+
+.flight-selector-row {
+    background: var(--bg-page);
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+.flight-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.flight-select-input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-card);
+    background: var(--card-surface);
+    color: var(--text-primary);
+    font-size: 13px;
+    outline: none;
+}
+
+/* THƯ TÌNH DUYÊN (LOVE CARD) */
 .card-love-letter {
     background: #fffbf5 !important;
     border-color: #f0dfcb !important;
@@ -760,9 +1011,9 @@
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
-.envelope-mini-icon {
-    font-size: 32px;
-    margin-bottom: 6px;
+.wax-seal-icon {
+    font-size: 34px;
+    margin-bottom: 4px;
 }
 
 .love-card-tag {
@@ -776,7 +1027,7 @@
 
 .love-card-headline {
     font-family: 'Dancing Script', cursive, var(--font-serif);
-    font-size: 24px;
+    font-size: 25px;
     color: var(--accent-warm);
     margin: 4px 0 12px;
 }
@@ -796,8 +1047,8 @@
 
 .love-card-content {
     font-family: 'Dancing Script', cursive, var(--font-serif);
-    font-size: 18px;
-    line-height: 1.4;
+    font-size: 19px;
+    line-height: 1.45;
     color: var(--text-primary);
     margin: 0;
 }
@@ -809,144 +1060,215 @@
     margin-top: 10px;
 }
 
-/* MODAL HƯỚNG DẪN */
-.help-card {
-    max-width: 500px;
-    text-align: left;
+/* HỘ CHIẾU DU LỊCH MODAL */
+.passport-card {
+    max-width: 520px;
 }
 
-.help-card .game-modal-emoji,
-.help-card .game-modal-title {
-    text-align: center;
+.passport-cover-header {
+    margin-bottom: 12px;
 }
 
-.help-content-scroll {
-    max-height: 280px;
+.passport-emblem {
+    font-size: 32px;
+}
+
+.passport-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.passport-stats-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: var(--bg-page);
+    border-radius: 14px;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+    font-size: 11.5px;
+}
+
+.pass-stat strong {
+    color: var(--accent-warm);
+}
+
+.passport-landmarks-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    max-height: 240px;
     overflow-y: auto;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--text-secondary);
-    padding-right: 6px;
+    padding-right: 4px;
     margin-bottom: 16px;
 }
 
-.help-content-scroll strong {
-    color: var(--text-primary);
+.passport-stamp-item {
+    background: var(--bg-page);
+    border-radius: 10px;
+    padding: 6px 4px;
+    font-size: 10px;
+    text-align: center;
+    border: 1px solid var(--border-card);
+}
+
+.passport-stamp-item.owned-huy {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.08);
+}
+
+.passport-stamp-item.owned-hien {
+    border-color: #ec4899;
+    background: rgba(236, 72, 153, 0.08);
+}
+
+.stamp-badge {
+    display: block;
+    font-size: 8px;
+    font-weight: 700;
+    margin-top: 2px;
 }
 
 /* ========================================================
-   RESPONSIVE DESIGN CHO THIẾT BỊ DI ĐỘNG (MOBILE PHONES)
+   RESPONSIVE DESIGN CHO ĐIỆN THOẠI DI ĐỘNG (MOBILE PHONES)
    ======================================================== */
 @media (max-width: 600px) {
     .games-top-nav {
-        padding: 12px 14px 6px;
+        padding: 10px 12px 4px;
     }
     .games-brand-title {
-        font-size: 22px;
+        font-size: 20px;
+    }
+    .games-brand-tag {
+        font-size: 9px;
     }
     .games-main-container {
-        padding: 4px 10px 30px;
-        gap: 12px;
+        padding: 2px 8px 30px;
+        gap: 10px;
     }
     .players-hud-section {
-        gap: 6px;
+        gap: 4px;
     }
     .player-hud-card {
-        padding: 8px 10px;
-        gap: 8px;
-        border-radius: 16px;
+        padding: 6px 8px;
+        gap: 6px;
+        border-radius: 14px;
     }
     .player-hud-avatar-wrap {
-        width: 34px;
-        height: 34px;
+        width: 32px;
+        height: 32px;
     }
     .player-avatar-icon {
         font-size: 18px;
     }
     .player-name {
-        font-size: 13px;
+        font-size: 12.5px;
+    }
+    .player-badge-role {
+        display: none;
     }
     .player-score {
-        font-size: 16px;
+        font-size: 15px;
     }
     .score-unit {
         font-size: 9px;
     }
-    .player-prop-count {
-        font-size: 9.5px;
-    }
-    .hud-turn-text {
+    .player-stats-mini {
         font-size: 9px;
     }
+    .hud-turn-badge {
+        font-size: 9.5px;
+    }
 
-    /* Bàn cờ trên điện thoại */
-    .monopoly-board {
+    /* BÀN CỜ 7x7 TRÊN MOBILE */
+    .monopoly-board.grid-7x7 {
         padding: 4px;
-        gap: 4px;
+        gap: 3px;
         border-radius: 18px;
     }
     .board-tile {
-        padding: 3px 1px;
-        border-radius: 8px;
+        padding: 2px 1px;
+        border-radius: 6px;
     }
     .tile-icon {
-        font-size: 13px;
+        font-size: 12px;
+        margin: 0;
     }
     .tile-name {
-        font-size: 8px;
+        font-size: 7.5px;
         line-height: 1.1;
     }
+    .tile-subtitle {
+        display: none;
+    }
     .tile-price {
-        font-size: 7.5px;
+        font-size: 7px;
     }
     .token-pin {
-        width: 14px;
-        height: 14px;
-        font-size: 8.5px;
+        width: 12px;
+        height: 12px;
+        font-size: 7.5px;
+    }
+    .tile-level-badge {
+        font-size: 6.5px;
+        padding: 0 2px;
     }
     .tile-owner-badge {
-        font-size: 7px;
+        font-size: 6.5px;
         padding: 0 2px;
     }
 
-    /* Xúc xắc & Trung tâm trên mobile */
+    /* TRUNG TÂM BÀN CỜ TRÊN MOBILE */
     .board-center-hub {
-        padding: 8px 4px;
+        padding: 6px 4px;
+        border-radius: 12px;
     }
     .dice-scene {
-        width: 44px;
-        height: 44px;
-        margin-bottom: 8px;
+        width: 40px;
+        height: 40px;
+        margin-bottom: 6px;
     }
     .dice-face {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         padding: 4px;
         border-radius: 8px;
     }
     .dice-face .pip {
-        width: 7px;
-        height: 7px;
+        width: 6.5px;
+        height: 6.5px;
     }
-    .face-1 { transform: rotateY(0deg) translateZ(22px); }
-    .face-6 { transform: rotateY(180deg) translateZ(22px); }
-    .face-2 { transform: rotateY(90deg) translateZ(22px); }
-    .face-5 { transform: rotateY(-90deg) translateZ(22px); }
-    .face-3 { transform: rotateX(90deg) translateZ(22px); }
-    .face-4 { transform: rotateX(-90deg) translateZ(22px); }
+    .face-1 { transform: rotateY(0deg) translateZ(20px); }
+    .face-6 { transform: rotateY(180deg) translateZ(20px); }
+    .face-2 { transform: rotateY(90deg) translateZ(20px); }
+    .face-5 { transform: rotateY(-90deg) translateZ(20px); }
+    .face-3 { transform: rotateX(90deg) translateZ(20px); }
+    .face-4 { transform: rotateX(-90deg) translateZ(20px); }
 
     .roll-dice-btn {
-        padding: 8px 16px;
-        font-size: 12.5px;
-        gap: 6px;
+        padding: 7px 16px;
+        font-size: 12px;
+        gap: 5px;
     }
     .action-status-msg {
-        font-size: 11px;
-        margin-top: 6px;
-        min-height: 28px;
+        font-size: 10px;
+        margin-top: 4px;
+        min-height: 24px;
+        max-width: 200px;
     }
-    .tool-btn {
-        padding: 6px 12px;
-        font-size: 11.5px;
+    .center-quick-actions {
+        gap: 5px;
+        margin-top: 4px;
+    }
+    .quick-act-btn {
+        padding: 3px 8px;
+        font-size: 9.5px;
+    }
+    .game-legend-bar {
+        font-size: 9.5px;
+        gap: 6px;
+    }
+    .passport-landmarks-grid {
+        grid-template-columns: repeat(3, 1fr);
     }
 }

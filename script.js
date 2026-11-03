@@ -201,7 +201,6 @@ document.addEventListener("DOMContentLoaded", () => {
    ĐỒNG HỒ ĐẾM NGÀY YÊU NHAU (CHÍNH THỨC 01/11/2026)
    ======================================================== */
 function initLoveCounter() {
-    // Thời điểm bắt đầu chính thức quen nhau: 00:00:00 ngày 01/11/2026
     // Thời điểm bắt đầu chính thức quen nhau: khoảng 23:00 ngày 01/11/2026
     const startDate = new Date(2026, 10, 1, 23, 0, 0);
 
@@ -209,6 +208,7 @@ function initLoveCounter() {
     const hoursEl = document.getElementById("loveCounterHours");
     const minutesEl = document.getElementById("loveCounterMinutes");
     const secondsEl = document.getElementById("loveCounterSeconds");
+    const totalHoursEl = document.getElementById("clockTotalHoursNum");
 
     if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
@@ -220,11 +220,16 @@ function initLoveCounter() {
         const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
         const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
         const seconds = Math.floor((diffMs / 1000) % 60);
+        const totalHours = Math.floor(diffMs / (1000 * 60 * 60));
 
         daysEl.textContent = days;
         hoursEl.textContent = String(hours).padStart(2, "0");
         minutesEl.textContent = String(minutes).padStart(2, "0");
         secondsEl.textContent = String(seconds).padStart(2, "0");
+
+        if (totalHoursEl) {
+            totalHoursEl.textContent = totalHours;
+        }
     }
 
     updateCounter();

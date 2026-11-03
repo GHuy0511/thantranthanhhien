@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Góc Trò Chơi Tình Yêu • Huy & Hiền</title>
+    <title>Cờ Tỷ Phú Du Lịch Việt Nam • Huy & Hiền</title>
 
     <!-- Đồng bộ ngay theme đã chọn từ trang chính để không bị chớp nháy màu -->
     <script>
@@ -17,18 +17,18 @@
         })();
     </script>
 
-    <!-- Google Fonts đồng nhất với website -->
+    <!-- Google Fonts đồng nhất với website chính -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS chung & CSS riêng cho game -->
+    <!-- CSS chung & CSS riêng cho Cờ Tỷ Phú -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="games.css">
 </head>
 <body class="games-body">
 
-    <!-- Đốm sáng hào quang nền đồng nhất với trang chủ -->
+    <!-- Đốm sáng hào quang nền dịu êm -->
     <div class="bg-decor-wrapper" aria-hidden="true">
         <div class="bg-glow-orb orb-1"></div>
         <div class="bg-glow-orb orb-2"></div>
@@ -41,8 +41,8 @@
             <span class="nav-back-text">Nhật ký</span>
         </a>
         <div class="games-brand">
-            <span class="games-brand-tag">GÓC KỶ NIỆM</span>
-            <h1 class="games-brand-title">Cờ Tỷ Phú Yêu Thương</h1>
+            <span class="games-brand-tag">HÀNH TRÌNH XUYÊN VIỆT CÙNG EM</span>
+            <h1 class="games-brand-title">Cờ Tỷ Phú Du Lịch Việt Nam</h1>
         </div>
         <button class="theme-setting-btn games-theme-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện" title="Đổi màu sắc giao diện">
             <span class="theme-gear-icon">⚙️</span>
@@ -50,115 +50,86 @@
     </header>
 
     <main class="games-main-container">
-        <!-- TAB CHỌN TRÒ CHƠI (TỐI GIẢN & MẠCH LẠC) -->
-        <nav class="game-select-tabs" aria-label="Danh mục trò chơi">
-            <button class="game-tab-btn active" type="button">
-                <span>🎲 Cờ Tỷ Phú</span>
-            </button>
-            <button class="game-tab-btn disabled" type="button" title="Sắp ra mắt">
-                <span>🌸 Thử Thách & Câu Hỏi</span>
-                <span class="tab-badge-soon">Sắp có</span>
-            </button>
-            <button class="game-tab-btn disabled" type="button" title="Sắp ra mắt">
-                <span>🎡 Vòng Quay Kỷ Niệm</span>
-                <span class="tab-badge-soon">Sắp có</span>
-            </button>
-        </nav>
-
         <!-- KHU VỰC THÔNG TIN 2 NGƯỜI CHƠI (PLAYER HUD) -->
         <section class="players-hud-section" aria-label="Thông tin người chơi">
             <!-- Thẻ Người chơi 1: Huy -->
-            <div class="player-hud-card hud-huy" id="hudHuy">
+            <div class="player-hud-card hud-huy active-turn" id="hudHuy">
                 <div class="player-hud-avatar-wrap">
                     <span class="player-avatar-icon">👦</span>
-                    <span class="player-turn-indicator" id="turnIndicatorHuy">Đến lượt</span>
+                    <span class="player-turn-indicator" id="turnIndicatorHuy">Đang đến lượt</span>
                 </div>
                 <div class="player-hud-info">
                     <div class="player-hud-name-row">
                         <span class="player-name">Huy</span>
                         <span class="player-color-dot dot-huy"></span>
+                        <span class="player-badge-role">Phượt thủ 💙</span>
                     </div>
                     <div class="player-score-row">
-                        <span class="player-score" id="huyScore">1000</span>
+                        <span class="player-score" id="huyScore">1500</span>
                         <span class="score-unit">💕 Điểm Yêu</span>
                     </div>
-                    <div class="player-prop-count">
-                        <span id="huyPropsCount">0</span> địa điểm sở hữu
+                    <div class="player-stats-mini">
+                        <span><strong id="huyPropsCount">0</strong> địa danh</span> • 
+                        <span><strong id="huyRoundsCount">0</strong> vòng</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Trái tim ngăn cách -->
-            <div class="hud-center-divider" aria-hidden="true">
-                <span class="hud-divider-heart">♥</span>
-                <span class="hud-turn-text" id="turnHeadline">Đến lượt của Huy</span>
+            <!-- Khu vực điều khiển chế độ và lượt ở giữa -->
+            <div class="hud-center-controls">
+                <div class="game-mode-toggle" role="group" aria-label="Chế độ chơi">
+                    <button class="mode-btn active" id="btnModePassPlay" type="button" title="Chuyền tay nhau 2 người cùng chơi">👥 2 Người</button>
+                    <button class="mode-btn" id="btnModeAI" type="button" title="Chơi với Người Yêu Ảo khi đang ở xa">🤖 Người Yêu Ảo</button>
+                </div>
+                <div class="hud-turn-badge" id="turnHeadline">
+                    <span class="turn-heart-anim">♥</span>
+                    <span id="turnText">Lượt của Huy nè</span>
+                </div>
             </div>
 
             <!-- Thẻ Người chơi 2: Hiền -->
             <div class="player-hud-card hud-hien" id="hudHien">
                 <div class="player-hud-avatar-wrap">
                     <span class="player-avatar-icon">👧</span>
-                    <span class="player-turn-indicator" id="turnIndicatorHien">Đến lượt</span>
+                    <span class="player-turn-indicator" id="turnIndicatorHien">Đang đến lượt</span>
                 </div>
                 <div class="player-hud-info">
                     <div class="player-hud-name-row">
                         <span class="player-name">Hiền</span>
                         <span class="player-color-dot dot-hien"></span>
+                        <span class="player-badge-role">Công chúa 🌸</span>
                     </div>
                     <div class="player-score-row">
-                        <span class="player-score" id="hienScore">1000</span>
+                        <span class="player-score" id="hienScore">1500</span>
                         <span class="score-unit">💕 Điểm Yêu</span>
                     </div>
-                    <div class="player-prop-count">
-                        <span id="hienPropsCount">0</span> địa điểm sở hữu
+                    <div class="player-stats-mini">
+                        <span><strong id="hienPropsCount">0</strong> địa danh</span> • 
+                        <span><strong id="hienRoundsCount">0</strong> vòng</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- BÀN CỜ TỶ PHÚ (MONOPOLY BOARD 5x5 - 16 Ô VÒNG QUANH) -->
+        <!-- BÀN CỜ ĐẠI BẢNG XUYÊN VIỆT (7x7 GRID - 24 ĐỊA DANH NỔI TIẾNG) -->
         <section class="monopoly-board-wrapper">
-            <div class="monopoly-board" id="monopolyBoard">
+            <div class="monopoly-board grid-7x7" id="monopolyBoard">
 
-                <!-- 16 Ô BÀN CỜ ĐƯỢC RENDER NĂNG ĐỘNG BẰNG JAVASCRIPT -->
+                <!-- 24 Ô BÀN CỜ ĐƯỢC RENDER HOÀN TOÀN BẰNG JAVASCRIPT -->
 
-                <!-- KHU VỰC TRUNG TÂM BÀN CỜ (DICE & STATUS) -->
-                <div class="board-center-hub">
-                    <div class="dice-scene">
+                <!-- KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS - 3D DICE & INTERACTION) -->
+                <div class="board-center-hub" id="boardCenterHub">
+                    <div class="hub-decor-map" aria-hidden="true"></div>
+
+                    <!-- Xúc xắc 3D sống động -->
+                    <div class="dice-scene" id="diceScene" title="Xúc xắc tình yêu">
                         <div class="dice-cube" id="diceCube">
-                            <div class="dice-face face-1">
-                                <span class="pip pip-center"></span>
-                            </div>
-                            <div class="dice-face face-2">
-                                <span class="pip pip-tl"></span>
-                                <span class="pip pip-br"></span>
-                            </div>
-                            <div class="dice-face face-3">
-                                <span class="pip pip-tl"></span>
-                                <span class="pip pip-center"></span>
-                                <span class="pip pip-br"></span>
-                            </div>
-                            <div class="dice-face face-4">
-                                <span class="pip pip-tl"></span>
-                                <span class="pip pip-tr"></span>
-                                <span class="pip pip-bl"></span>
-                                <span class="pip pip-br"></span>
-                            </div>
-                            <div class="dice-face face-5">
-                                <span class="pip pip-tl"></span>
-                                <span class="pip pip-tr"></span>
-                                <span class="pip pip-center"></span>
-                                <span class="pip pip-bl"></span>
-                                <span class="pip pip-br"></span>
-                            </div>
-                            <div class="dice-face face-6">
-                                <span class="pip pip-tl"></span>
-                                <span class="pip pip-tr"></span>
-                                <span class="pip pip-ml"></span>
-                                <span class="pip pip-mr"></span>
-                                <span class="pip pip-bl"></span>
-                                <span class="pip pip-br"></span>
-                            </div>
+                            <div class="dice-face face-1"><span class="pip pip-center"></span></div>
+                            <div class="dice-face face-2"><span class="pip pip-tl"></span><span class="pip pip-br"></span></div>
+                            <div class="dice-face face-3"><span class="pip pip-tl"></span><span class="pip pip-center"></span><span class="pip pip-br"></span></div>
+                            <div class="dice-face face-4"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                            <div class="dice-face face-5"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-center"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
+                            <div class="dice-face face-6"><span class="pip pip-tl"></span><span class="pip pip-tr"></span><span class="pip pip-ml"></span><span class="pip pip-mr"></span><span class="pip pip-bl"></span><span class="pip pip-br"></span></div>
                         </div>
                     </div>
 
@@ -168,47 +139,81 @@
                         <span class="btn-dice-text">Tung Xúc Xắc</span>
                     </button>
 
-                    <!-- Tin nhắn cập nhật diễn biến -->
+                    <!-- Trạng thái diễn biến ván cờ -->
                     <div class="action-status-msg" id="actionStatusMsg">
-                        Chạm vào "Tung Xúc Xắc" để bắt đầu chuyến hành trình!
+                        Chạm vào "Tung Xúc Xắc" để bắt đầu chuyến du hành xuyên Việt!
+                    </div>
+
+                    <!-- Lối tắt nhanh dưới trung tâm -->
+                    <div class="center-quick-actions">
+                        <button class="quick-act-btn" id="btnOpenPassport" type="button" title="Xem danh sách địa danh đã qua">📖 Hộ Chiếu</button>
+                        <button class="quick-act-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">ℹ️ Luật Chơi</button>
+                        <button class="quick-act-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh">
+                            <span id="soundIcon">🔔</span>
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- THANH CÔNG CỤ DƯỚI BÀN CỜ -->
+        <!-- THANH CÔNG CỤ DƯỚI CÙNG -->
         <footer class="game-action-toolbar">
             <button class="tool-btn" id="btnRestartGame" type="button" title="Chơi lại từ đầu">
                 <span>🔄 Bắt đầu ván mới</span>
             </button>
-            <button class="tool-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh">
-                <span id="soundIcon">🔔</span>
-                <span id="soundLabel">Âm thanh</span>
-            </button>
-            <button class="tool-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">
-                <span>📖 Luật chơi</span>
-            </button>
+            <div class="game-legend-bar">
+                <span class="legend-item"><span class="legend-color color-north"></span> Miền Bắc</span>
+                <span class="legend-item"><span class="legend-color color-central"></span> Miền Trung</span>
+                <span class="legend-item"><span class="legend-color color-highlands"></span> Tây Nguyên</span>
+                <span class="legend-item"><span class="legend-color color-south"></span> Miền Nam</span>
+                <span class="legend-item"><span class="legend-color color-islands"></span> Biển Đảo</span>
+            </div>
         </footer>
     </main>
 
     <!-- ========================================================
-         MODAL 1: MUA ĐỊA ĐIỂM (XÂY DỰNG TỔ ẤM)
+         MODAL 1: MUA ĐỊA DANH / NÂNG CẤP KỲ QUAN TÌNH YÊU
          ======================================================== -->
     <div class="game-modal-overlay" id="modalBuyProperty" aria-hidden="true">
         <div class="game-modal-card">
-            <div class="game-modal-emoji" id="buyPropEmoji">🏡</div>
-            <h3 class="game-modal-title" id="buyPropTitle">Xây dựng Tổ Ấm</h3>
-            <p class="game-modal-desc" id="buyPropDesc">Bạn vừa đặt chân đến địa điểm này!</p>
+            <div class="landmark-modal-header" id="buyModalHeaderColor">
+                <span class="landmark-region-tag" id="buyModalRegion">MIỀN BẮC</span>
+                <div class="game-modal-emoji" id="buyPropEmoji">🏡</div>
+                <h3 class="game-modal-title" id="buyPropTitle">Hồ Gươm</h3>
+                <span class="landmark-subtitle" id="buyPropSubtitle">Hà Nội</span>
+            </div>
+            
+            <p class="game-modal-desc" id="buyPropDesc">Mô tả danh lam thắng cảnh</p>
+
+            <div class="upgrade-levels-preview" id="upgradeLevelsPreview">
+                <div class="level-step-card current" id="lvlStep1">
+                    <span class="step-icon">🏡</span>
+                    <span class="step-title">Homestay (Cấp 1)</span>
+                    <span class="step-rent" id="lvl1Rent">30 💕/lần</span>
+                </div>
+                <div class="level-step-card" id="lvlStep2">
+                    <span class="step-icon">🏖️</span>
+                    <span class="step-title">Resort (Cấp 2)</span>
+                    <span class="step-rent" id="lvl2Rent">70 💕/lần</span>
+                </div>
+                <div class="level-step-card" id="lvlStep3">
+                    <span class="step-icon">🏰</span>
+                    <span class="step-title">Kỳ Quan (Cấp 3)</span>
+                    <span class="step-rent" id="lvl3Rent">150 💕/lần</span>
+                </div>
+            </div>
+
             <div class="prop-stat-box">
                 <div class="stat-item">
-                    <span class="stat-lbl">Giá xây dựng:</span>
-                    <strong class="stat-val" id="buyPropCost">150 💕</strong>
+                    <span class="stat-lbl" id="buyCostLabel">Chi phí xây dựng:</span>
+                    <strong class="stat-val" id="buyPropCost">100 💕</strong>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-lbl">Tiền hẹn hò:</span>
+                    <span class="stat-lbl">Tiền hẹn hò thu về:</span>
                     <strong class="stat-val" id="buyPropRent">30 💕</strong>
                 </div>
             </div>
+
             <div class="game-modal-actions">
                 <button class="modal-btn-confirm" id="btnConfirmBuy" type="button">Xây dựng ngay 💕</button>
                 <button class="modal-btn-cancel" id="btnCancelBuy" type="button">Để dịp khác</button>
@@ -217,27 +222,123 @@
     </div>
 
     <!-- ========================================================
-         MODAL 2: THƯ BẤT NGỜ (SWEET LOVE CARDS)
+         MODAL 2: THẺ BƯU THIẾP ĐỊA DANH (POSTCARD INSPECTOR KHI CHẠM VÀO Ô)
          ======================================================== -->
-    <div class="game-modal-overlay" id="modalLoveCard" aria-hidden="true">
-        <div class="game-modal-card card-love-letter">
-            <div class="envelope-mini-icon">💌</div>
-            <span class="love-card-tag">THƯ BẤT NGỜ DÀNH CHO BẠN</span>
-            <h3 class="love-card-headline" id="loveCardTitle">Lời Thì Thầm</h3>
-            <div class="love-card-paper">
-                <p class="love-card-content" id="loveCardContent">
-                    Nắm tay đối phương trong 10 giây và nhìn vào mắt nhau thật dịu dàng.
-                </p>
-                <div class="love-card-reward" id="loveCardReward">+50 Điểm Yêu Thương 💕</div>
+    <div class="game-modal-overlay" id="modalPostcardInspector" aria-hidden="true">
+        <div class="game-modal-card postcard-card">
+            <div class="postcard-stamp" aria-hidden="true">VIETNAM ★ POST</div>
+            <div class="landmark-modal-header" id="inspectHeaderColor">
+                <span class="landmark-region-tag" id="inspectRegion">MIỀN TRUNG</span>
+                <div class="game-modal-emoji" id="inspectEmoji">🏯</div>
+                <h3 class="game-modal-title" id="inspectTitle">Cố Đô Huế</h3>
+                <span class="landmark-subtitle" id="inspectSubtitle">Thừa Thiên Huế</span>
             </div>
+            
+            <p class="game-modal-desc" id="inspectDesc">Ngắm cầu Trường Tiền sáu vài mười hai nhịp...</p>
+
+            <div class="postcard-owner-status" id="inspectOwnerBox">
+                <span class="inspect-owner-text">Chưa có ai sở hữu</span>
+            </div>
+
+            <div class="inspect-rent-table">
+                <div class="rent-col"><span>🏡 Cấp 1</span><strong id="inspectRentL1">30 💕</strong></div>
+                <div class="rent-col"><span>🏖️ Cấp 2</span><strong id="inspectRentL2">70 💕</strong></div>
+                <div class="rent-col"><span>🏰 Cấp 3</span><strong id="inspectRentL3">150 💕</strong></div>
+            </div>
+
             <div class="game-modal-actions">
-                <button class="modal-btn-confirm" id="btnAcceptLoveCard" type="button">Đã thực hiện xong nè 💕</button>
+                <button class="modal-btn-confirm" id="btnInspectUpgrade" type="button" style="display:none;">Nâng cấp (+50 💕)</button>
+                <button class="modal-btn-cancel" id="btnCloseInspect" type="button">Đóng bưu thiếp</button>
             </div>
         </div>
     </div>
 
     <!-- ========================================================
-         MODAL 3: THÔNG BÁO CHUNG (TIỀN HẸN HÒ / CHECK-IN / CHIẾN THẮNG)
+         MODAL 3: SÂN BAY QUỐC TẾ (CHUYẾN BAY ĐẶC QUYỀN)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalAirportFlight" aria-hidden="true">
+        <div class="game-modal-card airport-card">
+            <div class="airport-plane-icon">✈️</div>
+            <span class="love-card-tag">CHUYẾN BAY YÊU THƯƠNG ĐẶC BIỆT</span>
+            <h3 class="game-modal-title">Chào mừng đến Sân Bay!</h3>
+            <p class="game-modal-desc">Bạn được quyền chọn một chuyến bay đặc quyền miễn phí:</p>
+
+            <div class="flight-options-list">
+                <button class="flight-opt-btn flight-to-partner" id="btnFlyToPartner" type="button">
+                    <span class="flight-btn-icon">💖</span>
+                    <div class="flight-btn-text">
+                        <strong>Bay tới bên cạnh Người Yêu</strong>
+                        <span>Đoàn tụ tức thì tại địa danh đối phương đang đứng</span>
+                    </div>
+                </button>
+
+                <div class="flight-selector-row">
+                    <label for="airportDestSelect" class="flight-label">Hoặc chọn địa danh bạn muốn bay tới:</label>
+                    <select class="flight-select-input" id="airportDestSelect"></select>
+                    <button class="modal-btn-confirm flight-go-btn" id="btnConfirmAirportFly" type="button">Cất cánh ngay 🛫</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 4: HỘP THƯ TÌNH DUYÊN (SWEET LOVE CARDS)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalLoveCard" aria-hidden="true">
+        <div class="game-modal-card card-love-letter">
+            <div class="wax-seal-icon">💌</div>
+            <span class="love-card-tag">THƯ TÌNH DUYÊN & THỬ THÁCH HẸN HÒ</span>
+            <h3 class="love-card-headline" id="loveCardTitle">Lời Thì Thầm</h3>
+            <div class="love-card-paper">
+                <p class="love-card-content" id="loveCardContent">
+                    Nắm tay đối phương trong 15 giây và nhìn vào mắt nhau cười mỉm chi.
+                </p>
+                <div class="love-card-reward" id="loveCardReward">+60 Điểm Yêu Thương 💕</div>
+            </div>
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnAcceptLoveCard" type="button">Đã hoàn thành thử thách 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 5: HỘ CHIẾU DU LỊCH (TRAVEL PASSPORT)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalPassport" aria-hidden="true">
+        <div class="game-modal-card passport-card">
+            <div class="passport-cover-header">
+                <span class="passport-emblem">🇻🇳</span>
+                <h3 class="game-modal-title">Hộ Chiếu Hành Trình Xuyên Việt</h3>
+                <span class="passport-sub">Huy 💙 & Hiền 🌸</span>
+            </div>
+
+            <div class="passport-stats-row">
+                <div class="pass-stat">
+                    <span>Địa danh đã mở:</span>
+                    <strong id="passTotalUnlocked">0 / 18</strong>
+                </div>
+                <div class="pass-stat">
+                    <span>Tài sản của Huy:</span>
+                    <strong id="passHuyTotal">1500 💕</strong>
+                </div>
+                <div class="pass-stat">
+                    <span>Tài sản của Hiền:</span>
+                    <strong id="passHienTotal">1500 💕</strong>
+                </div>
+            </div>
+
+            <div class="passport-landmarks-grid" id="passportLandmarksGrid">
+                <!-- Danh sách địa danh với dấu mộc thị thực -->
+            </div>
+
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnClosePassport" type="button">Đóng Hộ Chiếu 💕</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 6: THÔNG BÁO CHUNG & CHIẾN THẮNG
          ======================================================== -->
     <div class="game-modal-overlay" id="modalGenericAlert" aria-hidden="true">
         <div class="game-modal-card">
@@ -251,21 +352,27 @@
     </div>
 
     <!-- ========================================================
-         MODAL 4: HƯỚNG DẪN LUẬT CHƠI
+         MODAL 7: HƯỚNG DẪN LUẬT CHƠI CHI TIẾT
          ======================================================== -->
     <div class="game-modal-overlay" id="modalHelp" aria-hidden="true">
         <div class="game-modal-card help-card">
             <div class="game-modal-emoji">📖</div>
-            <h3 class="game-modal-title">Luật Chơi Cờ Tỷ Phú Yêu Thương</h3>
+            <h3 class="game-modal-title">Luật Chơi Cờ Tỷ Phú Du Lịch Việt Nam</h3>
             <div class="help-content-scroll">
-                <p><strong>1. Mục đích:</strong> Cùng nhau du hành qua 16 địa điểm kỷ niệm đáng nhớ của Huy và Hiền.</p>
-                <p><strong>2. Cách chơi:</strong> Thay phiên nhau tung xúc xắc. Khi bước vào địa điểm trống, bạn có thể dùng Điểm Yêu Thương 💕 để xây dựng tổ ấm.</p>
-                <p><strong>3. Tiền hẹn hò:</strong> Khi người yêu bước vào địa điểm của bạn, đối phương sẽ tặng bạn điểm hẹn hò ngọt ngào.</p>
-                <p><strong>4. Ô Thư Bất Ngờ (💌):</strong> Rút lá thiệp nhiệm vụ ngọt ngào để thực hiện cho người yêu ngoài đời thật!</p>
-                <p><strong>5. Xuất phát (🚩):</strong> Mỗi vòng hoàn thành khi đi qua ô xuất phát được tặng 200 Điểm Yêu Thương!</p>
+                <p><strong>1. Mục tiêu:</strong> Cùng người yêu du ngoạn trọn vẹn 24 danh lam thắng cảnh nổi tiếng của Việt Nam từ Bắc vào Nam.</p>
+                <p><strong>2. Xây dựng & Nâng cấp Tổ Ấm:</strong></p>
+                <ul>
+                    <li>Khi dừng chân tại địa danh chưa ai mua: Dùng Điểm Yêu Thương 💕 để xây <strong>Homestay Tình Yêu (Cấp 1 🏡)</strong>.</li>
+                    <li>Khi quay lại địa danh của mình: Nâng cấp lên <strong>Resort Nghỉ Dưỡng (Cấp 2 🏖️)</strong> và <strong>Kỳ Quan Tình Yêu (Cấp 3 🏰)</strong> để tăng tiền hẹn hò!</li>
+                </ul>
+                <p><strong>3. Tiền hẹn hò:</strong> Khi người yêu ghé thăm địa danh của bạn, đối phương sẽ tặng bạn điểm hẹn hò ngọt ngào.</p>
+                <p><strong>4. Sân Bay Quốc Tế (✈️):</strong> Được quyền chọn bay đến bên cạnh người yêu ngay tức thì hoặc bay đến bất kỳ địa danh nào!</p>
+                <p><strong>5. Thư Tình Duyên (💌):</strong> Rút các lá thiệp thử thách dễ thương để thực hiện cho nhau ngoài đời thật.</p>
+                <p><strong>6. Ga Hà Nội (Khởi hành 🚩):</strong> Mỗi vòng hoàn thành khi đi qua đây nhận ngay 200 Điểm Yêu Thương!</p>
+                <p><strong>7. Xem Bưu Thiếp:</strong> Nhấp vào bất kỳ ô nào trên bàn cờ để đọc câu chuyện và thông tin danh lam thắng cảnh đó.</p>
             </div>
             <div class="game-modal-actions">
-                <button class="modal-btn-confirm" id="btnCloseHelp" type="button">Bắt đầu chơi thôi 💕</button>
+                <button class="modal-btn-confirm" id="btnCloseHelp" type="button">Bắt đầu khám phá thôi 💕</button>
             </div>
         </div>
     </div>
@@ -336,7 +443,7 @@
         </div>
     </div>
 
-    <!-- Script điều khiển Game Cờ Tỷ Phú -->
+    <!-- Script điều khiển Game Cờ Tỷ Phú Xuyên Việt -->
     <script src="games.js"></script>
 </body>
 </html>
