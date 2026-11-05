@@ -23,9 +23,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- CSS chung & CSS riêng cho Game -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="games.css">
-    <link rel="stylesheet" href="blockblast.css">
+    <link rel="stylesheet" href="style.css?v=20261105c">
+    <link rel="stylesheet" href="games.css?v=20261105c">
+    <link rel="stylesheet" href="blockblast.css?v=20261105c">
 </head>
 <body class="games-body">
 
@@ -58,9 +58,30 @@
             </button>
         </div>
 
+        <!-- THANH TRẠNG THÁI ONL/OFF CỦA HAI BẠN -->
+        <div class="couple-presence-dock" id="couplePresenceDock" title="Trạng thái kết nối của hai bạn">
+            <div class="presence-badge" id="presenceBadgeHuy">
+                <span class="status-indicator-dot off" id="dotHuy"></span>
+                <span>Huy</span>
+                <small id="labelHuy" style="display:none;">Offline</small>
+            </div>
+            <span class="presence-divider">♥</span>
+            <div class="presence-badge" id="presenceBadgeHien">
+                <span class="status-indicator-dot off" id="dotHien"></span>
+                <span>Hiền</span>
+                <small id="labelHien" style="display:none;">Offline</small>
+            </div>
+            <button class="role-switch-btn" id="btnSwitchMyRole" type="button" title="Bấm để chuyển đổi vai trò">
+                <span id="myRoleLabel">Tôi: Huy 🚗</span>
+            </button>
+        </div>
+
         <div class="games-top-tools">
             <!-- Tools riêng cho Monopoly -->
             <div class="tool-group" id="toolsMonopoly">
+                <button class="top-tool-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh" aria-label="Bật/Tắt âm thanh">
+                    <span class="tool-icon" id="soundIcon">🔔</span>
+                </button>
                 <button class="top-tool-btn setup-tool-btn" id="btnOpenSetup" type="button" title="Cài đặt số người chơi (2, 3, 4 người & Đấu AI)">
                     <span class="tool-icon">👥</span>
                     <span class="tool-label" id="topPlayersLabel">2 Người</span>
@@ -178,10 +199,6 @@
                             <span class="dock-icon">📖</span>
                             <span class="dock-label">Luật Chơi</span>
                         </button>
-                        <button class="dock-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh">
-                            <span class="dock-icon" id="soundIcon">🔔</span>
-                            <span class="dock-label">Âm Thanh</span>
-                        </button>
                         <button class="dock-btn" id="btnRestartQuick" type="button" title="Chơi lại ván mới">
                             <span class="dock-icon">🔄</span>
                             <span class="dock-label">Ván Mới</span>
@@ -193,9 +210,30 @@
         </div>
 
         <!-- ========================================================
-             VIEW 2: BLOCK BLAST (XẾP GẠCH NỔ KHỐI 8x8)
+             VIEW 2: BLOCK BLAST (TỰ XẾP & GẠCH RƠI & ĐỐI KHÁNG)
              ======================================================== -->
         <div class="game-view-panel" id="viewBlockBlast">
+            <!-- THANH ĐIỀU KHIỂN CHẾ ĐỘ PHỤ (SUB-NAV) -->
+            <div class="bb-controls-subnav">
+                <div class="bb-pill-group">
+                    <button class="bb-mode-pill active" id="bbTabModePuzzle" data-mode="puzzle" type="button" title="Chế độ Tự Xếp Gạch cổ điển">
+                        <span>🧩</span> Tự Xếp
+                    </button>
+                    <button class="bb-mode-pill" id="bbTabModeFalling" data-mode="falling" type="button" title="Chế độ Gạch Tự Rơi điều khiển phím mũi tên">
+                        <span>🕹️</span> Gạch Rơi
+                    </button>
+                </div>
+
+                <div class="bb-pill-group">
+                    <button class="bb-match-pill active" id="bbTabMatchSolo" data-match="solo" type="button" title="Chế độ Chơi Đơn thư giãn">
+                        <span>👤</span> Solo
+                    </button>
+                    <button class="bb-match-pill" id="bbTabMatchVs" data-match="vs" type="button" title="Chế độ Đối Kháng cùng người yêu / AI">
+                        <span>⚔️</span> Đối Kháng
+                    </button>
+                </div>
+            </div>
+
             <!-- BẢNG ĐIỂM SỐ & COMBO -->
             <section class="bb-scoreboard-section" aria-label="Bảng điểm số">
                 <div class="bb-score-card current-score-card">
@@ -214,24 +252,66 @@
                 </div>
             </section>
 
-            <!-- KHUNG BÀN CHƠI LƯỚI 8x8 (GRID ARENA) -->
-            <section class="bb-arena-wrapper">
-                <div class="bb-grid-container" id="bbGridContainer">
-                    <div class="bb-grid-board" id="bbGridBoard"></div>
-                    <canvas class="bb-fx-canvas" id="bbFxCanvas"></canvas>
-                    <div class="bb-floating-text-layer" id="bbFloatingTextLayer" aria-hidden="true"></div>
-                </div>
-            </section>
+            <!-- CẢNH BÁO TẤN CÔNG ĐỐI KHÁNG -->
+            <div class="bb-attack-cue" id="bbAttackCue"></div>
 
-            <!-- KHAY 3 KHỐI GẠCH (PIECE DOCK / TRAY) -->
-            <section class="bb-tray-section" aria-label="Khay khối gạch">
-                <div class="bb-tray-hint" id="bbTrayHintText">Kéo hoặc chạm vào khối gạch để đặt vào bàn chơi</div>
-                <div class="bb-tray-container" id="bbTrayContainer">
-                    <div class="bb-tray-slot" id="bbSlot-0" data-slot="0"></div>
-                    <div class="bb-tray-slot" id="bbSlot-1" data-slot="1"></div>
-                    <div class="bb-tray-slot" id="bbSlot-2" data-slot="2"></div>
+            <!-- KHU VỰC BÀN CHƠI CHÍNH & RADAR ĐỐI THỦ -->
+            <div class="bb-playfield-wrap">
+                <!-- KHUNG CHÍNH (THAY ĐỔI THEO MODE) -->
+                <div class="bb-main-board-container">
+                    <!-- MODE 1: TỰ XẾP GẠCH (PUZZLE 8x8) -->
+                    <div id="bbPuzzleArena" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
+                        <div class="bb-arena-wrapper">
+                            <div class="bb-grid-container" id="bbPuzzleContainer">
+                                <div class="bb-grid-board" id="bbPuzzleBoard"></div>
+                            </div>
+                        </div>
+
+                        <!-- Khay 3 khối gạch -->
+                        <div class="bb-tray-section" aria-label="Khay khối gạch">
+                            <div class="bb-tray-container" id="bbTrayContainer">
+                                <div class="bb-tray-slot" id="bbSlot-0" data-slot="0"></div>
+                                <div class="bb-tray-slot" id="bbSlot-1" data-slot="1"></div>
+                                <div class="bb-tray-slot" id="bbSlot-2" data-slot="2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MODE 2: GẠCH TỰ RƠI (FALLING / TETRIS 10x16) -->
+                    <div class="bb-falling-arena" id="bbFallingArena">
+                        <div class="bb-falling-board-wrap">
+                            <div class="bb-falling-grid-container" id="bbFallingContainer">
+                                <div class="bb-falling-board" id="bbFallingBoard"></div>
+                            </div>
+
+                            <div class="bb-falling-sidebar">
+                                <div class="bb-next-piece-card" id="bbNextPieceCard">
+                                    <span class="next-piece-label">TIẾP THEO</span>
+                                    <div class="bb-next-piece-box" id="bbNextPieceBox"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cụm phím điều khiển ảo D-Pad cho điện thoại / cảm ứng -->
+                        <div class="bb-virtual-pad" id="bbVirtualPad">
+                            <button class="vpad-btn" id="btnPadLeft" type="button" aria-label="Sang trái">←</button>
+                            <button class="vpad-btn" id="btnPadRotate" type="button" aria-label="Xoay khối">↻</button>
+                            <button class="vpad-btn" id="btnPadRight" type="button" aria-label="Sang phải">→</button>
+                            <button class="vpad-btn" id="btnPadDown" type="button" aria-label="Rơi nhanh">↓</button>
+                            <button class="vpad-btn vpad-btn-drop" id="btnPadDrop" type="button" aria-label="Thả tức thì">Thả</button>
+                        </div>
+                    </div>
                 </div>
-            </section>
+
+                <!-- RADAR ĐỐI THỦ (HIỂN THỊ TRONG CHẾ ĐỘ ĐỐI KHÁNG) -->
+                <div class="bb-vs-sidebar" id="bbVsSidebar">
+                    <div class="vs-partner-header">
+                        <span class="vs-partner-name" id="bbPartnerName">Người Yêu</span>
+                        <span class="vs-partner-score" id="bbPartnerScore">0</span>
+                    </div>
+                    <div class="bb-partner-mini-board" id="bbPartnerMiniBoard"></div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -753,8 +833,11 @@
         </div>
     </div>
 
+    <!-- Hệ thống Kết nối Mạng P2P & Đồng bộ 2 Người -->
+    <script src="peerjs.min.js?v=20261105c"></script>
+    <script src="couple-network.js?v=20261105c"></script>
     <!-- Script điều khiển Cờ Tỷ Phú Chuẩn & Block Blast -->
-    <script src="games.js"></script>
-    <script src="blockblast.js"></script>
+    <script src="games.js?v=20261105c"></script>
+    <script src="blockblast.js?v=20261105c"></script>
 </body>
 </html>

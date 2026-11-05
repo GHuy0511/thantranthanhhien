@@ -5601,7 +5601,7 @@ html, body {
 /* Bộ lọc định dạng kỷ niệm cao cấp (Tất cả / Ảnh kỷ niệm / Thước phim) */
 .gallery-filter-dock,
 .gallery-filter-tabs {
-    display: inline-flex;
+    display: none !important;
     align-items: center;
     justify-content: center;
     gap: 6px;

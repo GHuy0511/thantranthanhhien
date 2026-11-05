@@ -565,33 +565,33 @@ const ALL_PLAYER_CONFIGS = [
         id: "p0",
         name: "Huy",
         icon: "🚗",
-        color: "#2563eb",
-        glow: "rgba(37,99,235,0.25)",
-        bg: "rgba(37,99,235,0.12)"
+        color: "#b45d43",
+        glow: "rgba(180,93,67,0.22)",
+        bg: "rgba(180,93,67,0.10)"
     },
     {
         id: "p1",
         name: "Hiền",
         icon: "✈️",
-        color: "#db2777",
-        glow: "rgba(219,39,119,0.25)",
-        bg: "rgba(219,39,119,0.12)"
+        color: "#a85d7b",
+        glow: "rgba(168,93,123,0.22)",
+        bg: "rgba(168,93,123,0.10)"
     },
     {
         id: "p2",
         name: "Thành Nam",
         icon: "⛵",
-        color: "#059669",
-        glow: "rgba(5,150,105,0.25)",
-        bg: "rgba(5,150,105,0.12)"
+        color: "#5b7f6b",
+        glow: "rgba(91,127,107,0.22)",
+        bg: "rgba(91,127,107,0.10)"
     },
     {
         id: "p3",
         name: "Phương Linh",
         icon: "🚀",
-        color: "#ea580c",
-        glow: "rgba(234,88,12,0.25)",
-        bg: "rgba(234,88,12,0.12)"
+        color: "#b3784c",
+        glow: "rgba(179,120,76,0.22)",
+        bg: "rgba(179,120,76,0.10)"
     }
 ];
 
@@ -1237,6 +1237,16 @@ function handleRollDice() {
 
     roll3DDice((rollRes) => {
         const { d1, d2, sum, isDouble } = rollRes;
+
+        // Phát sóng xúc xắc qua P2P cho người yêu
+        if (window.CoupleNetwork) {
+            window.CoupleNetwork.send({
+                type: 'monopoly_sync_roll',
+                playerIndex: gameState.currentTurnIndex,
+                d1: d1,
+                d2: d2
+            });
+        }
 
         let doubleMsg = "";
         if (isDouble) {
@@ -2137,7 +2147,7 @@ function inspectTileTitleDeed(tileId) {
         if (tile.owner) {
             const ownerObj = gameState.players.find(p => p.id === tile.owner);
             const ownerName = ownerObj ? ownerObj.name : "Người chơi";
-            const ownerColor = ownerObj ? ownerObj.color : "#2563eb";
+            const ownerColor = ownerObj ? ownerObj.color : "#b45d43";
             const houseModelStr = tile.level === 0 ? 'Đất trống' : tile.level === 1 ? '🏠 1 Nhà Phố' : tile.level === 2 ? '🏠🏠 2 Nhà Phố' : '🏨 Khách Sạn Cao Cấp';
             ownerBox.innerHTML = `Chủ sở hữu: <strong style="color:${ownerColor};">${ownerName}</strong> (${houseModelStr})`;
 
@@ -2758,7 +2768,92 @@ document.addEventListener("DOMContentLoaded", () => {
     initGameSetupModal();
     startNewGame(2, "pass_play");
     initGameSwitcher();
+
+    // Khởi tạo hệ thống mạng đồng bộ P2P hai người
+    if (window.CoupleNetwork && typeof window.CoupleNetwork.init === "function") {
+        window.CoupleNetwork.init();
+        initMonopolyNetworkSync();
+    }
+
     if (window.BlockBlast && typeof window.BlockBlast.init === "function") {
         window.BlockBlast.init();
     }
+
+    // Nút đổi vai trò Huy / Hiền
+    const btnSwitch = document.getElementById("btnSwitchMyRole");
+    if (btnSwitch) {
+        btnSwitch.addEventListener("click", () => {
+            if (window.CoupleNetwork) {
+                window.CoupleNetwork.toggleRole();
+            }
+        });
+    }
 });
+
+// 34. ĐỒNG BỘ CỜ TỶ PHÚ QUA MẠNG P2P
+function initMonopolyNetworkSync() {
+    if (!window.CoupleNetwork) return;
+
+    window.CoupleNetwork.onMessage((packet) => {
+        if (!packet || typeof packet !== "object") return;
+
+        if (packet.type === "monopoly_sync_roll") {
+            // Khi đối phương tung xúc xắc trên máy của họ
+            if (!gameState.isRolling && gameState.currentTurnIndex === packet.playerIndex) {
+                // Áp dụng trực tiếp kết quả xúc xắc của đối phương
+                executeNetworkRoll(packet.d1, packet.d2);
+            }
+        }
+    });
+}
+
+function executeNetworkRoll(d1, d2) {
+    if (gameState.isRolling) return;
+    const player = gameState.players[gameState.currentTurnIndex];
+    if (!player || player.isBankrupt) return;
+
+    gameState.isRolling = true;
+    soundEffects.diceShake();
+
+    const sum = d1 + d2;
+    const isDouble = (d1 === d2);
+
+    animateDiceCubes(d1, d2);
+
+    setTimeout(() => {
+        soundEffects.diceDrop();
+        gameState.isRolling = false;
+        showStatusCapsule(`🎲 <strong>${player.name}</strong> đổ xúc xắc: <strong>${d1}</strong> + <strong>${d2}</strong> = <strong>${sum}</strong>!`);
+
+        recordTransaction({
+            type: "dice",
+            from: player.name,
+            to: null,
+            amount: null,
+            title: `Đổ xúc xắc: ${d1} + ${d2} = ${sum}`,
+            detail: isDouble ? "Đổ đôi - Được thêm lượt tung!" : "Di chuyển trên bàn cờ"
+        });
+
+        // Xử lý thoát tù nếu đang trong tù và lắc ra đôi
+        if (player.inJail) {
+            if (isDouble) {
+                player.inJail = false;
+                player.jailTurns = 0;
+                showStatusNotice(`🎉 <strong>${player.name}</strong> đổ ra cặp đôi <strong>[${d1}-${d2}]</strong> và được trả tự do ngay lập tức!`);
+                movePlayerSteps(player, sum);
+            } else {
+                player.jailTurns++;
+                showStatusNotice(`⛓️ <strong>${player.name}</strong> đổ [${d1}-${d2}] (không phải số đôi). Vẫn phải tạm giữ.`);
+                finishTurn();
+            }
+            return;
+        }
+
+        if (isDouble) {
+            gameState.rolledDoubleTurn = true;
+        }
+
+        movePlayerSteps(player, sum);
+    }, 1100);
+}
+

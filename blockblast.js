@@ -1,332 +1,256 @@
 /**
  * ========================================================
- * BLOCK BLAST PUZZLE - CORE ENGINE & GAMEPLAY LOGIC (TÍCH HỢP)
- * - Tích hợp trực tiếp vào games.html
- * - Không xung đột với Cờ Tỷ Phú (Namespaced DOM & State)
- * - Lưới 8x8 chuẩn mực, khối ngọc bóng 3D
- * - Hệ thống Nổ hàng ngang/dọc (Blast) & Combo Streak bùng nổ
- * - Thuật toán sinh khối thông minh (Smart Spawner)
- * - Điều khiển Kéo-Thả (Drag & Drop) mượt mà + Chạm-đặt (Tap-to-Place)
- * - Tối ưu Touch trên mobile với Finger-Offset chống che ngón tay
- * - Tổng hợp âm thanh bằng Web Audio API
- * - Canvas hạt nổ khối (Particles) siêu nhẹ không gây lag
+ * BLOCK BLAST ENGINE - THIẾT KẾ MỚI TINH GIẢN & ĐỐI KHÁNG THỜI GIAN THỰC
+ * 1. Chế độ 1: Xếp Gạch Tự Do (Puzzle Mode) - Lưới 8x8 & khay 3 khối
+ * 2. Chế độ 2: Gạch Tự Rơi (Falling / Tetris Mode) - Điều khiển phím mũi tên & cụm phím ảo
+ * 3. Chế độ Đối Kháng (VS Mode): Thi đua điểm số, đồng bộ bàn chơi người yêu thời gian thực,
+ *    kích nổ gửi gạch rác (Garbage Attack) & Partner AI thông minh khi đối phương chưa online!
+ * 4. Bảng màu Pastel hài hòa trang nhã, loại bỏ màu sặc sỡ và chi tiết rườm rà
  * ========================================================
  */
 
 window.BlockBlast = (function () {
     'use strict';
 
-    // 1. DANH SÁCH 30+ KHỐI HÌNH ĐA DẠNG CHUẨN BLOCK BLAST
-    const SHAPES_LIBRARY = [
-        // 1-khối
-        { name: 'dot', matrix: [[1]], color: 'amber' },
+    // 1. BẢNG MÀU PASTEL TRANG NHÃ - ĐỒNG BỘ TUYỆT ĐỐI THEME WEBSITE
+    const PASTEL_PALETTE = {
+        terracotta: { bg: 'linear-gradient(135deg, #e07a5f 0%, #c46247 100%)', border: '#e88f78', hex: '#e07a5f' },
+        sage:       { bg: 'linear-gradient(135deg, #81b29a 0%, #689981 100%)', border: '#9fc2af', hex: '#81b29a' },
+        caramel:    { bg: 'linear-gradient(135deg, #f2cc8f 0%, #d8b275 100%)', border: '#fae0b5', hex: '#f2cc8f' },
+        slate:      { bg: 'linear-gradient(135deg, #5c677d 0%, #475166 100%)', border: '#78849e', hex: '#5c677d' },
+        mauve:      { bg: 'linear-gradient(135deg, #a38995 0%, #876e7a 100%)', border: '#baa3ad', hex: '#a38995' },
+        peach:      { bg: 'linear-gradient(135deg, #f4a261 0%, #db8644 100%)', border: '#f7b988', hex: '#f4a261' },
+        teal:       { bg: 'linear-gradient(135deg, #6096ba 0%, #467b9e 100%)', border: '#7fb0d1', hex: '#6096ba' },
+        clay:       { bg: 'linear-gradient(135deg, #ba7c70 0%, #9e6459 100%)', border: '#d1988d', hex: '#ba7c70' },
+        garbage:    { bg: 'linear-gradient(135deg, #8a8d91 0%, #6c6f73 100%)', border: '#a5a8ad', hex: '#8a8d91' }
+    };
 
-        // 2-khối
-        { name: 'h2', matrix: [[1, 1]], color: 'cyan' },
-        { name: 'v2', matrix: [[1], [1]], color: 'cyan' },
-
-        // 3-khối
-        { name: 'h3', matrix: [[1, 1, 1]], color: 'emerald' },
-        { name: 'v3', matrix: [[1], [1], [1]], color: 'emerald' },
-        { name: 'corner_tl', matrix: [[1, 1], [1, 0]], color: 'coral' },
-        { name: 'corner_tr', matrix: [[1, 1], [0, 1]], color: 'coral' },
-        { name: 'corner_bl', matrix: [[1, 0], [1, 1]], color: 'coral' },
-        { name: 'corner_br', matrix: [[0, 1], [1, 1]], color: 'coral' },
-
-        // 4-khối
-        { name: 'square2x2', matrix: [[1, 1], [1, 1]], color: 'ruby' },
-        { name: 'h4', matrix: [[1, 1, 1, 1]], color: 'sapphire' },
-        { name: 'v4', matrix: [[1], [1], [1], [1]], color: 'sapphire' },
-        { name: 'L_up', matrix: [[1, 0], [1, 0], [1, 1]], color: 'amethyst' },
-        { name: 'L_down', matrix: [[1, 1], [0, 1], [0, 1]], color: 'amethyst' },
-        { name: 'J_up', matrix: [[0, 1], [0, 1], [1, 1]], color: 'amethyst' },
-        { name: 'J_down', matrix: [[1, 1], [1, 0], [1, 0]], color: 'amethyst' },
-        { name: 'L_flat1', matrix: [[1, 0, 0], [1, 1, 1]], color: 'amethyst' },
-        { name: 'L_flat2', matrix: [[1, 1, 1], [1, 0, 0]], color: 'amethyst' },
-        { name: 'L_flat3', matrix: [[0, 0, 1], [1, 1, 1]], color: 'amethyst' },
-        { name: 'L_flat4', matrix: [[1, 1, 1], [0, 0, 1]], color: 'amethyst' },
-        { name: 'T_up', matrix: [[1, 1, 1], [0, 1, 0]], color: 'lime' },
-        { name: 'T_down', matrix: [[0, 1, 0], [1, 1, 1]], color: 'lime' },
-        { name: 'T_left', matrix: [[1, 0], [1, 1], [1, 0]], color: 'lime' },
-        { name: 'T_right', matrix: [[0, 1], [1, 1], [0, 1]], color: 'lime' },
-        { name: 'Z_h', matrix: [[1, 1, 0], [0, 1, 1]], color: 'coral' },
-        { name: 'S_h', matrix: [[0, 1, 1], [1, 1, 0]], color: 'coral' },
-
-        // 5-khối
-        { name: 'h5', matrix: [[1, 1, 1, 1, 1]], color: 'indigo' },
-        { name: 'v5', matrix: [[1], [1], [1], [1], [1]], color: 'indigo' },
-        { name: 'corner3x3_tl', matrix: [[1, 1, 1], [1, 0, 0], [1, 0, 0]], color: 'gold' },
-        { name: 'corner3x3_tr', matrix: [[1, 1, 1], [0, 0, 1], [0, 0, 1]], color: 'gold' },
-        { name: 'corner3x3_bl', matrix: [[1, 0, 0], [1, 0, 0], [1, 1, 1]], color: 'gold' },
-        { name: 'corner3x3_br', matrix: [[0, 0, 1], [0, 0, 1], [1, 1, 1]], color: 'gold' },
-        { name: 'plus5', matrix: [[0, 1, 0], [1, 1, 1], [0, 1, 0]], color: 'ruby' },
-
-        // Khối vuông lớn 3x3
-        { name: 'square3x3', matrix: [[1, 1, 1], [1, 1, 1], [1, 1, 1]], color: 'gold' }
+    // 2. DANH MỤC KHỐI XẾP TỰ DO (PUZZLE)
+    const PUZZLE_SHAPES = [
+        { name: 'dot', matrix: [[1]], color: 'caramel' },
+        { name: 'h2', matrix: [[1, 1]], color: 'teal' },
+        { name: 'v2', matrix: [[1], [1]], color: 'teal' },
+        { name: 'h3', matrix: [[1, 1, 1]], color: 'sage' },
+        { name: 'v3', matrix: [[1], [1], [1]], color: 'sage' },
+        { name: 'corner_tl', matrix: [[1, 1], [1, 0]], color: 'peach' },
+        { name: 'corner_tr', matrix: [[1, 1], [0, 1]], color: 'peach' },
+        { name: 'corner_bl', matrix: [[1, 0], [1, 1]], color: 'peach' },
+        { name: 'corner_br', matrix: [[0, 1], [1, 1]], color: 'peach' },
+        { name: 'square2x2', matrix: [[1, 1], [1, 1]], color: 'terracotta' },
+        { name: 'h4', matrix: [[1, 1, 1, 1]], color: 'slate' },
+        { name: 'v4', matrix: [[1], [1], [1], [1]], color: 'slate' },
+        { name: 'L_up', matrix: [[1, 0], [1, 0], [1, 1]], color: 'mauve' },
+        { name: 'L_down', matrix: [[1, 1], [0, 1], [0, 1]], color: 'mauve' },
+        { name: 'J_up', matrix: [[0, 1], [0, 1], [1, 1]], color: 'mauve' },
+        { name: 'J_down', matrix: [[1, 1], [1, 0], [1, 0]], color: 'mauve' },
+        { name: 'T_up', matrix: [[1, 1, 1], [0, 1, 0]], color: 'clay' },
+        { name: 'T_down', matrix: [[0, 1, 0], [1, 1, 1]], color: 'clay' },
+        { name: 'Z_h', matrix: [[1, 1, 0], [0, 1, 1]], color: 'peach' },
+        { name: 'S_h', matrix: [[0, 1, 1], [1, 1, 0]], color: 'peach' },
+        { name: 'plus5', matrix: [[0, 1, 0], [1, 1, 1], [0, 1, 0]], color: 'terracotta' }
     ];
 
-    const COLOR_CLASSES = {
-        ruby: 'color-ruby',
-        sapphire: 'color-sapphire',
-        emerald: 'color-emerald',
-        amber: 'color-amber',
-        amethyst: 'color-amethyst',
-        cyan: 'color-cyan',
-        coral: 'color-coral',
-        lime: 'color-lime',
-        indigo: 'color-indigo',
-        gold: 'color-gold'
-    };
+    // 3. DANH MỤC KHỐI GẠCH RƠI (TETRIS)
+    const TETROMINOES = [
+        { name: 'I', matrix: [[1, 1, 1, 1]], color: 'teal' },
+        { name: 'O', matrix: [[1, 1], [1, 1]], color: 'caramel' },
+        { name: 'T', matrix: [[0, 1, 0], [1, 1, 1]], color: 'mauve' },
+        { name: 'S', matrix: [[0, 1, 1], [1, 1, 0]], color: 'sage' },
+        { name: 'Z', matrix: [[1, 1, 0], [0, 1, 1]], color: 'terracotta' },
+        { name: 'J', matrix: [[1, 0, 0], [1, 1, 1]], color: 'slate' },
+        { name: 'L', matrix: [[0, 0, 1], [1, 1, 1]], color: 'peach' }
+    ];
 
-    const COLOR_HEX_MAP = {
-        ruby: '#ee5253',
-        sapphire: '#2e86de',
-        emerald: '#20bf6b',
-        amber: '#ff9f43',
-        amethyst: '#8854d0',
-        cyan: '#01a3a4',
-        coral: '#f368e0',
-        lime: '#6ab04c',
-        indigo: '#0abde3',
-        gold: '#ffa801'
-    };
+    // TRẠNG THÁI GAME
+    const state = {
+        // Cấu hình chế độ
+        mode: 'puzzle',       // 'puzzle' (tự xếp 8x8) hoặc 'falling' (gạch tự rơi 10x16)
+        matchMode: 'solo',    // 'solo' hoặc 'vs' (đối kháng)
+        isGameOver: false,
+        soundEnabled: true,
 
-    // TRẠNG THÁI RIÊNG CỦA BLOCK BLAST
-    const bbState = {
-        grid: Array(8).fill(null).map(() => Array(8).fill(null)),
-        tray: [null, null, null],
+        // Dữ liệu bàn chơi chính của người dùng
         score: 0,
         highScore: 0,
         comboCount: 0,
         maxCombo: 0,
-        linesClearedTotal: 0,
-        isGameOver: false,
-        soundEnabled: true,
-        selectedSlotIndex: null,
-        drag: {
-            active: false,
-            slotIndex: null,
-            piece: null,
-            cloneEl: null,
-            touchYOffset: 65
-        }
+        linesCleared: 0,
+
+        // Bàn chơi Puzzle (8x8)
+        puzzleGrid: Array(8).fill(null).map(() => Array(8).fill(null)),
+        tray: [null, null, null],
+        selectedSlot: null,
+        drag: { active: false, slotIndex: null, piece: null, cloneEl: null, touchYOffset: 65 },
+
+        // Bàn chơi Falling (10x16)
+        fallRows: 16,
+        fallCols: 10,
+        fallGrid: Array(16).fill(null).map(() => Array(10).fill(null)),
+        currentPiece: null,   // { matrix, color, r, c }
+        nextPiece: null,
+        fallSpeed: 650,       // ms mỗi bước rơi
+        fallTimer: null,
+        isSoftDrop: false,
+
+        // Bàn chơi Đối Kháng (Đối phương: Live hoặc AI)
+        partner: {
+            name: 'Người Yêu',
+            score: 0,
+            combo: 0,
+            grid: Array(8).fill(null).map(() => Array(8).fill(null)),
+            isAi: true,
+            aiTimer: null,
+            wins: 0
+        },
+        myWins: 0
     };
 
-    // ÂM THANH
-    class BbSoundEngine {
-        constructor() {
-            this.ctx = null;
-        }
-
+    // 4. ÂM THANH TINH TẾ (WEB AUDIO API)
+    class SubtleAudio {
+        constructor() { this.ctx = null; }
         init() {
             if (!this.ctx) {
-                const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                if (AudioCtx) this.ctx = new AudioCtx();
+                const AC = window.AudioContext || window.webkitAudioContext;
+                if (AC) this.ctx = new AC();
             }
-            if (this.ctx && this.ctx.state === 'suspended') {
-                this.ctx.resume();
-            }
+            if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
         }
-
-        playPop() {
-            if (!bbState.soundEnabled) return;
+        play(freq, type = 'sine', duration = 0.08, gainVal = 0.12) {
+            if (!state.soundEnabled) return;
             this.init();
             if (!this.ctx) return;
-
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(320, this.ctx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(540, this.ctx.currentTime + 0.08);
-
-            gain.gain.setValueAtTime(0.18, this.ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.08);
-
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
             osc.connect(gain);
             gain.connect(this.ctx.destination);
             osc.start();
-            osc.stop(this.ctx.currentTime + 0.08);
+            osc.stop(this.ctx.currentTime + duration);
         }
-
-        playPlace() {
-            if (!bbState.soundEnabled) return;
-            this.init();
-            if (!this.ctx) return;
-
-            const osc = this.ctx.createOscillator();
-            const gain = this.ctx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(180, this.ctx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(90, this.ctx.currentTime + 0.09);
-
-            gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.09);
-
-            osc.connect(gain);
-            gain.connect(this.ctx.destination);
-            osc.start();
-            osc.stop(this.ctx.currentTime + 0.09);
+        pop() { this.play(360, 'sine', 0.06, 0.12); }
+        place() { this.play(160, 'triangle', 0.08, 0.16); }
+        rotate() { this.play(440, 'sine', 0.05, 0.1); }
+        blast() {
+            this.play(523, 'sine', 0.2, 0.15);
+            setTimeout(() => this.play(659, 'sine', 0.22, 0.15), 50);
+            setTimeout(() => this.play(784, 'sine', 0.25, 0.15), 100);
         }
-
-        playBlast(lineCount = 1, combo = 0) {
-            if (!bbState.soundEnabled) return;
-            this.init();
-            if (!this.ctx) return;
-
-            const baseFreqs = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99];
-            const pitchShift = Math.min(combo * 1.5, 8);
-
-            for (let i = 0; i < Math.min(lineCount + 1, 4); i++) {
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                const freq = (baseFreqs[(i + Math.floor(pitchShift)) % baseFreqs.length] || 440) * (1 + (pitchShift * 0.05));
-
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(freq, this.ctx.currentTime + (i * 0.05));
-                osc.frequency.exponentialRampToValueAtTime(freq * 1.25, this.ctx.currentTime + (i * 0.05) + 0.22);
-
-                gain.gain.setValueAtTime(0.2, this.ctx.currentTime + (i * 0.05));
-                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + (i * 0.05) + 0.25);
-
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start(this.ctx.currentTime + (i * 0.05));
-                osc.stop(this.ctx.currentTime + (i * 0.05) + 0.25);
-            }
+        attack() {
+            this.play(220, 'sawtooth', 0.18, 0.15);
+            setTimeout(() => this.play(330, 'triangle', 0.2, 0.15), 70);
         }
-
-        playCombo(combo = 2) {
-            if (!bbState.soundEnabled) return;
-            this.init();
-            if (!this.ctx) return;
-
-            const notes = [440, 554.37, 659.25, 880];
-            notes.forEach((f, idx) => {
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(f * (1 + combo * 0.08), this.ctx.currentTime + idx * 0.06);
-
-                gain.gain.setValueAtTime(0.18, this.ctx.currentTime + idx * 0.06);
-                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + idx * 0.06 + 0.18);
-
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start(this.ctx.currentTime + idx * 0.06);
-                osc.stop(this.ctx.currentTime + idx * 0.06 + 0.18);
-            });
-        }
-
-        playGameOver() {
-            if (!bbState.soundEnabled) return;
-            this.init();
-            if (!this.ctx) return;
-
-            const notes = [440, 392, 349.23, 293.66];
-            notes.forEach((f, idx) => {
-                const osc = this.ctx.createOscillator();
-                const gain = this.ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(f, this.ctx.currentTime + idx * 0.12);
-
-                gain.gain.setValueAtTime(0.22, this.ctx.currentTime + idx * 0.12);
-                gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + idx * 0.12 + 0.25);
-
-                osc.connect(gain);
-                gain.connect(this.ctx.destination);
-                osc.start(this.ctx.currentTime + idx * 0.12);
-                osc.stop(this.ctx.currentTime + idx * 0.12 + 0.25);
-            });
+        gameOver() {
+            this.play(330, 'sine', 0.2, 0.15);
+            setTimeout(() => this.play(261, 'sine', 0.3, 0.15), 150);
         }
     }
+    const audio = new SubtleAudio();
 
-    const bbSounds = new BbSoundEngine();
+    // 5. KHỞI TẠO VÀ CHUYỂN CHẾ ĐỘ
+    function init() {
+        // Tải điểm kỷ lục
+        state.highScore = parseInt(localStorage.getItem('bb_best_score') || '0', 10);
+        renderScores();
 
-    // HẠT SÁNG NỔ KHỐI
-    class BbParticleFx {
-        constructor() {
-            this.canvas = document.getElementById('bbFxCanvas');
-            this.ctx = this.canvas ? this.canvas.getContext('2d') : null;
-            this.particles = [];
-            this.animId = null;
-            this.resize();
-            window.addEventListener('resize', () => this.resize());
+        // Gắn sự kiện chuyển đổi chế độ
+        bindControlTabs();
+
+        // Gắn sự kiện bàn phím cho chế độ Gạch Rơi
+        bindKeyboardEvents();
+
+        // Lắng nghe mạng đối kháng P2P
+        if (window.CoupleNetwork) {
+            window.CoupleNetwork.onMessage(handleNetworkMessage);
         }
 
-        resize() {
-            if (!this.canvas) return;
-            const rect = this.canvas.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) return;
-            this.canvas.width = rect.width * (window.devicePixelRatio || 1);
-            this.canvas.height = rect.height * (window.devicePixelRatio || 1);
-            if (this.ctx) {
-                this.ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-            }
-        }
-
-        spawnDebris(x, y, colorHex) {
-            const count = 12;
-            for (let i = 0; i < count; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = 1.5 + Math.random() * 4.5;
-                this.particles.push({
-                    x,
-                    y,
-                    vx: Math.cos(angle) * speed,
-                    vy: Math.sin(angle) * speed - 1.2,
-                    size: 4 + Math.random() * 5,
-                    color: colorHex || '#f43f5e',
-                    alpha: 1,
-                    rot: Math.random() * Math.PI,
-                    rotSpeed: (Math.random() - 0.5) * 0.25,
-                    life: 1,
-                    decay: 0.025 + Math.random() * 0.025
-                });
-            }
-            if (!this.animId) this.loop();
-        }
-
-        loop() {
-            if (!this.ctx || !this.canvas) return;
-            const rect = this.canvas.getBoundingClientRect();
-            this.ctx.clearRect(0, 0, rect.width, rect.height);
-
-            for (let i = this.particles.length - 1; i >= 0; i--) {
-                const p = this.particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.12;
-                p.rot += p.rotSpeed;
-                p.life -= p.decay;
-                p.alpha = Math.max(0, p.life);
-
-                if (p.life <= 0) {
-                    this.particles.splice(i, 1);
-                    continue;
-                }
-
-                this.ctx.save();
-                this.ctx.translate(p.x, p.y);
-                this.ctx.rotate(p.rot);
-                this.ctx.globalAlpha = p.alpha;
-                this.ctx.fillStyle = p.color;
-                this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-                this.ctx.restore();
-            }
-
-            if (this.particles.length > 0) {
-                this.animId = requestAnimationFrame(() => this.loop());
-            } else {
-                this.animId = null;
-            }
-        }
+        // Bắt đầu ván đầu tiên
+        startCurrentMode();
     }
 
-    let bbParticleFx = null;
+    function bindControlTabs() {
+        // Mode Tabs: Tự Xếp vs Gạch Rơi
+        const tabPuzzle = document.getElementById('bbTabModePuzzle');
+        const tabFalling = document.getElementById('bbTabModeFalling');
+        if (tabPuzzle) {
+            tabPuzzle.addEventListener('click', () => switchPlayMode('puzzle'));
+        }
+        if (tabFalling) {
+            tabFalling.addEventListener('click', () => switchPlayMode('falling'));
+        }
 
-    // DOM LƯỚI 8x8
-    function initGridDOM() {
-        const boardEl = document.getElementById('bbGridBoard');
+        // Match Tabs: Solo vs Đối Kháng
+        const tabSolo = document.getElementById('bbTabMatchSolo');
+        const tabVs = document.getElementById('bbTabMatchVs');
+        if (tabSolo) {
+            tabSolo.addEventListener('click', () => switchMatchMode('solo'));
+        }
+        if (tabVs) {
+            tabVs.addEventListener('click', () => switchMatchMode('vs'));
+        }
+
+        // Cụm phím ảo trên điện thoại (Virtual Touch D-Pad)
+        bindVirtualDpad();
+    }
+
+    function switchPlayMode(newMode) {
+        if (state.mode === newMode) return;
+        state.mode = newMode;
+
+        document.querySelectorAll('.bb-mode-pill').forEach(btn => {
+            const active = btn.dataset.mode === newMode;
+            btn.classList.toggle('active', active);
+        });
+
+        const puzzleArena = document.getElementById('bbPuzzleArena');
+        const fallingArena = document.getElementById('bbFallingArena');
+        const virtualPad = document.getElementById('bbVirtualPad');
+
+        if (newMode === 'falling') {
+            if (puzzleArena) puzzleArena.style.display = 'none';
+            if (fallingArena) fallingArena.style.display = 'flex';
+            if (virtualPad) virtualPad.style.display = 'flex';
+        } else {
+            if (fallingArena) fallingArena.style.display = 'none';
+            if (puzzleArena) puzzleArena.style.display = 'flex';
+            if (virtualPad) virtualPad.style.display = 'none';
+        }
+
+        restartGame();
+    }
+
+    function switchMatchMode(newMatch) {
+        if (state.matchMode === newMatch) return;
+        state.matchMode = newMatch;
+
+        document.querySelectorAll('.bb-match-pill').forEach(btn => {
+            const active = btn.dataset.match === newMatch;
+            btn.classList.toggle('active', active);
+        });
+
+        const vsSidebar = document.getElementById('bbVsSidebar');
+        if (vsSidebar) {
+            vsSidebar.style.display = newMatch === 'vs' ? 'flex' : 'none';
+        }
+
+        if (newMatch === 'vs') {
+            initVsOpponent();
+        } else {
+            stopPartnerAi();
+        }
+
+        restartGame();
+    }
+
+    // 6. LOGIC CHẾ ĐỘ 1: XẾP GẠCH TỰ DO (PUZZLE MODE 8x8)
+    function initPuzzleMode() {
+        state.puzzleGrid = Array(8).fill(null).map(() => Array(8).fill(null));
+        state.tray = [null, null, null];
+        state.selectedSlot = null;
+
+        const boardEl = document.getElementById('bbPuzzleBoard');
         if (!boardEl) return;
         boardEl.innerHTML = '';
 
@@ -334,111 +258,46 @@ window.BlockBlast = (function () {
             for (let c = 0; c < 8; c++) {
                 const cell = document.createElement('div');
                 cell.className = 'bb-cell';
-                cell.dataset.row = r;
-                cell.dataset.col = c;
-                cell.id = `bb-cell-${r}-${c}`;
-
-                cell.addEventListener('click', () => handleCellClick(r, c));
+                cell.id = `pcell-${r}-${c}`;
+                cell.dataset.r = r;
+                cell.dataset.c = c;
+                cell.addEventListener('click', () => handlePuzzleCellClick(r, c));
                 boardEl.appendChild(cell);
             }
         }
+
+        spawnPuzzlePieces();
     }
 
-    // KIỂM TRA ĐẶT KHỐI
-    function canPlacePiece(matrix, targetRow, targetCol) {
-        const rows = matrix.length;
-        const cols = matrix[0].length;
-
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < cols; c++) {
-                if (matrix[r][c] === 1) {
-                    const gr = targetRow + r;
-                    const gc = targetCol + c;
-                    if (gr < 0 || gr >= 8 || gc < 0 || gc >= 8) return false;
-                    if (bbState.grid[gr][gc] !== null) return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    function canPieceFitAnywhere(matrix) {
-        for (let r = 0; r < 8; r++) {
-            for (let c = 0; c < 8; c++) {
-                if (canPlacePiece(matrix, r, c)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    // SINH KHỐI THÔNG MINH
-    function spawnNewPieces() {
-        let occupiedCount = 0;
-        for (let r = 0; r < 8; r++) {
-            for (let c = 0; c < 8; c++) {
-                if (bbState.grid[r][c] !== null) occupiedCount++;
-            }
-        }
-        const fillRatio = occupiedCount / 64;
-
-        const smallShapes = SHAPES_LIBRARY.filter(s => {
-            const blocks = s.matrix.flat().reduce((a, b) => a + b, 0);
-            return blocks <= 3;
-        });
-
-        const standardShapes = SHAPES_LIBRARY.filter(s => {
-            const blocks = s.matrix.flat().reduce((a, b) => a + b, 0);
-            return blocks <= 4;
-        });
-
+    function spawnPuzzlePieces() {
         for (let i = 0; i < 3; i++) {
-            let pool = SHAPES_LIBRARY;
-            if (fillRatio > 0.55 && Math.random() < 0.7) {
-                pool = smallShapes;
-            } else if (fillRatio > 0.40 && Math.random() < 0.5) {
-                pool = standardShapes;
-            }
-
-            const picked = pool[Math.floor(Math.random() * pool.length)];
-            bbState.tray[i] = {
-                id: `bb-piece-${Date.now()}-${i}-${Math.random()}`,
-                name: picked.name,
-                matrix: picked.matrix,
-                color: picked.color
+            const shape = PUZZLE_SHAPES[Math.floor(Math.random() * PUZZLE_SHAPES.length)];
+            state.tray[i] = {
+                id: `p-${Date.now()}-${i}`,
+                name: shape.name,
+                matrix: shape.matrix,
+                color: shape.color
             };
         }
 
         // Đảm bảo ít nhất 1 khối đặt vừa
-        let anyFits = bbState.tray.some(p => p && canPieceFitAnywhere(p.matrix));
-        if (!anyFits) {
-            const fittingShape = SHAPES_LIBRARY.find(s => canPieceFitAnywhere(s.matrix));
-            if (fittingShape) {
-                bbState.tray[0] = {
-                    id: `bb-savior-${Date.now()}`,
-                    name: fittingShape.name,
-                    matrix: fittingShape.matrix,
-                    color: fittingShape.color
-                };
-            } else {
-                triggerGameOver();
-                return;
-            }
+        const anyFit = state.tray.some(p => p && canFitPuzzlePiece(p.matrix));
+        if (!anyFit) {
+            const savior = PUZZLE_SHAPES.find(s => canFitPuzzlePiece(s.matrix));
+            if (savior) state.tray[0] = { id: `savior-${Date.now()}`, name: savior.name, matrix: savior.matrix, color: savior.color };
         }
 
-        renderTray();
-        checkGameOver();
+        renderPuzzleTray();
+        checkPuzzleGameOver();
     }
 
-    // RENDER KHAY KHỐI
-    function renderTray() {
+    function renderPuzzleTray() {
         for (let i = 0; i < 3; i++) {
             const slotEl = document.getElementById(`bbSlot-${i}`);
             if (!slotEl) continue;
             slotEl.innerHTML = '';
 
-            const piece = bbState.tray[i];
+            const piece = state.tray[i];
             if (!piece) {
                 slotEl.classList.add('empty');
                 continue;
@@ -446,136 +305,100 @@ window.BlockBlast = (function () {
 
             slotEl.classList.remove('empty');
             const pieceEl = document.createElement('div');
-            pieceEl.className = 'tray-piece';
-            pieceEl.dataset.slot = i;
+            pieceEl.className = `tray-piece ${state.selectedSlot === i ? 'selected' : ''}`;
             pieceEl.style.gridTemplateRows = `repeat(${piece.matrix.length}, 1fr)`;
             pieceEl.style.gridTemplateColumns = `repeat(${piece.matrix[0].length}, 1fr)`;
-
-            if (bbState.selectedSlotIndex === i) {
-                pieceEl.classList.add('selected');
-            }
 
             for (let r = 0; r < piece.matrix.length; r++) {
                 for (let c = 0; c < piece.matrix[0].length; c++) {
                     const cell = document.createElement('div');
                     cell.className = 'tray-cell';
                     if (piece.matrix[r][c] === 1) {
-                        cell.classList.add('filled', COLOR_CLASSES[piece.color] || 'color-ruby');
-                    } else {
-                        cell.classList.add('empty');
+                        cell.classList.add('filled');
+                        cell.style.background = PASTEL_PALETTE[piece.color].bg;
+                        cell.style.borderColor = PASTEL_PALETTE[piece.color].border;
                     }
                     pieceEl.appendChild(cell);
                 }
             }
 
-            bindPieceDragEvents(pieceEl, i, piece);
+            bindPuzzlePieceEvents(pieceEl, i, piece);
             slotEl.appendChild(pieceEl);
         }
     }
 
-    // DRAG & DROP + TOUCH
-    function bindPieceDragEvents(pieceEl, slotIndex, piece) {
-        let pointerDownTime = 0;
-        let startX = 0;
-        let startY = 0;
+    function bindPuzzlePieceEvents(pieceEl, slotIndex, piece) {
+        let startTime = 0;
+        let startX = 0, startY = 0;
 
-        const onPointerDown = (e) => {
-            if (bbState.isGameOver) return;
-            pointerDownTime = Date.now();
-            startX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
-            startY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+        pieceEl.onpointerdown = (e) => {
+            if (state.isGameOver) return;
+            startTime = Date.now();
+            startX = e.clientX || 0;
+            startY = e.clientY || 0;
+            audio.pop();
 
-            bbSounds.playPop();
+            state.drag.active = true;
+            state.drag.slotIndex = slotIndex;
+            state.drag.piece = piece;
 
-            bbState.drag.active = true;
-            bbState.drag.slotIndex = slotIndex;
-            bbState.drag.piece = piece;
+            const isTouch = e.pointerType === 'touch';
+            const yOffset = isTouch ? state.drag.touchYOffset : 0;
+            createPuzzleDragClone(piece, startX, startY - yOffset);
 
-            const isTouch = e.type.startsWith('touch') || (e.pointerType === 'touch');
-            const yOffset = isTouch ? bbState.drag.touchYOffset : 0;
+            const onMove = (ev) => {
+                if (!state.drag.active || !state.drag.cloneEl) return;
+                const cx = ev.clientX || 0;
+                const cy = ev.clientY || 0;
+                state.drag.cloneEl.style.left = `${cx}px`;
+                state.drag.cloneEl.style.top = `${cy - yOffset}px`;
+                highlightPuzzlePreview(cx, cy - yOffset, piece);
+            };
 
-            createDragClone(piece, startX, startY - yOffset);
+            const onUp = (ev) => {
+                window.removeEventListener('pointermove', onMove);
+                window.removeEventListener('pointerup', onUp);
+                if (!state.drag.active) return;
+                state.drag.active = false;
 
-            window.addEventListener('pointermove', onPointerMove, { passive: false });
-            window.addEventListener('pointerup', onPointerUp);
-            window.addEventListener('pointercancel', onPointerUp);
+                const elapsed = Date.now() - startTime;
+                const dist = Math.hypot(ev.clientX - startX, ev.clientY - startY);
 
-            if (e.cancelable) e.preventDefault();
-        };
-
-        const onPointerMove = (e) => {
-            if (!bbState.drag.active || !bbState.drag.cloneEl) return;
-            const curX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
-            const curY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
-
-            const isTouch = e.pointerType === 'touch' || e.type.startsWith('touch');
-            const yOffset = isTouch ? bbState.drag.touchYOffset : 0;
-
-            bbState.drag.cloneEl.style.left = `${curX}px`;
-            bbState.drag.cloneEl.style.top = `${curY - yOffset}px`;
-
-            updateHoverPreview(curX, curY - yOffset, piece);
-
-            if (e.cancelable) e.preventDefault();
-        };
-
-        const onPointerUp = (e) => {
-            window.removeEventListener('pointermove', onPointerMove);
-            window.removeEventListener('pointerup', onPointerUp);
-            window.removeEventListener('pointercancel', onPointerUp);
-
-            if (!bbState.drag.active) return;
-            bbState.drag.active = false;
-
-            const elapsed = Date.now() - pointerDownTime;
-            const curX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX) || startX;
-            const curY = e.clientY || (e.changedTouches && e.changedTouches[0].clientY) || startY;
-            const dist = Math.hypot(curX - startX, curY - startY);
-
-            const isTouch = e.pointerType === 'touch' || e.type.startsWith('touch');
-            const yOffset = isTouch ? bbState.drag.touchYOffset : 0;
-
-            // Tap tại chỗ
-            if (elapsed < 250 && dist < 12) {
-                removeDragClone();
-                clearGridPreviews();
-                togglePieceSelection(slotIndex);
-                return;
-            }
-
-            const targetCell = getCellUnderPoint(curX, curY - yOffset);
-            if (targetCell) {
-                const tr = parseInt(targetCell.dataset.row, 10);
-                const tc = parseInt(targetCell.dataset.col, 10);
-
-                const anchorR = tr - Math.floor(piece.matrix.length / 2);
-                const anchorC = tc - Math.floor(piece.matrix[0].length / 2);
-
-                let placed = false;
-                if (canPlacePiece(piece.matrix, anchorR, anchorC)) {
-                    placePiece(slotIndex, anchorR, anchorC);
-                    placed = true;
-                } else if (canPlacePiece(piece.matrix, tr, tc)) {
-                    placePiece(slotIndex, tr, tc);
-                    placed = true;
+                if (elapsed < 250 && dist < 12) {
+                    removePuzzleDragClone();
+                    clearPuzzlePreviews();
+                    state.selectedSlot = state.selectedSlot === slotIndex ? null : slotIndex;
+                    renderPuzzleTray();
+                    return;
                 }
 
-                if (!placed) {
-                    bbSounds.playPop();
+                const target = document.elementFromPoint(ev.clientX, ev.clientY - yOffset);
+                const cell = target ? target.closest('.bb-cell') : null;
+
+                if (cell) {
+                    const tr = parseInt(cell.dataset.r, 10);
+                    const tc = parseInt(cell.dataset.c, 10);
+                    const ar = tr - Math.floor(piece.matrix.length / 2);
+                    const ac = tc - Math.floor(piece.matrix[0].length / 2);
+
+                    if (canPlacePuzzlePiece(piece.matrix, ar, ac)) {
+                        placePuzzlePiece(slotIndex, ar, ac);
+                    } else if (canPlacePuzzlePiece(piece.matrix, tr, tc)) {
+                        placePuzzlePiece(slotIndex, tr, tc);
+                    }
                 }
-            } else {
-                bbSounds.playPop();
-            }
 
-            removeDragClone();
-            clearGridPreviews();
+                removePuzzleDragClone();
+                clearPuzzlePreviews();
+            };
+
+            window.addEventListener('pointermove', onMove);
+            window.addEventListener('pointerup', onUp);
         };
-
-        pieceEl.addEventListener('pointerdown', onPointerDown);
     }
 
-    function createDragClone(piece, x, y) {
-        removeDragClone();
+    function createPuzzleDragClone(piece, x, y) {
+        removePuzzleDragClone();
         const clone = document.createElement('div');
         clone.className = 'bb-drag-clone';
         clone.id = 'bbDragClone';
@@ -589,287 +412,736 @@ window.BlockBlast = (function () {
                 const cell = document.createElement('div');
                 cell.className = 'tray-cell';
                 if (piece.matrix[r][c] === 1) {
-                    cell.classList.add('filled', COLOR_CLASSES[piece.color] || 'color-ruby');
-                } else {
-                    cell.classList.add('empty');
+                    cell.classList.add('filled');
+                    cell.style.background = PASTEL_PALETTE[piece.color].bg;
+                    cell.style.borderColor = PASTEL_PALETTE[piece.color].border;
                 }
                 clone.appendChild(cell);
             }
         }
-
         document.body.appendChild(clone);
-        bbState.drag.cloneEl = clone;
+        state.drag.cloneEl = clone;
     }
 
-    function removeDragClone() {
-        if (bbState.drag.cloneEl) {
-            bbState.drag.cloneEl.remove();
-            bbState.drag.cloneEl = null;
+    function removePuzzleDragClone() {
+        if (state.drag.cloneEl) {
+            state.drag.cloneEl.remove();
+            state.drag.cloneEl = null;
         }
     }
 
-    function getCellUnderPoint(x, y) {
-        const el = document.elementFromPoint(x, y);
-        if (!el) return null;
-        return el.closest('.bb-cell');
-    }
-
-    function updateHoverPreview(x, y, piece) {
-        clearGridPreviews();
-        const cell = getCellUnderPoint(x, y);
+    function highlightPuzzlePreview(x, y, piece) {
+        clearPuzzlePreviews();
+        const target = document.elementFromPoint(x, y);
+        const cell = target ? target.closest('.bb-cell') : null;
         if (!cell) return;
 
-        const tr = parseInt(cell.dataset.row, 10);
-        const tc = parseInt(cell.dataset.col, 10);
+        const tr = parseInt(cell.dataset.r, 10);
+        const tc = parseInt(cell.dataset.c, 10);
+        const ar = tr - Math.floor(piece.matrix.length / 2);
+        const ac = tc - Math.floor(piece.matrix[0].length / 2);
 
-        const anchorR = tr - Math.floor(piece.matrix.length / 2);
-        const anchorC = tc - Math.floor(piece.matrix[0].length / 2);
-
-        let testR = anchorR;
-        let testC = anchorC;
-        let isValid = canPlacePiece(piece.matrix, testR, testC);
-
-        if (!isValid && canPlacePiece(piece.matrix, tr, tc)) {
-            testR = tr;
-            testC = tc;
-            isValid = true;
+        let testR = ar, testC = ac;
+        let valid = canPlacePuzzlePiece(piece.matrix, testR, testC);
+        if (!valid && canPlacePuzzlePiece(piece.matrix, tr, tc)) {
+            testR = tr; testC = tc; valid = true;
         }
 
         for (let r = 0; r < piece.matrix.length; r++) {
             for (let c = 0; c < piece.matrix[0].length; c++) {
                 if (piece.matrix[r][c] === 1) {
-                    const targetEl = document.getElementById(`bb-cell-${testR + r}-${testC + c}`);
-                    if (targetEl) {
-                        targetEl.classList.add(isValid ? 'preview-valid' : 'preview-invalid');
-                    }
+                    const el = document.getElementById(`pcell-${testR + r}-${testC + c}`);
+                    if (el) el.classList.add(valid ? 'preview-valid' : 'preview-invalid');
                 }
             }
         }
     }
 
-    function clearGridPreviews() {
-        const cells = document.querySelectorAll('.bb-cell.preview-valid, .bb-cell.preview-invalid');
-        cells.forEach(c => {
-            c.classList.remove('preview-valid', 'preview-invalid');
+    function clearPuzzlePreviews() {
+        document.querySelectorAll('.bb-cell.preview-valid, .bb-cell.preview-invalid').forEach(el => {
+            el.classList.remove('preview-valid', 'preview-invalid');
         });
     }
 
-    // CHẾ ĐỘ CHẠM ĐỂ CHỌN & CHẠM ĐỂ ĐẶT
-    function togglePieceSelection(slotIndex) {
-        if (bbState.selectedSlotIndex === slotIndex) {
-            bbState.selectedSlotIndex = null;
-            updateTrayHint('Kéo hoặc chạm vào khối gạch để đặt vào bàn chơi');
-        } else {
-            bbState.selectedSlotIndex = slotIndex;
-            updateTrayHint('Đã chọn khối! Hãy chạm vào ô trống trên bàn để đặt ✨');
-        }
-        renderTray();
-    }
-
-    function handleCellClick(targetRow, targetCol) {
-        if (bbState.selectedSlotIndex === null) return;
-        const piece = bbState.tray[bbState.selectedSlotIndex];
+    function handlePuzzleCellClick(r, c) {
+        if (state.selectedSlot === null) return;
+        const piece = state.tray[state.selectedSlot];
         if (!piece) return;
 
-        const anchorR = targetRow - Math.floor(piece.matrix.length / 2);
-        const anchorC = targetCol - Math.floor(piece.matrix[0].length / 2);
+        const ar = r - Math.floor(piece.matrix.length / 2);
+        const ac = c - Math.floor(piece.matrix[0].length / 2);
 
-        if (canPlacePiece(piece.matrix, anchorR, anchorC)) {
-            placePiece(bbState.selectedSlotIndex, anchorR, anchorC);
-            bbState.selectedSlotIndex = null;
-            renderTray();
-            updateTrayHint('Kéo hoặc chạm vào khối gạch để đặt vào bàn chơi');
-        } else if (canPlacePiece(piece.matrix, targetRow, targetCol)) {
-            placePiece(bbState.selectedSlotIndex, targetRow, targetCol);
-            bbState.selectedSlotIndex = null;
-            renderTray();
-            updateTrayHint('Kéo hoặc chạm vào khối gạch để đặt vào bàn chơi');
+        if (canPlacePuzzlePiece(piece.matrix, ar, ac)) {
+            placePuzzlePiece(state.selectedSlot, ar, ac);
+            state.selectedSlot = null;
+            renderPuzzleTray();
+        } else if (canPlacePuzzlePiece(piece.matrix, r, c)) {
+            placePuzzlePiece(state.selectedSlot, r, c);
+            state.selectedSlot = null;
+            renderPuzzleTray();
         } else {
-            const cell = document.getElementById(`bb-cell-${targetRow}-${targetCol}`);
-            if (cell) {
-                cell.classList.add('preview-invalid');
-                setTimeout(() => cell.classList.remove('preview-invalid'), 200);
+            audio.pop();
+        }
+    }
+
+    function canPlacePuzzlePiece(matrix, startR, startC) {
+        for (let r = 0; r < matrix.length; r++) {
+            for (let c = 0; c < matrix[0].length; c++) {
+                if (matrix[r][c] === 1) {
+                    const gr = startR + r;
+                    const gc = startC + c;
+                    if (gr < 0 || gr >= 8 || gc < 0 || gc >= 8) return false;
+                    if (state.puzzleGrid[gr][gc] !== null) return false;
+                }
             }
-            bbSounds.playPop();
         }
+        return true;
     }
 
-    function updateTrayHint(text) {
-        const el = document.getElementById('bbTrayHintText');
-        if (el) el.textContent = text;
+    function canFitPuzzlePiece(matrix) {
+        for (let r = 0; r < 8; r++) {
+            for (let c = 0; c < 8; c++) {
+                if (canPlacePuzzlePiece(matrix, r, c)) return true;
+            }
+        }
+        return false;
     }
 
-    // ĐẶT KHỐI
-    function placePiece(slotIndex, startRow, startCol) {
-        const piece = bbState.tray[slotIndex];
+    function placePuzzlePiece(slotIndex, startR, startC) {
+        const piece = state.tray[slotIndex];
         if (!piece) return;
 
-        bbSounds.playPlace();
+        audio.place();
+        let placedCount = 0;
 
-        let blockCount = 0;
         for (let r = 0; r < piece.matrix.length; r++) {
             for (let c = 0; c < piece.matrix[0].length; c++) {
                 if (piece.matrix[r][c] === 1) {
-                    const gr = startRow + r;
-                    const gc = startCol + c;
-                    bbState.grid[gr][gc] = { color: piece.color };
-                    blockCount++;
+                    const gr = startR + r;
+                    const gc = startC + c;
+                    state.puzzleGrid[gr][gc] = { color: piece.color };
+                    placedCount++;
 
-                    const cellEl = document.getElementById(`bb-cell-${gr}-${gc}`);
+                    const cellEl = document.getElementById(`pcell-${gr}-${gc}`);
                     if (cellEl) {
-                        cellEl.className = `bb-cell filled ${COLOR_CLASSES[piece.color] || 'color-ruby'}`;
+                        cellEl.classList.add('filled');
+                        cellEl.style.background = PASTEL_PALETTE[piece.color].bg;
+                        cellEl.style.borderColor = PASTEL_PALETTE[piece.color].border;
                     }
                 }
             }
         }
 
-        addScore(blockCount * 10);
-        bbState.tray[slotIndex] = null;
-        renderTray();
+        addScore(placedCount * 10);
+        state.tray[slotIndex] = null;
+        renderPuzzleTray();
 
-        checkAndBlastLines();
+        // Kiểm tra nổ hàng
+        checkPuzzleBlastLines();
 
-        const allEmpty = bbState.tray.every(p => p === null);
-        if (allEmpty) {
-            setTimeout(() => {
-                spawnNewPieces();
-            }, 220);
+        // Đồng bộ mạng đối kháng
+        syncBoardToNetwork();
+
+        // Nếu khay hết, phát đợt khối mới
+        if (state.tray.every(p => p === null)) {
+            setTimeout(spawnPuzzlePieces, 220);
         } else {
-            checkGameOver();
+            checkPuzzleGameOver();
         }
     }
 
-    // NỔ HÀNG & COMBO
-    function checkAndBlastLines() {
+    function checkPuzzleBlastLines() {
         const fullRows = [];
         const fullCols = [];
 
         for (let r = 0; r < 8; r++) {
-            let isFull = true;
-            for (let c = 0; c < 8; c++) {
-                if (bbState.grid[r][c] === null) {
-                    isFull = false;
-                    break;
-                }
-            }
-            if (isFull) fullRows.push(r);
+            if (state.puzzleGrid[r].every(c => c !== null)) fullRows.push(r);
         }
-
         for (let c = 0; c < 8; c++) {
-            let isFull = true;
+            let colFull = true;
             for (let r = 0; r < 8; r++) {
-                if (bbState.grid[r][c] === null) {
-                    isFull = false;
-                    break;
-                }
+                if (state.puzzleGrid[r][c] === null) { colFull = false; break; }
             }
-            if (isFull) fullCols.push(c);
+            if (colFull) fullCols.push(c);
         }
 
         const totalLines = fullRows.length + fullCols.length;
 
         if (totalLines > 0) {
-            bbState.comboCount++;
-            if (bbState.comboCount > bbState.maxCombo) {
-                bbState.maxCombo = bbState.comboCount;
-            }
-            bbState.linesClearedTotal += totalLines;
+            state.comboCount++;
+            if (state.comboCount > state.maxCombo) state.maxCombo = state.comboCount;
+            state.linesCleared += totalLines;
 
-            const baseLineScore = totalLines * 100;
-            const multiBonus = totalLines > 1 ? (totalLines - 1) * 150 : 0;
-            const comboBonus = bbState.comboCount > 1 ? (bbState.comboCount * 80) : 0;
-            const earnedScore = baseLineScore + multiBonus + comboBonus;
+            const baseScore = totalLines * 100;
+            const comboBonus = state.comboCount > 1 ? (state.comboCount * 70) : 0;
+            addScore(baseScore + comboBonus);
 
-            addScore(earnedScore);
-            bbSounds.playBlast(totalLines, bbState.comboCount);
-
-            if (bbState.comboCount >= 2) {
-                bbSounds.playCombo(bbState.comboCount);
-            }
-
+            audio.blast();
             updateComboUI();
-            showFloatingText(totalLines, bbState.comboCount, earnedScore);
+
+            // Kích hoạt tấn công nếu đang ở chế độ Đối Kháng!
+            if (state.matchMode === 'vs') {
+                sendGarbageAttack(totalLines);
+            }
 
             const cellsToClear = new Set();
-            fullRows.forEach(r => {
-                for (let c = 0; c < 8; c++) cellsToClear.add(`${r},${c}`);
-            });
-            fullCols.forEach(c => {
-                for (let r = 0; r < 8; r++) cellsToClear.add(`${r},${c}`);
-            });
-
-            if (totalLines >= 2) {
-                const container = document.getElementById('bbGridContainer');
-                if (container) {
-                    container.style.animation = 'none';
-                    void container.offsetWidth;
-                    container.style.animation = 'comboPulse 0.35s ease';
-                }
-            }
+            fullRows.forEach(r => { for (let c = 0; c < 8; c++) cellsToClear.add(`${r},${c}`); });
+            fullCols.forEach(c => { for (let r = 0; r < 8; r++) cellsToClear.add(`${r},${c}`); });
 
             cellsToClear.forEach(pos => {
                 const [r, c] = pos.split(',').map(Number);
-                const cellEl = document.getElementById(`bb-cell-${r}-${c}`);
-                const cellData = bbState.grid[r][c];
-
-                if (cellEl && cellData) {
-                    cellEl.classList.add('blasting');
-
-                    const rect = cellEl.getBoundingClientRect();
-                    const boardEl = document.getElementById('bbGridBoard');
-                    if (boardEl) {
-                        const boardRect = boardEl.getBoundingClientRect();
-                        const px = rect.left - boardRect.left + rect.width / 2;
-                        const py = rect.top - boardRect.top + rect.height / 2;
-
-                        if (bbParticleFx) {
-                            bbParticleFx.spawnDebris(px, py, COLOR_HEX_MAP[cellData.color] || '#f43f5e');
-                        }
-                    }
-                }
+                const el = document.getElementById(`pcell-${r}-${c}`);
+                if (el) el.classList.add('blasting');
             });
 
             setTimeout(() => {
                 cellsToClear.forEach(pos => {
                     const [r, c] = pos.split(',').map(Number);
-                    bbState.grid[r][c] = null;
-                    const cellEl = document.getElementById(`bb-cell-${r}-${c}`);
-                    if (cellEl) {
-                        cellEl.className = 'bb-cell';
+                    state.puzzleGrid[r][c] = null;
+                    const el = document.getElementById(`pcell-${r}-${c}`);
+                    if (el) {
+                        el.className = 'bb-cell';
+                        el.style.background = '';
+                        el.style.borderColor = '';
                     }
                 });
-                checkGameOver();
-            }, 340);
+                checkPuzzleGameOver();
+                syncBoardToNetwork();
+            }, 300);
 
         } else {
-            bbState.comboCount = 0;
+            state.comboCount = 0;
             updateComboUI();
         }
     }
 
-    function addScore(points) {
-        bbState.score += points;
-        if (bbState.score > bbState.highScore) {
-            bbState.highScore = bbState.score;
-            localStorage.setItem('blockblast_best_score', bbState.highScore);
+    function checkPuzzleGameOver() {
+        const remaining = state.tray.filter(p => p !== null);
+        if (remaining.length === 0) return;
+
+        const anyFit = remaining.some(p => canFitPuzzlePiece(p.matrix));
+        if (!anyFit) {
+            triggerGameOver();
         }
-        renderScores(true);
     }
 
-    function renderScores(bump = false) {
-        const curEl = document.getElementById('bbCurrentScore');
-        const highEl = document.getElementById('bbHighScore');
+    // 7. LOGIC CHẾ ĐỘ 2: GẠCH TỰ RƠI (FALLING / TETRIS MODE 10x16)
+    function initFallingMode() {
+        stopFallingTimer();
+        state.fallGrid = Array(state.fallRows).fill(null).map(() => Array(state.fallCols).fill(null));
+        state.currentPiece = null;
+        state.nextPiece = null;
 
-        if (curEl) {
-            curEl.textContent = bbState.score.toLocaleString();
-            if (bump) {
-                curEl.classList.add('bump');
-                setTimeout(() => curEl.classList.remove('bump'), 220);
+        const boardEl = document.getElementById('bbFallingBoard');
+        if (!boardEl) return;
+        boardEl.innerHTML = '';
+
+        for (let r = 0; r < state.fallRows; r++) {
+            for (let c = 0; c < state.fallCols; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'bb-cell fall-cell';
+                cell.id = `fcell-${r}-${c}`;
+                boardEl.appendChild(cell);
             }
         }
-        if (highEl) {
-            highEl.textContent = bbState.highScore.toLocaleString();
+
+        spawnNextFallingPiece();
+        spawnNextFallingPiece();
+        startFallingTimer();
+    }
+
+    function spawnNextFallingPiece() {
+        state.currentPiece = state.nextPiece;
+        const randomTetro = TETROMINOES[Math.floor(Math.random() * TETROMINOES.length)];
+        state.nextPiece = {
+            matrix: randomTetro.matrix.map(row => [...row]),
+            color: randomTetro.color,
+            name: randomTetro.name
+        };
+
+        renderNextPiecePreview();
+
+        if (state.currentPiece) {
+            state.currentPiece.r = 0;
+            state.currentPiece.c = Math.floor((state.fallCols - state.currentPiece.matrix[0].length) / 2);
+
+            // Kiểm tra ngay khi xuất hiện nếu đã bị đè -> Game Over
+            if (!canPlaceFallingPiece(state.currentPiece.matrix, state.currentPiece.r, state.currentPiece.c)) {
+                triggerGameOver();
+            } else {
+                renderFallingActivePiece();
+            }
         }
+    }
+
+    function renderNextPiecePreview() {
+        const box = document.getElementById('bbNextPieceBox');
+        if (!box || !state.nextPiece) return;
+        box.innerHTML = '';
+
+        const m = state.nextPiece.matrix;
+        box.style.gridTemplateRows = `repeat(${m.length}, 1fr)`;
+        box.style.gridTemplateColumns = `repeat(${m[0].length}, 1fr)`;
+
+        for (let r = 0; r < m.length; r++) {
+            for (let c = 0; c < m[0].length; c++) {
+                const d = document.createElement('div');
+                d.className = 'next-mini-cell';
+                if (m[r][c] === 1) {
+                    d.style.background = PASTEL_PALETTE[state.nextPiece.color].bg;
+                    d.style.borderColor = PASTEL_PALETTE[state.nextPiece.color].border;
+                }
+                box.appendChild(d);
+            }
+        }
+    }
+
+    function startFallingTimer() {
+        stopFallingTimer();
+        state.fallTimer = setInterval(() => {
+            if (state.isGameOver || state.mode !== 'falling') return;
+            stepFallingPiece(1, 0);
+        }, state.fallSpeed);
+    }
+
+    function stopFallingTimer() {
+        if (state.fallTimer) {
+            clearInterval(state.fallTimer);
+            state.fallTimer = null;
+        }
+    }
+
+    function stepFallingPiece(dr, dc) {
+        if (!state.currentPiece || state.isGameOver) return false;
+
+        const nextR = state.currentPiece.r + dr;
+        const nextC = state.currentPiece.c + dc;
+
+        if (canPlaceFallingPiece(state.currentPiece.matrix, nextR, nextC)) {
+            clearFallingActivePiece();
+            state.currentPiece.r = nextR;
+            state.currentPiece.c = nextC;
+            renderFallingActivePiece();
+            if (dc !== 0) audio.pop();
+            return true;
+        } else {
+            // Nếu không thể đi xuống tiếp -> Khóa khối vào bàn cờ
+            if (dr > 0) {
+                lockFallingPiece();
+            }
+            return false;
+        }
+    }
+
+    function rotateFallingPiece() {
+        if (!state.currentPiece || state.isGameOver) return;
+        const m = state.currentPiece.matrix;
+        const rows = m.length;
+        const cols = m[0].length;
+
+        // Xoay ma trận 90 độ theo chiều kim đồng hồ
+        const rotated = Array(cols).fill(0).map((_, i) =>
+            Array(rows).fill(0).map((_, j) => m[rows - 1 - j][i])
+        );
+
+        let testC = state.currentPiece.c;
+        // Wall-kick nếu xoay sát mép phải
+        if (testC + rotated[0].length > state.fallCols) {
+            testC = state.fallCols - rotated[0].length;
+        }
+
+        if (canPlaceFallingPiece(rotated, state.currentPiece.r, testC)) {
+            clearFallingActivePiece();
+            state.currentPiece.matrix = rotated;
+            state.currentPiece.c = testC;
+            renderFallingActivePiece();
+            audio.rotate();
+        }
+    }
+
+    function hardDropFallingPiece() {
+        if (!state.currentPiece || state.isGameOver) return;
+        while (canPlaceFallingPiece(state.currentPiece.matrix, state.currentPiece.r + 1, state.currentPiece.c)) {
+            clearFallingActivePiece();
+            state.currentPiece.r++;
+            renderFallingActivePiece();
+        }
+        lockFallingPiece();
+    }
+
+    function canPlaceFallingPiece(matrix, startR, startC) {
+        for (let r = 0; r < matrix.length; r++) {
+            for (let c = 0; c < matrix[0].length; c++) {
+                if (matrix[r][c] === 1) {
+                    const gr = startR + r;
+                    const gc = startC + c;
+                    if (gr < 0 || gr >= state.fallRows || gc < 0 || gc >= state.fallCols) return false;
+                    if (state.fallGrid[gr][gc] !== null) return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    function renderFallingActivePiece() {
+        if (!state.currentPiece) return;
+        const m = state.currentPiece.matrix;
+        for (let r = 0; r < m.length; r++) {
+            for (let c = 0; c < m[0].length; c++) {
+                if (m[r][c] === 1) {
+                    const gr = state.currentPiece.r + r;
+                    const gc = state.currentPiece.c + c;
+                    const el = document.getElementById(`fcell-${gr}-${gc}`);
+                    if (el) {
+                        el.classList.add('falling-block');
+                        el.style.background = PASTEL_PALETTE[state.currentPiece.color].bg;
+                        el.style.borderColor = PASTEL_PALETTE[state.currentPiece.color].border;
+                    }
+                }
+            }
+        }
+    }
+
+    function clearFallingActivePiece() {
+        if (!state.currentPiece) return;
+        const m = state.currentPiece.matrix;
+        for (let r = 0; r < m.length; r++) {
+            for (let c = 0; c < m[0].length; c++) {
+                if (m[r][c] === 1) {
+                    const gr = state.currentPiece.r + r;
+                    const gc = state.currentPiece.c + c;
+                    const el = document.getElementById(`fcell-${gr}-${gc}`);
+                    if (el && !state.fallGrid[gr][gc]) {
+                        el.className = 'bb-cell fall-cell';
+                        el.style.background = '';
+                        el.style.borderColor = '';
+                    }
+                }
+            }
+        }
+    }
+
+    function lockFallingPiece() {
+        if (!state.currentPiece) return;
+        audio.place();
+
+        const m = state.currentPiece.matrix;
+        for (let r = 0; r < m.length; r++) {
+            for (let c = 0; c < m[0].length; c++) {
+                if (m[r][c] === 1) {
+                    const gr = state.currentPiece.r + r;
+                    const gc = state.currentPiece.c + c;
+                    state.fallGrid[gr][gc] = { color: state.currentPiece.color };
+                    const el = document.getElementById(`fcell-${gr}-${gc}`);
+                    if (el) {
+                        el.className = 'bb-cell fall-cell locked';
+                        el.style.background = PASTEL_PALETTE[state.currentPiece.color].bg;
+                        el.style.borderColor = PASTEL_PALETTE[state.currentPiece.color].border;
+                    }
+                }
+            }
+        }
+
+        addScore(15);
+        state.currentPiece = null;
+
+        // Kiểm tra ăn hàng
+        checkFallingLines();
+
+        syncBoardToNetwork();
+
+        // Xuất hiện khối tiếp theo
+        spawnNextFallingPiece();
+    }
+
+    function checkFallingLines() {
+        const fullRows = [];
+        for (let r = 0; r < state.fallRows; r++) {
+            if (state.fallGrid[r].every(c => c !== null)) {
+                fullRows.push(r);
+            }
+        }
+
+        if (fullRows.length > 0) {
+            state.linesCleared += fullRows.length;
+            state.comboCount++;
+            if (state.comboCount > state.maxCombo) state.maxCombo = state.comboCount;
+
+            const baseScore = fullRows.length * 120;
+            const comboBonus = state.comboCount > 1 ? (state.comboCount * 80) : 0;
+            addScore(baseScore + comboBonus);
+
+            audio.blast();
+            updateComboUI();
+
+            if (state.matchMode === 'vs') {
+                sendGarbageAttack(fullRows.length);
+            }
+
+            // Xóa các hàng và dồn xuống
+            fullRows.forEach(r => {
+                for (let c = 0; c < state.fallCols; c++) {
+                    const el = document.getElementById(`fcell-${r}-${c}`);
+                    if (el) el.classList.add('blasting');
+                }
+            });
+
+            setTimeout(() => {
+                fullRows.forEach(clearedR => {
+                    for (let r = clearedR; r > 0; r--) {
+                        state.fallGrid[r] = [...state.fallGrid[r - 1]];
+                    }
+                    state.fallGrid[0] = Array(state.fallCols).fill(null);
+                });
+
+                // Cập nhật lại toàn bộ DOM Falling
+                for (let r = 0; r < state.fallRows; r++) {
+                    for (let c = 0; c < state.fallCols; c++) {
+                        const el = document.getElementById(`fcell-${r}-${c}`);
+                        const data = state.fallGrid[r][c];
+                        if (el) {
+                            if (data) {
+                                el.className = 'bb-cell fall-cell locked';
+                                el.style.background = PASTEL_PALETTE[data.color].bg;
+                                el.style.borderColor = PASTEL_PALETTE[data.color].border;
+                            } else {
+                                el.className = 'bb-cell fall-cell';
+                                el.style.background = '';
+                                el.style.borderColor = '';
+                            }
+                        }
+                    }
+                }
+                syncBoardToNetwork();
+            }, 250);
+        } else {
+            state.comboCount = 0;
+            updateComboUI();
+        }
+    }
+
+    // 8. ĐIỀU KHIỂN PHÍM MŨI TÊN & PHÍM ẢO CHO GẠCH RƠI
+    function bindKeyboardEvents() {
+        window.addEventListener('keydown', (e) => {
+            if (state.isGameOver || state.mode !== 'falling') return;
+
+            if (e.key === 'ArrowLeft') {
+                stepFallingPiece(0, -1);
+                e.preventDefault();
+            } else if (e.key === 'ArrowRight') {
+                stepFallingPiece(0, 1);
+                e.preventDefault();
+            } else if (e.key === 'ArrowDown') {
+                stepFallingPiece(1, 0);
+                e.preventDefault();
+            } else if (e.key === 'ArrowUp') {
+                rotateFallingPiece();
+                e.preventDefault();
+            } else if (e.key === ' ' || e.code === 'Space') {
+                hardDropFallingPiece();
+                e.preventDefault();
+            }
+        });
+    }
+
+    function bindVirtualDpad() {
+        const btnLeft = document.getElementById('btnPadLeft');
+        const btnRight = document.getElementById('btnPadRight');
+        const btnRotate = document.getElementById('btnPadRotate');
+        const btnDown = document.getElementById('btnPadDown');
+        const btnDrop = document.getElementById('btnPadDrop');
+
+        if (btnLeft) btnLeft.addEventListener('click', () => stepFallingPiece(0, -1));
+        if (btnRight) btnRight.addEventListener('click', () => stepFallingPiece(0, 1));
+        if (btnRotate) btnRotate.addEventListener('click', () => rotateFallingPiece());
+        if (btnDown) btnDown.addEventListener('click', () => stepFallingPiece(1, 0));
+        if (btnDrop) btnDrop.addEventListener('click', () => hardDropFallingPiece());
+    }
+
+    // 9. CHẾ ĐỘ ĐỐI KHÁNG (VS MODE) & TẤN CÔNG GẠCH RÁC
+    function initVsOpponent() {
+        const isPartnerOnline = window.CoupleNetwork && window.CoupleNetwork.isPartnerOnline();
+        state.partner.isAi = !isPartnerOnline;
+        state.partner.name = window.CoupleNetwork ? (window.CoupleNetwork.getPartnerRole() === 'hien' ? 'Hiền ✈️' : 'Huy 🚗') : 'Đối Thủ';
+
+        const nameEl = document.getElementById('bbPartnerName');
+        if (nameEl) nameEl.textContent = state.partner.name;
+
+        // Render lưới mini radar đối thủ (8x8)
+        const miniBoard = document.getElementById('bbPartnerMiniBoard');
+        if (miniBoard) {
+            miniBoard.innerHTML = '';
+            for (let r = 0; r < 8; r++) {
+                for (let c = 0; c < 8; c++) {
+                    const d = document.createElement('div');
+                    d.className = 'mini-cell';
+                    d.id = `mcell-${r}-${c}`;
+                    miniBoard.appendChild(d);
+                }
+            }
+        }
+
+        if (state.partner.isAi) {
+            startPartnerAi();
+        }
+    }
+
+    function startPartnerAi() {
+        stopPartnerAi();
+        state.partner.aiTimer = setInterval(() => {
+            if (state.isGameOver || state.matchMode !== 'vs') return;
+
+            // AI mô phỏng tích điểm và ăn hàng định kỳ
+            state.partner.score += Math.floor(20 + Math.random() * 40);
+            renderPartnerStats();
+
+            // Xác suất AI kích nổ và tấn công lại bạn
+            if (Math.random() < 0.22) {
+                receiveGarbageAttack(1);
+            }
+        }, 3200);
+    }
+
+    function stopPartnerAi() {
+        if (state.partner.aiTimer) {
+            clearInterval(state.partner.aiTimer);
+            state.partner.aiTimer = null;
+        }
+    }
+
+    function sendGarbageAttack(lines) {
+        audio.attack();
+        showAttackCue(`⚔️ Bạn đã tung đòn công kích +${lines} hàng sang đối phương!`);
+
+        if (window.CoupleNetwork) {
+            window.CoupleNetwork.send({
+                type: 'bb_garbage_attack',
+                lines: lines
+            });
+        }
+    }
+
+    function receiveGarbageAttack(lines) {
+        audio.attack();
+        showAttackCue(`⚠️ Bị đối phương dội +${lines} hàng gạch rác vào bàn!`);
+
+        // Đẩy gạch rác vào cuối bàn cờ
+        if (state.mode === 'falling') {
+            for (let l = 0; l < lines; l++) {
+                state.fallGrid.shift(); // Bỏ hàng trên cùng
+                const garbageRow = Array(state.fallCols).fill({ color: 'garbage' });
+                // Tạo 1 lỗ hổng ngẫu nhiên để có thể phá
+                garbageRow[Math.floor(Math.random() * state.fallCols)] = null;
+                state.fallGrid.push(garbageRow);
+            }
+            // Vẽ lại
+            for (let r = 0; r < state.fallRows; r++) {
+                for (let c = 0; c < state.fallCols; c++) {
+                    const el = document.getElementById(`fcell-${r}-${c}`);
+                    const data = state.fallGrid[r][c];
+                    if (el) {
+                        if (data) {
+                            el.className = 'bb-cell fall-cell locked';
+                            el.style.background = PASTEL_PALETTE[data.color].bg;
+                            el.style.borderColor = PASTEL_PALETTE[data.color].border;
+                        } else {
+                            el.className = 'bb-cell fall-cell';
+                            el.style.background = '';
+                            el.style.borderColor = '';
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function showAttackCue(msg) {
+        const cueEl = document.getElementById('bbAttackCue');
+        if (!cueEl) return;
+        cueEl.textContent = msg;
+        cueEl.classList.add('active');
+        setTimeout(() => cueEl.classList.remove('active'), 2500);
+    }
+
+    function syncBoardToNetwork() {
+        if (!window.CoupleNetwork || state.matchMode !== 'vs') return;
+
+        // Nén dữ liệu bàn chơi để truyền tải siêu nhẹ
+        const compactGrid = state.mode === 'puzzle'
+            ? state.puzzleGrid.map(row => row.map(c => c ? c.color : null))
+            : state.fallGrid.slice(8).map(row => row.slice(0, 8).map(c => c ? c.color : null));
+
+        window.CoupleNetwork.send({
+            type: 'bb_state_sync',
+            score: state.score,
+            combo: state.comboCount,
+            grid: compactGrid
+        });
+    }
+
+    function handleNetworkMessage(packet) {
+        if (!packet || typeof packet !== 'object') return;
+
+        if (packet.type === 'presence_change') {
+            if (packet.online) {
+                stopPartnerAi();
+                state.partner.isAi = false;
+                initVsOpponent();
+            } else {
+                state.partner.isAi = true;
+                startPartnerAi();
+            }
+            return;
+        }
+
+        if (state.matchMode !== 'vs') return;
+
+        if (packet.type === 'bb_state_sync') {
+            state.partner.score = packet.score || 0;
+            state.partner.combo = packet.combo || 0;
+            renderPartnerStats();
+
+            // Cập nhật mini radar
+            if (packet.grid && Array.isArray(packet.grid)) {
+                for (let r = 0; r < Math.min(8, packet.grid.length); r++) {
+                    for (let c = 0; c < Math.min(8, packet.grid[r].length); c++) {
+                        const cell = document.getElementById(`mcell-${r}-${c}`);
+                        const colorKey = packet.grid[r][c];
+                        if (cell) {
+                            if (colorKey && PASTEL_PALETTE[colorKey]) {
+                                cell.style.background = PASTEL_PALETTE[colorKey].bg;
+                            } else {
+                                cell.style.background = 'rgba(0,0,0,0.06)';
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (packet.type === 'bb_garbage_attack') {
+            receiveGarbageAttack(packet.lines || 1);
+        }
+    }
+
+    function renderPartnerStats() {
+        const scoreEl = document.getElementById('bbPartnerScore');
+        if (scoreEl) scoreEl.textContent = state.partner.score.toLocaleString();
+    }
+
+    // 10. ĐIỂM SỐ & GAME OVER
+    function addScore(pts) {
+        state.score += pts;
+        if (state.score > state.highScore) {
+            state.highScore = state.score;
+            localStorage.setItem('bb_best_score', state.highScore);
+        }
+        renderScores();
+    }
+
+    function renderScores() {
+        const curEl = document.getElementById('bbCurrentScore');
+        const highEl = document.getElementById('bbHighScore');
+        if (curEl) curEl.textContent = state.score.toLocaleString();
+        if (highEl) highEl.textContent = state.highScore.toLocaleString();
     }
 
     function updateComboUI() {
@@ -877,57 +1149,20 @@ window.BlockBlast = (function () {
         const text = document.getElementById('bbComboText');
         if (!badge || !text) return;
 
-        if (bbState.comboCount >= 2) {
+        if (state.comboCount >= 2) {
             badge.style.display = 'inline-flex';
-            text.textContent = `Combo x${bbState.comboCount}`;
+            text.textContent = `Combo x${state.comboCount}`;
         } else {
             badge.style.display = 'none';
         }
     }
 
-    function showFloatingText(linesCount, combo, score) {
-        const layer = document.getElementById('bbFloatingTextLayer');
-        if (!layer) return;
-
-        const div = document.createElement('div');
-        div.className = 'bb-float-text';
-
-        let label = `+${score}`;
-        if (combo >= 4) {
-            label = `UNBELIEVABLE! 🔥 +${score}`;
-        } else if (combo === 3) {
-            label = `SPECTACULAR! ⚡ +${score}`;
-        } else if (combo === 2) {
-            label = `AWESOME! ✨ +${score}`;
-        } else if (linesCount >= 3) {
-            label = `TRIPLE BLAST! 💥 +${score}`;
-        } else if (linesCount === 2) {
-            label = `DOUBLE BLAST! ✨ +${score}`;
-        }
-
-        div.textContent = label;
-        div.style.left = '50%';
-        div.style.top = '48%';
-
-        layer.appendChild(div);
-        setTimeout(() => div.remove(), 900);
-    }
-
-    // GAME OVER
-    function checkGameOver() {
-        const activePieces = bbState.tray.filter(p => p !== null);
-        if (activePieces.length === 0) return;
-
-        const anyFit = activePieces.some(p => canPieceFitAnywhere(p.matrix));
-
-        if (!anyFit) {
-            bbState.isGameOver = true;
-            bbSounds.playGameOver();
-            setTimeout(triggerGameOver, 600);
-        }
-    }
-
     function triggerGameOver() {
+        state.isGameOver = true;
+        stopFallingTimer();
+        stopPartnerAi();
+        audio.gameOver();
+
         const modal = document.getElementById('modalBbGameOver');
         if (!modal) return;
 
@@ -935,16 +1170,11 @@ window.BlockBlast = (function () {
         const endHighScore = document.getElementById('endBbHighScore');
         const endLines = document.getElementById('endBbLinesCleared');
         const endCombo = document.getElementById('endBbMaxCombo');
-        const recordPill = document.getElementById('newBbRecordPill');
 
-        if (endScore) endScore.textContent = bbState.score.toLocaleString();
-        if (endHighScore) endHighScore.textContent = bbState.highScore.toLocaleString();
-        if (endLines) endLines.textContent = bbState.linesClearedTotal;
-        if (endCombo) endCombo.textContent = `x${bbState.maxCombo}`;
-
-        if (recordPill) {
-            recordPill.style.display = (bbState.score >= bbState.highScore && bbState.score > 0) ? 'inline-block' : 'none';
-        }
+        if (endScore) endScore.textContent = state.score.toLocaleString();
+        if (endHighScore) endHighScore.textContent = state.highScore.toLocaleString();
+        if (endLines) endLines.textContent = state.linesCleared;
+        if (endCombo) endCombo.textContent = `x${state.maxCombo}`;
 
         modal.classList.add('active');
     }
@@ -953,79 +1183,45 @@ window.BlockBlast = (function () {
         const modal = document.getElementById('modalBbGameOver');
         if (modal) modal.classList.remove('active');
 
-        bbState.grid = Array(8).fill(null).map(() => Array(8).fill(null));
-        bbState.tray = [null, null, null];
-        bbState.score = 0;
-        bbState.comboCount = 0;
-        bbState.maxCombo = 0;
-        bbState.linesClearedTotal = 0;
-        bbState.isGameOver = false;
-        bbState.selectedSlotIndex = null;
+        state.score = 0;
+        state.comboCount = 0;
+        state.maxCombo = 0;
+        state.linesCleared = 0;
+        state.isGameOver = false;
 
-        initGridDOM();
-        renderScores(false);
+        renderScores();
         updateComboUI();
-        updateTrayHint('Kéo hoặc chạm vào khối gạch để đặt vào bàn chơi');
 
-        spawnNewPieces();
+        startCurrentMode();
+    }
+
+    function startCurrentMode() {
+        if (state.mode === 'falling') {
+            initFallingMode();
+        } else {
+            initPuzzleMode();
+        }
+        if (state.matchMode === 'vs') {
+            initVsOpponent();
+        }
     }
 
     function onShow() {
-        if (bbParticleFx) bbParticleFx.resize();
-        renderScores(false);
-        renderTray();
-    }
-
-    function init() {
-        const savedBest = localStorage.getItem('blockblast_best_score');
-        if (savedBest) bbState.highScore = parseInt(savedBest, 10) || 0;
-
-        const soundPref = localStorage.getItem('blockblast_sound_enabled');
-        if (soundPref !== null) {
-            bbState.soundEnabled = soundPref === 'true';
+        renderScores();
+        if (state.mode === 'falling' && !state.isGameOver) {
+            startFallingTimer();
         }
-        const soundIcon = document.getElementById('bbSoundIcon');
-        if (soundIcon) soundIcon.textContent = bbState.soundEnabled ? '🔊' : '🔇';
-
-        const btnSound = document.getElementById('btnBbToggleSound');
-        if (btnSound) {
-            btnSound.addEventListener('click', () => {
-                bbState.soundEnabled = !bbState.soundEnabled;
-                localStorage.setItem('blockblast_sound_enabled', bbState.soundEnabled);
-                if (soundIcon) soundIcon.textContent = bbState.soundEnabled ? '🔊' : '🔇';
-                bbSounds.init();
-            });
+        if (state.matchMode === 'vs') {
+            initVsOpponent();
         }
-
-        const btnRestart = document.getElementById('btnBbRestart');
-        if (btnRestart) btnRestart.addEventListener('click', restartGame);
-
-        const btnPlayAgain = document.getElementById('btnBbPlayAgain');
-        if (btnPlayAgain) btnPlayAgain.addEventListener('click', restartGame);
-
-        const btnHelp = document.getElementById('btnBbHelp');
-        const modalHelp = document.getElementById('modalBbHelp');
-        const btnCloseHelp = document.getElementById('btnCloseBbHelp');
-        if (btnHelp && modalHelp) {
-            btnHelp.addEventListener('click', () => modalHelp.classList.add('active'));
-        }
-        if (btnCloseHelp && modalHelp) {
-            btnCloseHelp.addEventListener('click', () => modalHelp.classList.remove('active'));
-        }
-        if (modalHelp) {
-            modalHelp.addEventListener('click', (e) => {
-                if (e.target === modalHelp) modalHelp.classList.remove('active');
-            });
-        }
-
-        bbParticleFx = new BbParticleFx();
-        restartGame();
     }
 
     return {
         init,
         restartGame,
+        switchPlayMode,
+        switchMatchMode,
         onShow,
-        getState: () => bbState
+        getState: () => state
     };
 })();
