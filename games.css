@@ -2155,3 +2155,100 @@
         font-size: 11px;
     }
 }
+
+
+/* ========================================================
+   BỘ CHUYỂN GAME TÍCH HỢP TRÊN THANH ĐIỀU HƯỚNG
+   (SEGMENTED GAME CONTROLLER: CỜ TỶ PHÚ / BLOCK BLAST)
+   ======================================================== */
+.game-segmented-switch {
+    display: inline-flex;
+    align-items: center;
+    background: var(--card-surface, #ffffff);
+    padding: 3px;
+    border-radius: 999px;
+    border: 1px solid var(--border-card, #e2e8f0);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    gap: 4px;
+}
+
+.game-switch-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary, #64748b);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.game-switch-tab:hover {
+    color: var(--text-primary, #0f172a);
+}
+
+.game-switch-tab.active {
+    background: linear-gradient(135deg, #f43f5e, #fb923c);
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(244, 63, 94, 0.35);
+}
+
+.tool-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* KHUNG VIEW PANEL CHUYỂN GAME */
+.game-view-panel {
+    display: none;
+    width: 100%;
+    animation: fadeInGameView 0.25s ease forwards;
+}
+
+.game-view-panel.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@keyframes fadeInGameView {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 540px) {
+    .game-segmented-switch {
+        padding: 2px;
+        gap: 2px;
+    }
+    .game-switch-tab {
+        padding: 5px 10px;
+        font-size: 0.78rem;
+        gap: 4px;
+    }
+}
+
+
+@media (max-width: 640px) {
+    .setup-tool-btn .tool-label {
+        display: none;
+    }
+    .setup-tool-btn {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        justify-content: center;
+        border-radius: 50%;
+    }
+    .nav-back-home-btn .nav-back-text {
+        display: none;
+    }
+    .nav-back-home-btn {
+        padding: 6px 10px;
+    }
+}

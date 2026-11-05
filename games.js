@@ -2693,9 +2693,72 @@ function initThemeSwitcher() {
 }
 
 // 32. KHỞI CHẠY KHI TẢI TRANG (DOM CONTENT LOADED)
+
+// 33. BỘ CHUYỂN GAME TÍCH HỢP (MONOPOLY <-> BLOCK BLAST)
+function initGameSwitcher() {
+    const tabs = document.querySelectorAll(".game-switch-tab");
+    const viewMonopoly = document.getElementById("viewMonopoly");
+    const viewBlockBlast = document.getElementById("viewBlockBlast");
+    const toolsMonopoly = document.getElementById("toolsMonopoly");
+    const toolsBlockBlast = document.getElementById("toolsBlockBlast");
+
+    function switchGame(gameId, updateHash = true) {
+        tabs.forEach(t => {
+            const active = t.dataset.game === gameId;
+            t.classList.toggle("active", active);
+            t.setAttribute("aria-selected", active ? "true" : "false");
+        });
+
+        if (gameId === "blockblast") {
+            if (viewMonopoly) viewMonopoly.classList.remove("active");
+            if (viewBlockBlast) viewBlockBlast.classList.add("active");
+            if (toolsMonopoly) toolsMonopoly.style.display = "none";
+            if (toolsBlockBlast) toolsBlockBlast.style.display = "flex";
+            if (window.BlockBlast && typeof window.BlockBlast.onShow === "function") {
+                window.BlockBlast.onShow();
+            }
+            if (updateHash) location.hash = "blockblast";
+            localStorage.setItem("active_game_view", "blockblast");
+        } else {
+            if (viewBlockBlast) viewBlockBlast.classList.remove("active");
+            if (viewMonopoly) viewMonopoly.classList.add("active");
+            if (toolsBlockBlast) toolsBlockBlast.style.display = "none";
+            if (toolsMonopoly) toolsMonopoly.style.display = "flex";
+            if (updateHash) location.hash = "monopoly";
+            localStorage.setItem("active_game_view", "monopoly");
+        }
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            switchGame(tab.dataset.game);
+        });
+    });
+
+    // Kiểm tra URL hash hoặc trạng thái lưu trước đó
+    const hash = location.hash.replace("#", "");
+    const saved = localStorage.getItem("active_game_view");
+    if (hash === "blockblast" || (!hash && saved === "blockblast")) {
+        switchGame("blockblast", false);
+    } else {
+        switchGame("monopoly", false);
+    }
+
+    window.addEventListener("hashchange", () => {
+        const curHash = location.hash.replace("#", "");
+        if (curHash === "blockblast" || curHash === "monopoly") {
+            switchGame(curHash, false);
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     initThemeSwitcher();
     setupEventListeners();
     initGameSetupModal();
     startNewGame(2, "pass_play");
+    initGameSwitcher();
+    if (window.BlockBlast && typeof window.BlockBlast.init === "function") {
+        window.BlockBlast.init();
+    }
 });

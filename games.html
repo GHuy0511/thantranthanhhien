@@ -25,6 +25,7 @@
     <!-- CSS chung & CSS riêng cho Game -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="games.css">
+    <link rel="stylesheet" href="blockblast.css">
 </head>
 <body class="games-body">
 
@@ -45,15 +46,40 @@
             <span class="nav-back-text">Trang chủ</span>
         </a>
 
-        <div class="games-brand">
-            <h1 class="games-brand-title">Cờ Tỷ Phú Việt Nam</h1>
+        <!-- BỘ CHỌN TRÒ CHƠI TÍCH HỢP (SEGMENTED SWITCHER) -->
+        <div class="game-segmented-switch" id="gameSegmentedSwitch" role="tablist" aria-label="Chọn trò chơi">
+            <button class="game-switch-tab active" id="tabGameMonopoly" data-game="monopoly" type="button" role="tab" aria-selected="true">
+                <span class="tab-icon">🎲</span>
+                <span class="tab-name">Cờ Tỷ Phú</span>
+            </button>
+            <button class="game-switch-tab" id="tabGameBlockBlast" data-game="blockblast" type="button" role="tab" aria-selected="false">
+                <span class="tab-icon">🧩</span>
+                <span class="tab-name">Block Blast</span>
+            </button>
         </div>
 
         <div class="games-top-tools">
-            <button class="top-tool-btn setup-tool-btn" id="btnOpenSetup" type="button" title="Cài đặt số người chơi (2, 3, 4 người & Đấu AI)">
-                <span class="tool-icon">👥</span>
-                <span class="tool-label" id="topPlayersLabel">2 Người</span>
-            </button>
+            <!-- Tools riêng cho Monopoly -->
+            <div class="tool-group" id="toolsMonopoly">
+                <button class="top-tool-btn setup-tool-btn" id="btnOpenSetup" type="button" title="Cài đặt số người chơi (2, 3, 4 người & Đấu AI)">
+                    <span class="tool-icon">👥</span>
+                    <span class="tool-label" id="topPlayersLabel">2 Người</span>
+                </button>
+            </div>
+
+            <!-- Tools riêng cho Block Blast -->
+            <div class="tool-group" id="toolsBlockBlast" style="display: none;">
+                <button class="top-tool-btn" id="btnBbToggleSound" type="button" title="Bật/Tắt âm thanh" aria-label="Bật/Tắt âm thanh">
+                    <span class="tool-icon" id="bbSoundIcon">🔊</span>
+                </button>
+                <button class="top-tool-btn" id="btnBbRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
+                    <span class="tool-icon">🔄</span>
+                </button>
+                <button class="top-tool-btn" id="btnBbHelp" type="button" title="Hướng dẫn cách chơi" aria-label="Hướng dẫn cách chơi">
+                    <span class="tool-icon">❓</span>
+                </button>
+            </div>
+
             <button class="top-tool-btn theme-tool-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện" title="Đổi màu sắc giao diện">
                 <span class="theme-gear-icon">⚙️</span>
             </button>
@@ -61,7 +87,11 @@
     </header>
 
     <main class="games-main-container">
-        <!-- BẢNG THEO DÕI TÀI CHÍNH ĐỘNG CHO 2 - 4 NGƯỜI CHƠI (DYNAMIC PLAYER HUD) -->
+        <!-- ========================================================
+             VIEW 1: CỜ TỶ PHÚ VIỆT NAM (MONOPOLY 10x10)
+             ======================================================== -->
+        <div class="game-view-panel active" id="viewMonopoly">
+            <!-- BẢNG THEO DÕI TÀI CHÍNH ĐỘNG CHO 2 - 4 NGƯỜI CHƠI (DYNAMIC PLAYER HUD) -->
         <section class="players-hud-section" aria-label="Bảng tài chính người chơi">
             <div class="players-hud-list" id="playersHudList">
                 <!-- Danh sách người chơi được tạo tự động động từ games.js (2, 3 hoặc 4 người) -->
@@ -160,6 +190,49 @@
                 </div>
             </div>
         </section>
+        </div>
+
+        <!-- ========================================================
+             VIEW 2: BLOCK BLAST (XẾP GẠCH NỔ KHỐI 8x8)
+             ======================================================== -->
+        <div class="game-view-panel" id="viewBlockBlast">
+            <!-- BẢNG ĐIỂM SỐ & COMBO -->
+            <section class="bb-scoreboard-section" aria-label="Bảng điểm số">
+                <div class="bb-score-card current-score-card">
+                    <span class="score-label">ĐIỂM SỐ</span>
+                    <span class="score-value" id="bbCurrentScore">0</span>
+                </div>
+
+                <div class="bb-combo-badge" id="bbComboBadge" style="display: none;">
+                    <span class="combo-flame">🔥</span>
+                    <span class="combo-text" id="bbComboText">Combo x2</span>
+                </div>
+
+                <div class="bb-score-card high-score-card">
+                    <span class="score-label">🏆 KỶ LỤC</span>
+                    <span class="score-value" id="bbHighScore">0</span>
+                </div>
+            </section>
+
+            <!-- KHUNG BÀN CHƠI LƯỚI 8x8 (GRID ARENA) -->
+            <section class="bb-arena-wrapper">
+                <div class="bb-grid-container" id="bbGridContainer">
+                    <div class="bb-grid-board" id="bbGridBoard"></div>
+                    <canvas class="bb-fx-canvas" id="bbFxCanvas"></canvas>
+                    <div class="bb-floating-text-layer" id="bbFloatingTextLayer" aria-hidden="true"></div>
+                </div>
+            </section>
+
+            <!-- KHAY 3 KHỐI GẠCH (PIECE DOCK / TRAY) -->
+            <section class="bb-tray-section" aria-label="Khay khối gạch">
+                <div class="bb-tray-hint" id="bbTrayHintText">Kéo hoặc chạm vào khối gạch để đặt vào bàn chơi</div>
+                <div class="bb-tray-container" id="bbTrayContainer">
+                    <div class="bb-tray-slot" id="bbSlot-0" data-slot="0"></div>
+                    <div class="bb-tray-slot" id="bbSlot-1" data-slot="1"></div>
+                    <div class="bb-tray-slot" id="bbSlot-2" data-slot="2"></div>
+                </div>
+            </section>
+        </div>
     </main>
 
     <!-- ========================================================
@@ -592,7 +665,96 @@
         </div>
     </div>
 
-    <!-- Script điều khiển Cờ Tỷ Phú Chuẩn -->
+
+    <!-- ========================================================
+         MODAL BLOCK BLAST: GAME OVER (HẾT NƯỚC ĐI)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalBbGameOver" aria-hidden="true">
+        <div class="game-modal-card game-over-card">
+            <div class="game-over-icon">💥</div>
+            <span class="game-over-tag">HẾT NƯỚC ĐI!</span>
+            <h3 class="game-modal-title">Ván Đấu Kết Thúc</h3>
+            <p class="game-modal-desc">Không còn khoảng trống phù hợp để đặt các khối gạch còn lại.</p>
+
+            <div class="game-over-stats">
+                <div class="stat-box">
+                    <span class="stat-lbl">Điểm Đạt Được</span>
+                    <strong class="stat-num" id="endBbScore">0</strong>
+                </div>
+                <div class="stat-box highlight-stat">
+                    <span class="stat-lbl">Kỷ Lục Cao Nhất</span>
+                    <strong class="stat-num" id="endBbHighScore">0</strong>
+                    <span class="new-record-pill" id="newBbRecordPill" style="display: none;">Kỷ lục mới! 🏆</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-lbl">Hàng Đã Phá Nổ</span>
+                    <strong class="stat-num" id="endBbLinesCleared">0</strong>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-lbl">Combo Đỉnh Nhất</span>
+                    <strong class="stat-num" id="endBbMaxCombo">0</strong>
+                </div>
+            </div>
+
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnBbPlayAgain" type="button">Chơi Lại Ván Mới 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL BLOCK BLAST: HƯỚNG DẪN CÁCH CHƠI
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalBbHelp" aria-hidden="true">
+        <div class="game-modal-card help-guide-card">
+            <div class="help-guide-header">
+                <span class="guide-emblem">🧩</span>
+                <h3 class="game-modal-title">Luật Chơi Block Blast</h3>
+                <p class="game-modal-desc">Trò chơi xếp khối nổ hàng gây nghiện cực kỳ hấp dẫn!</p>
+            </div>
+
+            <div class="help-guide-content">
+                <div class="help-rule-item">
+                    <span class="rule-num">1</span>
+                    <div class="rule-detail">
+                        <strong>Kéo hoặc Chạm để đặt khối gạch</strong>
+                        <p>Kéo các khối gạch từ khay bên dưới thả vào ô 8x8 còn trống. Bạn cũng có thể <em>chạm chọn khối rồi chạm vào ô muốn đặt</em>.</p>
+                    </div>
+                </div>
+
+                <div class="help-rule-item">
+                    <span class="rule-num">2</span>
+                    <div class="rule-detail">
+                        <strong>Lấp đầy hàng ngang hoặc cột dọc để NỔ (Blast!)</strong>
+                        <p>Bất kỳ khi nào một hàng ngang hoặc cột dọc (8 ô) được lấp đầy, toàn bộ hàng/cột đó sẽ nổ tung và dọn sạch không gian cho lượt đi tiếp theo!</p>
+                    </div>
+                </div>
+
+                <div class="help-rule-item">
+                    <span class="rule-num">3</span>
+                    <div class="rule-detail">
+                        <strong>Tích lũy COMBO để nhân điểm số bùng nổ</strong>
+                        <p>Kích nổ liên tiếp qua từng lượt đi hoặc nổ cùng lúc nhiều hàng/cột (Double, Triple, Quadruple Blast) sẽ nhân số điểm lên gấp nhiều lần!</p>
+                    </div>
+                </div>
+
+                <div class="help-rule-item">
+                    <span class="rule-num">4</span>
+                    <div class="rule-detail">
+                        <strong>Hết nước đi = Kết thúc</strong>
+                        <p>Khi các khối trong khay không thể đặt vừa vào bất kỳ vị trí trống nào trên bàn cờ, ván chơi sẽ kết thúc. Hãy tính toán chiến lược chừa chỗ cho các khối lớn!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-modal-actions">
+                <button class="modal-btn-confirm" id="btnCloseBbHelp" type="button">Đã Hiểu, Bắt Đầu Chơi! ✨</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script điều khiển Cờ Tỷ Phú Chuẩn & Block Blast -->
     <script src="games.js"></script>
+    <script src="blockblast.js"></script>
 </body>
 </html>
