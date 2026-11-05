@@ -1,0 +1,580 @@
+/**
+ * ========================================================
+ * CARO.CSS - GIAO DIỆN CỜ CARO PASTEL TRANG NHÃ CHO CẶP ĐÔI
+ * ========================================================
+ */
+
+/* KHUNG VIEW CHÍNH CỦA CỜ CARO */
+.caro-arena-container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 10px 16px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* THANH ĐIỀU HƯỚNG CHẾ ĐỘ CHƠI CARO (P2P / AI / CÙNG MÁY) */
+.caro-subnav-dock {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 4px;
+}
+
+.caro-mode-pills {
+    display: inline-flex;
+    background: var(--card-surface, #ffffff);
+    padding: 3px;
+    border-radius: 999px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.caro-mode-tab {
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: transparent;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-secondary, #64748b);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.caro-mode-tab:hover {
+    color: var(--text-primary, #1e293b);
+}
+
+.caro-mode-tab.active {
+    background: var(--primary-accent, #b45d43);
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(180, 93, 67, 0.25);
+}
+
+/* NHÓM CÔNG CỤ THEO CHẾ ĐỘ */
+.caro-tool-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.caro-select-pill {
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.12));
+    background: var(--card-surface, #ffffff);
+    color: var(--text-primary);
+    font-size: 12px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+}
+
+.caro-p2p-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--card-surface, #ffffff);
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+/* NÚT MỜI NGƯỜI YÊU NỔI BẬT */
+.caro-invite-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #a85d7b, #8e4762);
+    color: #ffffff;
+    border: none;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(168, 93, 123, 0.28);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.caro-invite-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 16px rgba(168, 93, 123, 0.38);
+}
+
+/* BỐ CỤC CHÍNH: BÀN CỜ + SIDEBAR ĐIỀU KHIỂN & LỊCH SỬ */
+.caro-main-layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    width: 100%;
+}
+
+/* KHUNG CHỨA BÀN CỜ GỖ PASTEL CAO CẤP */
+.caro-board-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.caro-board-frame {
+    padding: 14px;
+    background: #f4ece2; /* Tông màu gỗ sáng ấm áp */
+    border-radius: 18px;
+    border: 2px solid #e2d2c1;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08), inset 0 2px 6px rgba(255, 255, 255, 0.6);
+    position: relative;
+}
+
+/* LƯỚI BÀN CỜ 15x15 */
+.caro-board-grid {
+    display: grid;
+    grid-template-columns: repeat(15, 34px);
+    grid-template-rows: repeat(15, 34px);
+    background: #f8f2eb;
+    border: 1.5px solid #ab9682;
+    box-shadow: inset 0 0 10px rgba(171, 150, 130, 0.2);
+    position: relative;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+/* TỪNG Ô CỜ TRÊN LƯỚI */
+.caro-cell {
+    width: 34px;
+    height: 34px;
+    border-right: 1px solid rgba(171, 150, 130, 0.45);
+    border-bottom: 1px solid rgba(171, 150, 130, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: background 0.15s ease;
+}
+
+.caro-cell:hover:not(:has(.caro-piece)) {
+    background: rgba(180, 93, 67, 0.08);
+}
+
+/* ĐIỂM SAO CHUẨN (TENGEN VÀ 4 GÓC) */
+.caro-star-point {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7a6652;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* QUÂN CỜ 3D TRÒN */
+.caro-piece {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    animation: piecePop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-sizing: border-box;
+}
+
+@keyframes piecePop {
+    0% { transform: scale(0.3); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Quân X - Huy (Terracotta ấm) */
+.piece-x {
+    background: radial-gradient(circle at 35% 35%, #cc6f53, #984832);
+    border: 1px solid #783522;
+    box-shadow: 0 3px 8px rgba(152, 72, 50, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+}
+
+/* Quân O - Hiền (Vintage Rose pastel) */
+.piece-o {
+    background: radial-gradient(circle at 35% 35%, #c07393, #8e4762);
+    border: 1px solid #6e324a;
+    box-shadow: 0 3px 8px rgba(142, 71, 98, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+}
+
+.piece-symbol {
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.piece-icon {
+    display: none; /* Giữ biểu tượng X và O thanh lịch */
+}
+
+/* NƯỚC ĐI MỚI NHẤT (HIGHLIGHT) */
+.caro-piece.latest::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid #fbbf24;
+    animation: ringPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes ringPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.15); opacity: 0.4; }
+}
+
+/* CÁC Ô CHIẾN THẮNG (5 QUÂN THẲNG HÀNG) */
+.winning-cell .caro-piece {
+    animation: winGlow 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes winGlow {
+    0% {
+        box-shadow: 0 0 10px #fbbf24, 0 0 20px #f59e0b;
+        transform: scale(1.05);
+    }
+    100% {
+        box-shadow: 0 0 18px #f59e0b, 0 0 30px #d97706;
+        transform: scale(1.15);
+    }
+}
+
+/* THANH DOCK ĐIỀU KHIỂN DƯỚI BÀN CỜ */
+.caro-board-footer-dock {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+}
+
+.caro-turn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    background: var(--card-surface, #ffffff);
+    border-radius: 999px;
+    border: 1.5px solid var(--primary-accent, #b45d43);
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.caro-turn-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #b45d43;
+}
+
+.caro-action-buttons {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.caro-btn {
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--card-surface, #ffffff);
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.1));
+    font-family: var(--font-sans);
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.caro-btn:hover {
+    background: var(--bg-hover, rgba(0, 0, 0, 0.05));
+    transform: translateY(-1px);
+}
+
+.caro-btn.primary {
+    background: var(--primary-accent, #b45d43);
+    color: #ffffff;
+    border-color: transparent;
+}
+
+.caro-btn.primary:hover {
+    background: #984832;
+}
+
+/* SIDEBAR: BẢNG TỶ SỐ & NHẬT KÝ NƯỚC CỜ */
+.caro-sidebar-panel {
+    width: 290px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* BẢNG TỶ SỐ ĐỐI ĐẦU */
+.caro-scoreboard-card {
+    background: var(--card-surface, #ffffff);
+    border-radius: 16px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    padding: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.scoreboard-title {
+    font-size: 11.5px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.scoreboard-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.score-player-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.score-player-name {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.score-number {
+    font-size: 26px;
+    font-weight: 900;
+    font-family: var(--font-serif);
+    line-height: 1;
+}
+
+.score-vs-divider {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary);
+}
+
+/* NHẬT KÝ NƯỚC ĐI (MOVES HISTORY LOG) */
+.caro-history-card {
+    background: var(--card-surface, #ffffff);
+    border-radius: 16px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    padding: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    height: 340px;
+}
+
+.history-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border-card, rgba(0, 0, 0, 0.06));
+}
+
+.history-card-title {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.caro-moves-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-right: 4px;
+}
+
+.caro-moves-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.caro-moves-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+}
+
+.caro-move-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 8px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.02);
+    font-size: 11.5px;
+    transition: background 0.15s;
+}
+
+.caro-move-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.caro-move-item.move-x {
+    border-left: 3px solid #b45d43;
+}
+
+.caro-move-item.move-o {
+    border-left: 3px solid #a85d7b;
+}
+
+.move-num {
+    color: var(--text-secondary);
+    font-weight: 700;
+    min-width: 28px;
+}
+
+.move-player {
+    font-weight: 600;
+}
+
+.move-coord {
+    font-family: monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+.move-time {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.empty-history-notice {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 11.5px;
+    padding: 30px 10px;
+}
+
+/* BANNER THÔNG BÁO CHIẾN THẮNG */
+.caro-win-banner {
+    display: none;
+    width: 100%;
+    max-width: 580px;
+    padding: 14px 20px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.18), rgba(245, 158, 11, 0.12));
+    border: 1.5px solid #fbbf24;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15);
+    animation: bannerPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.caro-win-banner.show {
+    display: block;
+}
+
+@keyframes bannerPop {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.caro-winner-name {
+    font-size: 18px;
+    font-weight: 900;
+    font-family: var(--font-serif);
+    color: #92400e;
+    margin-bottom: 2px;
+}
+
+.caro-winner-desc {
+    font-size: 12.5px;
+    color: #78350f;
+}
+
+/* HỘP THÔNG BÁO CHỚP SÁNG NHẸ */
+.caro-status-notice {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    min-height: 20px;
+    text-align: center;
+    transition: opacity 0.3s;
+}
+
+.caro-status-notice.flash {
+    color: var(--primary-accent);
+}
+
+/* MODAL XÁC NHẬN (CONFIRM MODAL) */
+.caro-modal-box {
+    max-width: 380px;
+}
+
+/* RESPONSIVE TRÊN THIẾT BỊ DI ĐỘNG */
+@media (max-width: 768px) {
+    .caro-arena-container {
+        padding: 6px 8px 30px;
+    }
+
+    .caro-board-frame {
+        padding: 8px;
+        border-radius: 14px;
+    }
+
+    .caro-board-grid {
+        grid-template-columns: repeat(15, 23px);
+        grid-template-rows: repeat(15, 23px);
+    }
+
+    .caro-cell {
+        width: 23px;
+        height: 23px;
+    }
+
+    .caro-piece {
+        width: 19px;
+        height: 19px;
+    }
+
+    .piece-symbol {
+        font-size: 10px;
+    }
+
+    .caro-star-point {
+        width: 4px;
+        height: 4px;
+    }
+
+    .caro-sidebar-panel {
+        width: 100%;
+        max-width: 360px;
+    }
+
+    .caro-history-card {
+        height: 220px;
+    }
+}

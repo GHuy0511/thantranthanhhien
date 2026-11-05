@@ -23,9 +23,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- CSS chung & CSS riêng cho Game -->
-    <link rel="stylesheet" href="style.css?v=20261105c">
-    <link rel="stylesheet" href="games.css?v=20261105c">
-    <link rel="stylesheet" href="blockblast.css?v=20261105c">
+    <link rel="stylesheet" href="css/style.css?v=20261106">
+    <link rel="stylesheet" href="css/games.css?v=20261106">
+    <link rel="stylesheet" href="css/blockblast.css?v=20261106">
+    <link rel="stylesheet" href="css/caro.css?v=20261106">
 </head>
 <body class="games-body">
 
@@ -56,6 +57,10 @@
                 <span class="tab-icon">🧩</span>
                 <span class="tab-name">Block Blast</span>
             </button>
+            <button class="game-switch-tab" id="tabGameCaro" data-game="caro" type="button" role="tab" aria-selected="false">
+                <span class="tab-icon">⭕</span>
+                <span class="tab-name">Cờ Caro</span>
+            </button>
         </div>
 
         <!-- THANH TRẠNG THÁI ONL/OFF CỦA HAI BẠN -->
@@ -73,6 +78,9 @@
             </div>
             <button class="role-switch-btn" id="btnSwitchMyRole" type="button" title="Bấm để chuyển đổi vai trò">
                 <span id="myRoleLabel">Tôi: Huy 🚗</span>
+            </button>
+            <button class="role-switch-btn invite-partner-btn" id="btnInvitePartner" type="button" title="Mời người yêu chơi chung">
+                <span>💌 Mời Hiền</span>
             </button>
         </div>
 
@@ -98,6 +106,13 @@
                 </button>
                 <button class="top-tool-btn" id="btnBbHelp" type="button" title="Hướng dẫn cách chơi" aria-label="Hướng dẫn cách chơi">
                     <span class="tool-icon">❓</span>
+                </button>
+            </div>
+
+            <!-- Tools riêng cho Cờ Caro -->
+            <div class="tool-group" id="toolsCaro" style="display: none;">
+                <button class="top-tool-btn" id="btnCaroQuickRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
+                    <span class="tool-icon">🔄</span>
                 </button>
             </div>
 
@@ -310,6 +325,102 @@
                         <span class="vs-partner-score" id="bbPartnerScore">0</span>
                     </div>
                     <div class="bb-partner-mini-board" id="bbPartnerMiniBoard"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             VIEW 3: CỜ CARO (GOMOKU 15x15) ĐỐI KHÁNG & ĐẤU AI & P2P
+             ======================================================== -->
+        <div class="game-view-panel" id="viewCaro">
+            <div class="caro-arena-container">
+                <!-- Subnav: Chế độ đấu -->
+                <div class="caro-subnav-dock">
+                    <div class="caro-mode-pills" role="tablist" aria-label="Chế độ chơi Cờ Caro">
+                        <button class="caro-mode-tab active" data-mode="p2p" type="button">⚔️ Đấu với Người Yêu</button>
+                        <button class="caro-mode-tab" data-mode="ai" type="button">🤖 Đấu với AI</button>
+                        <button class="caro-mode-tab" data-mode="pass" type="button">👥 Cùng 1 Máy</button>
+                    </div>
+
+                    <!-- Công cụ theo chế độ -->
+                    <div class="caro-tool-group" id="caroP2pControlGroup">
+                        <span class="caro-p2p-badge">
+                            <span class="status-indicator-dot off" id="caroP2pDot"></span>
+                            <span id="caroP2pStatusLabel">Người yêu đang Offline</span>
+                        </span>
+                        <button class="caro-invite-btn" id="btnCaroInvite" type="button">💌 Mời Người Yêu</button>
+                    </div>
+
+                    <div class="caro-tool-group" id="caroAiControlGroup" style="display: none;">
+                        <label for="caroAiDifficultySelect" style="font-size:12px; font-weight:700;">Độ khó:</label>
+                        <select class="caro-select-pill" id="caroAiDifficultySelect">
+                            <option value="easy">Dễ (Tập sự)</option>
+                            <option value="medium">Vừa (Bạn gái)</option>
+                            <option value="hard" selected>Khó (Cao thủ)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Banner Chiến Thắng -->
+                <div class="caro-win-banner" id="caroWinBanner">
+                    <div class="caro-winner-name" id="caroWinnerName">Huy Chiến Thắng!</div>
+                    <div class="caro-winner-desc" id="caroWinnerDesc">Xuất sắc tạo thành chuỗi 5 quân liên tiếp</div>
+                </div>
+
+                <!-- Thông báo trạng thái -->
+                <div class="caro-status-notice" id="caroStatusNotice">Ván cờ mới bắt đầu! Lượt đầu tiên: Huy (🚗)</div>
+
+                <!-- Bố cục chính: Bàn cờ + Sidebar -->
+                <div class="caro-main-layout">
+                    <div class="caro-board-section">
+                        <div class="caro-board-frame">
+                            <div class="caro-board-grid" id="caroBoardGrid"></div>
+                        </div>
+
+                        <!-- Footer dock dưới bàn cờ -->
+                        <div class="caro-board-footer-dock">
+                            <div class="caro-turn-pill" id="caroTurnPill">
+                                <span class="caro-turn-dot" id="caroTurnDot"></span>
+                                <span id="caroTurnText">Lượt: Huy (🚗)</span>
+                            </div>
+
+                            <div class="caro-action-buttons">
+                                <button class="caro-btn" id="btnCaroUndo" type="button" title="Xin đi lại nước vừa rồi">↩️ Đi Lại</button>
+                                <button class="caro-btn" id="btnCaroSurrender" type="button" title="Đầu hàng ván này">🏳️ Đầu Hàng</button>
+                                <button class="caro-btn primary" id="btnCaroRestart" type="button" title="Bắt đầu ván mới">🔄 Ván Mới</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar: Tỷ số & Nhật ký nước cờ -->
+                    <div class="caro-sidebar-panel">
+                        <div class="caro-scoreboard-card">
+                            <div class="scoreboard-title">Bảng Tỷ Số Đối Đầu</div>
+                            <div class="scoreboard-row">
+                                <div class="score-player-item">
+                                    <span class="score-player-name" style="color:#b45d43;">🚗 Huy</span>
+                                    <span class="score-number" id="caroScoreHuy" style="color:#b45d43;">0</span>
+                                </div>
+                                <div class="score-vs-divider">VS</div>
+                                <div class="score-player-item">
+                                    <span class="score-player-name" style="color:#a85d7b;">✈️ Hiền</span>
+                                    <span class="score-number" id="caroScoreHien" style="color:#a85d7b;">0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="caro-history-card">
+                            <div class="history-card-header">
+                                <span class="history-card-title">📜 Nhật Ký Nước Cờ</span>
+                                <label style="font-size:11px; display:inline-flex; align-items:center; gap:4px; cursor:pointer;">
+                                    <input type="checkbox" id="caroRuleBlockEnds"> Chặn 2 đầu
+                                </label>
+                            </div>
+                            <div class="caro-moves-list" id="caroMovesList">
+                                <div class="empty-history-notice">Chưa có nước cờ nào. Hãy chọn 1 ô trên bàn cờ để đi!</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -834,10 +945,11 @@
     </div>
 
     <!-- Hệ thống Kết nối Mạng P2P & Đồng bộ 2 Người -->
-    <script src="peerjs.min.js?v=20261105c"></script>
-    <script src="couple-network.js?v=20261105c"></script>
-    <!-- Script điều khiển Cờ Tỷ Phú Chuẩn & Block Blast -->
-    <script src="games.js?v=20261105c"></script>
-    <script src="blockblast.js?v=20261105c"></script>
+    <script src="lib/peerjs.min.js?v=20261106"></script>
+    <script src="js/couple-network.js?v=20261106"></script>
+    <!-- Script điều khiển Cờ Tỷ Phú, Block Blast & Cờ Caro -->
+    <script src="js/games.js?v=20261106"></script>
+    <script src="js/blockblast.js?v=20261106"></script>
+    <script src="js/caro.js?v=20261106"></script>
 </body>
 </html>
