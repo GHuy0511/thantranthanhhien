@@ -1629,35 +1629,85 @@ html, body {
     line-height: 1.3;
 }
 
-/* NÚT CUỘN XUỐNG KHOẢNH KHẮC */
+/* ========================================================
+   NÚT CUỘN CHUYỂN MÀN HÌNH NGHỆ THUẬT (FLOATING SCROLL CUE PILLS)
+   Đồng bộ phong cách đảo kính mờ cao cấp giữa Màn 1 và Màn 2
+   ======================================================== */
+.scroll-cue-pill,
+.hero-scroll-cue,
 .clock-scroll-down-cue {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-decoration: none;
-    padding: 8px 18px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.75);
-    border: 1px solid var(--border-card);
-    margin-top: 10px;
-    backdrop-filter: blur(8px);
-    transition: all 0.25s ease;
-    animation: gentleCueBounce 2.5s infinite ease-in-out;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    padding: 8px 22px !important;
+    border-radius: 999px !important;
+    background: var(--theme-gear-bg, rgba(255, 255, 255, 0.82)) !important;
+    backdrop-filter: blur(18px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+    border: 1.2px solid var(--theme-gear-border, rgba(217, 107, 82, 0.24)) !important;
+    box-shadow: 0 6px 20px rgba(80, 50, 40, 0.08), 0 2px 6px rgba(80, 50, 40, 0.04) !important;
+    color: var(--text-primary, #604235) !important;
+    text-decoration: none !important;
+    font-family: var(--font-sans, system-ui, -apple-system, sans-serif) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.2px !important;
+    cursor: pointer !important;
+    outline: none !important;
+    user-select: none !important;
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    animation: gentleScrollFloat 2.8s infinite ease-in-out !important;
 }
 
+.scroll-cue-pill:visited,
+.hero-scroll-cue:visited,
+.clock-scroll-down-cue:visited {
+    color: var(--text-primary, #604235) !important;
+    text-decoration: none !important;
+}
+
+.scroll-cue-pill:hover,
+.hero-scroll-cue:hover,
 .clock-scroll-down-cue:hover {
-    color: var(--accent-warm);
-    border-color: var(--accent-warm);
-    background: #ffffff;
-    transform: translateY(2px);
+    background: var(--card-surface, #ffffff) !important;
+    color: var(--accent-terracotta, #b35c44) !important;
+    border-color: var(--accent-terracotta, rgba(217, 107, 82, 0.38)) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 28px rgba(179, 92, 68, 0.16), 0 3px 10px rgba(179, 92, 68, 0.08) !important;
+    text-decoration: none !important;
 }
 
-.cue-arrow-anim {
-    font-size: 14px;
-    font-weight: 700;
+.scroll-cue-pill:active,
+.hero-scroll-cue:active,
+.clock-scroll-down-cue:active {
+    transform: translateY(0) scale(0.98) !important;
+}
+
+/* Icon SVG Chevron nét mảnh */
+.scroll-cue-svg {
+    stroke-width: 2.4 !important;
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.25s ease !important;
+}
+
+.scroll-cue-pill:hover .scroll-cue-svg,
+.hero-scroll-cue:hover .scroll-cue-svg,
+.clock-scroll-down-cue:hover .scroll-cue-svg {
+    transform: translateY(2px) !important;
+    stroke: var(--accent-terracotta, #b35c44) !important;
+}
+
+@keyframes gentleScrollFloat {
+    0%, 100% {
+        transform: translateY(0);
+        box-shadow: 0 6px 20px rgba(80, 50, 40, 0.08), 0 2px 6px rgba(80, 50, 40, 0.04);
+    }
+    50% {
+        transform: translateY(3.5px);
+        box-shadow: 0 9px 24px rgba(80, 50, 40, 0.12), 0 3px 8px rgba(80, 50, 40, 0.06);
+    }
 }
 
 /* Vầng hào quang ấm áp lan tỏa nhẹ nhàng sau lưng thiệp */
@@ -5029,9 +5079,9 @@ html, body {
     }
 
     .hero-scroll-cue {
-        padding: 6px 16px !important;
-        font-size: 12px !important;
-        margin-top: 2px !important;
+        padding: 7px 18px !important;
+        font-size: 12.5px !important;
+        margin-top: 6px !important;
     }
 
     /* 2. MÀN 2: CỘT MỐC ĐỒNG HỒ TÌNH YÊU CÂN ĐỐI TỈ LỆ VÀNG, TRỌN MÀN HÌNH */
