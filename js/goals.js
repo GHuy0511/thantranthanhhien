@@ -12,99 +12,13 @@
 window.GoalsApp = (function () {
     'use strict';
 
-    const STORAGE_KEY = 'couple_goals_data_v2';
+    const STORAGE_KEY = 'couple_goals_data_clean';
     let currentSpace = 'all'; // 'all', 'both', 'huy', 'hien'
     let goals = [];
     let editingGoalId = null;
     let depositingGoalId = null;
 
-    const DEFAULT_GOALS = [
-        {
-            id: 'g_hue_2026',
-            title: 'Du lịch Huế ngắm sông Hương & cố đô cùng Hiền',
-            location: 'Huế',
-            space: 'both',
-            targetDate: '2026-12-24',
-            targetAmount: 6000000,
-            currentAmount: 4200000,
-            isSecret: false,
-            ownerRole: 'huy',
-            status: 'active',
-            checklist: [
-                { id: 'c1', text: 'Đặt vé tàu / vé máy bay khứ hồi', done: true },
-                { id: 'c2', text: 'Đặt homestay view sông Hương thơ mộng', done: true },
-                { id: 'c3', text: 'Lên danh sách quán chè hẻm & bún bò chuẩn vị', done: true },
-                { id: 'c4', text: 'Thuê áo dài chụp ảnh kỷ niệm tại Đại Nội', done: false }
-            ],
-            deposits: [
-                { id: 'd1', amount: 1500000, note: 'Khởi tạo quỹ chuyến đi Huế', date: '2026-10-15', by: 'Huy' },
-                { id: 'd2', amount: 1700000, note: 'Tiền thưởng dự án', date: '2026-10-28', by: 'Huy' },
-                { id: 'd3', amount: 1000000, note: 'Nuôi heo đất tiết kiệm', date: '2026-11-02', by: 'Hiền' }
-            ]
-        },
-        {
-            id: 'g_hanoi_2027',
-            title: 'Khám phá Hà Nội mùa thu lá vàng & phố cổ',
-            location: 'Hà Nội',
-            space: 'both',
-            targetDate: '2027-04-20',
-            targetAmount: 7000000,
-            currentAmount: 3500000,
-            isSecret: false,
-            ownerRole: 'hien',
-            status: 'active',
-            checklist: [
-                { id: 'c11', text: 'Đặt vé máy bay khứ hồi Hà Nội', done: false },
-                { id: 'c12', text: 'Dạo quanh Hồ Gươm ăn kem Tràng Tiền', done: true },
-                { id: 'c13', text: 'Thưởng thức cà phê trứng Giảng & phở gánh', done: false }
-            ],
-            deposits: [
-                { id: 'd11', amount: 2000000, note: 'Tiết kiệm đầu tháng', date: '2026-10-20', by: 'Hiền' },
-                { id: 'd12', amount: 1500000, note: 'Góp quỹ chung', date: '2026-11-01', by: 'Huy' }
-            ]
-        },
-        {
-            id: 'g_secret_huy',
-            title: 'Dã ngoại cắm trại ngắm hoàng hôn tặng Hiền',
-            location: 'Dã ngoại',
-            space: 'huy',
-            targetDate: '2026-11-28',
-            targetAmount: 2500000,
-            currentAmount: 1900000,
-            isSecret: true,
-            ownerRole: 'huy',
-            status: 'active',
-            checklist: [
-                { id: 'c21', text: 'Thuê lều phong cách vintage & đèn fairy', done: true },
-                { id: 'c22', text: 'Đặt bánh kem kỷ niệm ngọt ngào', done: true },
-                { id: 'c23', text: 'Chuẩn bị loa bluetooth & playlist acoustic', done: false }
-            ],
-            deposits: [
-                { id: 'd21', amount: 1000000, note: 'Tiết kiệm bí mật', date: '2026-10-18', by: 'Huy' },
-                { id: 'd22', amount: 900000, note: 'Trích quỹ cá nhân', date: '2026-11-03', by: 'Huy' }
-            ]
-        },
-        {
-            id: 'g_secret_hien',
-            title: 'Chuẩn bị album ảnh kỷ niệm và quà bất ngờ cho Huy',
-            location: 'Quà tặng',
-            space: 'hien',
-            targetDate: '2026-12-10',
-            targetAmount: 2000000,
-            currentAmount: 1500000,
-            isSecret: true,
-            ownerRole: 'hien',
-            status: 'active',
-            checklist: [
-                { id: 'c31', text: 'In photobook ảnh những chuyến đi chung', done: true },
-                { id: 'c32', text: 'Viết thiệp tay 100 điều yêu thương', done: false },
-                { id: 'c33', text: 'Bí mật đặt bàn tối lãng mạn', done: false }
-            ],
-            deposits: [
-                { id: 'd31', amount: 1500000, note: 'Nuôi heo đất bí mật', date: '2026-10-25', by: 'Hiền' }
-            ]
-        }
-    ];
+    const DEFAULT_GOALS = [];
 
     function init() {
         loadData();
@@ -116,32 +30,25 @@ window.GoalsApp = (function () {
 
     function loadData() {
         try {
+            // Xóa cache mẫu cũ nếu có
+            localStorage.removeItem('couple_goals_data_v1');
+            localStorage.removeItem('couple_goals_data_v2');
+
             const raw = localStorage.getItem(STORAGE_KEY);
             if (raw) {
                 const parsed = JSON.parse(raw);
-                if (Array.isArray(parsed) && parsed.length > 0) {
+                if (Array.isArray(parsed)) {
                     goals = parsed;
                 } else {
-                    goals = JSON.parse(JSON.stringify(DEFAULT_GOALS));
-                    saveData(false);
+                    goals = [];
                 }
             } else {
-                // Kiểm tra key cũ nếu có
-                const oldRaw = localStorage.getItem('couple_goals_data_v1');
-                if (oldRaw) {
-                    const oldParsed = JSON.parse(oldRaw);
-                    if (Array.isArray(oldParsed) && oldParsed.length > 0) {
-                        goals = oldParsed;
-                    } else {
-                        goals = JSON.parse(JSON.stringify(DEFAULT_GOALS));
-                    }
-                } else {
-                    goals = JSON.parse(JSON.stringify(DEFAULT_GOALS));
-                }
+                // Không tạo sẵn kế hoạch mẫu, để trống cho bạn tự tạo
+                goals = [];
                 saveData(false);
             }
         } catch (e) {
-            goals = JSON.parse(JSON.stringify(DEFAULT_GOALS));
+            goals = [];
             saveData(false);
         }
     }
@@ -210,15 +117,31 @@ window.GoalsApp = (function () {
         });
 
         if (filtered.length === 0) {
-            let emptyMsg = 'Chưa có kế hoạch nào trong danh mục này.';
-            if (currentSpace === 'huy') emptyMsg = 'Huy chưa tạo kế hoạch riêng nào.';
-            else if (currentSpace === 'hien') emptyMsg = 'Hiền chưa tạo kế hoạch riêng nào.';
+            let emptyTitle = 'Chưa có kế hoạch nào được tạo';
+            let emptyDesc = 'Hãy cùng nhau lên lịch trình cho những chuyến đi hoặc tạo những bất ngờ ngọt ngào cho người thương nhé.';
+            let btnText = '+ Tạo Kế Hoạch Đầu Tiên';
+
+            if (currentSpace === 'both') {
+                emptyTitle = 'Chưa có kế hoạch chung nào';
+                emptyDesc = 'Lên kế hoạch những chuyến du lịch, khám phá hoặc các mục tiêu chung của hai bạn.';
+                btnText = '+ Thêm Kế Hoạch Chung';
+            } else if (currentSpace === 'huy') {
+                emptyTitle = 'Huy chưa có kế hoạch riêng nào';
+                emptyDesc = 'Huy có thể bí mật tích lũy quỹ hoặc chuẩn bị món quà bất ngờ dành cho Hiền tại đây.';
+                btnText = '+ Thêm Kế Hoạch Của Huy';
+            } else if (currentSpace === 'hien') {
+                emptyTitle = 'Hiền chưa có kế hoạch riêng nào';
+                emptyDesc = 'Hiền có thể bí mật tích lũy quỹ hoặc chuẩn bị món quà bất ngờ dành cho Huy tại đây.';
+                btnText = '+ Thêm Kế Hoạch Của Hiền';
+            }
 
             grid.innerHTML = `
                 <div class="goals-empty-state">
-                    <h3 class="goals-empty-title">${emptyMsg}</h3>
-                    <p class="goals-empty-desc">Cùng lên lịch trình hoặc bí mật tích lũy cho mục tiêu nhé.</p>
-                    <button class="btn-empty-add" type="button" onclick="window.GoalsApp.openCreateModal()">+ Thêm kế hoạch</button>
+                    <h3 class="goals-empty-title">${emptyTitle}</h3>
+                    <p class="goals-empty-desc">${emptyDesc}</p>
+                    <button class="btn-empty-add" type="button" onclick="window.GoalsApp.openCreateModal()">
+                        ${btnText}
+                    </button>
                 </div>
             `;
             return;
