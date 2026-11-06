@@ -85,7 +85,7 @@
             <button class="role-switch-btn" id="btnSwitchMyRole" type="button" title="Bấm để chuyển đổi vai trò">
                 <span id="myRoleLabel">Tôi: Huy</span>
             </button>
-            <button class="role-switch-btn invite-partner-btn" id="btnInvitePartner" type="button" title="Mời người yêu chơi chung">
+            <button class="role-switch-btn invite-partner-btn" id="btnInvitePartner" type="button" title="Mời bạn chơi đối kháng">
                 <span>Mời bạn</span>
             </button>
         </div>
@@ -251,8 +251,8 @@
                     <button class="bb-match-pill active" id="bbTabMatchSolo" data-match="solo" type="button" title="Chế độ chơi một mình">
                         Chơi Đơn
                     </button>
-                    <button class="bb-match-pill" id="bbTabMatchP2p" data-match="vs_p2p" type="button" title="Đấu đối kháng trực tuyến với người yêu">
-                        Đấu Người Yêu
+                    <button class="bb-match-pill" id="bbTabMatchP2p" data-match="vs_p2p" type="button" title="Đấu đối kháng trực tuyến">
+                        Chơi Đối Kháng
                     </button>
                     <button class="bb-match-pill" id="bbTabMatchAi" data-match="vs_ai" type="button" title="Đấu với máy AI">
                         Đấu với Máy
@@ -332,7 +332,7 @@
                 <!-- RADAR ĐỐI THỦ (HIỂN THỊ TRONG CHẾ ĐỘ ĐỐI KHÁNG) -->
                 <div class="bb-vs-sidebar" id="bbVsSidebar">
                     <div class="vs-partner-header">
-                        <span class="vs-partner-name" id="bbPartnerName">Người Yêu</span>
+                        <span class="vs-partner-name" id="bbPartnerName">Đối Thủ</span>
                         <span class="vs-partner-score" id="bbPartnerScore">0</span>
                     </div>
                     <div class="bb-partner-mini-board" id="bbPartnerMiniBoard"></div>
@@ -348,7 +348,7 @@
                 <!-- Subnav: Chế độ đấu -->
                 <div class="caro-subnav-dock">
                     <div class="caro-mode-pills" role="tablist" aria-label="Chế độ chơi Cờ Caro">
-                        <button class="caro-mode-tab active" data-mode="p2p" type="button">Đấu với Người Yêu</button>
+                        <button class="caro-mode-tab active" data-mode="p2p" type="button">Chơi Đối Kháng</button>
                         <button class="caro-mode-tab" data-mode="ai" type="button">Đấu với AI</button>
                         <button class="caro-mode-tab" data-mode="pass" type="button">Cùng 1 Máy</button>
                     </div>
@@ -357,7 +357,7 @@
                     <div class="caro-tool-group" id="caroP2pControlGroup">
                         <span class="caro-p2p-badge">
                             <span class="status-indicator-dot off" id="caroP2pDot"></span>
-                            <span id="caroP2pStatusLabel">Người yêu đang Offline</span>
+                            <span id="caroP2pStatusLabel">Đối thủ đang Offline</span>
                         </span>
                         <button class="caro-invite-btn" id="btnCaroInvite" type="button">Mời bạn</button>
                     </div>
@@ -444,7 +444,7 @@
                 <!-- Subnav: Chế độ đấu & Kích thước bàn cờ -->
                 <div class="go-subnav-dock">
                     <div class="go-mode-pills" role="tablist" aria-label="Chế độ chơi Cờ Vây">
-                        <button class="go-mode-tab active" data-mode="p2p" type="button">Đấu với Người Yêu</button>
+                        <button class="go-mode-tab active" data-mode="p2p" type="button">Chơi Đối Kháng</button>
                         <button class="go-mode-tab" data-mode="ai" type="button">Đấu với AI</button>
                         <button class="go-mode-tab" data-mode="pass" type="button">Cùng 1 Máy</button>
                     </div>
@@ -951,65 +951,7 @@
             </div>
         </div>
     </div>
-    </div>
-            <div class="theme-options-grid">
-                <button class="theme-card-option" type="button" data-theme="sunset">
-                    <div class="theme-swatch-pill theme-swatch-sunset"></div>
-                    <span class="theme-card-name">Hoàng Hôn</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="vintage-rose">
-                    <div class="theme-swatch-pill theme-swatch-vintage-rose"></div>
-                    <span class="theme-card-name">Hoa Hồng Cổ</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="midnight">
-                    <div class="theme-swatch-pill theme-swatch-midnight"></div>
-                    <span class="theme-card-name">Đêm Đầy Sao</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="autumn">
-                    <div class="theme-swatch-pill theme-swatch-autumn"></div>
-                    <span class="theme-card-name">Mùa Thu</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="cotton-candy">
-                    <div class="theme-swatch-pill theme-swatch-cotton-candy"></div>
-                    <span class="theme-card-name">Kẹo Ngọt</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="ocean">
-                    <div class="theme-swatch-pill theme-swatch-ocean"></div>
-                    <span class="theme-card-name">Biển Xanh</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="secret-garden">
-                    <div class="theme-swatch-pill theme-swatch-secret-garden"></div>
-                    <span class="theme-card-name">Vườn Bí Mật</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="bordeaux">
-                    <div class="theme-swatch-pill theme-swatch-bordeaux"></div>
-                    <span class="theme-card-name">Rượu Vang</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="mocha">
-                    <div class="theme-swatch-pill theme-swatch-mocha"></div>
-                    <span class="theme-card-name">Cà Phê</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="lavender">
-                    <div class="theme-swatch-pill theme-swatch-lavender"></div>
-                    <span class="theme-card-name">Oải Hương</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="peach">
-                    <div class="theme-swatch-pill theme-swatch-peach"></div>
-                    <span class="theme-card-name">Trà Đào</span>
-                </button>
-                <button class="theme-card-option" type="button" data-theme="aurora-night">
-                    <div class="theme-swatch-pill theme-swatch-aurora-night"></div>
-                    <span class="theme-card-name">Đêm Đông</span>
-                </button>
-            </div>
-            <div class="theme-modal-footer">
-                <button class="theme-apply-btn" id="themeApplyBtn" type="button">Áp dụng giao diện</button>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- ========================================================
+<!-- ========================================================
          MODAL BLOCK BLAST: GAME OVER (HẾT NƯỚC ĐI)
          ======================================================== -->
     <div class="game-modal-overlay" id="modalBbGameOver" aria-hidden="true">

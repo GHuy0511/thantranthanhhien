@@ -247,7 +247,7 @@ window.GoGame = (function () {
             // Quy ước: Huy cầm Đen ('B') đi trước, Hiền cầm Trắng ('W')
             const expectedColor = myRole === 'huy' ? 'B' : 'W';
             if (state.currentTurn !== expectedColor) {
-                showStatusNotice('Đang là lượt đi của người yêu, hãy chờ nhé...');
+                showStatusNotice('Đang là lượt đi của đối thủ, hãy chờ nhé...');
                 return;
             }
         }
@@ -344,9 +344,9 @@ window.GoGame = (function () {
         if (state.gameMode === 'p2p') {
             if (window.CoupleNetwork && window.CoupleNetwork.isPartnerOnline()) {
                 window.CoupleNetwork.send({ type: 'go_undo_req' });
-                showStatusNotice('Đã gửi yêu cầu xin đi lại cho người yêu...');
+                showStatusNotice('Đã gửi yêu cầu xin đi lại cho đối thủ...');
             } else {
-                showStatusNotice('Người yêu đang offline, không thể gửi yêu cầu.');
+                showStatusNotice('Đối thủ đang offline, không thể gửi yêu cầu.');
             }
             return;
         }
@@ -546,16 +546,16 @@ window.GoGame = (function () {
             } else if (packet.type === 'go_restart') {
                 if (state.gameMode === 'p2p') {
                     resetGame(packet.size || BOARD_SIZE, false);
-                    showStatusNotice('Người yêu đã bắt đầu ván cờ vây mới.');
+                    showStatusNotice('Đối thủ đã bắt đầu ván cờ vây mới.');
                 }
             } else if (packet.type === 'go_undo_req') {
                 if (state.gameMode === 'p2p') {
-                    showModalConfirm('Người yêu muốn xin đi lại nước vừa rồi. Bạn có đồng ý không?', () => {
+                    showModalConfirm('Đối thủ muốn xin đi lại nước vừa rồi. Bạn có đồng ý không?', () => {
                         popHistoryState();
                         renderBoardDOM();
                         updateUI();
                         window.CoupleNetwork.send({ type: 'go_undo_ok' });
-                        showStatusNotice('Đã đồng ý cho người yêu đi lại.');
+                        showStatusNotice('Đã đồng ý cho đối thủ đi lại.');
                     });
                 }
             } else if (packet.type === 'go_undo_ok') {
@@ -563,7 +563,7 @@ window.GoGame = (function () {
                     popHistoryState();
                     renderBoardDOM();
                     updateUI();
-                    showStatusNotice('Người yêu đã đồng ý cho bạn đi lại!');
+                    showStatusNotice('Đối thủ đã đồng ý cho bạn đi lại!');
                 }
             }
         });

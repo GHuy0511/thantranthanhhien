@@ -592,3 +592,91 @@
         height: 64px;
     }
 }
+
+
+/* ========================================================
+   TỐI ƯU DESKTOP FIT MÀN HÌNH CHO BLOCK BLAST
+   ======================================================== */
+@media (min-width: 992px) {
+    #viewBlockBlast {
+        max-height: calc(100vh - 75px) !important;
+        gap: 6px !important;
+    }
+    .bb-controls-subnav {
+        margin-bottom: 4px !important;
+        gap: 8px !important;
+    }
+    .bb-scoreboard-section {
+        margin-bottom: 6px !important;
+        gap: 12px !important;
+    }
+    .bb-score-card {
+        padding: 4px 16px !important;
+        min-width: 100px !important;
+    }
+    .bb-score-card .score-value {
+        font-size: 20px !important;
+    }
+    .bb-playfield-wrap {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 20px !important;
+        max-width: 800px !important;
+    }
+    .bb-main-board-container {
+        flex: 0 0 auto !important;
+    }
+    .bb-arena-wrapper {
+        width: min(340px, calc(100vh - 250px)) !important;
+        height: min(340px, calc(100vh - 250px)) !important;
+        aspect-ratio: 1 / 1 !important;
+    }
+    .bb-grid-container {
+        padding: 6px !important;
+        border-radius: 14px !important;
+    }
+    .bb-grid-board {
+        gap: 3px !important;
+    }
+    .bb-tray-section {
+        margin-top: 4px !important;
+        max-width: 340px !important;
+    }
+    .bb-tray-container {
+        min-height: 76px !important;
+        padding: 5px !important;
+        gap: 6px !important;
+        border-radius: 12px !important;
+    }
+    .bb-tray-slot {
+        min-height: 64px !important;
+    }
+    .tray-cell {
+        width: 15px !important;
+        height: 15px !important;
+    }
+    .bb-falling-arena {
+        gap: 8px !important;
+    }
+    .bb-falling-board-wrap {
+        gap: 12px !important;
+    }
+    .bb-falling-grid-container {
+        width: min(210px, calc((100vh - 220px) * 10 / 16)) !important;
+        height: min(336px, calc(100vh - 220px)) !important;
+    }
+    .bb-virtual-pad {
+        display: none !important;
+    }
+    .bb-vs-sidebar {
+        width: 140px !important;
+        padding: 8px !important;
+        margin: 0 !important;
+    }
+    .bb-partner-mini-board {
+        width: 120px !important;
+        height: 120px !important;
+    }
+}

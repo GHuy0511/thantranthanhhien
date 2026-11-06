@@ -94,7 +94,7 @@ window.BlockBlast = (function () {
 
         // Bàn chơi Đối Kháng (Đối phương: Live hoặc AI)
         partner: {
-            name: 'Người Yêu',
+            name: 'Đối Thủ',
             score: 0,
             combo: 0,
             grid: Array(8).fill(null).map(() => Array(8).fill(null)),
@@ -1036,7 +1036,7 @@ window.BlockBlast = (function () {
 
         // Chế độ Đấu Người Yêu (P2P thật)
         state.partner.isAi = false;
-        const partnerName = window.CoupleNetwork ? window.CoupleNetwork.getPartnerName() : 'Người yêu';
+        const partnerName = window.CoupleNetwork ? window.CoupleNetwork.getPartnerName() : 'Đối thủ';
         const isPartnerOnline = window.CoupleNetwork && window.CoupleNetwork.isPartnerOnline();
         state.partner.name = partnerName;
 
@@ -1047,7 +1047,7 @@ window.BlockBlast = (function () {
         } else {
             if (nameEl) nameEl.textContent = `${partnerName} (🔴 Offline)`;
             if (scoreEl) scoreEl.textContent = 'Chờ kết nối...';
-            showAttackCue(`🔴 ${partnerName} đang offline. Gửi link mời người yêu vào cùng chơi nhé!`);
+            showAttackCue(`🔴 ${partnerName} đang offline. Gửi link mời đối thủ vào cùng chơi nhé!`);
         }
     }
 

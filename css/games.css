@@ -2305,3 +2305,65 @@
     flex-shrink: 0;
     transition: background-color 0.3s ease;
 }
+
+
+/* ========================================================
+   TỐI ƯU DESKTOP FIT MÀN HÌNH (100VH KHÔNG CẦN CUỘN)
+   ======================================================== */
+@media (min-width: 992px) {
+    .games-body {
+        padding-bottom: 4px !important;
+    }
+    .games-top-nav {
+        padding: 8px 24px !important;
+    }
+    .games-main-container {
+        padding: 4px 16px 6px !important;
+        gap: 6px !important;
+        max-width: 1200px !important;
+    }
+    .players-hud-section {
+        gap: 4px !important;
+        margin-bottom: 2px !important;
+    }
+    .player-hud-card {
+        padding: 4px 10px !important;
+        border-radius: 12px !important;
+    }
+    .player-hud-avatar-wrap {
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 8px !important;
+    }
+    .player-name {
+        font-size: 12px !important;
+    }
+    .player-score {
+        font-size: 15px !important;
+    }
+    .hud-center-pill {
+        padding: 3px 12px !important;
+        gap: 8px !important;
+    }
+    .monopoly-board.grid-7x7,
+    .monopoly-board.grid-10x10 {
+        width: min(85vw, calc(100vh - 178px)) !important;
+        max-width: min(640px, calc(100vh - 178px)) !important;
+        max-height: calc(100vh - 178px) !important;
+        aspect-ratio: 1 / 1 !important;
+        padding: 6px !important;
+        gap: 3px !important;
+        border-radius: 18px !important;
+    }
+    .board-tile {
+        padding: 2px 1px !important;
+    }
+    .dice-arena-tray {
+        width: 130px !important;
+        height: 84px !important;
+        margin-bottom: 4px !important;
+    }
+    .board-center-hub {
+        padding: 4px !important;
+    }
+}

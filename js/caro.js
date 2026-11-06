@@ -158,7 +158,7 @@ window.CaroGame = (function () {
                 if (state.gameMode === 'p2p') {
                     if (window.CoupleNetwork && window.CoupleNetwork.isPartnerOnline()) {
                         window.CoupleNetwork.send({ type: 'caro_restart_req' });
-                        showStatusNotice('💌 Đã gửi lời mời bắt đầu ván mới cho người yêu...');
+                        showStatusNotice('💌 Đã gửi lời mời bắt đầu ván mới cho đối thủ...');
                     }
                 }
                 resetGame(true);
@@ -230,7 +230,7 @@ window.CaroGame = (function () {
             }
             else if (packet.type === 'caro_restart_ack') {
                 resetGame(true);
-                showStatusNotice('✨ Người yêu đã đồng ý, bắt đầu ván mới!');
+                showStatusNotice('✨ Đối thủ đã đồng ý, bắt đầu ván mới!');
             }
             // 3. Yêu cầu xin đi lại (Undo)
             else if (packet.type === 'caro_undo_req') {
@@ -241,7 +241,7 @@ window.CaroGame = (function () {
             }
             else if (packet.type === 'caro_undo_ack') {
                 executeUndo();
-                showStatusNotice('💕 Người yêu đã đồng ý cho bạn đi lại!');
+                showStatusNotice('⚔️ Đối thủ đã đồng ý cho bạn đi lại!');
             }
             // 4. Đối phương đầu hàng
             else if (packet.type === 'caro_surrender') {
@@ -622,7 +622,7 @@ window.CaroGame = (function () {
         if (state.gameMode === 'p2p') {
             if (window.CoupleNetwork && window.CoupleNetwork.isPartnerOnline()) {
                 window.CoupleNetwork.send({ type: 'caro_undo_req' });
-                showStatusNotice('💌 Đã gửi lời xin đi lại cho người yêu...');
+                showStatusNotice('💌 Đã gửi lời xin đi lại cho đối thủ...');
             } else {
                 executeUndo();
             }
@@ -739,7 +739,7 @@ window.CaroGame = (function () {
         const dot = document.getElementById('caroP2pDot');
         const label = document.getElementById('caroP2pStatusLabel');
         const isOnline = window.CoupleNetwork ? window.CoupleNetwork.isPartnerOnline() : false;
-        const partnerName = window.CoupleNetwork ? window.CoupleNetwork.getPartnerName() : 'Người yêu';
+        const partnerName = window.CoupleNetwork ? window.CoupleNetwork.getPartnerName() : 'Đối thủ';
 
         if (dot) dot.className = `status-indicator-dot ${isOnline ? 'on' : 'off'}`;
         if (label) label.textContent = isOnline ? `Đã kết nối: ${partnerName}` : `${partnerName} đang Offline`;
@@ -889,7 +889,7 @@ window.CaroGame = (function () {
     }
 
     function getModeLabel(m) {
-        if (m === 'p2p') return 'Đấu với Người Yêu';
+        if (m === 'p2p') return 'Chơi Đối Kháng';
         if (m === 'ai') return 'Đấu với AI';
         return 'Cùng 1 Máy';
     }

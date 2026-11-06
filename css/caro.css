@@ -578,3 +578,60 @@
         height: 220px;
     }
 }
+
+
+/* ========================================================
+   TỐI ƯU DESKTOP FIT MÀN HÌNH CHO CỜ CARO
+   ======================================================== */
+@media (min-width: 992px) {
+    .caro-arena-container {
+        padding: 4px 16px 6px !important;
+        gap: 6px !important;
+        max-height: calc(100vh - 75px) !important;
+    }
+    .caro-subnav-dock {
+        margin-bottom: 4px !important;
+    }
+    .caro-main-layout {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 20px !important;
+        width: 100% !important;
+    }
+    .caro-board-section {
+        gap: 6px !important;
+    }
+    .caro-board-frame {
+        padding: 10px !important;
+        border-radius: 14px !important;
+    }
+    .caro-board-grid {
+        --caro-cell-desktop: min(28px, calc((100vh - 215px) / 15));
+        grid-template-columns: repeat(15, var(--caro-cell-desktop)) !important;
+        grid-template-rows: repeat(15, var(--caro-cell-desktop)) !important;
+    }
+    .caro-cell {
+        width: var(--caro-cell-desktop) !important;
+        height: var(--caro-cell-desktop) !important;
+    }
+    .caro-piece {
+        width: calc(var(--caro-cell-desktop) * 0.85) !important;
+        height: calc(var(--caro-cell-desktop) * 0.85) !important;
+    }
+    .caro-board-footer-dock {
+        padding: 4px 12px !important;
+        gap: 8px !important;
+    }
+    .caro-sidebar-panel {
+        width: 250px !important;
+        gap: 8px !important;
+    }
+    .caro-scoreboard-card {
+        padding: 10px 12px !important;
+    }
+    .caro-history-card {
+        height: min(200px, calc(100vh - 350px)) !important;
+    }
+}
