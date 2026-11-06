@@ -510,3 +510,81 @@
         grid-column: span 2 !important;
     }
 }
+
+/* THẺ ĐIỀU KHIỂN VÁN CỜ VÂY (MATCH CONTROL CARD) - VUÔNG VẮN, KHOA HỌC */
+.go-actions-dock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+    background: #ffffff;
+    padding: 16px 18px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(180, 93, 67, 0.18);
+    box-shadow: 0 6px 24px rgba(45, 26, 18, 0.06);
+    box-sizing: border-box;
+}
+
+.go-turn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: #fbf8f5;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    font-size: 13px;
+    font-weight: 700;
+    color: #2d2621;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.go-action-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+}
+
+.go-btn {
+    padding: 9px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fdfcfb;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    color: #4b4540;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.go-btn:hover:not(:disabled) {
+    background: #f4ede6;
+    border-color: rgba(180, 93, 67, 0.3);
+    color: #b45d43;
+    transform: translateY(-1px);
+}
+
+.go-btn.primary {
+    grid-column: span 2;
+    background: linear-gradient(135deg, #b87357, #96533c);
+    color: #ffffff;
+    border: none;
+    font-size: 13.5px;
+    font-weight: 800;
+    padding: 10px 14px;
+    box-shadow: 0 4px 14px rgba(180, 93, 67, 0.28);
+}
+
+.go-btn.primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #c47c5f, #a45a42);
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(180, 93, 67, 0.35);
+}

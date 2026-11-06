@@ -210,7 +210,7 @@ window.GoalsApp = (function () {
                 const creatorName = goal.ownerRole === 'huy' ? 'Huy' : 'Hiền';
                 savingsHtml = `
                     <div class="secret-surprise-box">
-                        <div class="secret-surprise-title">🎁 Bất ngờ từ ${creatorName}</div>
+                        <div class="secret-surprise-title">Bất ngờ bí mật từ ${creatorName}</div>
                         <p class="secret-surprise-desc">Kế hoạch đang được âm thầm chuẩn bị, số tiền được bảo mật riêng tư.</p>
                     </div>
                 `;

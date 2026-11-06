@@ -303,7 +303,7 @@
                 </div>
 
                 <div class="bb-score-card high-score-card">
-                    <span class="score-label">🏆 KỶ LỤC</span>
+                    <span class="score-label">KỶ LỤC</span>
                     <span class="score-value" id="bbHighScore">0</span>
                 </div>
             </section>
@@ -539,19 +539,21 @@
     </main>
 
     <!-- ========================================================
-         MODAL CÀI ĐẶT VÁN ĐẤU (CHỌN 2, 3, 4 NGƯỜI & ĐẤU AI)
+         MODAL CÀI ĐẶT VÁN ĐẤU (THIẾT KẾ TINH TẾ, HIỆN ĐẠI, KHÔNG EMOJI LÒE LOẸT)
          ======================================================== -->
     <div class="game-modal-overlay" id="modalGameSetup" aria-hidden="true">
         <div class="game-modal-card setup-card">
             <div class="setup-header">
-                <span class="setup-emblem">⚙️</span>
+                <div class="setup-icon-badge">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </div>
                 <h3 class="game-modal-title">Cài Đặt Ván Đấu</h3>
-                <p class="game-modal-desc">Tùy chỉnh số lượng người chơi và chế độ đấu AI</p>
+                <p class="game-modal-desc">Tùy chỉnh số lượng người chơi và chế độ thi đấu</p>
             </div>
 
             <!-- 1. Chọn số người chơi -->
             <div class="setup-section">
-                <label class="setup-label">Số Lượng Người Chơi:</label>
+                <label class="setup-label">Số Lượng Người Chơi</label>
                 <div class="player-count-selector" role="group">
                     <button class="count-opt-btn active" data-count="2" type="button">2 Người</button>
                     <button class="count-opt-btn" data-count="3" type="button">3 Người</button>
@@ -561,31 +563,35 @@
 
             <!-- 2. Chọn chế độ đấu -->
             <div class="setup-section">
-                <label class="setup-label">Chế Độ Chơi:</label>
+                <label class="setup-label">Chế Độ Chơi</label>
                 <div class="mode-select-grid">
                     <button class="mode-card-opt active" id="optModePassPlay" type="button">
-                        <span class="mode-icon">👥</span>
+                        <div class="mode-icon-box">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        </div>
                         <span class="mode-title">Chơi Cùng Bạn Bè</span>
                         <span class="mode-sub">Chuyền tay cùng chơi trên thiết bị</span>
                     </button>
                     <button class="mode-card-opt" id="optModeAI" type="button">
-                        <span class="mode-icon">🤖</span>
+                        <div class="mode-icon-box">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M8 10h.01"></path><path d="M16 10h.01"></path><path d="M9 16h6"></path><path d="M12 2v2"></path></svg>
+                        </div>
                         <span class="mode-title">Đấu Với Máy (AI)</span>
-                        <span class="mode-sub">Huy đấu cùng các đối thủ AI thông minh</span>
+                        <span class="mode-sub">Thi đấu cùng các đối thủ AI thông minh</span>
                     </button>
                 </div>
             </div>
 
             <!-- 3. Danh sách người chơi tham gia -->
             <div class="setup-section">
-                <label class="setup-label">Người Chơi Tham Gia:</label>
+                <label class="setup-label">Danh Sách Người Chơi</label>
                 <div class="setup-players-roster" id="setupPlayersRoster">
                     <!-- Danh sách hiển thị động theo số người chọn -->
                 </div>
             </div>
 
             <div class="game-modal-actions">
-                <button class="modal-btn-confirm" id="btnStartCustomGame" type="button">Bắt Đầu Ván Đấu 🎲</button>
+                <button class="modal-btn-confirm setup-confirm-btn" id="btnStartCustomGame" type="button">Bắt Đầu Ván Đấu</button>
                 <button class="modal-btn-cancel" id="btnCloseSetup" type="button">Đóng</button>
             </div>
         </div>
@@ -595,10 +601,9 @@
          MODAL 1: MUA ĐẤT / XÂY NHÀ & KHÁCH SẠN
          ======================================================== -->
     <div class="game-modal-overlay" id="modalBuyProperty" aria-hidden="true">
-        <div class="game-modal-card">
+        <div class="game-modal-card deed-card">
             <div class="landmark-modal-header" id="buyModalHeaderColor">
                 <span class="landmark-region-tag" id="buyModalRegion">BẮC BỘ</span>
-                <div class="game-modal-emoji" id="buyPropEmoji">🏠</div>
                 <h3 class="game-modal-title" id="buyPropTitle">Hồ Gươm</h3>
                 <span class="landmark-subtitle" id="buyPropSubtitle">Hà Nội</span>
             </div>
@@ -611,35 +616,35 @@
 
             <div class="upgrade-levels-preview" id="upgradeLevelsPreview">
                 <div class="level-step-card current" id="lvlStep1">
-                    <span class="step-icon">🏠</span>
+                    <span class="step-badge">Cấp 1</span>
                     <span class="step-title">1 Nhà Phố</span>
                     <span class="step-rent" id="lvl1Rent">20M</span>
                 </div>
                 <div class="level-step-card" id="lvlStep2">
-                    <span class="step-icon">🏠🏠</span>
+                    <span class="step-badge">Cấp 2</span>
                     <span class="step-title">2 Nhà Phố</span>
                     <span class="step-rent" id="lvl2Rent">60M</span>
                 </div>
                 <div class="level-step-card" id="lvlStep3">
-                    <span class="step-icon">🏨</span>
-                    <span class="step-title">Khách Sạn</span>
+                    <span class="step-badge luxury">Cấp 3</span>
+                    <span class="step-title">Khách Sạn 5★</span>
                     <span class="step-rent" id="lvl3Rent">140M</span>
                 </div>
             </div>
 
             <div class="prop-stat-box">
                 <div class="stat-item">
-                    <span class="stat-lbl" id="buyCostLabel">Giá mua quyền sở hữu:</span>
+                    <span class="stat-lbl" id="buyCostLabel">Chi phí:</span>
                     <strong class="stat-val" id="buyPropCost">100M</strong>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-lbl">Tiền thuê thu về:</span>
+                    <span class="stat-lbl">Tiền thuê dự kiến:</span>
                     <strong class="stat-val" id="buyPropRent">20M</strong>
                 </div>
             </div>
 
             <div class="game-modal-actions">
-                <button class="modal-btn-confirm" id="btnConfirmBuy" type="button">Mua ngay</button>
+                <button class="modal-btn-confirm" id="btnConfirmBuy" type="button">Xác nhận</button>
                 <button class="modal-btn-cancel" id="btnCancelBuy" type="button">Bỏ qua</button>
             </div>
         </div>
@@ -659,7 +664,7 @@
             <!-- Khung ảnh thực tế địa danh lớn & sắc nét khi bấm vào ô -->
             <div class="deed-photo-frame" id="inspectPhotoFrame">
                 <img id="inspectImage" src="" alt="Hình ảnh danh thắng" class="deed-large-photo" />
-                <span class="deed-photo-badge" id="inspectPhotoBadge">📍 Danh Thắng Việt Nam</span>
+                <span class="deed-photo-badge" id="inspectPhotoBadge">Danh Thắng Việt Nam</span>
             </div>
             
             <p class="game-modal-desc" id="inspectDesc">Khu bất động sản giá trị cao</p>
@@ -669,9 +674,9 @@
             </div>
 
             <div class="inspect-rent-table">
-                <div class="rent-col"><span>🏠 1 Nhà</span><strong id="inspectRentL1">40M</strong></div>
-                <div class="rent-col"><span>🏠🏠 2 Nhà</span><strong id="inspectRentL2">120M</strong></div>
-                <div class="rent-col"><span>🏨 Khách Sạn</span><strong id="inspectRentL3">260M</strong></div>
+                <div class="rent-col"><span class="rent-step-lbl">Cấp 1 • 1 Nhà</span><strong id="inspectRentL1">40M</strong></div>
+                <div class="rent-col"><span class="rent-step-lbl">Cấp 2 • 2 Nhà</span><strong id="inspectRentL2">120M</strong></div>
+                <div class="rent-col"><span class="rent-step-lbl highlight">Cấp 3 • Khách Sạn</span><strong id="inspectRentL3">260M</strong></div>
             </div>
 
             <div class="game-modal-actions">

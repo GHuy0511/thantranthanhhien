@@ -643,6 +643,16 @@ const soundEffects = {
         notes.forEach((freq, idx) => {
             this.playTone(freq, 'triangle', 0.25, idx * 90);
         });
+    },
+    buildConstruction() {
+        if (!gameState.soundEnabled) return;
+        this.playTone(880, 'triangle', 0.08, 0);
+        this.playTone(1100, 'triangle', 0.08, 120);
+        this.playTone(1320, 'triangle', 0.1, 240);
+        const chord = [523.25, 659.25, 783.99, 1046.50];
+        chord.forEach((freq, idx) => {
+            this.playTone(freq, 'triangle', 0.35, 360 + idx * 60);
+        });
     }
 };
 
@@ -671,6 +681,54 @@ const visualFX = {
         setTimeout(() => {
             siren.classList.remove("active");
         }, 1500);
+    },
+    triggerConstructionCelebration(tile, level, player) {
+        soundEffects.buildConstruction();
+        const cell = document.getElementById(`tile-${tile.id}`);
+        if (cell) {
+            cell.classList.remove("just-built");
+            void cell.offsetWidth; // trigger reflow
+            cell.classList.add("just-built");
+            setTimeout(() => cell.classList.remove("just-built"), 2400);
+        }
+
+        // Bắn bụi sao vàng lấp lánh (Gold Sparkles)
+        const layer = document.getElementById("floatingFxLayer");
+        if (layer && cell) {
+            const rect = cell.getBoundingClientRect();
+            for (let i = 0; i < 12; i++) {
+                const spark = document.createElement("div");
+                spark.className = "build-sparkle-dot";
+                const angle = (Math.PI * 2 / 12) * i;
+                const dist = 30 + Math.random() * 40;
+                spark.style.setProperty("--tx", `${Math.cos(angle) * dist}px`);
+                spark.style.setProperty("--ty", `${Math.sin(angle) * dist}px`);
+                spark.style.left = `${rect.left + rect.width / 2}px`;
+                spark.style.top = `${rect.top + rect.height / 2}px`;
+                layer.appendChild(spark);
+                setTimeout(() => spark.remove(), 1200);
+            }
+        }
+
+        // Banner chúc mừng khởi công sang trọng
+        const celebLayer = document.getElementById("constructionCelebrationLayer");
+        if (celebLayer) {
+            const lvlName = level === 0 ? "Đất Chiến Lược" : level === 1 ? "Nhà Phố Cấp 1" : level === 2 ? "Biệt Thự Cấp 2" : "Khách Sạn 5 Sao";
+            const lvlTag = level === 3 ? "👑 KHÁCH SẠN CAO CẤP" : level === 0 ? "🏛️ SỞ HỮU ĐẤT MỚI" : "✨ XÂY DỰNG HOÀN TẤT";
+            const toast = document.createElement("div");
+            toast.className = "construction-toast-card";
+            toast.innerHTML = `
+                <div class="toast-shimmer"></div>
+                <div class="toast-badge">${lvlTag}</div>
+                <h4 class="toast-title">${tile.name}</h4>
+                <p class="toast-desc"><strong>${player.name}</strong> đã nâng cấp thành công <strong>${lvlName}</strong>!</p>
+            `;
+            celebLayer.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add("fade-out");
+                setTimeout(() => toast.remove(), 500);
+            }, 2000);
+        }
     }
 };
 
@@ -813,24 +871,27 @@ function renderPlayerHUD() {
         // Đóng băng badge
         const freezeBadge = player.frozenTurns > 0 ? `<span class="badge-freeze" title="Bị tạm dừng đi ${player.frozenTurns} lượt">❄️ ${player.frozenTurns}L</span>` : "";
 
+        const initialLetter = player.name ? player.name.trim().charAt(0).toUpperCase() : "P";
         card.innerHTML = `
             <div class="player-hud-avatar-wrap" style="background:${player.bg}; border: 2px solid ${player.color};">
-                <span class="player-avatar-icon">${player.icon}</span>
+                <span class="player-avatar-initial" style="color:${player.color};">${initialLetter}</span>
             </div>
             <div class="player-hud-info">
                 <div class="player-name-row">
                     <span class="player-name" id="hudName-${player.id}" style="color:${player.color};">${player.name}</span>
-                    <button class="player-name-edit-btn" type="button" title="Đổi tên người chơi" onclick="promptChangePlayerName('${player.id}')">✏️</button>
+                    <button class="player-name-edit-btn" type="button" title="Đổi tên người chơi" onclick="promptChangePlayerName('${player.id}')">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    </button>
                     ${player.isAi ? '<span class="player-ai-tag">AI</span>' : ''}
                     ${jailCardBadge}
                     ${freezeBadge}
                 </div>
                 <div class="player-score-row">
                     <span class="player-score" id="score-${player.id}">${Number(player.cash).toLocaleString()}</span>
-                    <span class="score-unit">M VNĐ</span>
+                    <span class="score-unit">M</span>
                 </div>
                 <div class="player-stats-mini">
-                    <span id="propsCount-${player.id}">🏛️ ${player.props.length} BĐS</span>
+                    <span id="propsCount-${player.id}">${player.props.length} BĐS</span>
                     <span>•</span>
                     <span id="netWorth-${player.id}">Tổng: ${Number(calculateNetWorth(player)).toLocaleString()}M</span>
                 </div>
@@ -941,15 +1002,15 @@ function updateUI() {
                 ownerEl.style.display = "block";
             }
 
-            // HIỂN THỊ NGÔI NHÀ THẬT
+            // HIỂN THỊ CÔNG TRÌNH SANG TRỌNG TRÊN Ô CỜ
             if (tile.level === 1) {
-                estateEl.innerHTML = '<span class="mini-house-token" title="1 Nhà Phố">🏠</span>';
+                estateEl.innerHTML = '<span class="luxury-building-token level-1" title="1 Nhà Phố"><span class="token-pip"></span>1 Nhà</span>';
                 estateEl.style.display = "flex";
             } else if (tile.level === 2) {
-                estateEl.innerHTML = '<span class="mini-house-token" title="2 Nhà Phố">🏠</span><span class="mini-house-token" title="2 Nhà Phố">🏠</span>';
+                estateEl.innerHTML = '<span class="luxury-building-token level-2" title="2 Nhà Phố"><span class="token-pip"></span>2 Nhà</span>';
                 estateEl.style.display = "flex";
             } else if (tile.level >= 3) {
-                estateEl.innerHTML = '<span class="mini-hotel-token" title="Khách Sạn Cao Cấp">🏨</span>';
+                estateEl.innerHTML = '<span class="luxury-building-token level-hotel" title="Khách Sạn 5★">★ HOTEL</span>';
                 estateEl.style.display = "flex";
             } else {
                 estateEl.innerHTML = '';
@@ -1392,7 +1453,7 @@ function promptBuyProperty(player, tile) {
 
     document.getElementById("buyPropTitle").textContent = tile.name;
     document.getElementById("buyPropSubtitle").textContent = tile.subtitle;
-    document.getElementById("buyPropEmoji").textContent = tile.icon;
+    // buyPropEmoji replaced by elegant header
     document.getElementById("buyPropDesc").textContent = tile.desc;
 
     const buyImg = document.getElementById("buyPropImage");
@@ -1441,6 +1502,7 @@ function confirmBuyProperty(player, tile) {
     player.props.push(tile.id);
 
     visualFX.spawnFloatingMoney(tile.id, `-${tile.price}M`, false);
+    visualFX.triggerConstructionCelebration(tile, 0, player);
     showStatusNotice(`🏠 <strong>${player.name}</strong> đã mua thành công <strong>${tile.name}</strong> (${tile.price}M VNĐ)!`);
 
     recordTransaction({
@@ -1484,7 +1546,7 @@ function promptUpgradeProperty(player, tile) {
     const levelNames = ["", "1 Nhà Phố 🏠", "2 Nhà Phố 🏠🏠", "Khách Sạn Cao Cấp 🏨"];
     document.getElementById("buyPropTitle").textContent = `${tile.name} (Xây Thêm)`;
     document.getElementById("buyPropSubtitle").textContent = `Nâng lên ${levelNames[nextLevel]}`;
-    document.getElementById("buyPropEmoji").textContent = nextLevel === 2 ? "🏠🏠" : "🏨";
+    // buyPropEmoji replaced by elegant header
     document.getElementById("buyPropDesc").textContent = `Xây thêm công trình để tăng mạnh tiền thuê đất khi đối thủ dừng chân!`;
 
     const upgradeImg = document.getElementById("buyPropImage");
@@ -1528,6 +1590,7 @@ function confirmUpgradeProperty(player, tile) {
 
     const levelIcon = tile.level === 1 ? "1 Nhà Phố 🏠" : tile.level === 2 ? "2 Nhà Phố 🏠🏠" : "Khách Sạn Cao Cấp 🏨";
     visualFX.spawnFloatingMoney(tile.id, `-${tile.upgradeCost}M`, false);
+    visualFX.triggerConstructionCelebration(tile, tile.level, player);
     showStatusNotice(`✨ <strong>${player.name}</strong> đã nâng cấp <strong>${tile.name}</strong> lên <strong>${levelIcon}</strong>!`);
 
     recordTransaction({
@@ -2330,8 +2393,9 @@ function initGameSetupModal() {
             const isAi = isAiMode && i > 0;
             const row = document.createElement("div");
             row.className = "setup-player-row";
+            const pInitial = cfg.name ? cfg.name.charAt(0).toUpperCase() : "P";
             row.innerHTML = `
-                <div class="setup-p-icon" style="background:${cfg.bg}; color:${cfg.color};">${cfg.icon}</div>
+                <div class="setup-p-icon" style="background:${cfg.bg}; color:${cfg.color}; font-weight:800;">${pInitial}</div>
                 <input type="text" class="setup-player-name-input" data-player-idx="${i}" value="${cfg.name}" maxlength="12" placeholder="Tên người chơi">
                 <span class="setup-p-type-badge ${isAi ? 'type-ai' : 'type-human'}">${isAi ? 'Máy (AI)' : 'Người chơi'}</span>
             `;
