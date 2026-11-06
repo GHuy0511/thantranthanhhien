@@ -43,17 +43,19 @@
 
     <!-- THANH ĐIỀU HƯỚNG TINH GỌN (TOP NAV) -->
     <header class="games-top-nav">
-        <div style="display:flex; align-items:center; gap:6px;">
-            <a class="nav-back-home-btn" href="index.html" title="Trở về trang chủ">
-                <span class="nav-back-icon">‹</span>
-                <span class="nav-back-text">Trang chủ</span>
+        <!-- CỤM TRÁI: ĐIỀU HƯỚNG TRANG CHỦ & KẾ HOẠCH TINH TẾ -->
+        <nav class="nav-island-group" aria-label="Điều hướng chính">
+            <a class="nav-island-link" href="index.html" title="Trở về trang chủ">
+                <span class="nav-island-chevron">‹</span>
+                <span>Trang Chủ</span>
             </a>
-            <a class="nav-back-home-btn" href="goals.html" title="Kế hoạch và Quỹ tương lai">
-                <span class="nav-back-text">Kế hoạch</span>
+            <span class="nav-island-sep" aria-hidden="true"></span>
+            <a class="nav-island-link" href="goals.html" title="Kế hoạch và Quỹ tương lai">
+                <span>Kế Hoạch &amp; Quỹ</span>
             </a>
-        </div>
+        </nav>
 
-        <!-- BỘ CHỌN TRÒ CHƠI TÍCH HỢP (SEGMENTED SWITCHER) -->
+        <!-- CỤM GIỮA: BỘ CHỌN TRÒ CHƠI TÍCH HỢP (SEGMENTED SWITCHER) -->
         <div class="game-segmented-switch" id="gameSegmentedSwitch" role="tablist" aria-label="Chọn trò chơi">
             <button class="game-switch-tab active" id="tabGameMonopoly" data-game="monopoly" type="button" role="tab" aria-selected="true">
                 <span class="tab-name">Cờ Tỷ Phú</span>
@@ -69,69 +71,87 @@
             </button>
         </div>
 
-        <!-- THANH TRẠNG THÁI ONL/OFF CỦA HAI BẠN -->
-        <div class="couple-presence-dock" id="couplePresenceDock" title="Trạng thái kết nối của hai bạn">
-            <div class="presence-badge" id="presenceBadgeHuy">
-                <span class="status-indicator-dot off" id="dotHuy"></span>
-                <span>Huy</span>
-                <small id="labelHuy" style="display:none;">Offline</small>
-            </div>
-            <span class="presence-divider">♥</span>
-            <div class="presence-badge" id="presenceBadgeHien">
-                <span class="status-indicator-dot off" id="dotHien"></span>
-                <span>Hiền</span>
-                <small id="labelHien" style="display:none;">Offline</small>
-            </div>
-            <button class="role-switch-btn" id="btnSwitchMyRole" type="button" title="Bấm để chuyển đổi vai trò">
-                <span id="myRoleLabel">Tôi: Huy</span>
-            </button>
-            <button class="role-switch-btn invite-partner-btn" id="btnInvitePartner" type="button" title="Mời bạn chơi đối kháng">
-                <span>Mời bạn</span>
-            </button>
-        </div>
-
-        <div class="games-top-tools">
-            <!-- Tools riêng cho Monopoly -->
-            <div class="tool-group" id="toolsMonopoly">
-                <button class="top-tool-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh" aria-label="Bật/Tắt âm thanh">
-                    <span class="tool-icon" id="soundIcon">🔔</span>
+        <!-- CỤM PHẢI: TRẠNG THÁI KẾT NỐI & CÔNG CỤ ĐIỀU KHIỂN (PRESENCE & QUICK TOOLS) -->
+        <div class="top-nav-right-cluster">
+            <!-- Dock trạng thái onl/off của hai bạn -->
+            <div class="couple-presence-dock" id="couplePresenceDock" title="Trạng thái kết nối của hai bạn">
+                <div class="presence-badge" id="presenceBadgeHuy">
+                    <span class="status-indicator-dot on" id="dotHuy"></span>
+                    <span class="presence-user-name">Huy</span>
+                    <small id="labelHuy" style="display:none;">Online</small>
+                </div>
+                <span class="presence-divider">•</span>
+                <div class="presence-badge" id="presenceBadgeHien">
+                    <span class="status-indicator-dot off" id="dotHien"></span>
+                    <span class="presence-user-name">Hiền</span>
+                    <small id="labelHien" style="display:none;">Offline</small>
+                </div>
+                <button class="role-switch-btn" id="btnSwitchMyRole" type="button" title="Bấm để chuyển đổi vai trò">
+                    <span id="myRoleLabel">Tôi: Huy</span>
                 </button>
-                <button class="top-tool-btn setup-tool-btn" id="btnOpenSetup" type="button" title="Cài đặt số người chơi (2, 3, 4 người & Đấu AI)">
-                    <span class="tool-icon">👥</span>
-                    <span class="tool-label" id="topPlayersLabel">2 Người</span>
+                <button class="role-switch-btn invite-partner-btn" id="btnInvitePartner" type="button" title="Mời người yêu chơi đối kháng">
+                    <span>Mời bạn</span>
                 </button>
             </div>
 
-            <!-- Tools riêng cho Block Blast -->
-            <div class="tool-group" id="toolsBlockBlast" style="display: none;">
-                <button class="top-tool-btn" id="btnBbToggleSound" type="button" title="Bật/Tắt âm thanh" aria-label="Bật/Tắt âm thanh">
-                    <span class="tool-icon" id="bbSoundIcon">🔊</span>
-                </button>
-                <button class="top-tool-btn" id="btnBbRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
-                    <span class="tool-icon">Chơi lại</span>
-                </button>
-                <button class="top-tool-btn" id="btnBbHelp" type="button" title="Hướng dẫn cách chơi" aria-label="Hướng dẫn cách chơi">
-                    <span class="tool-icon">❓</span>
+            <!-- Cụm công cụ điều khiển chức năng (SVG tinh tế, không dùng emoji) -->
+            <div class="games-top-tools">
+                <!-- Monopoly Tools -->
+                <div class="tool-group" id="toolsMonopoly">
+                    <button class="top-tool-btn sound-tool-btn" id="btnToggleSound" type="button" title="Bật/Tắt âm thanh" aria-label="Bật/Tắt âm thanh">
+                        <svg class="tool-svg" id="soundSvgOn" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                        </svg>
+                        <svg class="tool-svg" id="soundSvgOff" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display: none;">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <line x1="23" y1="9" x2="17" y2="15"></line>
+                            <line x1="17" y1="9" x2="23" y2="15"></line>
+                        </svg>
+                        <span id="soundIcon" style="display:none;">🔔</span>
+                    </button>
+                    <button class="top-tool-btn setup-tool-btn" id="btnOpenSetup" type="button" title="Cài đặt số người chơi (2, 3, 4 người &amp; Đấu AI)">
+                        <span class="tool-label" id="topPlayersLabel">2 Người</span>
+                    </button>
+                </div>
+
+                <!-- Block Blast Tools -->
+                <div class="tool-group" id="toolsBlockBlast" style="display: none;">
+                    <button class="top-tool-btn sound-tool-btn" id="btnBbToggleSound" type="button" title="Bật/Tắt âm thanh">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        <span id="bbSoundIcon" style="display:none;">🔊</span>
+                    </button>
+                    <button class="top-tool-btn" id="btnBbRestart" type="button" title="Bắt đầu ván mới">
+                        <span>Chơi lại</span>
+                    </button>
+                    <button class="top-tool-btn" id="btnBbHelp" type="button" title="Hướng dẫn cách chơi">
+                        <span>Luật chơi</span>
+                    </button>
+                </div>
+
+                <!-- Cờ Caro Tools -->
+                <div class="tool-group" id="toolsCaro" style="display: none;">
+                    <button class="top-tool-btn" id="btnCaroQuickRestart" type="button" title="Bắt đầu ván mới">
+                        <span>Chơi lại</span>
+                    </button>
+                </div>
+
+                <!-- Cờ Vây Tools -->
+                <div class="tool-group" id="toolsGo" style="display: none;">
+                    <button class="top-tool-btn" id="btnGoQuickRestart" type="button" title="Bắt đầu ván mới">
+                        <span>Chơi lại</span>
+                    </button>
+                </div>
+
+                <!-- Theme Button -->
+                <button class="top-tool-btn theme-tool-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện" title="Đổi màu sắc giao diện">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                    </svg>
                 </button>
             </div>
-
-            <!-- Tools riêng cho Cờ Caro -->
-            <div class="tool-group" id="toolsCaro" style="display: none;">
-                <button class="top-tool-btn" id="btnCaroQuickRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
-                    <span class="tool-icon">Chơi lại</span>
-                </button>
-            </div>
-
-            <!-- Tools riêng cho Cờ Vây -->
-            <div class="tool-group" id="toolsGo" style="display: none;">
-                <button class="top-tool-btn" id="btnGoQuickRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
-                    <span class="tool-icon">Chơi lại</span>
-                </button>
-            </div>
-
-            <button class="top-tool-btn theme-tool-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện" title="Đổi màu sắc giao diện">
-                <span class="theme-gear-icon">⚙️</span>
-            </button>
         </div>
     </header>
 
@@ -582,6 +602,10 @@
                 <h3 class="game-modal-title" id="buyPropTitle">Hồ Gươm</h3>
                 <span class="landmark-subtitle" id="buyPropSubtitle">Hà Nội</span>
             </div>
+
+            <div class="deed-photo-frame buy-photo-frame" id="buyPropImageFrame">
+                <img id="buyPropImage" src="" alt="Hình ảnh danh thắng" class="deed-large-photo" />
+            </div>
             
             <p class="game-modal-desc" id="buyPropDesc">Thông tin bất động sản</p>
 
@@ -630,6 +654,12 @@
                 <span class="deed-badge">GIẤY CHỨNG NHẬN QUYỀN SỞ HỮU</span>
                 <h3 class="game-modal-title" id="inspectTitle">Cố Đô Huế</h3>
                 <span class="landmark-subtitle" id="inspectSubtitle">Thừa Thiên Huế</span>
+            </div>
+
+            <!-- Khung ảnh thực tế địa danh lớn & sắc nét khi bấm vào ô -->
+            <div class="deed-photo-frame" id="inspectPhotoFrame">
+                <img id="inspectImage" src="" alt="Hình ảnh danh thắng" class="deed-large-photo" />
+                <span class="deed-photo-badge" id="inspectPhotoBadge">📍 Danh Thắng Việt Nam</span>
             </div>
             
             <p class="game-modal-desc" id="inspectDesc">Khu bất động sản giá trị cao</p>

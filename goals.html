@@ -160,23 +160,33 @@
          MODAL 1: THÊM / CHỈNH SỬA KẾ HOẠCH (DESIGN CHUẨN PASTEL)
          ======================================================== -->
     <div class="goals-modal-overlay" id="modalGoalForm" aria-hidden="true">
-        <div class="goals-modal-card">
+        <div class="goals-modal-card goal-form-card">
+            <button class="modal-close-corner-btn" type="button" onclick="window.GoalsApp.closeModal('modalGoalForm')" aria-label="Đóng">✕</button>
+
             <h3 class="goals-modal-title" id="goalFormTitle">Thêm Kế Hoạch &amp; Dự Định</h3>
             <p class="goals-modal-desc">Lên lịch trình du lịch, dự định chung hoặc chuẩn bị bất ngờ</p>
 
             <form id="goalForm" onsubmit="event.preventDefault(); window.GoalsApp.handleSaveGoalForm();">
+                <!-- Hàng 1: Tên kế hoạch -->
                 <div class="goals-form-group">
                     <label class="goals-form-label" for="inputGoalTitle">Tên Kế Hoạch / Dự Định *</label>
                     <input type="text" class="goals-form-input" id="inputGoalTitle" required placeholder="VD: Đi Huế cùng Hiền ngắm sông Hương...">
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <!-- Hàng 2: Danh mục & Không gian lưu trữ -->
+                <div class="goals-form-grid-2">
                     <div class="goals-form-group">
-                        <label class="goals-form-label" for="inputGoalLocation">Địa Điểm / Danh Mục</label>
-                        <input type="text" class="goals-form-input" id="inputGoalLocation" placeholder="VD: Huế, Hà Nội, Đà Lạt...">
+                        <label class="goals-form-label" for="selectGoalCategory">Danh Mục</label>
+                        <select class="goals-form-select" id="selectGoalCategory">
+                            <option value="travel">Du lịch &amp; Khám phá</option>
+                            <option value="gift">Kỷ niệm &amp; Quà tặng</option>
+                            <option value="future">Dự định tương lai</option>
+                            <option value="dating">Hẹn hò &amp; Ăn uống</option>
+                            <option value="other">Mục tiêu khác</option>
+                        </select>
                     </div>
                     <div class="goals-form-group">
-                        <label class="goals-form-label" for="selectGoalSpace">Không Gian Lưu Trữ</label>
+                        <label class="goals-form-label" for="selectGoalSpace">Không Gian</label>
                         <select class="goals-form-select" id="selectGoalSpace">
                             <option value="both">Kế Hoạch Chung</option>
                             <option value="huy">Của Huy (Riêng)</option>
@@ -185,7 +195,20 @@
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <!-- Hàng 3: Địa điểm & Link Quỹ MoMo (Gọn gàng, sạch sẽ, không icon rườm rà) -->
+                <div class="goals-form-grid-2">
+                    <div class="goals-form-group">
+                        <label class="goals-form-label" for="inputGoalLocation">Địa Điểm / Nơi Chốn</label>
+                        <input type="text" class="goals-form-input" id="inputGoalLocation" placeholder="VD: Đà Lạt, Cố Đô Huế, Rạp phim...">
+                    </div>
+                    <div class="goals-form-group">
+                        <label class="goals-form-label" for="inputGoalMomoLink">Link Quỹ MoMo</label>
+                        <input type="url" class="goals-form-input" id="inputGoalMomoLink" placeholder="https://me.momo.vn/... hoặc link quỹ">
+                    </div>
+                </div>
+
+                <!-- Hàng 4: Thời gian dự kiến & Mục tiêu tiết kiệm -->
+                <div class="goals-form-grid-2">
                     <div class="goals-form-group">
                         <label class="goals-form-label" for="inputGoalDate">Thời Gian Dự Kiến</label>
                         <input type="date" class="goals-form-input" id="inputGoalDate">
@@ -196,22 +219,21 @@
                     </div>
                 </div>
 
-                <div class="goals-form-group">
-                    <label class="goals-form-label" for="inputGoalInitial">Số Tiền Đã Có Sẵn (VNĐ)</label>
-                    <input type="number" class="goals-form-input" id="inputGoalInitial" step="50000" min="0" placeholder="0">
+                <!-- Hàng 5: Số tiền đã có & Chế độ bí mật -->
+                <div class="goals-form-grid-2 align-center">
+                    <div class="goals-form-group" style="margin-bottom: 0;">
+                        <label class="goals-form-label" for="inputGoalInitial">Số Tiền Đã Có Sẵn (VNĐ)</label>
+                        <input type="number" class="goals-form-input" id="inputGoalInitial" step="50000" min="0" placeholder="0">
+                    </div>
+                    <div class="goals-secret-compact-box">
+                        <label class="goals-checkbox-label" for="checkboxGoalSecret">
+                            <input type="checkbox" id="checkboxGoalSecret" class="goals-styled-checkbox">
+                            <span class="goals-checkbox-txt">Ẩn số tiền với đối phương (Bí mật)</span>
+                        </label>
+                    </div>
                 </div>
 
-                <div class="goals-secret-box">
-                    <label class="goals-checkbox-label" for="checkboxGoalSecret">
-                        <input type="checkbox" id="checkboxGoalSecret" class="goals-styled-checkbox">
-                        <span class="goals-checkbox-txt">Ẩn tiến độ tiền với đối phương (Chế độ bí mật)</span>
-                    </label>
-                    <p class="goals-secret-hint">
-                        Khi bật tùy chọn này, người yêu sẽ chỉ thấy kế hoạch bất ngờ và không biết cụ thể bạn đã tích lũy được bao nhiêu!
-                    </p>
-                </div>
-
-                <div class="goals-modal-actions">
+                <div class="goals-modal-actions" style="margin-top: 18px;">
                     <button class="modal-btn-cancel" type="button" onclick="window.GoalsApp.closeModal('modalGoalForm')">Hủy</button>
                     <button class="modal-btn-submit" type="submit">Lưu Kế Hoạch</button>
                 </div>
@@ -251,6 +273,114 @@
                     <button class="modal-btn-submit" type="submit">Xác Nhận Nạp Tiền</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 4: CHI TIẾT TIẾN ĐỘ QUỸ & MÃ QR MOMO (DEDICATED MOMO FUND MODAL)
+         - Bên cạnh thông tin tiến độ sẽ hiện Mã QR từ link MoMo để tham gia quỹ
+         ======================================================== -->
+    <div class="goals-modal-overlay" id="modalFundDetail" aria-hidden="true">
+        <div class="goals-modal-card fund-detail-modal-card">
+            <!-- Nút đóng x ở góc -->
+            <button class="modal-close-corner-btn" type="button" onclick="window.GoalsApp.closeModal('modalFundDetail')" aria-label="Đóng">✕</button>
+
+            <div class="fund-modal-top-bar">
+                <div class="fund-badges-row">
+                    <span class="fund-cat-pill" id="fundModalCatBadge">Du Lịch</span>
+                    <span class="fund-space-pill" id="fundModalSpaceBadge">Kế Hoạch Chung</span>
+                </div>
+                <h3 class="fund-modal-main-title" id="fundModalTitle">Chuyến Đi Của Chúng Mình</h3>
+                <p class="fund-modal-subtitle" id="fundModalSubtitle">Tiến độ tài chính và mã QR MoMo tham gia đóng góp</p>
+            </div>
+
+            <div class="fund-modal-split-grid">
+                <!-- CỘT 1: THÔNG TIN TIẾN ĐỘ VÀ LỊCH SỬ NẠP HEO ĐẤT -->
+                <div class="fund-modal-left-col">
+                    <div class="fund-status-card">
+                        <div class="fund-card-meta-row">
+                            <span class="fund-stat-label">Tiến Độ Tích Lũy</span>
+                            <span class="fund-pct-tag" id="fundModalPctBadge">0%</span>
+                        </div>
+                        <div class="fund-amount-big-row">
+                            <span class="fund-amount-saved" id="fundModalSavedAmount">0 đ</span>
+                            <span class="fund-amount-sep">/</span>
+                            <span class="fund-amount-goal" id="fundModalGoalAmount">0 đ</span>
+                        </div>
+                        <div class="savings-track fund-modal-track" role="progressbar">
+                            <div class="savings-fill" id="fundModalFillBar" style="width: 0%;"></div>
+                        </div>
+                        <div class="fund-meta-footer" id="fundModalTimingFooter">
+                            <span class="fund-timing-txt" id="fundModalDateTxt">📅 Dự kiến: Đang cập nhật</span>
+                            <span class="fund-days-left-badge" id="fundModalDaysBadge">Chưa đặt ngày</span>
+                        </div>
+                    </div>
+
+                    <!-- Nút thao tác nhanh nạp tiền -->
+                    <div class="fund-quick-actions">
+                        <button class="fund-deposit-btn" type="button" onclick="window.GoalsApp.openDepositFromDetail()">
+                            <span class="piggy-icon"></span>
+                            <span>Nuôi Heo Đất (+ Nạp Quỹ)</span>
+                        </button>
+                    </div>
+
+                    <!-- Lịch sử các lần đóng góp heo đất -->
+                    <div class="fund-history-box">
+                        <div class="fund-history-header">
+                            <span class="fund-history-heading">Lịch Sử Đóng Góp</span>
+                            <span class="fund-history-badge" id="fundModalHistoryCount">0 lần</span>
+                        </div>
+                        <div class="fund-history-scroll" id="fundModalHistoryList">
+                            <!-- Render tự động: Huy đã góp, Hiền đã góp... -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CỘT 2: KHUNG MÃ QR MOMO SANG TRỌNG ĐỂ THAM GIA QUỸ -->
+                <div class="fund-modal-right-col">
+                    <div class="momo-exclusive-card">
+                        <div class="momo-card-brand">
+                            <div class="momo-brand-icon-wrap">
+                                <span class="momo-brand-text">MoMo</span>
+                            </div>
+                            <div class="momo-brand-title-wrap">
+                                <span class="momo-card-sub">Quỹ Heo Đất &amp; Quyên Góp</span>
+                                <h4 class="momo-card-heading">Quét Mã Vào Quỹ</h4>
+                            </div>
+                        </div>
+
+                        <!-- KHUNG HIỂN THỊ MÃ QR CODE TỰ ĐỘNG SINH TỪ LINK -->
+                        <div class="momo-qr-visual-box" id="momoQrVisualBox">
+                            <!-- Ảnh mã QR Code sẽ được render tự động -->
+                        </div>
+
+                        <!-- Cụm nút bấm tương tác MoMo -->
+                        <div class="momo-buttons-stack" id="momoButtonsStack">
+                            <a class="momo-action-btn momo-open-btn" id="btnOpenMomoDirect" href="#" target="_blank" rel="noopener noreferrer">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                                <span>Mở App MoMo</span>
+                            </a>
+                            <button class="momo-action-btn momo-copy-btn" id="btnCopyMomoDirect" type="button">
+                                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                <span>Sao Chép Link Quỹ</span>
+                            </button>
+                        </div>
+
+                        <!-- Form cập nhật link MoMo nhanh ngay trong modal nếu muốn đổi link -->
+                        <div class="momo-link-inline-editor">
+                            <label class="momo-inline-label" for="inputInlineMomo">Cập nhật link MoMo của mục này:</label>
+                            <div class="momo-inline-input-row">
+                                <input type="url" class="momo-inline-field" id="inputInlineMomo" placeholder="https://me.momo.vn/... hoặc link quỹ">
+                                <button class="momo-inline-btn" type="button" onclick="window.GoalsApp.handleSaveInlineMomo()">Lưu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fund-modal-footer">
+                <button class="modal-btn-cancel" type="button" onclick="window.GoalsApp.closeModal('modalFundDetail')">Đóng Cửa Sổ</button>
+            </div>
         </div>
     </div>
 

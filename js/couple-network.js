@@ -53,6 +53,7 @@ window.CoupleNetwork = (function () {
         { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelay', credential: 'openrelay' }
     ];
 
+    let initialized = false;
     let peer = null;
     let peerConn = null;
     let broadcastChan = null;
@@ -66,12 +67,19 @@ window.CoupleNetwork = (function () {
     const recentPacketIds = new Set();
 
     function init() {
+        if (initialized) {
+            updatePresenceUI();
+            return;
+        }
+        initialized = true;
+
         initBroadcastChannel();
         initCloudRelay();
         initPeerJS();
         startHeartbeat();
         updatePresenceUI();
         setupInviteButton();
+        setupRoleSwitchButton();
 
         // Tự động chuyển tab game nếu có ?game=...
         if (paramGame) {
@@ -449,6 +457,20 @@ window.CoupleNetwork = (function () {
         return 'Cờ Tỷ Phú';
     }
 
+    function setupRoleSwitchButton() {
+        const btnSwitch = document.getElementById('btnSwitchMyRole');
+        if (btnSwitch) {
+            btnSwitch.onclick = (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                toggleRole();
+                showPartnerToast(`Đã chuyển sang vai trò: ${myRole === 'huy' ? 'Huy' : 'Hiền'}`);
+            };
+        }
+    }
+
     function setupInviteButton() {
         const btnInvite = document.getElementById('btnInvitePartner');
         if (btnInvite) {
@@ -566,3 +588,16 @@ window.CoupleNetwork = (function () {
         showToast: showPartnerToast
     };
 })();
+
+// Tự động khởi động hệ thống mạng P2P khi DOM sẵn sàng
+if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            window.CoupleNetwork.init();
+        });
+    } else {
+        setTimeout(() => {
+            window.CoupleNetwork.init();
+        }, 50);
+    }
+}

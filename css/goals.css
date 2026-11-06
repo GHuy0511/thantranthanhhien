@@ -1085,3 +1085,731 @@
     opacity: 1;
     pointer-events: auto;
 }
+
+/* THIẾT KẾ COMPACT TỐI GIẢN CHO MODAL THÊM KẾ HOẠCH (KHÔNG SCROLLBAR, GỌN GÀNG) */
+.goal-form-card {
+    max-width: 560px !important;
+    width: 95% !important;
+    padding: 22px 26px !important;
+    border-radius: 20px !important;
+    position: relative;
+    max-height: 94vh;
+    box-sizing: border-box;
+}
+
+.goals-form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.goals-form-grid-2.align-center {
+    align-items: center;
+}
+
+.goals-secret-compact-box {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    background: #fdfbf7;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    margin-top: 18px;
+}
+
+@media (max-width: 580px) {
+    .goals-form-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    .goals-secret-compact-box {
+        margin-top: 4px;
+    }
+}
+
+/* ========================================================
+   MOMO QUỸ TIẾT KIỆM & MÃ QR CODE TỰ ĐỘNG (MOMO EXCLUSIVE STYLES)
+   ======================================================== */
+
+.momo-form-group {
+    background: rgba(165, 0, 100, 0.04);
+    border: 1px dashed rgba(165, 0, 100, 0.28);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+}
+
+.momo-label-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #a50064;
+    font-weight: 700;
+}
+
+.momo-qr-badge {
+    background: #a50064;
+    color: #ffffff;
+    font-size: 10.5px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    letter-spacing: 0.2px;
+}
+
+.momo-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.momo-prefix-badge {
+    background: #a50064;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 11px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.momo-url-input {
+    border-color: rgba(165, 0, 100, 0.3) !important;
+}
+
+.momo-url-input:focus {
+    border-color: #a50064 !important;
+    box-shadow: 0 0 0 3px rgba(165, 0, 100, 0.12) !important;
+}
+
+.momo-input-helper {
+    margin: 6px 0 0;
+    font-size: 11.5px;
+    color: #78716c;
+    line-height: 1.4;
+}
+
+/* Category & MoMo badges on cards */
+.goal-badges-cluster {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.goal-category-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(184, 115, 87, 0.1);
+    color: #8c4e33;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.goal-location-sub {
+    font-size: 12px;
+    color: #78716c;
+    margin-top: 2px;
+    display: block;
+}
+
+.savings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+}
+
+.savings-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-momo-qr-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #a50064;
+    background: #ffffff;
+    color: #a50064;
+}
+
+.btn-momo-qr-pill.has-momo {
+    background: linear-gradient(135deg, #a50064, #d82d8b);
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 2px 8px rgba(165, 0, 100, 0.25);
+}
+
+.btn-momo-qr-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(165, 0, 100, 0.35);
+}
+
+.momo-pill-logo {
+    background: #ffffff;
+    color: #a50064;
+    font-size: 9.5px;
+    font-weight: 900;
+    padding: 1px 4px;
+    border-radius: 4px;
+    line-height: 1;
+}
+
+.btn-view-detail {
+    color: #a50064 !important;
+    border-color: rgba(165, 0, 100, 0.3) !important;
+}
+
+.btn-view-detail:hover {
+    background: rgba(165, 0, 100, 0.08) !important;
+    border-color: #a50064 !important;
+}
+
+/* ========================================================
+   MODAL CHI TIẾT QUỸ & MÃ QR CODE MOMO
+   ======================================================== */
+.fund-detail-modal-card {
+    max-width: 780px !important;
+    width: 95% !important;
+    padding: 24px 28px !important;
+    border-radius: 24px !important;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-close-corner-btn {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    font-size: 14px;
+    color: #57534e;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.modal-close-corner-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #1c1917;
+    transform: rotate(90deg);
+}
+
+.fund-modal-top-bar {
+    margin-bottom: 18px;
+    padding-right: 36px;
+}
+
+.fund-badges-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.fund-cat-pill {
+    background: rgba(184, 115, 87, 0.12);
+    color: #8c4e33;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.fund-space-pill {
+    background: rgba(0, 0, 0, 0.06);
+    color: #44403c;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.fund-modal-main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #292524;
+    margin: 0 0 4px;
+}
+
+.fund-modal-subtitle {
+    font-size: 13px;
+    color: #78716c;
+    margin: 0;
+}
+
+.fund-modal-split-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 20px;
+    align-items: stretch;
+}
+
+@media (max-width: 768px) {
+    .fund-modal-split-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Cột trái */
+.fund-modal-left-col {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.fund-status-card {
+    background: #fdfbf7;
+    border: 1.5px solid rgba(184, 115, 87, 0.16);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 16px rgba(184, 115, 87, 0.06);
+}
+
+.fund-card-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.fund-pct-tag {
+    font-size: 13px;
+    font-weight: 800;
+    color: #b87357;
+    background: rgba(184, 115, 87, 0.12);
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.fund-amount-big-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.fund-amount-saved {
+    font-size: 22px;
+    font-weight: 800;
+    color: #b87357;
+}
+
+.fund-amount-sep {
+    font-size: 16px;
+    color: #a8a29e;
+}
+
+.fund-amount-goal {
+    font-size: 15px;
+    font-weight: 700;
+    color: #78716c;
+}
+
+.fund-modal-track {
+    height: 10px !important;
+    border-radius: 5px !important;
+    margin-bottom: 10px;
+}
+
+.fund-meta-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #78716c;
+}
+
+.fund-days-left-badge {
+    background: #fef3c7;
+    color: #b45309;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+}
+
+.fund-quick-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fund-deposit-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #b87357;
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 700;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(184, 115, 87, 0.25);
+    transition: all 0.2s ease;
+}
+
+.fund-deposit-btn:hover {
+    background: #a35d42;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(184, 115, 87, 0.35);
+}
+
+/* Lịch sử nạp */
+.fund-history-box {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.fund-history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.fund-history-heading {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #44403c;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.fund-history-badge {
+    font-size: 11px;
+    color: #78716c;
+}
+
+.fund-history-scroll {
+    max-height: 140px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fund-history-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: #fdfbf7;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.history-row-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-avatar-badge {
+    font-size: 10.5px;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+.history-avatar-badge.by-huy {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.history-avatar-badge.by-hien {
+    background: #fce7f3;
+    color: #be185d;
+}
+
+.history-info-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.history-note {
+    font-size: 12px;
+    font-weight: 600;
+    color: #292524;
+}
+
+.history-date {
+    font-size: 10.5px;
+    color: #a8a29e;
+}
+
+.history-amount {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #10b981;
+}
+
+.history-empty-notice {
+    padding: 16px;
+    text-align: center;
+    font-size: 12px;
+    color: #a8a29e;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ========================================================
+   CỘT PHẢI: THẺ MOMO VÀ MÃ QR SẮC NÉT
+   ======================================================== */
+.momo-exclusive-card {
+    background: linear-gradient(145deg, #a50064, #d82d8b);
+    border-radius: 20px;
+    padding: 18px 16px;
+    color: #ffffff;
+    box-shadow: 0 10px 28px rgba(165, 0, 100, 0.28);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.momo-card-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.momo-brand-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.momo-brand-text {
+    color: #a50064;
+    font-weight: 900;
+    font-size: 12.5px;
+    letter-spacing: -0.2px;
+}
+
+.momo-brand-title-wrap {
+    text-align: left;
+}
+
+.momo-card-sub {
+    font-size: 10.5px;
+    opacity: 0.88;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+}
+
+.momo-card-heading {
+    font-size: 15px;
+    font-weight: 800;
+    margin: 0;
+    color: #ffffff;
+}
+
+.momo-qr-visual-box {
+    width: 200px;
+    height: 200px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.momo-qr-render-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.momo-qr-img {
+    width: 155px;
+    height: 155px;
+    object-fit: contain;
+    border-radius: 8px;
+    display: block;
+}
+
+.momo-qr-scan-badge {
+    font-size: 10px;
+    font-weight: 700;
+    color: #a50064;
+    margin-top: 4px;
+}
+
+.momo-qr-empty-placeholder {
+    padding: 12px;
+    color: #78716c;
+}
+
+.momo-empty-icon {
+    font-size: 32px;
+    margin-bottom: 4px;
+}
+
+.momo-empty-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #44403c;
+    margin: 0 0 4px;
+}
+
+.momo-empty-desc {
+    font-size: 11px;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.momo-buttons-stack {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.momo-action-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.momo-open-btn {
+    background: #ffffff;
+    color: #a50064;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.momo-open-btn:hover {
+    background: #fdf2f8;
+    transform: translateY(-1px);
+}
+
+.momo-copy-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.momo-copy-btn:hover {
+    background: rgba(255, 255, 255, 0.32);
+    transform: translateY(-1px);
+}
+
+.momo-link-inline-editor {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 8px 10px;
+    text-align: left;
+}
+
+.momo-inline-label {
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 4px;
+    display: block;
+    font-weight: 600;
+}
+
+.momo-inline-input-row {
+    display: flex;
+    gap: 6px;
+}
+
+.momo-inline-field {
+    flex: 1;
+    background: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 11.5px;
+    color: #292524;
+    outline: none;
+}
+
+.momo-inline-btn {
+    background: #ffffff;
+    color: #a50064;
+    font-weight: 800;
+    font-size: 11.5px;
+    border: none;
+    border-radius: 8px;
+    padding: 0 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.momo-inline-btn:hover {
+    background: #fdf2f8;
+}
+
+.fund-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}

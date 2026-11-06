@@ -2,7 +2,9 @@
  * ========================================================
  * KẾ HOẠCH & QUỸ TIẾT KIỆM TƯƠNG LAI CHO HUY & HIỀN
  * - Quản lý mục tiêu chung và không gian riêng tư của mỗi người
- * - Quỹ tiết kiệm heo đất tích lũy cho các dự định
+ * - Phân loại danh mục khoa học: Du lịch, Kỷ niệm, Tương lai, Hẹn hò
+ * - QUỸ MOMO & MÃ QR ĐỘNG: Tạo mã QR sắc nét từ link MoMo để quét tham gia quỹ
+ * - Lịch sử nạp quỹ heo đất chi tiết (Ai góp, bao nhiêu, ngày nào, ghi chú)
  * - TÍNH NĂNG BÍ MẬT: Ẩn tiến độ tiền với đối phương để tạo bất ngờ
  * - Checklist việc cần chuẩn bị cho từng chuyến đi/dự định
  * - Đồng bộ P2P thời gian thực giữa 2 máy qua CoupleNetwork
@@ -17,10 +19,21 @@ window.GoalsApp = (function () {
     let goals = [];
     let editingGoalId = null;
     let depositingGoalId = null;
+    let viewingFundGoalId = null;
+    let deletingGoalId = null;
 
-    const DEFAULT_GOALS = [];
+    const CATEGORY_MAP = {
+        travel: { name: 'Du Lịch', icon: '', color: '#0284c7' },
+        gift: { name: 'Kỷ Niệm', icon: '', color: '#ec4899' },
+        future: { name: 'Tương Lai', icon: '', color: '#10b981' },
+        dating: { name: 'Hẹn Hò', icon: '', color: '#f59e0b' },
+        other: { name: 'Mục Tiêu', icon: '', color: '#8b5cf6' }
+    };
 
     function init() {
+        if (window.CoupleNetwork) {
+            window.CoupleNetwork.init();
+        }
         loadData();
         bindUIEvents();
         initP2PSync();
@@ -30,7 +43,6 @@ window.GoalsApp = (function () {
 
     function loadData() {
         try {
-            // Xóa cache mẫu cũ nếu có
             localStorage.removeItem('couple_goals_data_v1');
             localStorage.removeItem('couple_goals_data_v2');
 
@@ -43,7 +55,6 @@ window.GoalsApp = (function () {
                     goals = [];
                 }
             } else {
-                // Không tạo sẵn kế hoạch mẫu, để trống cho bạn tự tạo
                 goals = [];
                 saveData(false);
             }
@@ -76,6 +87,12 @@ window.GoalsApp = (function () {
                 try { localStorage.setItem(STORAGE_KEY, JSON.stringify(goals)); } catch (e) {}
                 renderGoals();
                 updateFinancialOverview();
+                if (viewingFundGoalId) {
+                    openFundDetailModal(viewingFundGoalId);
+                }
+            } else if (packet.type === 'my_role_changed') {
+                renderGoals();
+                updateFinancialOverview();
             }
         });
     }
@@ -96,6 +113,10 @@ window.GoalsApp = (function () {
         const diffTime = target - today;
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         return diffDays;
+    }
+
+    function getCategoryInfo(catKey) {
+        return CATEGORY_MAP[catKey] || CATEGORY_MAP.travel;
     }
 
     // ========================================================
@@ -171,6 +192,9 @@ window.GoalsApp = (function () {
                 spaceTagText = 'Của Hiền';
             }
 
+            // Danh mục
+            const catInfo = getCategoryInfo(goal.category || 'travel');
+
             // Quyền riêng tư & Bảo mật
             const isCreator = (goal.ownerRole === myRole);
             const shouldHideSavings = goal.isSecret && !isCreator;
@@ -183,26 +207,37 @@ window.GoalsApp = (function () {
             // Render phần Tài Chính / Tiết Kiệm
             let savingsHtml = '';
             if (shouldHideSavings) {
-                // Người xem là đối phương -> Ẩn số tiền và hiện thông điệp thanh lịch
                 const creatorName = goal.ownerRole === 'huy' ? 'Huy' : 'Hiền';
                 savingsHtml = `
                     <div class="secret-surprise-box">
-                        <div class="secret-surprise-title">Bất ngờ từ ${creatorName}</div>
+                        <div class="secret-surprise-title">🎁 Bất ngờ từ ${creatorName}</div>
                         <p class="secret-surprise-desc">Kế hoạch đang được âm thầm chuẩn bị, số tiền được bảo mật riêng tư.</p>
                     </div>
                 `;
             } else {
+                const momoBtnHtml = `
+                    <button class="btn-momo-qr-pill ${goal.momoLink ? 'has-momo' : 'no-momo'}" type="button" title="Xem tiến độ và mã QR MoMo" onclick="window.GoalsApp.openFundDetailModal('${goal.id}')">
+                        <span class="momo-pill-logo">MoMo</span>
+                        <span>${goal.momoLink ? 'Quét QR Quỹ' : '+ Mã QR MoMo'}</span>
+                    </button>
+                `;
+
                 savingsHtml = `
                     <div class="goal-savings-box">
                         <div class="savings-header">
-                            <span class="savings-label">Quỹ tích lũy (${pct}%)</span>
-                            <button class="savings-btn-deposit" type="button" onclick="window.GoalsApp.openDepositModal('${goal.id}')">+ Nạp quỹ</button>
+                            <span class="savings-label" onclick="window.GoalsApp.openFundDetailModal('${goal.id}')" title="Xem chi tiết quỹ và mã QR" style="cursor: pointer;">
+                                Quỹ tích lũy (<strong>${pct}%</strong>)
+                            </span>
+                            <div class="savings-header-actions">
+                                ${momoBtnHtml}
+                                <button class="savings-btn-deposit" type="button" onclick="window.GoalsApp.openDepositModal('${goal.id}')">+ Nạp quỹ</button>
+                            </div>
                         </div>
-                        <div class="savings-row">
+                        <div class="savings-row" onclick="window.GoalsApp.openFundDetailModal('${goal.id}')" style="cursor: pointer;" title="Xem chi tiết quỹ">
                             <span class="savings-val-current">${formatVND(goal.currentAmount)}</span>
                             <span class="savings-val-target">Mục tiêu: ${formatVND(goal.targetAmount)}</span>
                         </div>
-                        <div class="savings-track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="savings-track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" onclick="window.GoalsApp.openFundDetailModal('${goal.id}')" style="cursor: pointer;">
                             <div class="savings-fill" style="width: ${pct}%;"></div>
                         </div>
                         ${goal.isSecret ? '<span class="savings-secret-indicator">• Đang ẩn số tiền với đối phương</span>' : ''}
@@ -227,10 +262,17 @@ window.GoalsApp = (function () {
             card.innerHTML = `
                 <div class="goal-card-header">
                     <div class="goal-header-left">
-                        <span class="goal-space-tag ${spaceTagClass}">${spaceTagText}</span>
+                        <div class="goal-badges-cluster">
+                            <span class="goal-category-badge" title="Danh mục: ${catInfo.name}">
+                                ${catInfo.name}
+                            </span>
+                            <span class="goal-space-tag ${spaceTagClass}">${spaceTagText}</span>
+                        </div>
                         <h3 class="goal-title">${goal.title}</h3>
+                        ${goal.location ? `<span class="goal-location-sub">📍 ${goal.location}</span>` : ''}
                     </div>
                     <div class="goal-card-actions">
+                        <button class="goal-action-btn btn-view-detail" type="button" title="Xem chi tiết & Quét QR MoMo" onclick="window.GoalsApp.openFundDetailModal('${goal.id}')">Xem Quỹ &amp; QR</button>
                         <button class="goal-action-btn" type="button" title="Chỉnh sửa" onclick="window.GoalsApp.openEditModal('${goal.id}')">Sửa</button>
                         <button class="goal-action-btn btn-delete" type="button" title="Xóa" onclick="window.GoalsApp.promptDeleteGoal('${goal.id}')">Xóa</button>
                     </div>
@@ -239,7 +281,7 @@ window.GoalsApp = (function () {
                 ${goal.targetDate ? `
                     <div class="goal-timing-strip">
                         <div class="goal-timing-left">
-                            <span>Dự kiến: ${goal.targetDate}</span>
+                            <span>📅 Dự kiến: ${goal.targetDate}</span>
                         </div>
                         <span class="goal-timing-badge">${daysBadgeText}</span>
                     </div>
@@ -280,7 +322,6 @@ window.GoalsApp = (function () {
         let doneChecklistItems = 0;
 
         goals.forEach(g => {
-            // Kiểm tra số tiền được phép nhìn thấy
             const canSee = !g.isSecret || (g.ownerRole === myRole);
             if (canSee) {
                 totalVisibleSaved += (g.currentAmount || 0);
@@ -295,7 +336,6 @@ window.GoalsApp = (function () {
 
         const overallPct = totalTarget > 0 ? Math.min(100, Math.round((totalVisibleSaved / totalTarget) * 100)) : 0;
 
-        // Cập nhật DOM
         const savedEl = document.getElementById('summaryTotalSaved');
         const targetEl = document.getElementById('summaryTotalTarget');
         const pctEl = document.getElementById('summaryPercent');
@@ -310,7 +350,6 @@ window.GoalsApp = (function () {
         if (countActiveEl) countActiveEl.textContent = `${activeGoals.length}`;
         if (checklistStatsEl) checklistStatsEl.textContent = `${doneChecklistItems}/${totalChecklistItems}`;
 
-        // Cập nhật số đếm trên từng tab bộ lọc
         const countAllEl = document.getElementById('countTabAll');
         const countBothEl = document.getElementById('countTabBoth');
         const countHuyEl = document.getElementById('countTabHuy');
@@ -356,6 +395,169 @@ window.GoalsApp = (function () {
     }
 
     // ========================================================
+    // MODAL CHI TIẾT QUỸ & MÃ QR MOMO (DEDICATED MOMO FUND MODAL)
+    // ========================================================
+    function openFundDetailModal(goalId) {
+        viewingFundGoalId = goalId;
+        const goal = goals.find(g => g.id === goalId);
+        if (!goal) return;
+
+        const modal = document.getElementById('modalFundDetail');
+        if (!modal) return;
+
+        const myRole = getMyRole();
+        const catInfo = getCategoryInfo(goal.category || 'travel');
+        const daysLeft = calculateDaysRemaining(goal.targetDate);
+
+        // Header info
+        document.getElementById('fundModalTitle').textContent = goal.title;
+        document.getElementById('fundModalSubtitle').textContent = goal.location ? `📍 ${goal.location}` : 'Kế hoạch tích lũy tương lai';
+
+        const catBadge = document.getElementById('fundModalCatBadge');
+        if (catBadge) {
+            catBadge.textContent = `${catInfo.name}`;
+        }
+
+        const spaceBadge = document.getElementById('fundModalSpaceBadge');
+        if (spaceBadge) {
+            spaceBadge.textContent = goal.space === 'both' ? 'Kế Hoạch Chung' : (goal.space === 'huy' ? 'Của Huy' : 'Của Hiền');
+        }
+
+        // Stats
+        const pct = goal.targetAmount > 0 ? Math.min(100, Math.round((goal.currentAmount / goal.targetAmount) * 100)) : 0;
+        document.getElementById('fundModalSavedAmount').textContent = formatVND(goal.currentAmount);
+        document.getElementById('fundModalGoalAmount').textContent = formatVND(goal.targetAmount);
+        document.getElementById('fundModalPctBadge').textContent = `${pct}%`;
+        document.getElementById('fundModalFillBar').style.width = `${pct}%`;
+
+        const dateTxt = document.getElementById('fundModalDateTxt');
+        if (dateTxt) {
+            dateTxt.textContent = goal.targetDate ? `📅 Dự kiến: ${goal.targetDate}` : '📅 Chưa đặt thời gian';
+        }
+        const daysBadge = document.getElementById('fundModalDaysBadge');
+        if (daysBadge) {
+            if (daysLeft !== null) {
+                daysBadge.textContent = daysLeft > 0 ? `Còn ${daysLeft} ngày` : (daysLeft === 0 ? 'Hôm nay' : 'Đã đến hạn');
+                daysBadge.style.display = 'inline-block';
+            } else {
+                daysBadge.style.display = 'none';
+            }
+        }
+
+        // Render Lịch Sử Đóng Góp Heo Đất
+        const historyList = document.getElementById('fundModalHistoryList');
+        const historyCount = document.getElementById('fundModalHistoryCount');
+        const deposits = goal.deposits || [];
+
+        if (historyCount) historyCount.textContent = `${deposits.length} lần`;
+
+        if (historyList) {
+            historyList.innerHTML = '';
+            if (deposits.length === 0) {
+                historyList.innerHTML = `
+                    <div class="history-empty-notice">
+                        <span class="piggy-sub-icon">🐷</span>
+                        <span>Chưa có lượt nạp heo đất nào. Hãy bắt đầu tích lũy ngay hôm nay!</span>
+                    </div>
+                `;
+            } else {
+                // Sắp xếp mới nhất lên đầu
+                const sorted = [...deposits].reverse();
+                sorted.forEach(dep => {
+                    const row = document.createElement('div');
+                    row.className = 'fund-history-row';
+                    const byName = dep.by || (dep.contributor === 'hien' ? 'Hiền' : 'Huy');
+                    const badgeClass = byName === 'Huy' ? 'by-huy' : 'by-hien';
+
+                    row.innerHTML = `
+                        <div class="history-row-left">
+                            <span class="history-avatar-badge ${badgeClass}">${byName}</span>
+                            <div class="history-info-meta">
+                                <span class="history-note">${dep.note || 'Nuôi heo đất tiết kiệm'}</span>
+                                <span class="history-date">${dep.date || 'Hôm nay'}</span>
+                            </div>
+                        </div>
+                        <div class="history-amount">+${formatVND(dep.amount)}</div>
+                    `;
+                    historyList.appendChild(row);
+                });
+            }
+        }
+
+        // Render Mã QR MoMo
+        const qrBox = document.getElementById('momoQrVisualBox');
+        const btnOpen = document.getElementById('btnOpenMomoDirect');
+        const btnCopy = document.getElementById('btnCopyMomoDirect');
+        const inlineInput = document.getElementById('inputInlineMomo');
+
+        if (inlineInput) inlineInput.value = goal.momoLink || '';
+
+        if (goal.momoLink && goal.momoLink.trim()) {
+            const cleanUrl = goal.momoLink.trim();
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(cleanUrl)}`;
+
+            qrBox.innerHTML = `
+                <div class="momo-qr-render-wrap">
+                    <img src="${qrApiUrl}" alt="Mã QR Quỹ MoMo" class="momo-qr-img" />
+                    <div class="momo-qr-scan-badge">
+                        <span>📱 Quét bằng app MoMo để tham gia quỹ</span>
+                    </div>
+                </div>
+            `;
+
+            if (btnOpen) {
+                btnOpen.href = cleanUrl;
+                btnOpen.style.display = 'inline-flex';
+            }
+            if (btnCopy) {
+                btnCopy.onclick = () => {
+                    navigator.clipboard.writeText(cleanUrl).then(() => {
+                        showToast('💌 Đã sao chép link quỹ MoMo!');
+                    }).catch(() => {
+                        showToast('Link: ' + cleanUrl);
+                    });
+                };
+            }
+        } else {
+            qrBox.innerHTML = `
+                <div class="momo-qr-empty-placeholder">
+                    <div class="momo-empty-icon">📱</div>
+                    <h5 class="momo-empty-title">Chưa có link Quỹ MoMo</h5>
+                    <p class="momo-empty-desc">Dán link Quỹ nhóm hoặc link cá nhân MoMo bên dưới để tạo mã QR ngay.</p>
+                </div>
+            `;
+            if (btnOpen) btnOpen.style.display = 'none';
+            if (btnCopy) {
+                btnCopy.onclick = () => {
+                    showToast('Vui lòng dán link MoMo bên dưới trước nhé!');
+                };
+            }
+        }
+
+        modal.classList.add('active');
+    }
+
+    function openDepositFromDetail() {
+        if (!viewingFundGoalId) return;
+        openDepositModal(viewingFundGoalId);
+    }
+
+    function handleSaveInlineMomo() {
+        if (!viewingFundGoalId) return;
+        const goal = goals.find(g => g.id === viewingFundGoalId);
+        if (!goal) return;
+
+        const input = document.getElementById('inputInlineMomo');
+        if (!input) return;
+
+        goal.momoLink = input.value.trim();
+        saveData(true);
+        renderGoals();
+        openFundDetailModal(viewingFundGoalId);
+        showToast('💖 Đã lưu và tạo mã QR MoMo thành công!');
+    }
+
+    // ========================================================
     // MODAL THÊM / SỬA KẾ HOẠCH
     // ========================================================
     function openCreateModal() {
@@ -365,8 +567,10 @@ window.GoalsApp = (function () {
 
         document.getElementById('goalFormTitle').textContent = 'Thêm Kế Hoạch & Dự Định Mới';
         document.getElementById('inputGoalTitle').value = '';
-        document.getElementById('inputGoalLocation').value = 'Huế';
+        document.getElementById('selectGoalCategory').value = 'travel';
         document.getElementById('selectGoalSpace').value = currentSpace === 'all' ? 'both' : currentSpace;
+        document.getElementById('inputGoalLocation').value = '';
+        document.getElementById('inputGoalMomoLink').value = '';
         document.getElementById('inputGoalDate').value = '';
         document.getElementById('inputGoalTarget').value = '5000000';
         document.getElementById('inputGoalInitial').value = '0';
@@ -385,8 +589,10 @@ window.GoalsApp = (function () {
 
         document.getElementById('goalFormTitle').textContent = 'Chỉnh Sửa Kế Hoạch';
         document.getElementById('inputGoalTitle').value = goal.title;
+        document.getElementById('selectGoalCategory').value = goal.category || 'travel';
+        document.getElementById('selectGoalSpace').value = goal.space || 'both';
         document.getElementById('inputGoalLocation').value = goal.location || '';
-        document.getElementById('selectGoalSpace').value = goal.space;
+        document.getElementById('inputGoalMomoLink').value = goal.momoLink || '';
         document.getElementById('inputGoalDate').value = goal.targetDate || '';
         document.getElementById('inputGoalTarget').value = goal.targetAmount || '';
         document.getElementById('inputGoalInitial').value = goal.currentAmount || '0';
@@ -397,8 +603,10 @@ window.GoalsApp = (function () {
 
     function handleSaveGoalForm() {
         const title = document.getElementById('inputGoalTitle').value.trim();
-        const location = document.getElementById('inputGoalLocation').value.trim();
+        const category = document.getElementById('selectGoalCategory').value || 'travel';
         const space = document.getElementById('selectGoalSpace').value;
+        const location = document.getElementById('inputGoalLocation').value.trim();
+        const momoLink = document.getElementById('inputGoalMomoLink').value.trim();
         const date = document.getElementById('inputGoalDate').value;
         const targetAmount = parseInt(document.getElementById('inputGoalTarget').value, 10) || 0;
         const initialAmount = parseInt(document.getElementById('inputGoalInitial').value, 10) || 0;
@@ -415,8 +623,10 @@ window.GoalsApp = (function () {
             const goal = goals.find(g => g.id === editingGoalId);
             if (goal) {
                 goal.title = title;
-                goal.location = location;
+                goal.category = category;
                 goal.space = space;
+                goal.location = location;
+                goal.momoLink = momoLink;
                 goal.targetDate = date;
                 goal.targetAmount = targetAmount;
                 goal.currentAmount = initialAmount;
@@ -426,8 +636,10 @@ window.GoalsApp = (function () {
             const newGoal = {
                 id: 'g_' + Date.now(),
                 title: title,
-                location: location || 'Kế hoạch',
+                category: category,
                 space: space,
+                location: location || 'Kế hoạch',
+                momoLink: momoLink,
                 targetDate: date,
                 targetAmount: targetAmount,
                 currentAmount: initialAmount,
@@ -451,9 +663,8 @@ window.GoalsApp = (function () {
         closeModal('modalGoalForm');
         saveData(true);
         renderGoals();
+        showToast('✨ Đã lưu kế hoạch thành công!');
     }
-
-    let deletingGoalId = null;
 
     function promptDeleteGoal(goalId) {
         const goal = goals.find(g => g.id === goalId);
@@ -542,15 +753,21 @@ window.GoalsApp = (function () {
         closeModal('modalDeposit');
         saveData(true);
         renderGoals();
+        if (viewingFundGoalId === depositingGoalId) {
+            openFundDetailModal(viewingFundGoalId);
+        }
+        showToast(`🐷 Đã nạp thành công ${formatVND(amount)} vào quỹ!`);
     }
 
     function closeModal(modalId) {
         const m = document.getElementById(modalId);
         if (m) m.classList.remove('active');
+        if (modalId === 'modalFundDetail') {
+            viewingFundGoalId = null;
+        }
     }
 
     function bindUIEvents() {
-        // Segmented Tabs Switcher
         const tabs = document.querySelectorAll('.segmented-btn');
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
@@ -565,16 +782,15 @@ window.GoalsApp = (function () {
             });
         });
 
-        // Đóng modal khi bấm ra ngoài phần nền kính mờ
         document.querySelectorAll('.goals-modal-overlay, .game-modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) {
                     overlay.classList.remove('active');
+                    if (overlay.id === 'modalFundDetail') viewingFundGoalId = null;
                 }
             });
         });
 
-        // Quick amount buttons in deposit modal
         document.querySelectorAll('.quick-amount-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const val = btn.dataset.val;
@@ -583,15 +799,7 @@ window.GoalsApp = (function () {
             });
         });
 
-        // Role Switcher in Top Nav
-        const btnSwitch = document.getElementById('btnSwitchMyRole');
-        if (btnSwitch && window.CoupleNetwork) {
-            btnSwitch.addEventListener('click', () => {
-                window.CoupleNetwork.toggleRole();
-                renderGoals();
-                updateFinancialOverview();
-            });
-        }
+        // Role switch handled centrally by CoupleNetwork
     }
 
     return {
@@ -608,6 +816,9 @@ window.GoalsApp = (function () {
         closeModal,
         toggleChecklist,
         addChecklistItem,
+        openFundDetailModal,
+        openDepositFromDetail,
+        handleSaveInlineMomo,
         getGoals: () => goals
     };
 })();

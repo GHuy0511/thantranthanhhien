@@ -5182,3 +5182,390 @@ html, body {
         margin-top: 4px !important;
     }
 }
+
+
+/* ========================================================
+   TRÌNH CHỈNH SỬA THƯ KỶ NIỆM (MEMORY LETTER EDITOR MODAL)
+   ======================================================== */
+.top-nav-edit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(184, 115, 87, 0.2);
+    color: var(--text-primary, #44403c);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.top-nav-edit-btn:hover {
+    background: #ffffff;
+    border-color: #b87357;
+    color: #b87357;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(184, 115, 87, 0.15);
+}
+
+.theme-modal-custom-action {
+    margin: 12px 0 6px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.theme-edit-letter-shortcut {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 12px;
+    background: rgba(184, 115, 87, 0.08);
+    border: 1.2px solid rgba(184, 115, 87, 0.25);
+    color: #8c4e33;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-edit-letter-shortcut:hover {
+    background: rgba(184, 115, 87, 0.16);
+    border-color: #b87357;
+    transform: translateY(-1px);
+}
+
+.memory-editor-modal-box {
+    background: #ffffff;
+    border-radius: 24px;
+    width: 95%;
+    max-width: 680px;
+    max-height: 88vh;
+    padding: 24px 28px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.editor-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    font-size: 14px;
+    color: #57534e;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.editor-close-btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transform: rotate(90deg);
+}
+
+.editor-modal-header {
+    margin-bottom: 18px;
+    padding-right: 36px;
+}
+
+.editor-header-badge {
+    background: rgba(184, 115, 87, 0.12);
+    color: #8c4e33;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.editor-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #292524;
+    margin: 0 0 4px;
+}
+
+.editor-modal-sub {
+    font-size: 13px;
+    color: #78716c;
+    margin: 0;
+}
+
+/* Danh sách card kỷ niệm */
+.editor-memories-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+    .editor-memories-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.editor-memory-card {
+    background: #fdfbf7;
+    border: 1.5px solid rgba(184, 115, 87, 0.16);
+    border-radius: 16px;
+    padding: 12px;
+    display: flex;
+    gap: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    transition: all 0.2s ease;
+}
+
+.editor-memory-card:hover {
+    border-color: #b87357;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(184, 115, 87, 0.12);
+}
+
+.editor-card-thumb-wrap {
+    width: 64px;
+    height: 72px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #e7e5e4;
+}
+
+.editor-card-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.editor-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.editor-badge-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #8c4e33;
+    text-transform: uppercase;
+}
+
+.editor-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #292524;
+    margin: 2px 0 4px;
+}
+
+.editor-card-snippet {
+    font-size: 11.5px;
+    color: #78716c;
+    margin: 0 0 8px;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.editor-btn-select-mem {
+    align-self: flex-start;
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: #b87357;
+    color: #ffffff;
+    font-size: 11.5px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.editor-btn-select-mem:hover {
+    background: #a05a3f;
+    transform: translateY(-1px);
+}
+
+.editor-list-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.btn-restore-all-letters {
+    background: transparent;
+    border: none;
+    color: #a8a29e;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.btn-restore-all-letters:hover {
+    color: #dc2626;
+}
+
+/* Form chỉnh sửa */
+.editor-form-top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.editor-back-btn {
+    background: rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #44403c;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.editor-back-btn:hover {
+    background: rgba(184, 115, 87, 0.12);
+    color: #b87357;
+}
+
+.editor-current-mem-tag {
+    font-size: 12px;
+    font-weight: 700;
+    color: #b87357;
+    background: rgba(184, 115, 87, 0.08);
+    padding: 3px 10px;
+    border-radius: 999px;
+}
+
+.editor-form-grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+@media (max-width: 540px) {
+    .editor-form-grid-2col {
+        grid-template-columns: 1fr;
+    }
+}
+
+.editor-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+}
+
+.editor-input-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #44403c;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.char-count-badge {
+    font-size: 11px;
+    font-weight: 600;
+    color: #a8a29e;
+}
+
+.editor-text-input,
+.editor-textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    background: #fdfbf7;
+    font-size: 13.5px;
+    color: #292524;
+    outline: none;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.editor-textarea {
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.editor-text-input:focus,
+.editor-textarea:focus {
+    border-color: #b87357;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(184, 115, 87, 0.12);
+}
+
+.editor-input-hint {
+    font-size: 11.5px;
+    color: #78716c;
+    margin: 4px 0 0;
+}
+
+.editor-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.editor-btn-secondary {
+    padding: 8px 16px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #44403c;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.editor-btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.editor-btn-primary {
+    padding: 8px 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #b87357, #9c583f);
+    border: none;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(184, 115, 87, 0.25);
+    transition: all 0.2s ease;
+}
+
+.editor-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(184, 115, 87, 0.35);
+}

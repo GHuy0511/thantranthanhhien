@@ -1394,6 +1394,18 @@ function promptBuyProperty(player, tile) {
     document.getElementById("buyPropSubtitle").textContent = tile.subtitle;
     document.getElementById("buyPropEmoji").textContent = tile.icon;
     document.getElementById("buyPropDesc").textContent = tile.desc;
+
+    const buyImg = document.getElementById("buyPropImage");
+    const buyFrame = document.getElementById("buyPropImageFrame");
+    if (buyImg && buyFrame) {
+        if (tile.image) {
+            buyImg.src = tile.image;
+            buyImg.alt = tile.name;
+            buyFrame.style.display = "block";
+        } else {
+            buyFrame.style.display = "none";
+        }
+    }
     document.getElementById("buyModalRegion").textContent = tile.regionName.toUpperCase();
     document.getElementById("buyCostLabel").textContent = "Giá mua đất:";
     document.getElementById("buyPropCost").textContent = `${tile.price}M VNĐ`;
@@ -1474,6 +1486,18 @@ function promptUpgradeProperty(player, tile) {
     document.getElementById("buyPropSubtitle").textContent = `Nâng lên ${levelNames[nextLevel]}`;
     document.getElementById("buyPropEmoji").textContent = nextLevel === 2 ? "🏠🏠" : "🏨";
     document.getElementById("buyPropDesc").textContent = `Xây thêm công trình để tăng mạnh tiền thuê đất khi đối thủ dừng chân!`;
+
+    const upgradeImg = document.getElementById("buyPropImage");
+    const upgradeFrame = document.getElementById("buyPropImageFrame");
+    if (upgradeImg && upgradeFrame) {
+        if (tile.image) {
+            upgradeImg.src = tile.image;
+            upgradeImg.alt = tile.name;
+            upgradeFrame.style.display = "block";
+        } else {
+            upgradeFrame.style.display = "none";
+        }
+    }
     document.getElementById("buyModalRegion").textContent = tile.regionName.toUpperCase();
     document.getElementById("buyCostLabel").textContent = "Chi phí xây dựng:";
     document.getElementById("buyPropCost").textContent = `${upgradePrice}M VNĐ`;
@@ -1978,6 +2002,28 @@ function inspectTileTitleDeed(tileId) {
     document.getElementById("inspectSubtitle").textContent = tile.subtitle;
     document.getElementById("inspectDesc").textContent = tile.desc;
 
+    // Cập nhật ảnh danh thắng thực tế vào modal
+    const imgEl = document.getElementById("inspectImage");
+    const photoFrame = document.getElementById("inspectPhotoFrame");
+    if (imgEl && photoFrame) {
+        if (tile.image) {
+            imgEl.src = tile.image;
+            imgEl.alt = tile.name;
+            photoFrame.style.display = "block";
+        } else {
+            photoFrame.style.display = "none";
+        }
+    }
+    const photoBadge = document.getElementById("inspectPhotoBadge");
+    if (photoBadge) {
+        photoBadge.textContent = `📍 ${tile.regionName} • ${tile.subtitle || tile.name}`;
+    }
+
+    const headerBanner = document.getElementById("inspectHeaderColor");
+    if (headerBanner) {
+        headerBanner.className = `deed-header-banner strip-${tile.region}`;
+    }
+
     const rentTable = document.querySelector(".inspect-rent-table");
     const ownerBox = document.getElementById("inspectOwnerBox");
     const btnUpgrade = document.getElementById("btnInspectUpgrade");
@@ -2454,12 +2500,14 @@ function setupEventListeners() {
     if (btnCloseHelp) btnCloseHelp.addEventListener("click", () => closeModal("modalHelp"));
 
     const btnSound = document.getElementById("btnToggleSound");
-    const soundIcon = document.getElementById("soundIcon");
+    const soundSvgOn = document.getElementById("soundSvgOn");
+    const soundSvgOff = document.getElementById("soundSvgOff");
     if (btnSound) {
         btnSound.addEventListener("click", () => {
             gameState.soundEnabled = !gameState.soundEnabled;
-            if (soundIcon) soundIcon.textContent = gameState.soundEnabled ? "🔔" : "🔕";
-            showStatusNotice(gameState.soundEnabled ? "🔔 Đã bật âm thanh trò chơi" : "🔕 Đã tắt âm thanh trò chơi");
+            if (soundSvgOn) soundSvgOn.style.display = gameState.soundEnabled ? "block" : "none";
+            if (soundSvgOff) soundSvgOff.style.display = gameState.soundEnabled ? "none" : "block";
+            showStatusNotice(gameState.soundEnabled ? "Đã bật âm thanh trò chơi" : "Đã tắt âm thanh trò chơi");
         });
     }
 
@@ -2666,15 +2714,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Nút đổi vai trò Huy / Hiền
-    const btnSwitch = document.getElementById("btnSwitchMyRole");
-    if (btnSwitch) {
-        btnSwitch.addEventListener("click", () => {
-            if (window.CoupleNetwork) {
-                window.CoupleNetwork.toggleRole();
-            }
-        });
-    }
+    // Role switch handled centrally by CoupleNetwork
 });
 
 // 34. ĐỒNG BỘ CỜ TỶ PHÚ QUA MẠNG P2P

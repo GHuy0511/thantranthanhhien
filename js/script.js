@@ -1951,3 +1951,247 @@ function initThemeSwitcher() {
         });
     }
 }
+
+
+/* ========================================================
+   QUẢN LÝ VÀ CHỈNH SỬA THƯ KỶ NIỆM (MEMORY LETTER EDITOR)
+   - Lưu trữ và đồng bộ qua localStorage
+   - Cho phép chỉnh sửa tiêu đề, nhãn thời gian, địa điểm và toàn bộ nội dung thư
+   ======================================================== */
+const STORAGE_CUSTOM_MEMORIES = "couple_custom_memories_v2";
+const ORIGINAL_MEMORIES = JSON.parse(JSON.stringify(MEMORIES));
+let currentlyEditingMemoryIndex = null;
+
+function loadCustomMemories() {
+    try {
+        const saved = localStorage.getItem(STORAGE_CUSTOM_MEMORIES);
+        if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                parsed.forEach(custom => {
+                    const idx = MEMORIES.findIndex(m => m.id === custom.id);
+                    if (idx !== -1) {
+                        if (custom.title) MEMORIES[idx].title = custom.title;
+                        if (custom.date) MEMORIES[idx].date = custom.date;
+                        if (custom.location) MEMORIES[idx].location = custom.location;
+                        if (custom.story) MEMORIES[idx].story = custom.story;
+                    }
+                });
+            }
+        }
+    } catch (e) {
+        console.warn("Could not load custom memories:", e);
+    }
+}
+
+function saveCustomMemories() {
+    try {
+        const toSave = MEMORIES.map(m => ({
+            id: m.id,
+            title: m.title,
+            date: m.date,
+            location: m.location,
+            story: m.story
+        }));
+        localStorage.setItem(STORAGE_CUSTOM_MEMORIES, JSON.stringify(toSave));
+    } catch (e) {
+        console.warn("Could not save custom memories:", e);
+    }
+}
+
+function initMemoryEditor() {
+    loadCustomMemories();
+
+    const btnNav = document.getElementById("btnEditMemoriesNav");
+    const btnModal = document.getElementById("btnOpenLetterEditorFromModal");
+    const modalEditor = document.getElementById("modalMemoryEditor");
+    const btnClose = document.getElementById("btnCloseMemoryEditor");
+    const btnBack = document.getElementById("btnBackToEditorList");
+    const btnRestore = document.getElementById("btnRestoreAllLetters");
+    const btnPreview = document.getElementById("btnPreviewLetterFromEdit");
+    const textarea = document.getElementById("editMemStory");
+
+    function openEditorModal() {
+        if (!modalEditor) return;
+        renderEditorMemoriesList();
+        showEditorListView();
+        modalEditor.classList.add("active");
+        const themeModal = document.getElementById("themeModalOverlay");
+        if (themeModal) themeModal.classList.remove("active");
+    }
+
+    function closeEditorModal() {
+        if (!modalEditor) return;
+        modalEditor.classList.remove("active");
+    }
+
+    if (btnNav) btnNav.addEventListener("click", openEditorModal);
+    if (btnModal) btnModal.addEventListener("click", openEditorModal);
+    if (btnClose) btnClose.addEventListener("click", closeEditorModal);
+    if (btnBack) btnBack.addEventListener("click", showEditorListView);
+
+    if (modalEditor) {
+        modalEditor.addEventListener("click", (e) => {
+            if (e.target === modalEditor) closeEditorModal();
+        });
+    }
+
+    if (textarea) {
+        textarea.addEventListener("input", () => {
+            updateWordCount(textarea.value);
+        });
+    }
+
+    if (btnRestore) {
+        btnRestore.addEventListener("click", () => {
+            if (confirm("Bạn có chắc chắn muốn khôi phục lại toàn bộ nội dung các bức thư ban đầu?")) {
+                localStorage.removeItem(STORAGE_CUSTOM_MEMORIES);
+                ORIGINAL_MEMORIES.forEach((orig, idx) => {
+                    MEMORIES[idx] = JSON.parse(JSON.stringify(orig));
+                });
+                renderEditorMemoriesList();
+                loadCustomMemories();
+    renderMemoriesFlowing();
+                renderIntroPolaroids();
+                alert("Đã khôi phục lại các bức thư gốc thành công!");
+            }
+        });
+    }
+
+    if (btnPreview) {
+        btnPreview.addEventListener("click", () => {
+            if (currentlyEditingMemoryIndex !== null) {
+                closeEditorModal();
+                setTimeout(() => {
+                    openLetterModal(currentlyEditingMemoryIndex);
+                }, 200);
+            }
+        });
+    }
+}
+
+function updateWordCount(text) {
+    const badge = document.getElementById("storyWordCount");
+    if (!badge) return;
+    const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+    badge.textContent = `${words} từ • ${text.length} ký tự`;
+}
+
+function showEditorListView() {
+    const listView = document.getElementById("editorViewList");
+    const formView = document.getElementById("editorViewForm");
+    const titleEl = document.getElementById("editorHeaderTitle");
+    const subEl = document.getElementById("editorHeaderSub");
+
+    if (listView) listView.style.display = "block";
+    if (formView) formView.style.display = "none";
+    if (titleEl) titleEl.textContent = "Danh Sách Kỷ Niệm";
+    if (subEl) subEl.textContent = "Chọn một bức thư để chỉnh sửa nội dung tâm tình gửi người thương";
+    currentlyEditingMemoryIndex = null;
+}
+
+function showEditorFormView(index) {
+    const listView = document.getElementById("editorViewList");
+    const formView = document.getElementById("editorViewForm");
+    const titleEl = document.getElementById("editorHeaderTitle");
+    const subEl = document.getElementById("editorHeaderSub");
+    const currentTag = document.getElementById("editorCurrentMemTag");
+
+    currentlyEditingMemoryIndex = index;
+    const mem = MEMORIES[index];
+    if (!mem) return;
+
+    if (listView) listView.style.display = "none";
+    if (formView) formView.style.display = "block";
+    if (titleEl) titleEl.textContent = `Chỉnh Sửa Bức Thư: ${mem.title}`;
+    if (subEl) subEl.textContent = "Chỉnh sửa tiêu đề, nhãn thời gian và toàn bộ lời tâm sự";
+    if (currentTag) currentTag.textContent = `Kỷ niệm #${index + 1}: ${mem.title}`;
+
+    document.getElementById("editMemTitle").value = mem.title || "";
+    document.getElementById("editMemDate").value = mem.date || "";
+    document.getElementById("editMemLocation").value = mem.location || "";
+    const textarea = document.getElementById("editMemStory");
+    if (textarea) {
+        textarea.value = mem.story || "";
+        updateWordCount(textarea.value);
+    }
+}
+
+function renderEditorMemoriesList() {
+    const grid = document.getElementById("editorMemoriesCardsGrid");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    MEMORIES.forEach((mem, idx) => {
+        const card = document.createElement("div");
+        card.className = "editor-memory-card";
+
+        const thumb = (mem.images && mem.images.length > 0) ? mem.images[0] : (mem.poster || mem.fallbacks[0] || "images/DSC03633.jpeg");
+        const snippet = mem.story ? (mem.story.length > 100 ? mem.story.substring(0, 100) + "..." : mem.story) : "";
+
+        card.innerHTML = `
+            <div class="editor-card-thumb-wrap">
+                <img src="${thumb}" alt="${mem.title}" class="editor-card-thumb" onerror="this.src='images/DSC03633.jpeg'" />
+            </div>
+            <div class="editor-card-body">
+                <div class="editor-card-badges">
+                    <span class="editor-badge-tag">${mem.date}</span>
+                </div>
+                <h4 class="editor-card-title">${mem.title}</h4>
+                <p class="editor-card-snippet">${snippet}</p>
+                <button class="editor-btn-select-mem" type="button" onclick="window.selectMemoryToEdit(${idx})">
+                    <span>Sửa bức thư này ✏️</span>
+                </button>
+            </div>
+        `;
+        grid.appendChild(card);
+    });
+}
+
+window.selectMemoryToEdit = function(index) {
+    showEditorFormView(index);
+};
+
+window.saveCurrentEditingMemory = function() {
+    if (currentlyEditingMemoryIndex === null) return;
+    const idx = currentlyEditingMemoryIndex;
+    const mem = MEMORIES[idx];
+    if (!mem) return;
+
+    const title = document.getElementById("editMemTitle").value.trim();
+    const date = document.getElementById("editMemDate").value.trim();
+    const location = document.getElementById("editMemLocation").value.trim();
+    const story = document.getElementById("editMemStory").value.trim();
+
+    if (!title || !story) {
+        alert("Vui lòng điền đầy đủ tiêu đề và nội dung bức thư nhé!");
+        return;
+    }
+
+    mem.title = title;
+    mem.date = date;
+    mem.location = location;
+    mem.story = story;
+
+    saveCustomMemories();
+
+    // Re-render carousel and polaroids
+    if (typeof renderMemoriesFlowing === "function") loadCustomMemories();
+    renderMemoriesFlowing();
+    if (typeof renderIntroPolaroids === "function") renderIntroPolaroids();
+
+    alert("✨ Đã lưu bức thư kỷ niệm thành công!");
+    showEditorListView();
+    renderEditorMemoriesList();
+};
+
+// Tự động khởi chạy trình chỉnh sửa thư kỷ niệm
+if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            initMemoryEditor();
+        });
+    } else {
+        setTimeout(initMemoryEditor, 50);
+    }
+}
