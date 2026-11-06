@@ -309,7 +309,7 @@ window.GoalsApp = (function () {
                     </div>
                     <div class="goal-card-actions">
                         <button class="goal-action-btn" type="button" title="Chỉnh sửa" onclick="window.GoalsApp.openEditModal('${goal.id}')">Sửa</button>
-                        <button class="goal-action-btn btn-delete" type="button" title="Xóa" onclick="window.GoalsApp.deleteGoal('${goal.id}')">Xóa</button>
+                        <button class="goal-action-btn btn-delete" type="button" title="Xóa" onclick="window.GoalsApp.promptDeleteGoal('${goal.id}')">Xóa</button>
                     </div>
                 </div>
 
@@ -530,11 +530,47 @@ window.GoalsApp = (function () {
         renderGoals();
     }
 
-    function deleteGoal(goalId) {
-        if (!confirm('Bạn có chắc chắn muốn xóa kế hoạch này không?')) return;
-        goals = goals.filter(g => g.id !== goalId);
+    let deletingGoalId = null;
+
+    function promptDeleteGoal(goalId) {
+        const goal = goals.find(g => g.id === goalId);
+        if (!goal) return;
+
+        deletingGoalId = goalId;
+        const msgEl = document.getElementById('deleteConfirmMsg');
+        if (msgEl) {
+            msgEl.textContent = `Bạn có chắc chắn muốn xóa kế hoạch "${goal.title}" không? Hành động này không thể hoàn tác.`;
+        }
+
+        const modal = document.getElementById('modalConfirmDelete');
+        if (modal) modal.classList.add('active');
+    }
+
+    function handleConfirmDelete() {
+        if (!deletingGoalId) return;
+        const goal = goals.find(g => g.id === deletingGoalId);
+        const goalTitle = goal ? goal.title : 'Kế hoạch';
+
+        goals = goals.filter(g => g.id !== deletingGoalId);
+        deletingGoalId = null;
+
+        closeModal('modalConfirmDelete');
         saveData(true);
         renderGoals();
+        showToast(`Đã xóa thành công: "${goalTitle}"`);
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('goalsToast');
+        if (!toast) return;
+
+        toast.textContent = message;
+        toast.classList.add('show');
+
+        if (window.__goalsToastTimer) clearTimeout(window.__goalsToastTimer);
+        window.__goalsToastTimer = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2800);
     }
 
     // ========================================================
@@ -606,6 +642,15 @@ window.GoalsApp = (function () {
             });
         });
 
+        // Đóng modal khi bấm ra ngoài phần nền kính mờ
+        document.querySelectorAll('.goals-modal-overlay, .game-modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+
         // Quick amount buttons in deposit modal
         document.querySelectorAll('.quick-amount-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -630,7 +675,10 @@ window.GoalsApp = (function () {
         init,
         openCreateModal,
         openEditModal,
-        deleteGoal,
+        deleteGoal: promptDeleteGoal,
+        promptDeleteGoal,
+        handleConfirmDelete,
+        showToast,
         openDepositModal,
         handleSaveGoalForm,
         handleConfirmDeposit,

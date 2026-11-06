@@ -904,3 +904,184 @@
         text-align: center;
     }
 }
+/* ========================================================
+   HỆ THỐNG MODAL & TOAST CHUYÊN DỤNG (MODAL & TOAST SYSTEM)
+   - Khắc phục triệt để lỗi modal bung ra đáy trang web
+   - Thiết kế chuẩn kính mờ (Frosted Glass), nút bấm pastel đồng bộ
+   - Modal xác nhận xóa tùy biến thay thế hoàn toàn popup window.confirm()
+   ======================================================== */
+.goals-modal-overlay,
+.game-modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(45, 38, 33, 0.45) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 16px !important;
+    z-index: 1000 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease, visibility 0.25s ease !important;
+}
+
+.goals-modal-overlay.active,
+.game-modal-overlay.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.goals-modal-card,
+.game-modal-card {
+    width: 100% !important;
+    max-width: 480px !important;
+    background: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 24px 22px !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.15) !important;
+    position: relative !important;
+    max-height: 90vh !important;
+    overflow-y: auto !important;
+    box-sizing: border-box !important;
+    transform: scale(0.95) !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.goals-modal-overlay.active .goals-modal-card,
+.game-modal-overlay.active .game-modal-card {
+    transform: scale(1) !important;
+}
+
+.goals-modal-title,
+.game-modal-title {
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    color: var(--text-primary, #2d2621) !important;
+    margin: 0 0 4px !important;
+    letter-spacing: -0.3px !important;
+}
+
+.goals-modal-desc,
+.game-modal-desc {
+    font-size: 13px !important;
+    color: var(--text-secondary, #78716c) !important;
+    margin: 0 0 18px !important;
+    line-height: 1.45 !important;
+}
+
+.goals-modal-actions,
+.game-modal-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+    margin-top: 22px !important;
+}
+
+.modal-btn-cancel,
+.modal-btn-close {
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    background: rgba(0, 0, 0, 0.04) !important;
+    color: var(--text-secondary, #57534e) !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 9px 18px !important;
+    border-radius: 999px !important;
+    cursor: pointer !important;
+    transition: all 0.18s ease !important;
+    outline: none !important;
+}
+
+.modal-btn-cancel:hover,
+.modal-btn-close:hover {
+    background: rgba(0, 0, 0, 0.08) !important;
+    color: var(--text-primary, #2d2621) !important;
+}
+
+.modal-btn-submit,
+.modal-btn-confirm {
+    border: none !important;
+    background: var(--primary, #b45d43) !important;
+    color: #ffffff !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 9px 22px !important;
+    border-radius: 999px !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 8px rgba(180, 93, 67, 0.25) !important;
+    transition: all 0.18s ease !important;
+    outline: none !important;
+}
+
+.modal-btn-submit:hover,
+.modal-btn-confirm:hover {
+    background: #984832 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(180, 93, 67, 0.3) !important;
+}
+
+.modal-btn-danger {
+    border: none !important;
+    background: #dc2626 !important;
+    color: #ffffff !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    padding: 9px 20px !important;
+    border-radius: 999px !important;
+    cursor: pointer !important;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25) !important;
+    transition: all 0.18s ease !important;
+    outline: none !important;
+}
+
+.modal-btn-danger:hover {
+    background: #b91c1c !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3) !important;
+}
+
+/* Badge Icon trong Modal xác nhận xóa */
+.delete-icon-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(220, 38, 38, 0.08);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 6px;
+}
+
+/* Toast Thông Báo Nhẹ Nhàng (Không dùng popup Windows) */
+.goals-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(40px);
+    background: #2d2621;
+    color: #ffffff;
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    z-index: 1200;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+}
+
+.goals-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
