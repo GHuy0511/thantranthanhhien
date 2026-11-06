@@ -451,14 +451,13 @@
     justify-content: center;
 }
 
-.monopoly-board.grid-7x7,
-.monopoly-board.grid-10x10 {
+.monopoly-board.grid-7x7 {
     width: 100%;
     max-width: 900px;
     aspect-ratio: 1 / 1;
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-template-rows: repeat(10, 1fr);
+    grid-template-columns: repeat(7, 1fr) !important;
+    grid-template-rows: repeat(7, 1fr) !important;
     gap: 4px;
     padding: 8px;
     background: var(--card-surface, #ffffff);
@@ -522,6 +521,17 @@
     margin: 1px 0;
 }
 
+.tile-subtitle {
+    font-size: clamp(7.5px, 0.95vw, 9px);
+    font-weight: 600;
+    color: var(--text-muted, #78716c);
+    line-height: 1;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
 .tile-name {
     font-size: clamp(8px, 1.15vw, 10.5px);
     font-weight: 800;
@@ -643,8 +653,8 @@
    KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS) - CUSTOM ĐÀI ĐẤU XÚC XẮC
    ======================================================== */
 .board-center-hub {
-    grid-column: 2 / 10;
-    grid-row: 2 / 10;
+    grid-column: 2 / 7 !important;
+    grid-row: 2 / 7 !important;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2032,12 +2042,27 @@
     }
 
     /* BÀN CỜ 10x10 TRÊN MOBILE */
-    .monopoly-board.grid-7x7,
-    .monopoly-board.grid-10x10 {
+    .monopoly-board.grid-7x7 {
+        grid-template-columns: repeat(7, 1fr) !important;
+        grid-template-rows: repeat(7, 1fr) !important;
         gap: 2px;
-        padding: 3px;
+        padding: 4px;
         border-radius: 14px;
-        max-width: 375px;
+        max-width: 380px;
+    }
+    .monopoly-board.grid-7x7 .board-tile {
+        padding: 2px 1px;
+    }
+    .monopoly-board.grid-7x7 .tile-icon {
+        font-size: 14px;
+        margin: 0;
+    }
+    .monopoly-board.grid-7x7 .tile-name {
+        font-size: 8px;
+        line-height: 1.1;
+    }
+    .monopoly-board.grid-7x7 .tile-price {
+        font-size: 7.5px;
     }
     .board-tile {
         padding: 1.5px 0.5px;
@@ -2051,7 +2076,18 @@
         font-size: 10.5px;
         margin: 0;
     }
-    .tile-name {
+    .tile-subtitle {
+    font-size: clamp(7.5px, 0.95vw, 9px);
+    font-weight: 600;
+    color: var(--text-muted, #78716c);
+    line-height: 1;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+.tile-name {
         font-size: 6px;
         line-height: 1.05;
         letter-spacing: -0.2px;
@@ -2345,15 +2381,33 @@
         padding: 3px 12px !important;
         gap: 8px !important;
     }
-    .monopoly-board.grid-7x7,
-    .monopoly-board.grid-10x10 {
-        width: min(85vw, calc(100vh - 178px)) !important;
-        max-width: min(640px, calc(100vh - 178px)) !important;
-        max-height: calc(100vh - 178px) !important;
+    .monopoly-board.grid-7x7 {
+        width: min(85vw, calc(100vh - 175px)) !important;
+        max-width: min(640px, calc(100vh - 175px)) !important;
+        max-height: calc(100vh - 175px) !important;
         aspect-ratio: 1 / 1 !important;
+        grid-template-columns: repeat(7, 1fr) !important;
+        grid-template-rows: repeat(7, 1fr) !important;
         padding: 6px !important;
-        gap: 3px !important;
+        gap: 4px !important;
         border-radius: 18px !important;
+    }
+    .monopoly-board.grid-7x7 .board-tile {
+        padding: 4px 2px !important;
+    }
+    .monopoly-board.grid-7x7 .tile-icon {
+        font-size: 24px !important;
+        margin: 1px 0 !important;
+    }
+    .monopoly-board.grid-7x7 .tile-name {
+        font-size: 11.5px !important;
+        font-weight: 800 !important;
+        line-height: 1.15 !important;
+        max-height: 28px !important;
+    }
+    .monopoly-board.grid-7x7 .tile-price {
+        font-size: 10px !important;
+        font-weight: 800 !important;
     }
     .board-tile {
         padding: 2px 1px !important;

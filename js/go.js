@@ -247,7 +247,12 @@ window.GoGame = (function () {
             // Quy ước: Huy cầm Đen ('B') đi trước, Hiền cầm Trắng ('W')
             const expectedColor = myRole === 'huy' ? 'B' : 'W';
             if (state.currentTurn !== expectedColor) {
-                showStatusNotice('Đang là lượt đi của đối thủ, hãy chờ nhé...');
+                const partnerOn = window.CoupleNetwork ? window.CoupleNetwork.isPartnerOnline() : false;
+                if (!partnerOn) {
+                    showStatusNotice('Đối thủ đang Offline. Bấm "Mời bạn" hoặc chuyển sang "Đấu với AI" / "Cùng 1 Máy" để chơi ngay nhé!');
+                } else {
+                    showStatusNotice('Đang là lượt đi của đối thủ, hãy chờ nhé...');
+                }
                 return;
             }
         }
@@ -305,6 +310,7 @@ window.GoGame = (function () {
         }
 
         state.currentTurn = state.currentTurn === 'B' ? 'W' : 'B';
+        renderBoardDOM();
         updateUI();
 
         if (state.gameMode === 'ai' && state.currentTurn === 'W' && !state.isGameOver) {

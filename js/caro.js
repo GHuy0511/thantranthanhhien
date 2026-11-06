@@ -180,7 +180,11 @@ window.CaroGame = (function () {
         // Nút Mời Người Yêu (Chia sẻ link)
         const btnInvite = document.getElementById('btnCaroInvite');
         if (btnInvite) {
-            btnInvite.addEventListener('click', () => {
+            btnInvite.addEventListener('click', (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
                 if (window.CoupleNetwork) {
                     window.CoupleNetwork.copyInviteLink('caro');
                 }

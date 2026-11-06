@@ -1,16 +1,16 @@
 /**
  * ========================================================
- * CỜ TỶ PHÚ VIỆT NAM (MONOPOLY VIETNAM EDITION 10x10)
- * Bàn cờ 10x10 (36 ô địa danh chiến thuật khắp Việt Nam)
+ * CỜ TỶ PHÚ VIỆT NAM (MONOPOLY VIETNAM EDITION 7x7)
+ * Bàn cờ 7x7 (24 ô địa danh chiến thuật khắp Việt Nam)
  * Xúc xắc đôi 3D chân thực, hoạt ảnh mở thẻ 3D không lag
  * Hệ thống kho thẻ Ân Xá, ô Thử Thách & Cơ Hội, Lịch sử giao dịch dòng tiền
  * Đổi tên người chơi linh hoạt, điều chỉnh luật bất động sản minh bạch
  * ========================================================
  */
 
-// 1. DANH SÁCH 36 Ô BÀN CỜ MONOPOLY VIỆT NAM (10x10 GRID)
+// 1. DANH SÁCH 24 Ô BÀN CỜ MONOPOLY VIỆT NAM (7x7 GRID - THIẾT KẾ RỘNG RÃI, RÕ ĐỊA DANH)
 const VIETNAM_TILES = [
-    // --- CẠNH TRÊN: ROW 1 (Cols 1 -> 10) ---
+    // --- CẠNH TRÊN: ROW 1, COL 1 -> 7 ---
     {
         id: 0, row: 1, col: 1,
         name: "Ga Hà Nội",
@@ -22,9 +22,8 @@ const VIETNAM_TILES = [
         price: 0,
         rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Điểm xuất phát trên bàn cờ. Mỗi lần đi qua nhận ngay 200M VNĐ tiền trợ cấp từ Ngân hàng.",
-        owner: null,
-        level: 0
+        desc: "Điểm xuất phát trên bàn cờ. Mỗi lần đi qua nhận ngay 200M tiền trợ cấp từ Ngân hàng!",
+        owner: null, level: 0
     },
     {
         id: 1, row: 1, col: 2,
@@ -35,29 +34,13 @@ const VIETNAM_TILES = [
         regionName: "Bắc Bộ",
         type: "property",
         price: 100,
-        rent: [15, 45, 110, 260],
+        rent: [20, 60, 140, 280],
         upgradeCost: 50,
-        desc: "Trái tim Thủ đô ngàn năm văn hiến. Vị trí đắc địa với Tháp Rùa và cầu Thê Húc.",
-        owner: null,
-        level: 0
+        desc: "Trái tim Thủ đô ngàn năm văn hiến, vị trí đắc địa với Tháp Rùa và cầu Thê Húc.",
+        owner: null, level: 0
     },
     {
         id: 2, row: 1, col: 3,
-        name: "Thử Thách",
-        subtitle: "Vượt Trở Ngại",
-        icon: "⚡",
-        region: "special",
-        regionName: "Thử Thách",
-        type: "challenge",
-        price: 0,
-        rent: [0, 0, 0, 0],
-        upgradeCost: 0,
-        desc: "Đối mặt thử thách bất ngờ: lùi ô, nộp thuế, tu sửa nhà hoặc tạm dừng di chuyển.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 3, row: 1, col: 4,
         name: "Vịnh Hạ Long",
         subtitle: "Quảng Ninh",
         icon: "⛵",
@@ -65,59 +48,13 @@ const VIETNAM_TILES = [
         regionName: "Bắc Bộ",
         type: "property",
         price: 120,
-        rent: [20, 60, 140, 320],
+        rent: [25, 75, 170, 340],
         upgradeCost: 60,
-        desc: "Kỳ quan thiên nhiên thế giới với hàng ngàn đảo đá vôi kỳ vĩ soi bóng làn nước ngọc bích.",
-        owner: null,
-        level: 0
+        desc: "Kỳ quan thiên nhiên thế giới với hàng nghìn hòn đảo đá vôi kỳ vĩ và du thuyền phồn hoa.",
+        owner: null, level: 0
     },
     {
-        id: 4, row: 1, col: 5,
-        name: "Thuế Doanh Thu",
-        subtitle: "Nộp Ngân Sách",
-        icon: "💰",
-        region: "special",
-        regionName: "Thuế",
-        type: "tax",
-        price: 100,
-        rent: [0, 0, 0, 0],
-        upgradeCost: 0,
-        desc: "Quyết toán thuế kinh doanh hàng năm: Nộp ngay 100M VNĐ vào Hũ Bãi Đỗ Xe.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 5, row: 1, col: 6,
-        name: "Sân Bay Nội Bài",
-        subtitle: "Cửa Ngõ Phía Bắc",
-        icon: "✈️",
-        region: "transport",
-        regionName: "Giao Thông",
-        type: "transport",
-        price: 200,
-        rent: [40, 80, 160, 350],
-        upgradeCost: 100,
-        desc: "Cảng hàng không quốc tế sầm uất. Thu phí dịch vụ và cho phép bay đến bất kỳ ô nào.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 6, row: 1, col: 7,
-        name: "Đỉnh Fansipan",
-        subtitle: "Lào Cai",
-        icon: "🏔️",
-        region: "northwest",
-        regionName: "Tây Bắc",
-        type: "property",
-        price: 150,
-        rent: [25, 75, 180, 400],
-        upgradeCost: 75,
-        desc: "Nóc nhà Đông Dương ở độ cao 3.143m ngập tràn biển mây bồng bềnh.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 7, row: 1, col: 8,
+        id: 3, row: 1, col: 4,
         name: "Cơ Hội",
         subtitle: "Rút Thẻ May Mắn",
         icon: "❓",
@@ -127,12 +64,25 @@ const VIETNAM_TILES = [
         price: 0,
         rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Rút thẻ Cơ Hội bất ngờ: trúng số, chia cổ tức hoặc nhận thẻ ân xá ra tù lưu vào kho.",
-        owner: null,
-        level: 0
+        desc: "Rút một thẻ Cơ Hội bất ngờ từ Bộ Tài Chính: Thưởng lớn, trợ cấp hoặc biến cố tài chính.",
+        owner: null, level: 0
     },
     {
-        id: 8, row: 1, col: 9,
+        id: 4, row: 1, col: 5,
+        name: "Fansipan",
+        subtitle: "Sa Pa",
+        icon: "🏔️",
+        region: "northwest",
+        regionName: "Tây Bắc",
+        type: "property",
+        price: 150,
+        rent: [35, 100, 220, 440],
+        upgradeCost: 75,
+        desc: "Nóc nhà Đông Dương ở độ cao 3.143m, khu nghỉ dưỡng trên mây mang lại dòng tiền lớn.",
+        owner: null, level: 0
+    },
+    {
+        id: 5, row: 1, col: 6,
         name: "Tràng An",
         subtitle: "Ninh Bình",
         icon: "🚣",
@@ -140,16 +90,15 @@ const VIETNAM_TILES = [
         regionName: "Tây Bắc",
         type: "property",
         price: 170,
-        rent: [30, 90, 210, 460],
+        rent: [40, 115, 250, 500],
         upgradeCost: 85,
-        desc: "Di sản văn hóa và thiên nhiên thế giới với cảnh sắc non nước hữu tình.",
-        owner: null,
-        level: 0
+        desc: "Di sản non nước hữu tình, bất động sản sinh thái cực kỳ tiềm năng và hút khách du lịch.",
+        owner: null, level: 0
     },
     {
-        id: 9, row: 1, col: 10,
+        id: 6, row: 1, col: 7,
         name: "Vào Tù",
-        subtitle: "Cảnh Sát Áp Giải",
+        subtitle: "Cảnh Sát Bắt",
         icon: "🚔",
         region: "special",
         regionName: "Vào Tù",
@@ -157,273 +106,171 @@ const VIETNAM_TILES = [
         price: 0,
         rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Bị lực lượng trật tự áp giải thẳng đến buồng giam! Phải đổ xúc xắc đôi hoặc dùng Thẻ Ân Xá.",
-        owner: null,
-        level: 0
+        desc: "Bị lực lượng trật tự áp giải thẳng vào Nhà Tù! Bạn phải đóng bảo lãnh hoặc đổ xúc xắc đôi.",
+        owner: null, level: 0
     },
 
-    // --- CẠNH PHẢI: COL 10 (Rows 2 -> 10) ---
+    // --- CẠNH PHẢI: ROW 2 -> 7, COL 7 ---
     {
-        id: 10, row: 2, col: 10,
-        name: "Động Phong Nha",
-        subtitle: "Quảng Bình",
-        icon: "🦇",
-        region: "central",
-        regionName: "Bắc Trung Bộ",
-        type: "property",
-        price: 190,
-        rent: [35, 105, 240, 520],
-        upgradeCost: 95,
-        desc: "Kỳ quan đệ nhất động với thạch nhũ tráng lệ lung linh dưới lòng đất.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 11, row: 3, col: 10,
-        name: "Điện Lực VN",
-        subtitle: "Năng Lượng Quốc Gia",
-        icon: "⚡",
-        region: "utility",
-        regionName: "Dịch Vụ",
-        type: "utility",
-        price: 150,
-        rent: [30, 70, 150, 320],
-        upgradeCost: 80,
-        desc: "Tập đoàn Điện lực quốc gia, thu phí tiền điện kinh doanh theo lượt đổ.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 12, row: 4, col: 10,
+        id: 7, row: 2, col: 7,
         name: "Cố Đô Huế",
         subtitle: "Thừa Thiên Huế",
         icon: "🏯",
         region: "central",
-        regionName: "Bắc Trung Bộ",
+        regionName: "Miền Trung",
         type: "property",
-        price: 210,
-        rent: [40, 120, 280, 580],
-        upgradeCost: 105,
-        desc: "Quần thể di tích Kinh thành Huế trầm mặc cổ kính bên bờ sông Hương.",
-        owner: null,
-        level: 0
+        price: 200,
+        rent: [50, 140, 300, 600],
+        upgradeCost: 100,
+        desc: "Kinh thành triều Nguyễn với bề dày lịch sử vàng son, bất động sản văn hóa sinh lời cao.",
+        owner: null, level: 0
     },
     {
-        id: 13, row: 5, col: 10,
-        name: "Thử Thách",
-        subtitle: "Vượt Trở Ngại",
+        id: 8, row: 3, col: 7,
+        name: "Cầu Vàng",
+        subtitle: "Đà Nẵng",
+        icon: "🌉",
+        region: "central",
+        regionName: "Miền Trung",
+        type: "property",
+        price: 220,
+        rent: [55, 155, 330, 660],
+        upgradeCost: 110,
+        desc: "Biểu tượng du lịch hiện đại nổi tiếng toàn cầu, lưu lượng khách liên tục đem lại nguồn thu.",
+        owner: null, level: 0
+    },
+    {
+        id: 9, row: 4, col: 7,
+        name: "Điện Lực",
+        subtitle: "Dịch Vụ Tiện Ích",
         icon: "⚡",
         region: "special",
-        regionName: "Thử Thách",
-        type: "challenge",
-        price: 0,
-        rent: [0, 0, 0, 0],
+        regionName: "Tiện Ích",
+        type: "utility",
+        price: 150,
+        rent: [30, 60, 120, 240],
         upgradeCost: 0,
-        desc: "Đối mặt thử thách bất ngờ.",
-        owner: null,
-        level: 0
+        desc: "Doanh nghiệp cung cấp điện năng. Thu tiền điện bằng điểm xúc xắc nhân 15M VNĐ.",
+        owner: null, level: 0
     },
     {
-        id: 14, row: 6, col: 10,
-        name: "Cầu Vàng",
-        subtitle: "Bà Nà Hills",
-        icon: "🌉",
-        region: "danang",
-        regionName: "Nam Trung Bộ",
-        type: "property",
-        price: 230,
-        rent: [45, 135, 310, 640],
-        upgradeCost: 115,
-        desc: "Kỳ quan cầu Vàng nâng đỡ bởi bàn tay khổng lồ giữa đỉnh núi Chúa.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 15, row: 7, col: 10,
+        id: 10, row: 5, col: 7,
         name: "Phố Cổ Hội An",
         subtitle: "Quảng Nam",
         icon: "🏮",
-        region: "danang",
-        regionName: "Nam Trung Bộ",
+        region: "coastal",
+        regionName: "Duyên Hải",
         type: "property",
         price: 250,
-        rent: [50, 150, 350, 720],
+        rent: [65, 180, 380, 760],
         upgradeCost: 125,
-        desc: "Di sản văn hóa thương cảng đèn lồng lung linh lãng mạn bên sông Hoài.",
-        owner: null,
-        level: 0
+        desc: "Thương cảng phồn hoa với những ngôi nhà cổ tường vàng hoa giấy, giá thuê mặt bằng đắt giá.",
+        owner: null, level: 0
     },
     {
-        id: 16, row: 8, col: 10,
-        name: "Cơ Hội",
-        subtitle: "Rút Thẻ May Mắn",
-        icon: "❓",
-        region: "special",
-        regionName: "Cơ Hội",
-        type: "chance",
-        price: 0,
-        rent: [0, 0, 0, 0],
-        upgradeCost: 0,
-        desc: "Rút thẻ Cơ Hội may mắn.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 17, row: 9, col: 10,
+        id: 11, row: 6, col: 7,
         name: "Biển Mỹ Khê",
         subtitle: "Đà Nẵng",
         icon: "🏖️",
-        region: "danang",
-        regionName: "Nam Trung Bộ",
+        region: "coastal",
+        regionName: "Duyên Hải",
         type: "property",
         price: 270,
-        rent: [55, 165, 380, 780],
+        rent: [70, 195, 410, 820],
         upgradeCost: 135,
-        desc: "Bãi biển quyến rũ hàng đầu hành tinh với dải cát trắng mịn và biển trong vắt.",
-        owner: null,
-        level: 0
+        desc: "Dải cát trắng mịn ven biển quyến rũ hàng đầu châu Á, các resort khách sạn luôn kín phòng.",
+        owner: null, level: 0
     },
     {
-        id: 18, row: 10, col: 10,
+        id: 12, row: 7, col: 7,
         name: "Bãi Đỗ Xe",
-        subtitle: "Hũ Thưởng Miễn Phí",
+        subtitle: "Hũ Tiền Thưởng",
         icon: "🅿️",
         region: "special",
-        regionName: "Hũ Thưởng",
+        regionName: "Đỗ Xe",
         type: "parking",
         price: 0,
         rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Trạm dừng chân miễn phí an toàn! Nhận trọn vẹn toàn bộ Hũ tiền thưởng tích lũy.",
-        owner: null,
-        level: 0
+        desc: "Dừng chân tại Bãi Đỗ Xe miễn phí và hốt trọn toàn bộ hũ tiền thưởng thuế & phạt tích lũy!",
+        owner: null, level: 0
     },
 
-    // --- CẠNH DƯỚI: ROW 10 (Cols 9 -> 1) ---
+    // --- CẠNH DƯỚI: ROW 7, COL 6 -> 1 ---
     {
-        id: 19, row: 10, col: 9,
-        name: "Vịnh Nha Trang",
-        subtitle: "Khánh Hòa",
-        icon: "🌊",
-        region: "coastal",
-        regionName: "Nam Trung Bộ",
-        type: "property",
-        price: 290,
-        rent: [60, 180, 410, 840],
-        upgradeCost: 145,
-        desc: "Thiên đường du lịch biển đảo rực rỡ với rạn san hô lộng lẫy.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 20, row: 10, col: 8,
-        name: "Thử Thách",
-        subtitle: "Vượt Trở Ngại",
-        icon: "⚡",
-        region: "special",
-        regionName: "Thử Thách",
-        type: "challenge",
-        price: 0,
-        rent: [0, 0, 0, 0],
-        upgradeCost: 0,
-        desc: "Đối mặt thử thách bất ngờ.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 21, row: 10, col: 7,
+        id: 13, row: 7, col: 6,
         name: "Đà Lạt",
         subtitle: "Lâm Đồng",
-        icon: "🌸",
-        region: "highland",
+        icon: "🌲",
+        region: "highlands",
         regionName: "Tây Nguyên",
         type: "property",
-        price: 310,
-        rent: [65, 195, 450, 900],
-        upgradeCost: 155,
-        desc: "Xứ sở sương mù ngàn hoa, bất động sản nghỉ dưỡng cao nguyên đắt giá.",
-        owner: null,
-        level: 0
+        price: 300,
+        rent: [80, 220, 460, 920],
+        upgradeCost: 150,
+        desc: "Thành phố sương mù ngàn hoa mộng mơ, chuỗi homestay và biệt thự cổ điển đạt doanh thu cao.",
+        owner: null, level: 0
     },
     {
-        id: 22, row: 10, col: 6,
-        name: "Cấp Nước Sạch",
-        subtitle: "Dịch Vụ Đô Thị",
-        icon: "💧",
-        region: "utility",
-        regionName: "Dịch Vụ",
-        type: "utility",
-        price: 160,
-        rent: [35, 80, 170, 360],
-        upgradeCost: 80,
-        desc: "Nhà máy xử lý và cung cấp nước sinh hoạt, thu phí theo biểu giá dịch vụ.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 23, row: 10, col: 5,
+        id: 14, row: 7, col: 5,
         name: "Buôn Ma Thuột",
         subtitle: "Đắk Lắk",
         icon: "☕",
-        region: "highland",
+        region: "highlands",
         regionName: "Tây Nguyên",
         type: "property",
-        price: 330,
-        rent: [70, 210, 480, 960],
-        upgradeCost: 165,
-        desc: "Thủ phủ cà phê đất đỏ bazan bạt ngàn với văn hóa cồng chiêng đặc sắc.",
-        owner: null,
-        level: 0
+        price: 320,
+        rent: [85, 235, 490, 980],
+        upgradeCost: 160,
+        desc: "Thủ phủ cà phê lớn nhất Đông Nam Á, đất đai màu mỡ và tiềm năng kinh doanh nông sản lớn.",
+        owner: null, level: 0
     },
     {
-        id: 24, row: 10, col: 4,
-        name: "Cơ Hội",
-        subtitle: "Rút Thẻ May Mắn",
-        icon: "❓",
+        id: 15, row: 7, col: 4,
+        name: "Khí Vận",
+        subtitle: "Quỹ Cộng Đồng",
+        icon: "📦",
         region: "special",
-        regionName: "Cơ Hội",
-        type: "chance",
+        regionName: "Khí Vận",
+        type: "chest",
         price: 0,
         rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Rút thẻ Cơ Hội may mắn.",
-        owner: null,
-        level: 0
+        desc: "Rút một thẻ Khí Vận cộng đồng: Trợ cấp kinh tế, sửa chữa nhà cửa hoặc nhận quà tài chính.",
+        owner: null, level: 0
     },
     {
-        id: 25, row: 10, col: 3,
-        name: "Bãi Sau Vũng Tàu",
-        subtitle: "Bà Rịa - Vũng Tàu",
-        icon: "🏖️",
-        region: "southeast",
-        regionName: "Đông Nam Bộ",
+        id: 16, row: 7, col: 3,
+        name: "Vịnh Nha Trang",
+        subtitle: "Khánh Hòa",
+        icon: "🌊",
+        region: "south_coast",
+        regionName: "Nam Trung Bộ",
         type: "property",
         price: 350,
-        rent: [75, 225, 510, 1020],
+        rent: [95, 260, 540, 1080],
         upgradeCost: 175,
-        desc: "Bờ biển nghỉ dưỡng sôi động thu hút hàng triệu du khách mỗi dịp cuối tuần.",
-        owner: null,
-        level: 0
+        desc: "Vịnh biển thiên đường với chuỗi resort 5 sao sang trọng, tiền thuê đất tại đây là gánh nặng lớn.",
+        owner: null, level: 0
     },
     {
-        id: 26, row: 10, col: 2,
-        name: "Đồi Cát Mũi Né",
+        id: 17, row: 7, col: 2,
+        name: "Mũi Né",
         subtitle: "Bình Thuận",
         icon: "🏜️",
-        region: "southeast",
-        regionName: "Đông Nam Bộ",
+        region: "south_coast",
+        regionName: "Nam Trung Bộ",
         type: "property",
         price: 370,
-        rent: [80, 240, 540, 1080],
+        rent: [100, 280, 580, 1160],
         upgradeCost: 185,
-        desc: "Tiểu sa mạc đồi cát bay rực rỡ với các khu resort ven biển đẳng cấp.",
-        owner: null,
-        level: 0
+        desc: "Đồi cát bay ven biển độc đáo, điểm du lịch thể thao mạo hiểm thu hút nhiều dòng tiền.",
+        owner: null, level: 0
     },
     {
-        id: 27, row: 10, col: 1,
+        id: 18, row: 7, col: 1,
         name: "Nhà Tù",
-        subtitle: "Thăm Tù / Tạm Giam",
+        subtitle: "Thăm Tù / Bị Giam",
         icon: "⛓️",
         region: "special",
         regionName: "Nhà Tù",
@@ -431,131 +278,80 @@ const VIETNAM_TILES = [
         price: 0,
         rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Đi qua đây: Thăm tù an toàn. Nếu bị áp giải vào tù: Cần đổ xúc xắc đôi hoặc dùng Thẻ Ân Xá.",
-        owner: null,
-        level: 0
+        desc: "Đi qua bình an vô sự. Nếu bị giam giữ: Nộp 50M bảo lãnh hoặc tung xúc xắc đôi để thoát.",
+        owner: null, level: 0
     },
 
-    // --- CẠNH TRÁI: COL 1 (Rows 9 -> 2) ---
+    // --- CẠNH TRÁI: ROW 6 -> 2, COL 1 ---
     {
-        id: 28, row: 9, col: 1,
+        id: 19, row: 6, col: 1,
+        name: "Sân Bay",
+        subtitle: "Bay Tốc Hành",
+        icon: "✈️",
+        region: "special",
+        regionName: "Sân Bay",
+        type: "airport",
+        price: 0,
+        rent: [0, 0, 0, 0],
+        upgradeCost: 0,
+        desc: "Dịch vụ bay tốc hành 50M VNĐ: Cho phép bay thẳng đến bất kỳ ô nào trên toàn bản đồ!",
+        owner: null, level: 0
+    },
+    {
+        id: 20, row: 5, col: 1,
         name: "Bến Ninh Kiều",
         subtitle: "Cần Thơ",
         icon: "🚢",
-        region: "mekong",
-        regionName: "Tây Nam Bộ",
+        region: "south",
+        regionName: "Nam Bộ",
         type: "property",
-        price: 390,
-        rent: [85, 255, 570, 1140],
-        upgradeCost: 195,
-        desc: "Biểu tượng miền Tây Đô sông nước thanh bình, gạo trắng nước trong.",
-        owner: null,
-        level: 0
+        price: 400,
+        rent: [110, 310, 640, 1280],
+        upgradeCost: 200,
+        desc: "Thủ phủ sông nước Tây Nam Bộ bên dòng sông Hậu, trung tâm giao thương bến cảng sầm uất.",
+        owner: null, level: 0
     },
     {
-        id: 29, row: 8, col: 1,
-        name: "Tân Sơn Nhất",
-        subtitle: "Cửa Ngõ Phương Nam",
-        icon: "🛫",
-        region: "transport",
-        regionName: "Giao Thông",
-        type: "transport",
-        price: 200,
-        rent: [40, 80, 160, 350],
-        upgradeCost: 100,
-        desc: "Cảng hàng không quốc tế nhộn nhịp bậc nhất cả nước, kết nối toàn cầu.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 30, row: 7, col: 1,
-        name: "Rừng Trà Sư",
-        subtitle: "An Giang",
-        icon: "🛶",
-        region: "mekong",
-        regionName: "Tây Nam Bộ",
-        type: "property",
-        price: 410,
-        rent: [90, 270, 600, 1200],
-        upgradeCost: 205,
-        desc: "Hệ sinh thái rừng tràm ngập nước mùa bèo xanh phủ ngút ngàn tuyệt mỹ.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 31, row: 6, col: 1,
+        id: 21, row: 4, col: 1,
         name: "Chợ Bến Thành",
         subtitle: "TP. Hồ Chí Minh",
-        icon: "🏬",
-        region: "saigon",
-        regionName: "Sài Gòn",
+        icon: "🏢",
+        region: "south",
+        regionName: "Nam Bộ",
         type: "property",
         price: 430,
-        rent: [95, 285, 630, 1260],
+        rent: [120, 340, 700, 1400],
         upgradeCost: 215,
-        desc: "Biểu tượng thương mại lịch sử trăm năm giữa lòng Sài Gòn phồn hoa.",
-        owner: null,
-        level: 0
+        desc: "Biểu tượng kinh tế hàng đầu Quận 1 Sài Gòn, đất kim cương đem lại dòng tiền thuê siêu khủng.",
+        owner: null, level: 0
     },
     {
-        id: 32, row: 5, col: 1,
-        name: "Thuế Xa Xỉ",
-        subtitle: "Hàng Hiệu & Siêu Xe",
-        icon: "💎",
+        id: 22, row: 3, col: 1,
+        name: "Thuế Thu Nhập",
+        subtitle: "Nộp Ngân Khố",
+        icon: "💰",
         region: "special",
         regionName: "Thuế",
         type: "tax",
-        price: 150,
+        price: 100,
         rent: [0, 0, 0, 0],
         upgradeCost: 0,
-        desc: "Thuế tiêu thụ đặc biệt cho hàng xa xỉ: Nộp 150M VNĐ vào Hũ Bãi Đỗ Xe.",
-        owner: null,
-        level: 0
+        desc: "Cơ quan thuế kiểm tra: Phải nộp ngay 100M VNĐ vào hũ thưởng Bãi Đỗ Xe.",
+        owner: null, level: 0
     },
     {
-        id: 33, row: 4, col: 1,
-        name: "Dinh Độc Lập",
-        subtitle: "TP. Hồ Chí Minh",
-        icon: "🏛️",
-        region: "saigon",
-        regionName: "Sài Gòn",
-        type: "property",
-        price: 450,
-        rent: [100, 300, 670, 1340],
-        upgradeCost: 225,
-        desc: "Di tích lịch sử quốc gia đặc biệt với kiến trúc độc đáo giữa công viên rợp bóng mát.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 34, row: 3, col: 1,
-        name: "Landmark 81",
-        subtitle: "TP. Hồ Chí Minh",
-        icon: "🏙️",
-        region: "saigon",
-        regionName: "Sài Gòn",
-        type: "property",
-        price: 480,
-        rent: [110, 330, 740, 1500],
-        upgradeCost: 240,
-        desc: "Tòa tháp cao nhất Việt Nam, vị trí kim cương bất động sản siêu sang.",
-        owner: null,
-        level: 0
-    },
-    {
-        id: 35, row: 2, col: 1,
+        id: 23, row: 2, col: 1,
         name: "Đảo Phú Quốc",
         subtitle: "Kiên Giang",
         icon: "🏝️",
-        region: "saigon",
-        regionName: "Đảo Ngọc",
+        region: "islands",
+        regionName: "Biển Đảo",
         type: "property",
-        price: 500,
-        rent: [120, 360, 800, 1600],
-        upgradeCost: 250,
-        desc: "Đảo Ngọc thiên đường nghỉ dưỡng triệu đô, ô đất có giá trị và tiền thuê cao nhất!",
-        owner: null,
-        level: 0
+        price: 480,
+        rent: [140, 400, 850, 1700],
+        upgradeCost: 240,
+        desc: "Đảo Ngọc thiên đường nghỉ dưỡng nhiệt đới, ô đất đắt đỏ bậc nhất với tiền thuê phòng cao nhất!",
+        owner: null, level: 0
     }
 ];
 
@@ -854,7 +650,7 @@ const visualFX = {
     }
 };
 
-// 8. KHỞI TẠO BÀN CỜ 10x10 (36 Ô)
+// 8. KHỞI TẠO BÀN CỜ 7x7 (24 Ô)
 function initMonopolyBoard() {
     const boardEl = document.getElementById("monopolyBoard");
     if (!boardEl) return;
@@ -885,6 +681,14 @@ function initMonopolyBoard() {
         const nameEl = document.createElement("div");
         nameEl.className = "tile-name";
         nameEl.textContent = tile.name;
+
+        // Phụ đề tỉnh thành (nếu có)
+        if (tile.subtitle && tile.type === 'property') {
+            const subEl = document.createElement("div");
+            subEl.className = "tile-subtitle";
+            subEl.textContent = tile.subtitle;
+            cell.appendChild(subEl);
+        }
 
         // Giá / Trạng thái
         const priceEl = document.createElement("div");
@@ -1086,7 +890,7 @@ function updateUI() {
     const poolEl = document.getElementById("parkingPoolDisplay");
     if (poolEl) poolEl.textContent = `${Number(gameState.parkingPool).toLocaleString()}M`;
 
-    // Cập nhật Sổ đỏ và công trình nhà thật trên 36 ô
+    // Cập nhật Sổ đỏ và công trình nhà thật trên 24 ô
     VIETNAM_TILES.forEach(tile => {
         const ownerEl = document.getElementById(`owner-badge-${tile.id}`);
         const estateEl = document.getElementById(`estate-${tile.id}`);
@@ -1371,7 +1175,8 @@ function handleTileAction(player, tileId, diceRollValue = 2, rolledDouble = fals
     if (tile.type === "go_to_jail") {
         visualFX.triggerPoliceSiren();
         showStatusNotice(`🚔 <strong>${player.name}</strong> bị áp giải thẳng vào Nhà Tù!`);
-        player.position = 27; // Vị trí Nhà Tù góc dưới-trái
+        const jailTile = VIETNAM_TILES.find(t => t.type === 'jail');
+        player.position = jailTile ? jailTile.id : 18;
         player.inJail = true;
         player.jailTurns = 0;
         gameState.rolledDoubleTurn = false; // Mất lượt tung thêm nếu bị vào tù
@@ -2487,7 +2292,7 @@ function startNewGame(playerCount = 2, gameMode = "pass_play") {
     gameState.rolledDoubleTurn = false;
     gameState.transactions = [];
 
-    // Reset toàn bộ 36 ô đất
+    // Reset toàn bộ 24 ô đất
     VIETNAM_TILES.forEach(t => {
         t.owner = null;
         t.level = 0;

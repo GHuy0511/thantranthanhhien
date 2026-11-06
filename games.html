@@ -137,7 +137,7 @@
 
     <main class="games-main-container">
         <!-- ========================================================
-             VIEW 1: CỜ TỶ PHÚ VIỆT NAM (MONOPOLY 10x10)
+             VIEW 1: CỜ TỶ PHÚ VIỆT NAM (MONOPOLY 7x7 - 24 Ô)
              ======================================================== -->
         <div class="game-view-panel active" id="viewMonopoly">
             <!-- BẢNG THEO DÕI TÀI CHÍNH ĐỘNG CHO 2 - 4 NGƯỜI CHƠI (DYNAMIC PLAYER HUD) -->
@@ -159,13 +159,13 @@
             </div>
         </section>
 
-        <!-- BÀN CỜ MONOPOLY VIỆT NAM (LƯỚI 10x10 - 36 Ô CHIẾN THUẬT) -->
+        <!-- BÀN CỜ MONOPOLY VIỆT NAM (LƯỚI 7x7 - 24 Ô DANH THẮNG) -->
         <section class="monopoly-board-wrapper">
-            <div class="monopoly-board grid-10x10" id="monopolyBoard">
+            <div class="monopoly-board grid-7x7" id="monopolyBoard">
 
-                <!-- 36 Ô BÀN CỜ ĐƯỢC RENDER TINH GỌN HOÀN TOÀN BẰNG JAVASCRIPT -->
+                <!-- 24 Ô BÀN CỜ ĐƯỢC RENDER RỘNG RÃI HOÀN TOÀN BẰNG JAVASCRIPT -->
 
-                <!-- KHU VỰC TRUNG TÂM BÀN CỜ (8x8 CELLS - XÚC XẮC ĐÔI 3D & ĐIỀU HÀNH) -->
+                <!-- KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS - XÚC XẮC ĐÔI 3D & ĐIỀU HÀNH) -->
                 <div class="board-center-hub" id="boardCenterHub">
                     <!-- Khay nhung đổ xúc xắc đôi sang trọng (Dice Arena Tray) -->
                     <div class="dice-arena-tray" id="diceArenaTray">
@@ -498,10 +498,10 @@
                             <button class="go-btn" id="btnGoScore" type="button" title="Đếm đất & Tính điểm">Đếm điểm</button>
                             <button class="go-btn primary" id="btnGoRestart" type="button" title="Bắt đầu ván mới">Ván mới</button>
                         </div>
-                    </div>
 
-                    <div class="go-status-toast" id="goStatusNotice">
-                        Ván cờ mới bắt đầu. Quân Đen đi trước.
+                        <div class="go-status-toast" id="goStatusNotice">
+                            Ván cờ mới bắt đầu. Quân Đen đi trước.
+                        </div>
                     </div>
                 </div>
             </div>
@@ -841,14 +841,14 @@
     </div>
 
     <!-- ========================================================
-         MODAL 8: HƯỚNG DẪN LUẬT CHƠI MONOPOLY CHUẨN (10x10 - XÚC XẮC ĐÔI)
+         MODAL 8: HƯỚNG DẪN LUẬT CHƠI MONOPOLY CHUẨN (7x7 - XÚC XẮC ĐÔI)
          ======================================================== -->
     <div class="game-modal-overlay" id="modalHelp" aria-hidden="true">
         <div class="game-modal-card help-card">
             <div class="game-modal-emoji">📖</div>
-            <h3 class="game-modal-title">Luật Chơi Cờ Tỷ Phú Việt Nam (10x10)</h3>
+            <h3 class="game-modal-title">Luật Chơi Cờ Tỷ Phú Việt Nam (24 Danh Thắng)</h3>
             <div class="help-content-scroll">
-                <p><strong>1. Bản đồ 10x10 & Xúc xắc đôi:</strong> Bản đồ gồm 36 ô địa danh khắp Việt Nam. Người chơi lắc <strong>cặp xúc xắc đôi 3D</strong> để di chuyển tổng số bước (từ 2 đến 12). Nếu đổ được <strong>cặp đôi</strong> (ví dụ 3-3, 5-5), bạn được <strong>tung thêm 1 lượt</strong>!</p>
+                <p><strong>1. Bản đồ 7x7 & Xúc xắc đôi:</strong> Bản đồ gồm 24 ô địa danh danh thắng khắp Việt Nam. Người chơi lắc <strong>cặp xúc xắc đôi 3D</strong> để di chuyển tổng số bước (từ 2 đến 12). Nếu đổ được <strong>cặp đôi</strong> (ví dụ 3-3, 5-5), bạn được <strong>tung thêm 1 lượt</strong>!</p>
                 <p><strong>2. Tiền khởi điểm:</strong> Mỗi người chơi khởi đầu với <strong>1,500M VNĐ</strong> tiền mặt.</p>
                 <p><strong>3. Mua đất & Xây công trình:</strong></p>
                 <ul>

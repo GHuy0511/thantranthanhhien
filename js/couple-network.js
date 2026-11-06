@@ -341,34 +341,92 @@ window.CoupleNetwork = (function () {
         return url.toString();
     }
 
+    function copyTextDirectly(text) {
+        return new Promise((resolve, reject) => {
+            let copied = false;
+            try {
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                textArea.style.top = '0';
+                textArea.setAttribute('readonly', '');
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                copied = document.execCommand('copy');
+                document.body.removeChild(textArea);
+            } catch (e) {
+                copied = false;
+            }
+
+            if (copied) {
+                return resolve(true);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => resolve(true)).catch(reject);
+            } else {
+                reject(new Error('Clipboard unsupported'));
+            }
+        });
+    }
+
     function copyInviteLink(customGame) {
         const partnerName = getPartnerName();
         const activeGame = customGame || getCurrentActiveGame();
         const link = getInviteLink(getPartnerRole(), activeGame);
 
-        if (navigator.share) {
-            navigator.share({
-                title: 'Chơi game cùng người yêu 💕',
-                text: `Cùng chơi ${getGameTitle(activeGame)} với mình nhé!`,
-                url: link
-            }).catch(() => fallbackCopy(link, partnerName));
-        } else {
-            fallbackCopy(link, partnerName);
-        }
+        copyTextDirectly(link).then(() => {
+            showPartnerToast(`💌 Đã sao chép link mời ${partnerName}! Gửi qua Zalo/Messenger nhé 💕`);
+        }).catch(() => {
+            showInviteModalFallback(link, partnerName);
+        });
     }
 
-    function fallbackCopy(link, partnerName) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(link).then(() => {
-                showPartnerToast(`💌 Đã sao chép link mời ${partnerName}! Gửi qua Zalo/Messenger nhé 💕`);
-            }).catch(() => promptCopy(link));
-        } else {
-            promptCopy(link);
-        }
-    }
+    function showInviteModalFallback(link, partnerName) {
+        let modal = document.getElementById('modalInviteLinkFallback');
+        if (!modal) {
+            modal = document.createElement('div');
+            modal.id = 'modalInviteLinkFallback';
+            modal.className = 'game-modal-overlay active';
+            modal.innerHTML = `
+                <div class="game-modal-card" style="max-width: 440px; padding: 22px; text-align: center; border-radius: 20px;">
+                    <div style="font-size: 32px; margin-bottom: 8px;">💌</div>
+                    <h3 style="font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 700; color: #332d29; margin-bottom: 6px;">Mời Bạn Chơi Cùng</h3>
+                    <p style="font-size: 13px; color: #78716c; margin-bottom: 14px; line-height: 1.4;">Sao chép link dưới đây và gửi qua Zalo, Messenger cho đối phương:</p>
+                    <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                        <input id="inviteModalInput" type="text" readonly value="${link}" style="flex: 1; padding: 10px 12px; border-radius: 12px; border: 1.5px solid rgba(184, 115, 87, 0.3); font-size: 12px; font-family: monospace; background: #fffaf5; color: #444;" />
+                        <button id="btnCopyInviteModal" type="button" style="padding: 10px 16px; border-radius: 12px; border: none; background: #b87357; color: #fff; font-weight: 700; font-size: 13px; cursor: pointer;">Chép</button>
+                    </div>
+                    <button id="btnCloseInviteModal" type="button" style="padding: 8px 24px; border-radius: 999px; border: 1px solid rgba(0,0,0,0.1); background: #f5efe6; font-size: 13px; font-weight: 600; cursor: pointer;">Đóng</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
 
-    function promptCopy(link) {
-        window.prompt('Sao chép đường link này và gửi cho người yêu nhé:', link);
+            modal.querySelector('#btnCopyInviteModal').addEventListener('click', () => {
+                const input = modal.querySelector('#inviteModalInput');
+                input.select();
+                try {
+                    document.execCommand('copy');
+                    showPartnerToast(`💌 Đã sao chép link mời!`);
+                    modal.classList.remove('active');
+                } catch (e) {
+                    showPartnerToast(`Hãy bôi đen và bấm Ctrl+C để sao chép nhé!`);
+                }
+            });
+
+            modal.querySelector('#btnCloseInviteModal').addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('active');
+            });
+        } else {
+            const input = modal.querySelector('#inviteModalInput');
+            if (input) input.value = link;
+            modal.classList.add('active');
+        }
     }
 
     function getCurrentActiveGame() {
@@ -386,7 +444,11 @@ window.CoupleNetwork = (function () {
     function setupInviteButton() {
         const btnInvite = document.getElementById('btnInvitePartner');
         if (btnInvite) {
-            btnInvite.addEventListener('click', () => {
+            btnInvite.addEventListener('click', (e) => {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
                 copyInviteLink();
             });
         }
