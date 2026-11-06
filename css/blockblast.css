@@ -681,3 +681,217 @@
         height: 120px !important;
     }
 }
+
+
+/* ========================================================
+   ARCADE CONSOLE STAGE CHO CHẾ ĐỘ GẠCH TỰ RƠI (FALLING MODE)
+   ======================================================== */
+.bb-arcade-stage {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 540px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1.5px solid rgba(184, 115, 87, 0.2);
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(45, 26, 18, 0.06);
+    backdrop-filter: blur(12px);
+    box-sizing: border-box;
+}
+
+.bb-arcade-stage .bb-falling-grid-container {
+    width: 250px !important;
+    height: 400px !important;
+    background: #1c1917 !important;
+    border: 2px solid rgba(184, 115, 87, 0.3) !important;
+    border-radius: 18px !important;
+    padding: 6px !important;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.6), 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.bb-arcade-stage .bb-falling-sidebar {
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bb-arcade-stage .bb-next-piece-card {
+    background: #ffffff;
+    border: 1px solid rgba(184, 115, 87, 0.2);
+    border-radius: 16px;
+    padding: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.bb-arcade-keyboard-guide {
+    background: #fdfbf7;
+    border: 1px solid rgba(184, 115, 87, 0.15);
+    border-radius: 16px;
+    padding: 12px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bb-arcade-keyboard-guide .guide-title {
+    font-size: 9.5px;
+    font-weight: 800;
+    color: #78716c;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.bb-arcade-keyboard-guide .key-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #44403c;
+}
+
+.bb-arcade-keyboard-guide kbd {
+    background: #ffffff;
+    border: 1px solid #d6d3d1;
+    border-bottom: 2px solid #a8a29e;
+    border-radius: 6px;
+    padding: 2px 6px;
+    font-size: 10px;
+    font-weight: 800;
+    font-family: inherit;
+    color: #292524;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* ========================================================
+   MODAL BLOCK BLAST GAME OVER - THẺ KẾT THÚC THÀNH TÍCH SANG TRỌNG
+   ======================================================== */
+.bb-game-over-luxury-card {
+    max-width: 420px;
+    padding: 28px 24px;
+    border-radius: 24px;
+    background: #ffffff;
+    border: 1.5px solid rgba(184, 115, 87, 0.25);
+    box-shadow: 0 25px 60px rgba(45, 26, 18, 0.22);
+    text-align: center;
+}
+
+.bb-over-badge-emblem {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #d97706;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
+    margin-bottom: 10px;
+}
+
+.bb-over-subtitle {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #b87357;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.bb-over-hero-score-box {
+    background: linear-gradient(135deg, #fff7ed, #fef3c7);
+    border: 1.5px solid rgba(245, 158, 11, 0.35);
+    border-radius: 18px;
+    padding: 16px;
+    margin: 16px 0;
+    position: relative;
+    box-shadow: 0 6px 20px rgba(217, 119, 6, 0.12);
+}
+
+.hero-score-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #92400e;
+}
+
+.hero-score-val {
+    font-size: 44px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #78350f;
+    margin: 4px 0;
+    font-family: var(--font-sans);
+}
+
+.bb-new-record-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
+}
+
+.bb-over-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.bb-stat-item {
+    background: #fdfbf7;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 14px;
+    padding: 10px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.bb-stat-item .stat-lbl {
+    font-size: 10px;
+    font-weight: 700;
+    color: #78716c;
+}
+
+.bb-stat-item .stat-val {
+    font-size: 16px;
+    font-weight: 800;
+    color: #292524;
+}
+
+.bb-play-again-btn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #b87357, #96533c);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(184, 115, 87, 0.35);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+}
+
+.bb-play-again-btn:hover {
+    background: linear-gradient(135deg, #c47c5f, #a45a42);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(184, 115, 87, 0.45);
+}

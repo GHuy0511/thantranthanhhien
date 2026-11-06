@@ -1,3 +1,97 @@
+
+// --- BỘ MÔ HÌNH NHÀ & KHÁCH SẠN 3D ISOMETRIC CỰC KỲ SỐNG ĐỘNG ---
+const REAL_ESTATE_3D_MODELS = {
+    flag(color) {
+        return `
+        <div class="mini-3d-flag" title="Đất đã có chủ">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M4 2v20" stroke="#57534e" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M4 4h14l-3 4.5 3 4.5H4V4z" fill="${color || '#b45d43'}" stroke="#ffffff" stroke-width="1.2"/>
+                <circle cx="4" cy="2" r="2.2" fill="#f59e0b"/>
+            </svg>
+        </div>`;
+    },
+    house1() {
+        return `
+        <div class="mini-3d-house house-lvl-1" title="1 Nhà Phố 3D">
+            <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
+                <!-- Mái ngói đỏ ruby 3D -->
+                <path d="M18 4L4 14L18 20L32 14L18 4Z" fill="#dc2626"/>
+                <path d="M18 4L32 14L28 16L18 10L18 4Z" fill="#b91c1c"/>
+                <path d="M4 14L18 20L18 10L4 6L4 14Z" fill="#ef4444"/>
+                <rect x="22" y="5" width="3" height="6" fill="#991b1b"/>
+                <ellipse cx="23.5" cy="5" rx="1.5" ry="0.8" fill="#7f1d1d"/>
+                <!-- Thân nhà màu kem -->
+                <path d="M5 14.5L18 20.5V32L5 26V14.5Z" fill="#fef3c7"/>
+                <path d="M18 20.5L31 14.5V26L18 32V20.5Z" fill="#fde68a"/>
+                <!-- Cửa ra vào -->
+                <path d="M10 21C10 19.5 13 19.5 13 21V28L10 26.5V21Z" fill="#78350f"/>
+                <rect x="21" y="18" width="5" height="5" rx="1" fill="#f59e0b" stroke="#ffffff" stroke-width="0.8"/>
+            </svg>
+        </div>`;
+    },
+    house2() {
+        return `
+        <div class="mini-3d-house house-lvl-2" title="2 Nhà Phố 3D">
+            <svg width="34" height="26" viewBox="0 0 46 36" fill="none">
+                <!-- Nhà 1 bên trái -->
+                <g transform="translate(0, 2)">
+                    <path d="M14 4L2 13L14 18L26 13L14 4Z" fill="#dc2626"/>
+                    <path d="M3 13.5L14 18.5V29L3 24V13.5Z" fill="#fef3c7"/>
+                    <path d="M14 18.5L25 13.5V24L14 29V18.5Z" fill="#fde68a"/>
+                    <path d="M7 19C7 17.5 10 17.5 10 19V25L7 24V19Z" fill="#78350f"/>
+                </g>
+                <!-- Nhà 2 bên phải xếp so le -->
+                <g transform="translate(18, 0)">
+                    <path d="M14 4L2 13L14 18L26 13L14 4Z" fill="#b91c1c"/>
+                    <path d="M3 13.5L14 18.5V29L3 24V13.5Z" fill="#fffbeb"/>
+                    <path d="M14 18.5L25 13.5V24L14 29V18.5Z" fill="#fef3c7"/>
+                    <rect x="17" y="16" width="4" height="4" rx="0.8" fill="#f59e0b" stroke="#ffffff" stroke-width="0.8"/>
+                </g>
+            </svg>
+        </div>`;
+    },
+    hotel() {
+        return `
+        <div class="mini-3d-hotel hotel-lvl-3" title="Khách Sạn 5 Sao 3D">
+            <svg width="30" height="32" viewBox="0 0 40 40" fill="none">
+                <!-- Mái vòm hoàng gia vàng kim -->
+                <path d="M20 2C15 7 15 10 20 12C25 10 25 7 20 2Z" fill="#f59e0b"/>
+                <circle cx="20" cy="2" r="2" fill="#fbbf24"/>
+                <!-- Tháp khách sạn 3D -->
+                <path d="M8 12L20 8L32 12V36L20 39L8 36V12Z" fill="#ffffff" stroke="#d97706" stroke-width="1.2"/>
+                <path d="M20 8L32 12V36L20 39V8Z" fill="#fef3c7"/>
+                <path d="M8 12L20 8V39L8 36V12Z" fill="#fffbeb"/>
+                <!-- Các ô cửa sổ xanh ngọc -->
+                <rect x="11" y="15" width="6" height="4" rx="0.8" fill="#38bdf8"/>
+                <rect x="23" y="15" width="6" height="4" rx="0.8" fill="#0284c7"/>
+                <rect x="11" y="21" width="6" height="4" rx="0.8" fill="#38bdf8"/>
+                <rect x="23" y="21" width="6" height="4" rx="0.8" fill="#0284c7"/>
+                <rect x="11" y="27" width="6" height="4" rx="0.8" fill="#38bdf8"/>
+                <rect x="23" y="27" width="6" height="4" rx="0.8" fill="#0284c7"/>
+                <!-- Biển hiệu HOTEL -->
+                <rect x="13" y="11" width="14" height="3" rx="1" fill="#b45309"/>
+            </svg>
+        </div>`;
+    }
+};
+
+// --- BỘ SƯU TẬP 12 AVATAR CAO CẤP CHO NGƯỜI CHƠI ---
+const AVATAR_COLLECTION = [
+    { id: "boy", icon: "👦", name: "Chàng Trai", sub: "Huy" },
+    { id: "girl", icon: "👧", name: "Cô Gái", sub: "Hiền" },
+    { id: "cat", icon: "🐱", name: "Mèo Con", sub: "Dễ thương" },
+    { id: "dog", icon: "🐶", name: "Cún Yêu", sub: "Trung thành" },
+    { id: "prince", icon: "👑", name: "Vương Miện", sub: "Quý phái" },
+    { id: "heart", icon: "💖", name: "Trái Tim", sub: "Tình yêu" },
+    { id: "camera", icon: "📷", name: "Máy Ảnh", sub: "Du lịch" },
+    { id: "coffee", icon: "☕", name: "Cà Phê", sub: "Ấm áp" },
+    { id: "rocket", icon: "🚀", name: "Tên Lửa", sub: "Khám phá" },
+    { id: "star", icon: "⭐", name: "Ngôi Sao", sub: "May mắn" },
+    { id: "car", icon: "🚗", name: "Xe Cổ", sub: "Phượt thủ" },
+    { id: "plane", icon: "✈️", name: "Máy Bay", sub: "Vi vu" }
+];
+
 /**
  * ========================================================
  * CỜ TỶ PHÚ VIỆT NAM (MONOPOLY VIETNAM EDITION 7x7)
@@ -257,7 +351,7 @@ const VIETNAM_TILES = [
     },
     {
         id: 16, row: 7, col: 3,
-        name: "Vịnh Nha Trang",
+        name: "Nha Trang",
         subtitle: "Khánh Hòa",
         icon: "🌊",
         image: "images/monopoly/nha_trang.jpg",
@@ -364,7 +458,7 @@ const VIETNAM_TILES = [
     },
     {
         id: 23, row: 2, col: 1,
-        name: "Đảo Phú Quốc",
+        name: "Phú Quốc",
         subtitle: "Kiên Giang",
         icon: "🏝️",
         image: "images/monopoly/phu_quoc.jpg",
@@ -871,10 +965,10 @@ function renderPlayerHUD() {
         // Đóng băng badge
         const freezeBadge = player.frozenTurns > 0 ? `<span class="badge-freeze" title="Bị tạm dừng đi ${player.frozenTurns} lượt">❄️ ${player.frozenTurns}L</span>` : "";
 
-        const initialLetter = player.name ? player.name.trim().charAt(0).toUpperCase() : "P";
         card.innerHTML = `
-            <div class="player-hud-avatar-wrap" style="background:${player.bg}; border: 2px solid ${player.color};">
-                <span class="player-avatar-initial" style="color:${player.color};">${initialLetter}</span>
+            <div class="player-hud-avatar-wrap clickable" onclick="openAvatarPicker('${player.id}')" title="Nhấp để đổi Avatar" style="background:${player.bg}; border: 2px solid ${player.color};">
+                <span class="player-avatar-icon">${player.icon || (player.name.charAt(0).toUpperCase())}</span>
+                <span class="avatar-edit-badge" title="Đổi avatar">✎</span>
             </div>
             <div class="player-hud-info">
                 <div class="player-name-row">
@@ -994,29 +1088,41 @@ function updateUI() {
         const estateEl = document.getElementById(`estate-${tile.id}`);
         if (!ownerEl || !estateEl) return;
 
+        const cellEl = document.getElementById(`tile-${tile.id}`);
         if (tile.owner) {
             const ownerObj = gameState.players.find(p => p.id === tile.owner);
             if (ownerObj) {
-                ownerEl.textContent = ownerObj.name;
-                ownerEl.style.background = ownerObj.color;
-                ownerEl.style.display = "block";
+                // Đổi viền ô cờ theo màu người sở hữu thanh lịch (không dùng tam giác che chữ vùng miền)
+                if (cellEl) {
+                    cellEl.style.borderColor = ownerObj.color;
+                    cellEl.style.boxShadow = `0 4px 14px ${ownerObj.glow}`;
+                }
+                ownerEl.style.display = "none"; // Bỏ tam giác che chữ vùng miền
             }
 
-            // HIỂN THỊ CÔNG TRÌNH SANG TRỌNG TRÊN Ô CỜ
-            if (tile.level === 1) {
-                estateEl.innerHTML = '<span class="luxury-building-token level-1" title="1 Nhà Phố"><span class="token-pip"></span>1 Nhà</span>';
+            // HIỂN THỊ NGÔI NHÀ 3D THẬT SỰ TRÊN Ô CỜ
+            if (tile.level === 0) {
+                // Đã mua đất: Cắm cờ chủ quyền mini 3D
+                estateEl.innerHTML = REAL_ESTATE_3D_MODELS.flag(ownerObj ? ownerObj.color : '#b45d43');
+                estateEl.style.display = "flex";
+            } else if (tile.level === 1) {
+                // 1 Nhà Phố 3D
+                estateEl.innerHTML = REAL_ESTATE_3D_MODELS.house1();
                 estateEl.style.display = "flex";
             } else if (tile.level === 2) {
-                estateEl.innerHTML = '<span class="luxury-building-token level-2" title="2 Nhà Phố"><span class="token-pip"></span>2 Nhà</span>';
+                // 2 Nhà Phố 3D
+                estateEl.innerHTML = REAL_ESTATE_3D_MODELS.house2();
                 estateEl.style.display = "flex";
             } else if (tile.level >= 3) {
-                estateEl.innerHTML = '<span class="luxury-building-token level-hotel" title="Khách Sạn 5★">★ HOTEL</span>';
+                // Khách Sạn 5 Sao 3D
+                estateEl.innerHTML = REAL_ESTATE_3D_MODELS.hotel();
                 estateEl.style.display = "flex";
-            } else {
-                estateEl.innerHTML = '';
-                estateEl.style.display = "none";
             }
         } else {
+            if (cellEl) {
+                cellEl.style.borderColor = "";
+                cellEl.style.boxShadow = "";
+            }
             ownerEl.style.display = "none";
             estateEl.innerHTML = '';
             estateEl.style.display = "none";
@@ -2393,9 +2499,10 @@ function initGameSetupModal() {
             const isAi = isAiMode && i > 0;
             const row = document.createElement("div");
             row.className = "setup-player-row";
-            const pInitial = cfg.name ? cfg.name.charAt(0).toUpperCase() : "P";
             row.innerHTML = `
-                <div class="setup-p-icon" style="background:${cfg.bg}; color:${cfg.color}; font-weight:800;">${pInitial}</div>
+                <button type="button" class="setup-p-icon clickable" onclick="openAvatarPicker('p${i}')" title="Đổi Avatar người chơi" style="background:${cfg.bg}; color:${cfg.color}; font-size:18px; border:none; cursor:pointer;">
+                    ${cfg.icon || '👦'}
+                </button>
                 <input type="text" class="setup-player-name-input" data-player-idx="${i}" value="${cfg.name}" maxlength="12" placeholder="Tên người chơi">
                 <span class="setup-p-type-badge ${isAi ? 'type-ai' : 'type-human'}">${isAi ? 'Máy (AI)' : 'Người chơi'}</span>
             `;
@@ -2743,6 +2850,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initThemeSwitcher();
     setupEventListeners();
     initGameSetupModal();
+    initAvatarPickerModal();
     startNewGame(2, "pass_play");
     initGameSwitcher();
 
@@ -2848,3 +2956,73 @@ function executeNetworkRoll(d1, d2) {
     }, 1100);
 }
 
+
+
+// 30. AVATAR PICKER ENGINE (THAY ĐỔI AVATAR NGƯỜI CHƠI BẤT KỲ LÚC NÀO)
+let activeAvatarTargetPlayerId = "p0";
+
+function openAvatarPicker(playerId) {
+    activeAvatarTargetPlayerId = playerId;
+    const modal = document.getElementById("modalAvatarPicker");
+    const grid = document.getElementById("avatarGridSelection");
+    if (!modal || !grid) return;
+
+    const player = gameState.players.find(p => p.id === playerId) || ALL_PLAYER_CONFIGS[0];
+    const currentIcon = player.icon || "👦";
+
+    grid.innerHTML = "";
+    AVATAR_COLLECTION.forEach(av => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = `avatar-opt-btn ${av.icon === currentIcon ? 'selected' : ''}`;
+        item.setAttribute("data-avatar", av.icon);
+        item.innerHTML = `
+            <span class="avatar-opt-emoji">${av.icon}</span>
+            <span class="avatar-opt-name">${av.name}</span>
+        `;
+        item.addEventListener("click", () => {
+            selectPlayerAvatar(playerId, av.icon);
+        });
+        grid.appendChild(item);
+    });
+
+    modal.classList.add("active");
+}
+
+function selectPlayerAvatar(playerId, icon) {
+    // 1. Cập nhật trong gameState.players
+    const p = gameState.players.find(item => item.id === playerId);
+    if (p) p.icon = icon;
+
+    // 2. Cập nhật trong ALL_PLAYER_CONFIGS
+    const idx = parseInt(playerId.replace("p", "")) || 0;
+    if (ALL_PLAYER_CONFIGS[idx]) ALL_PLAYER_CONFIGS[idx].icon = icon;
+
+    // 3. Lưu vào localStorage
+    try {
+        localStorage.setItem(`monopoly_avatar_${playerId}`, icon);
+    } catch (e) {}
+
+    // 4. Đóng modal & cập nhật giao diện
+    closeModal("modalAvatarPicker");
+    renderPlayerHUD();
+    renderPlayerTokens();
+    if (typeof renderSetupRoster === 'function') renderSetupRoster();
+}
+
+function initAvatarPickerModal() {
+    const btnClose = document.getElementById("btnCloseAvatarPicker");
+    if (btnClose) {
+        btnClose.addEventListener("click", () => closeModal("modalAvatarPicker"));
+    }
+
+    // Nạp avatar đã lưu từ localStorage
+    ["p0", "p1", "p2", "p3"].forEach((pid, idx) => {
+        try {
+            const saved = localStorage.getItem(`monopoly_avatar_${pid}`);
+            if (saved && ALL_PLAYER_CONFIGS[idx]) {
+                ALL_PLAYER_CONFIGS[idx].icon = saved;
+            }
+        } catch(e) {}
+    });
+}

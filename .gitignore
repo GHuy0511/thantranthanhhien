@@ -15,3 +15,5 @@ music/Hẹn Một Mai.mp3
 # Log & dữ liệu tạm
 *.csv
 videos/*.csv
+
+scratch/

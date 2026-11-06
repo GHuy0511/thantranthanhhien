@@ -333,17 +333,27 @@
                         </div>
                     </div>
 
-                    <!-- MODE 2: GẠCH TỰ RƠI (FALLING / TETRIS 10x16) -->
+                    <!-- MODE 2: GẠCH TỰ RƠI (FALLING / TETRIS 10x16 - ARCADE CONSOLE) -->
                     <div class="bb-falling-arena" id="bbFallingArena">
-                        <div class="bb-falling-board-wrap">
+                        <div class="bb-arcade-stage">
+                            <!-- Bàn cờ 10x16 sắc nét có viền chiều sâu -->
                             <div class="bb-falling-grid-container" id="bbFallingContainer">
                                 <div class="bb-falling-board" id="bbFallingBoard"></div>
                             </div>
 
+                            <!-- Sidebar điều khiển & thông tin Arcade -->
                             <div class="bb-falling-sidebar">
                                 <div class="bb-next-piece-card" id="bbNextPieceCard">
                                     <span class="next-piece-label">TIẾP THEO</span>
                                     <div class="bb-next-piece-box" id="bbNextPieceBox"></div>
+                                </div>
+
+                                <div class="bb-arcade-keyboard-guide">
+                                    <span class="guide-title">PHÍM ĐIỀU KHIỂN</span>
+                                    <div class="key-row"><kbd>←</kbd><kbd>→</kbd><span>Di chuyển</span></div>
+                                    <div class="key-row"><kbd>↑</kbd><span>Xoay khối</span></div>
+                                    <div class="key-row"><kbd>↓</kbd><span>Rơi nhanh</span></div>
+                                    <div class="key-row"><kbd>Space</kbd><span>Thả ngay</span></div>
                                 </div>
                             </div>
                         </div>
@@ -541,6 +551,24 @@
     <!-- ========================================================
          MODAL CÀI ĐẶT VÁN ĐẤU (THIẾT KẾ TINH TẾ, HIỆN ĐẠI, KHÔNG EMOJI LÒE LOẸT)
          ======================================================== -->
+        <!-- ========================================================
+         MODAL CHỌN AVATAR NGƯỜI CHƠI (AVATAR PICKER)
+         ======================================================== -->
+    <div class="game-modal-overlay" id="modalAvatarPicker" aria-hidden="true">
+        <div class="game-modal-card avatar-picker-card">
+            <div class="avatar-picker-header">
+                <h3 class="game-modal-title">Chọn Hình Đại Diện</h3>
+                <p class="game-modal-desc">Chọn biểu tượng yêu thích để hiển thị trên bàn cờ và quân cờ</p>
+            </div>
+            <div class="avatar-grid-selection" id="avatarGridSelection">
+                <!-- Danh sách 12 avatar tạo bằng JS -->
+            </div>
+            <div class="game-modal-actions">
+                <button class="modal-btn-cancel" id="btnCloseAvatarPicker" type="button">Đóng</button>
+            </div>
+        </div>
+    </div>
+
     <div class="game-modal-overlay" id="modalGameSetup" aria-hidden="true">
         <div class="game-modal-card setup-card">
             <div class="setup-header">
@@ -1000,34 +1028,42 @@
          MODAL BLOCK BLAST: GAME OVER (HẾT NƯỚC ĐI)
          ======================================================== -->
     <div class="game-modal-overlay" id="modalBbGameOver" aria-hidden="true">
-        <div class="game-modal-card game-over-card">
-            <div class="game-over-icon">💥</div>
-            <span class="game-over-tag">HẾT NƯỚC ĐI!</span>
-            <h3 class="game-modal-title">Ván Đấu Kết Thúc</h3>
-            <p class="game-modal-desc">Không còn khoảng trống phù hợp để đặt các khối gạch còn lại.</p>
+        <div class="game-modal-card bb-game-over-luxury-card">
+            <div class="bb-over-badge-emblem">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            </div>
+            <span class="bb-over-subtitle">HẾT LƯỢT ĐẶT GẠCH</span>
+            <h3 class="game-modal-title">Ván Đấu Hoàn Tất</h3>
+            <p class="game-modal-desc">Không còn vị trí trống phù hợp để xếp khối gạch tiếp theo.</p>
 
-            <div class="game-over-stats">
-                <div class="stat-box">
-                    <span class="stat-lbl">Điểm Đạt Được</span>
-                    <strong class="stat-num" id="endBbScore">0</strong>
+            <!-- Khung điểm số chính nổi bật -->
+            <div class="bb-over-hero-score-box">
+                <span class="hero-score-label">ĐIỂM ĐẠT ĐƯỢC</span>
+                <div class="hero-score-val" id="endBbScore">0</div>
+                <span class="bb-new-record-badge" id="newBbRecordPill" style="display: none;">KỶ LỤC MỚI</span>
+            </div>
+
+            <!-- Lưới thống kê 3 ô hiện đại -->
+            <div class="bb-over-stats-grid">
+                <div class="bb-stat-item">
+                    <span class="stat-lbl">Kỷ Lục</span>
+                    <strong class="stat-val" id="endBbHighScore">0</strong>
                 </div>
-                <div class="stat-box highlight-stat">
-                    <span class="stat-lbl">Kỷ Lục Cao Nhất</span>
-                    <strong class="stat-num" id="endBbHighScore">0</strong>
-                    <span class="new-record-pill" id="newBbRecordPill" style="display: none;">Kỷ lục mới! 🏆</span>
+                <div class="bb-stat-item">
+                    <span class="stat-lbl">Hàng Đã Phá</span>
+                    <strong class="stat-val" id="endBbLinesCleared">0</strong>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-lbl">Hàng Đã Phá Nổ</span>
-                    <strong class="stat-num" id="endBbLinesCleared">0</strong>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-lbl">Combo Đỉnh Nhất</span>
-                    <strong class="stat-num" id="endBbMaxCombo">0</strong>
+                <div class="bb-stat-item">
+                    <span class="stat-lbl">Combo Đỉnh</span>
+                    <strong class="stat-val" id="endBbMaxCombo">0</strong>
                 </div>
             </div>
 
             <div class="game-modal-actions">
-                <button class="modal-btn-confirm" id="btnBbPlayAgain" type="button">Chơi Lại Ván Mới 🔄</button>
+                <button class="modal-btn-confirm bb-play-again-btn" id="btnBbPlayAgain" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    Chơi Lại Ván Mới
+                </button>
             </div>
         </div>
     </div>
