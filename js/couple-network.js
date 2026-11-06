@@ -334,10 +334,18 @@ window.CoupleNetwork = (function () {
     // TÍNH NĂNG MỜI NGƯỜI YÊU (SHARE LINK 1-CHẠM)
     // ========================================================
     function getInviteLink(targetRole, gameId) {
-        const url = new URL(window.location.href);
+        let baseHref = window.location.href;
+        // Nếu đang mở từ ổ cứng máy tính (file:///), tự động trỏ về domain online GitHub Pages
+        // để đối phương có thể truy cập được trên điện thoại và máy tính khác qua Internet!
+        if (window.location.protocol === 'file:') {
+            const pageName = window.location.pathname.split('/').pop() || 'games.html';
+            baseHref = `https://ghuy0511.github.io/thantranthanhhien/${pageName}`;
+        }
+        const url = new URL(baseHref);
         url.searchParams.set('role', targetRole || getPartnerRole());
         url.searchParams.set('room', roomId);
         if (gameId) url.searchParams.set('game', gameId);
+        if (gameId) url.hash = gameId;
         return url.toString();
     }
 

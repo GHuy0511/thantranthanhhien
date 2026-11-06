@@ -16,6 +16,7 @@ const VIETNAM_TILES = [
         name: "Ga Hà Nội",
         subtitle: "Khởi Hành (GO)",
         icon: "🚩",
+        image: "images/monopoly/start_go.jpg",
         region: "special",
         regionName: "Bắt Đầu",
         type: "start",
@@ -30,6 +31,7 @@ const VIETNAM_TILES = [
         name: "Hồ Gươm",
         subtitle: "Hà Nội",
         icon: "🏮",
+        image: "images/monopoly/ho_guom.jpg",
         region: "hanoi",
         regionName: "Bắc Bộ",
         type: "property",
@@ -44,6 +46,7 @@ const VIETNAM_TILES = [
         name: "Vịnh Hạ Long",
         subtitle: "Quảng Ninh",
         icon: "⛵",
+        image: "images/monopoly/ha_long.jpg",
         region: "hanoi",
         regionName: "Bắc Bộ",
         type: "property",
@@ -58,6 +61,7 @@ const VIETNAM_TILES = [
         name: "Cơ Hội",
         subtitle: "Rút Thẻ May Mắn",
         icon: "❓",
+        image: "images/monopoly/chance.jpg",
         region: "special",
         regionName: "Cơ Hội",
         type: "chance",
@@ -72,6 +76,7 @@ const VIETNAM_TILES = [
         name: "Fansipan",
         subtitle: "Sa Pa",
         icon: "🏔️",
+        image: "images/monopoly/fansipan.jpg",
         region: "northwest",
         regionName: "Tây Bắc",
         type: "property",
@@ -86,6 +91,7 @@ const VIETNAM_TILES = [
         name: "Tràng An",
         subtitle: "Ninh Bình",
         icon: "🚣",
+        image: "images/monopoly/trang_an.jpg",
         region: "northwest",
         regionName: "Tây Bắc",
         type: "property",
@@ -100,6 +106,7 @@ const VIETNAM_TILES = [
         name: "Vào Tù",
         subtitle: "Cảnh Sát Bắt",
         icon: "🚔",
+        image: "images/monopoly/go_to_jail.jpg",
         region: "special",
         regionName: "Vào Tù",
         type: "go_to_jail",
@@ -116,6 +123,7 @@ const VIETNAM_TILES = [
         name: "Cố Đô Huế",
         subtitle: "Thừa Thiên Huế",
         icon: "🏯",
+        image: "images/monopoly/hue.jpg",
         region: "central",
         regionName: "Miền Trung",
         type: "property",
@@ -130,6 +138,7 @@ const VIETNAM_TILES = [
         name: "Cầu Vàng",
         subtitle: "Đà Nẵng",
         icon: "🌉",
+        image: "images/monopoly/cau_vang.jpg",
         region: "central",
         regionName: "Miền Trung",
         type: "property",
@@ -144,6 +153,7 @@ const VIETNAM_TILES = [
         name: "Điện Lực",
         subtitle: "Dịch Vụ Tiện Ích",
         icon: "⚡",
+        image: "images/monopoly/electric.jpg",
         region: "special",
         regionName: "Tiện Ích",
         type: "utility",
@@ -158,6 +168,7 @@ const VIETNAM_TILES = [
         name: "Phố Cổ Hội An",
         subtitle: "Quảng Nam",
         icon: "🏮",
+        image: "images/monopoly/hoi_an.jpg",
         region: "coastal",
         regionName: "Duyên Hải",
         type: "property",
@@ -172,6 +183,7 @@ const VIETNAM_TILES = [
         name: "Biển Mỹ Khê",
         subtitle: "Đà Nẵng",
         icon: "🏖️",
+        image: "images/monopoly/my_khe.jpg",
         region: "coastal",
         regionName: "Duyên Hải",
         type: "property",
@@ -186,6 +198,7 @@ const VIETNAM_TILES = [
         name: "Bãi Đỗ Xe",
         subtitle: "Hũ Tiền Thưởng",
         icon: "🅿️",
+        image: "images/monopoly/free_parking.jpg",
         region: "special",
         regionName: "Đỗ Xe",
         type: "parking",
@@ -202,6 +215,7 @@ const VIETNAM_TILES = [
         name: "Đà Lạt",
         subtitle: "Lâm Đồng",
         icon: "🌲",
+        image: "images/monopoly/da_lat.jpg",
         region: "highlands",
         regionName: "Tây Nguyên",
         type: "property",
@@ -216,6 +230,7 @@ const VIETNAM_TILES = [
         name: "Buôn Ma Thuột",
         subtitle: "Đắk Lắk",
         icon: "☕",
+        image: "images/monopoly/bmt.jpg",
         region: "highlands",
         regionName: "Tây Nguyên",
         type: "property",
@@ -230,6 +245,7 @@ const VIETNAM_TILES = [
         name: "Khí Vận",
         subtitle: "Quỹ Cộng Đồng",
         icon: "📦",
+        image: "images/monopoly/chest.jpg",
         region: "special",
         regionName: "Khí Vận",
         type: "chest",
@@ -244,6 +260,7 @@ const VIETNAM_TILES = [
         name: "Vịnh Nha Trang",
         subtitle: "Khánh Hòa",
         icon: "🌊",
+        image: "images/monopoly/nha_trang.jpg",
         region: "south_coast",
         regionName: "Nam Trung Bộ",
         type: "property",
@@ -258,6 +275,7 @@ const VIETNAM_TILES = [
         name: "Mũi Né",
         subtitle: "Bình Thuận",
         icon: "🏜️",
+        image: "images/monopoly/mui_ne.jpg",
         region: "south_coast",
         regionName: "Nam Trung Bộ",
         type: "property",
@@ -272,6 +290,7 @@ const VIETNAM_TILES = [
         name: "Nhà Tù",
         subtitle: "Thăm Tù / Bị Giam",
         icon: "⛓️",
+        image: "images/monopoly/jail.jpg",
         region: "special",
         regionName: "Nhà Tù",
         type: "jail",
@@ -288,6 +307,7 @@ const VIETNAM_TILES = [
         name: "Sân Bay",
         subtitle: "Bay Tốc Hành",
         icon: "✈️",
+        image: "images/monopoly/airport.jpg",
         region: "special",
         regionName: "Sân Bay",
         type: "airport",
@@ -302,6 +322,7 @@ const VIETNAM_TILES = [
         name: "Bến Ninh Kiều",
         subtitle: "Cần Thơ",
         icon: "🚢",
+        image: "images/monopoly/ninh_kieu.jpg",
         region: "south",
         regionName: "Nam Bộ",
         type: "property",
@@ -316,6 +337,7 @@ const VIETNAM_TILES = [
         name: "Chợ Bến Thành",
         subtitle: "TP. Hồ Chí Minh",
         icon: "🏢",
+        image: "images/monopoly/ben_thanh.jpg",
         region: "south",
         regionName: "Nam Bộ",
         type: "property",
@@ -330,6 +352,7 @@ const VIETNAM_TILES = [
         name: "Thuế Thu Nhập",
         subtitle: "Nộp Ngân Khố",
         icon: "💰",
+        image: "images/monopoly/tax.jpg",
         region: "special",
         regionName: "Thuế",
         type: "tax",
@@ -344,6 +367,7 @@ const VIETNAM_TILES = [
         name: "Đảo Phú Quốc",
         subtitle: "Kiên Giang",
         icon: "🏝️",
+        image: "images/monopoly/phu_quoc.jpg",
         region: "islands",
         regionName: "Biển Đảo",
         type: "property",
@@ -662,66 +686,79 @@ function initMonopolyBoard() {
     VIETNAM_TILES.forEach(tile => {
         const isCorner = tile.type === 'start' || tile.type === 'jail' || tile.type === 'go_to_jail' || tile.type === 'parking';
         const cell = document.createElement("div");
-        cell.className = `board-tile ${isCorner ? 'is-corner' : ''}`;
+        cell.className = `board-tile ${isCorner ? 'is-corner' : ''} tile-type-${tile.type}`;
         cell.id = `tile-${tile.id}`;
         cell.style.gridRow = tile.row;
         cell.style.gridColumn = tile.col;
-        cell.title = `${tile.name} - Bấm để xem Sổ Đỏ`;
+        cell.title = `${tile.name} - Bấm để xem chi tiết`;
 
-        // Dải màu vùng miền
+        // Dải màu vùng miền với nhãn text
         const colorBand = document.createElement("div");
         colorBand.className = `tile-region-strip strip-${tile.region}`;
+        const stripLabel = document.createElement("span");
+        stripLabel.className = "strip-label";
+        stripLabel.textContent = (tile.subtitle && tile.type === 'property') ? tile.subtitle : (tile.regionName || '');
+        colorBand.appendChild(stripLabel);
 
-        // Biểu tượng
-        const iconEl = document.createElement("div");
-        iconEl.className = "tile-icon";
-        iconEl.textContent = tile.icon;
+        // Khung ảnh danh lam thắng cảnh thực tế
+        const photoWrap = document.createElement("div");
+        photoWrap.className = "tile-photo-wrap";
+        if (tile.image) {
+            const imgEl = document.createElement("img");
+            imgEl.className = "tile-photo";
+            imgEl.src = tile.image;
+            imgEl.alt = tile.name;
+            imgEl.loading = "lazy";
+            photoWrap.appendChild(imgEl);
+        } else {
+            const iconEl = document.createElement("div");
+            iconEl.className = "tile-icon";
+            iconEl.textContent = tile.icon;
+            photoWrap.appendChild(iconEl);
+        }
 
-        // Tên danh lam
+        // Tên danh lam to rõ, không bị cắt chữ
         const nameEl = document.createElement("div");
         nameEl.className = "tile-name";
         nameEl.textContent = tile.name;
 
-        // Phụ đề tỉnh thành (nếu có)
-        if (tile.subtitle && tile.type === 'property') {
-            const subEl = document.createElement("div");
-            subEl.className = "tile-subtitle";
-            subEl.textContent = tile.subtitle;
-            cell.appendChild(subEl);
-        }
-
-        // Giá / Trạng thái
+        // Huy hiệu giá tiền / Trạng thái dạng pill sắc nét
         const priceEl = document.createElement("div");
         priceEl.className = "tile-price";
         if (tile.type === "property") {
             priceEl.textContent = `${tile.price}M`;
         } else if (tile.type === "start") {
             priceEl.textContent = "+200M";
-            priceEl.style.color = "#ea580c";
+            priceEl.classList.add("price-start");
         } else if (tile.type === "transport" || tile.type === "utility") {
             priceEl.textContent = `${tile.price}M`;
-            priceEl.style.color = "#0284c7";
+            priceEl.classList.add("price-utility");
         } else if (tile.type === "tax") {
             priceEl.textContent = `-${tile.price}M`;
-            priceEl.style.color = "#dc2626";
+            priceEl.classList.add("price-tax");
         } else if (tile.type === "parking") {
             priceEl.textContent = "Hũ 🅿️";
-            priceEl.style.color = "#d97706";
+            priceEl.classList.add("price-parking");
         } else if (tile.type === "go_to_jail") {
             priceEl.textContent = "Vào Tù";
-            priceEl.style.color = "#dc2626";
+            priceEl.classList.add("price-jail");
         } else if (tile.type === "challenge") {
             priceEl.textContent = "Thử Thách";
-            priceEl.style.color = "#ea580c";
         } else if (tile.type === "chance") {
             priceEl.textContent = "Cơ Hội";
-            priceEl.style.color = "#9333ea";
+            priceEl.classList.add("price-chance");
+        } else if (tile.type === "chest") {
+            priceEl.textContent = "Khí Vận";
+            priceEl.classList.add("price-chest");
+        } else if (tile.type === "airport") {
+            priceEl.textContent = "Bay 50M";
+            priceEl.classList.add("price-airport");
         } else {
             priceEl.textContent = "Thăm tù";
-            priceEl.style.color = "#64748b";
+            priceEl.classList.add("price-visit");
         }
 
-        // Cụm hiển thị ngôi nhà thật (🏠 1 nhà, 🏠🏠 2 nhà, 🏨 khách sạn)
+        // Cụm hiển thị công trình nhà thật (🏠 1 nhà, 🏠🏠 2 nhà, 🏨 khách sạn)
         const estateView = document.createElement("div");
         estateView.className = "tile-real-estate-view";
         estateView.id = `estate-${tile.id}`;
@@ -733,13 +770,13 @@ function initMonopolyBoard() {
         ownerBadge.id = `owner-badge-${tile.id}`;
         ownerBadge.style.display = "none";
 
-        // Khung quân cờ
+        // Khung quân cờ người chơi
         const tokensWrap = document.createElement("div");
         tokensWrap.className = "tile-tokens-wrap";
         tokensWrap.id = `tokens-wrap-${tile.id}`;
 
         cell.appendChild(colorBand);
-        cell.appendChild(iconEl);
+        cell.appendChild(photoWrap);
         cell.appendChild(nameEl);
         cell.appendChild(priceEl);
         cell.appendChild(estateView);

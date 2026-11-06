@@ -449,132 +449,233 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .monopoly-board.grid-7x7 {
     width: 100%;
-    max-width: 900px;
+    max-width: 640px;
     aspect-ratio: 1 / 1;
     display: grid;
     grid-template-columns: repeat(7, 1fr) !important;
     grid-template-rows: repeat(7, 1fr) !important;
     gap: 4px;
-    padding: 8px;
-    background: var(--card-surface, #ffffff);
-    border-radius: 24px;
-    border: 2px solid var(--border-card, rgba(0, 0, 0, 0.1));
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+    padding: 6px;
+    background: #fdfbf7;
+    border: 2px solid rgba(184, 115, 87, 0.28);
+    border-radius: 20px;
+    box-shadow: 0 16px 44px rgba(184, 115, 87, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
     position: relative;
     user-select: none;
 }
 
-/* TỪNG Ô BÀN CỜ TINH GỌN (BOARD TILE) */
+/* TỪNG Ô BÀN CỜ DẠNG POSTCARD STAMP CAO CẤP (BOARD TILE) */
 .board-tile {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 2px 3px;
+    padding: 3px 2px 2px;
     border-radius: 8px;
-    background: var(--bg-page, #fbf8f4);
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    background: #ffffff;
+    border: 1.2px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
     text-align: center;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .board-tile:hover {
     transform: translateY(-2px);
-    border-color: var(--accent-warm, #ea580c);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    border-color: #b87357;
+    box-shadow: 0 6px 16px rgba(184, 115, 87, 0.25);
     z-index: 5;
 }
 
 .board-tile.is-corner {
-    background: rgba(0, 0, 0, 0.03);
-    border-color: var(--border-card);
+    background: #fdfbf7;
+    border-color: rgba(184, 115, 87, 0.22);
+}
+.board-tile.is-corner .tile-region-strip {
+    display: none;
+}
+.board-tile.is-corner .tile-photo-wrap {
+    height: 32px;
 }
 
-/* Dải màu vùng miền trên đầu mỗi ô */
+/* Dải màu vùng miền trên đầu mỗi ô kèm chữ nhãn */
 .tile-region-strip {
     width: 100%;
-    height: 5px;
-    border-radius: 3px;
-    margin-bottom: 2px;
+    height: 12px;
+    border-radius: 4px 4px 2px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 1px;
+    flex-shrink: 0;
 }
 
-.strip-hanoi { background: #ea580c; }
-.strip-northwest { background: #16a34a; }
-.strip-central { background: #9333ea; }
-.strip-coastal { background: #eab308; }
-.strip-highlands { background: #a85d7b; }
-.strip-south_coast { background: #0284c7; }
-.strip-south { background: #0d9488; }
-.strip-islands { background: #4a6b82; }
-.strip-special { background: #64748b; }
-
-.tile-icon {
-    font-size: clamp(14px, 2.2vw, 20px);
+.strip-label {
+    font-size: 7.5px;
+    font-weight: 800;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
     line-height: 1;
-    margin: 1px 0;
-}
-
-.tile-subtitle {
-    font-size: clamp(7.5px, 0.95vw, 9px);
-    font-weight: 600;
-    color: var(--text-muted, #78716c);
-    line-height: 1;
-    margin-top: 1px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100%;
-}
-.tile-name {
-    font-size: clamp(8px, 1.15vw, 10.5px);
-    font-weight: 800;
-    line-height: 1.15;
-    color: var(--text-primary);
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    padding: 0 2px;
 }
 
-.tile-price {
-    font-size: clamp(7.5px, 1.05vw, 9.5px);
+.strip-hanoi { background: linear-gradient(135deg, #e0533c, #c0392b); }
+.strip-northwest { background: linear-gradient(135deg, #16a34a, #15803d); }
+.strip-central { background: linear-gradient(135deg, #9333ea, #7e22ce); }
+.strip-coastal { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.strip-highlands { background: linear-gradient(135deg, #854d0e, #713f12); }
+.strip-south_coast { background: linear-gradient(135deg, #0284c7, #0369a1); }
+.strip-south { background: linear-gradient(135deg, #0d9488, #0f766e); }
+.strip-islands { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+.strip-special { background: linear-gradient(135deg, #64748b, #475569); }
+
+/* Khung ảnh danh lam thắng cảnh thực tế */
+.tile-photo-wrap {
+    width: calc(100% - 2px);
+    height: 27px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    background: #f5f0e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1px 0;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.tile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.25s ease;
+}
+
+.board-tile:hover .tile-photo {
+    transform: scale(1.1);
+}
+
+.tile-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* Tên danh lam to rõ, luôn hiển thị đầy đủ */
+.tile-name {
+    font-size: 9.5px;
     font-weight: 800;
-    color: #16a34a;
+    color: #292524;
+    line-height: 13px;
+    height: 13px;
+    min-height: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+    margin: 1px 0 0;
+    padding: 0 1px;
+    letter-spacing: -0.2px;
+    flex-shrink: 0;
+}
+
+/* Huy hiệu giá tiền dạng pill sắc sảo */
+.tile-price {
+    font-size: 8px;
+    font-weight: 800;
+    color: #047857;
+    background: #ecfdf5;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 999px;
+    padding: 0px 4px;
+    line-height: 12px;
+    height: 12px;
+    white-space: nowrap;
+    text-align: center;
+    flex-shrink: 0;
     margin-top: 1px;
+}
+
+.tile-price.price-start {
+    color: #c2410c;
+    background: #fff7ed;
+    border-color: rgba(249, 115, 22, 0.3);
+}
+
+.tile-price.price-tax,
+.tile-price.price-jail {
+    color: #b91c1c;
+    background: #fef2f2;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.tile-price.price-parking {
+    color: #b45309;
+    background: #fffbeb;
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.tile-price.price-chance {
+    color: #7e22ce;
+    background: #faf5ff;
+    border-color: rgba(168, 85, 247, 0.3);
+}
+
+.tile-price.price-chest {
+    color: #854d0e;
+    background: #fefce8;
+    border-color: rgba(234, 179, 8, 0.3);
+}
+
+.tile-price.price-airport,
+.tile-price.price-utility {
+    color: #0369a1;
+    background: #f0f9ff;
+    border-color: rgba(14, 165, 233, 0.3);
+}
+
+.tile-price.price-visit {
+    color: #475569;
+    background: #f8fafc;
+    border-color: rgba(100, 116, 139, 0.3);
 }
 
 /* KHU VỰC HIỂN THỊ CÔNG TRÌNH / NGÔI NHÀ THẬT TRÊN TỪNG Ô ĐẤT */
 .tile-real-estate-view {
     position: absolute;
-    top: 3px;
-    left: 3px;
+    top: 2px;
+    left: 2px;
     display: flex;
     align-items: center;
-    gap: 1.5px;
-    z-index: 4;
+    gap: 1px;
+    z-index: 6;
     pointer-events: none;
 }
 
 .mini-house-token {
-    font-size: clamp(9px, 1.35vw, 13.5px);
-    line-height: 1;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+    font-size: 11px;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
     animation: realHouseDropIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .mini-hotel-token {
-    font-size: clamp(11.5px, 1.7vw, 17px);
-    line-height: 1;
-    filter: drop-shadow(0 2px 4px rgba(220, 38, 38, 0.5));
+    font-size: 13px;
+    filter: drop-shadow(0 1px 2px rgba(220, 38, 38, 0.5));
     animation: realHotelDropIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -588,44 +689,42 @@
     100% { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-/* Huy hiệu chủ sở hữu */
+/* HUY HIỆU NGƯỜI SỞ HỮU Ô ĐẤT */
 .tile-owner-badge {
     position: absolute;
-    top: 2px;
-    right: 2px;
-    font-size: 7.5px;
-    padding: 1px 4px;
-    border-radius: 4px;
-    font-weight: 800;
-    color: #ffffff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-    z-index: 2;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 16px 16px 0;
+    border-color: transparent var(--accent-warm, #ea580c) transparent transparent;
+    z-index: 4;
 }
 
-/* Khung chứa quân cờ người chơi */
+/* KHUNG CHỨA CÁC QUÂN CỜ ĐANG ĐỨNG TẠI Ô */
 .tile-tokens-wrap {
     position: absolute;
-    bottom: 2px;
-    left: 2px;
+    bottom: 1px;
     right: 2px;
     display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
     align-items: center;
-    justify-content: center;
-    gap: 2px;
-    z-index: 3;
+    justify-content: flex-end;
     pointer-events: none;
+    z-index: 7;
 }
 
-/* QUÂN CỜ NGƯỜI CHƠI (TOKEN PIN CÓ NHẢY VÒNG CUNG) */
 .token-pin {
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10.5px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    font-size: 9px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
     border: 1.5px solid #ffffff;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
@@ -635,22 +734,14 @@
 }
 
 @keyframes tokenParabolicHop {
-    0% {
-        transform: translateY(0) scale(1);
-    }
-    45% {
-        transform: translateY(-16px) scale(1.3);
-    }
-    85% {
-        transform: translateY(2px) scale(1.1, 0.85); /* Squash on landing */
-    }
-    100% {
-        transform: translateY(0) scale(1);
-    }
+    0% { transform: translateY(0) scale(1); }
+    45% { transform: translateY(-16px) scale(1.3); }
+    85% { transform: translateY(2px) scale(1.1, 0.85); }
+    100% { transform: translateY(0) scale(1); }
 }
 
 /* ========================================================
-   KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS) - CUSTOM ĐÀI ĐẤU XÚC XẮC
+   KHU VỰC TRUNG TÂM BÀN CỜ (5x5 CELLS) - ĐÀI ĐẤU XÚC XẮC LUXURY
    ======================================================== */
 .board-center-hub {
     grid-column: 2 / 7 !important;
@@ -659,176 +750,179 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 10px 8px;
-    text-align: center;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.02) 0%, transparent 80%);
+    padding: 6px;
+    background: radial-gradient(circle at center, #ffffff 40%, #fbf7f0 100%);
+    border: 1.5px solid rgba(184, 115, 87, 0.18);
+    border-radius: 14px;
     position: relative;
-    border-radius: 20px;
+    box-shadow: inset 0 2px 10px rgba(184, 115, 87, 0.05);
 }
 
-/* KHAY NHUNG ĐỔ XÚC XẮC ĐÔI SANG TRỌNG (DICE ARENA TRAY) */
+.center-brand-banner {
+    text-align: center;
+    margin-bottom: 3px;
+}
+
+.center-brand-banner .brand-sub {
+    font-size: 9px;
+    font-weight: 700;
+    color: #b87357;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    display: block;
+    line-height: 1.1;
+}
+
+.center-brand-banner .brand-title {
+    font-size: 12.5px;
+    font-weight: 900;
+    color: #7c2d12;
+    letter-spacing: 0.4px;
+    margin: 1px 0 0;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.1;
+}
+
+/* KHAY NHUNG ĐỔ XÚC XẮC ĐÔI (DICE ARENA TRAY) */
 .dice-arena-tray {
-    width: 146px;
-    height: 98px;
-    border-radius: 49px;
-    background: radial-gradient(circle, var(--card-surface, #ffffff) 20%, var(--bg-page, #f3ece4) 85%);
-    border: 2px solid var(--border-card, rgba(0, 0, 0, 0.1));
-    box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.07), 0 8px 24px rgba(0, 0, 0, 0.06);
+    position: relative;
+    width: 116px;
+    height: 72px;
+    background: radial-gradient(circle, #2d5a3f 0%, #173623 100%);
+    border: 2px solid #b87357;
+    border-radius: 14px;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
 }
 
 .dice-arena-felt {
     position: absolute;
-    inset: 5px;
-    border-radius: 45px;
-    border: 1px dashed rgba(0, 0, 0, 0.09);
+    inset: 2px;
+    border-radius: 11px;
+    background: radial-gradient(ellipse at center, rgba(56, 119, 82, 0.4) 0%, transparent 80%);
     pointer-events: none;
 }
 
 .dice-shadow-spot {
     position: absolute;
-    bottom: 10px;
-    width: 44px;
-    height: 12px;
-    background: radial-gradient(ellipse, rgba(0, 0, 0, 0.28) 0%, transparent 75%);
+    bottom: 8px;
+    width: 36px;
+    height: 10px;
+    background: radial-gradient(ellipse, rgba(0, 0, 0, 0.35) 0%, transparent 75%);
     border-radius: 50%;
     pointer-events: none;
-    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-#diceShadowSpot1 {
-    left: 20px;
-}
-
-#diceShadowSpot2 {
-    right: 20px;
-}
+#diceShadowSpot1 { left: 14px; }
+#diceShadowSpot2 { right: 14px; }
 
 .dice-pair-container {
     display: flex;
+    gap: 12px;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    position: relative;
+    perspective: 600px;
     z-index: 2;
 }
 
-/* CẶP XÚC XẮC 3D CHÂN THỰC & KHÔNG BỊ LỖI VIỀN */
 .dice-scene {
-    width: 46px;
-    height: 46px;
-    perspective: 450px;
-    position: relative;
-    z-index: 2;
+    width: 32px;
+    height: 32px;
+    perspective: 400px;
 }
 
 .dice-cube {
-    width: 100%;
-    height: 100%;
+    width: 32px;
+    height: 32px;
     position: relative;
     transform-style: preserve-3d;
-    transform: rotateX(-15deg) rotateY(25deg);
-    transition: transform 1.1s cubic-bezier(0.15, 0.9, 0.25, 1);
+    transform: rotateX(-20deg) rotateY(-30deg);
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .dice-face {
     position: absolute;
-    width: 46px;
-    height: 46px;
+    width: 32px;
+    height: 32px;
     background: #ffffff;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 8px;
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.06);
+    border: 1px solid #d6d3d1;
+    border-radius: 6px;
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.1);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    padding: 4px;
+    padding: 3px;
     box-sizing: border-box;
-    backface-visibility: hidden; /* Triệt tiêu hoàn toàn viền xám thừa ở các góc! */
+    backface-visibility: hidden;
 }
 
 .pip {
-    display: block;
-    width: 6.5px;
-    height: 6.5px;
-    background: #1e293b;
+    width: 5px;
+    height: 5px;
+    background: #1c1917;
     border-radius: 50%;
-    margin: auto;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+    align-self: center;
+    justify-self: center;
 }
 
-.face-1 .pip-center {
-    width: 11px;
-    height: 11px;
-    background: #ef4444; /* Chấm đỏ may mắn */
+.face-1 .pip {
+    background: #dc2626;
+    width: 7px;
+    height: 7px;
 }
 
-.face-1 { transform: rotateY(0deg) translateZ(23px); }
-.face-2 { transform: rotateY(90deg) translateZ(23px); }
-.face-3 { transform: rotateY(180deg) translateZ(23px); }
-.face-4 { transform: rotateY(-90deg) translateZ(23px); }
-.face-5 { transform: rotateX(90deg) translateZ(23px); }
-.face-6 { transform: rotateX(-90deg) translateZ(23px); }
+.dice-face.face-1 { transform: rotateY(0deg) translateZ(16px); }
+.dice-face.face-2 { transform: rotateY(90deg) translateZ(16px); }
+.dice-face.face-3 { transform: rotateY(180deg) translateZ(16px); }
+.dice-face.face-4 { transform: rotateY(-90deg) translateZ(16px); }
+.dice-face.face-5 { transform: rotateX(90deg) translateZ(16px); }
+.dice-face.face-6 { transform: rotateX(-90deg) translateZ(16px); }
 
-.face-1 .pip-center {
-    width: 14px;
-    height: 14px;
-    background: #ef4444; /* Chấm đỏ may mắn */
-}
+.pip-center { grid-area: 2 / 2; }
+.pip-tl { grid-area: 1 / 1; }
+.pip-tr { grid-area: 1 / 3; }
+.pip-ml { grid-area: 2 / 1; }
+.pip-mr { grid-area: 2 / 3; }
+.pip-bl { grid-area: 3 / 1; }
+.pip-br { grid-area: 3 / 3; }
 
-.pip-tl { grid-column: 1; grid-row: 1; }
-.pip-tr { grid-column: 3; grid-row: 1; }
-.pip-ml { grid-column: 1; grid-row: 2; }
-.pip-center { grid-column: 2; grid-row: 2; }
-.pip-mr { grid-column: 3; grid-row: 2; }
-.pip-bl { grid-column: 1; grid-row: 3; }
-.pip-br { grid-column: 3; grid-row: 3; }
-
-.face-1 { transform: rotateY(0deg) translateZ(27px); }
-.face-2 { transform: rotateY(90deg) translateZ(27px); }
-.face-3 { transform: rotateY(180deg) translateZ(27px); }
-.face-4 { transform: rotateY(-90deg) translateZ(27px); }
-.face-5 { transform: rotateX(90deg) translateZ(27px); }
-.face-6 { transform: rotateX(-90deg) translateZ(27px); }
-
-/* NÚT TUNG XÚC XẮC ĐỘNG THEO MÀU NGƯỜI CHƠI */
+/* NÚT TUNG XÚC XẮC ĐÔI */
 .roll-dice-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 22px;
+    gap: 5px;
+    padding: 5px 16px;
     border-radius: 999px;
-    background: var(--active-roll-gradient, linear-gradient(135deg, #b45d43, #984832));
+    background: linear-gradient(135deg, #b87357, #8e4428);
     color: #ffffff;
-    font-family: var(--font-sans);
-    font-size: 13.5px;
+    font-size: 12px;
     font-weight: 800;
     border: none;
+    box-shadow: 0 4px 12px rgba(184, 115, 87, 0.35);
     cursor: pointer;
-    box-shadow: 0 5px 18px var(--active-roll-glow, rgba(180, 93, 67, 0.25));
+    transition: transform 0.16s ease, box-shadow 0.16s ease;
+    user-select: none;
     position: relative;
     overflow: hidden;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.3s ease;
 }
 
 .roll-dice-btn:hover:not(:disabled) {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 8px 24px var(--active-roll-glow, rgba(180, 93, 67, 0.35));
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 6px 16px rgba(184, 115, 87, 0.45);
 }
 
 .roll-dice-btn:active:not(:disabled) {
-    transform: translateY(1px) scale(0.98);
+    transform: translateY(1px);
 }
 
 .roll-dice-btn:disabled {
-    opacity: 0.65;
+    opacity: 0.6;
     cursor: not-allowed;
-    transform: none;
+    filter: grayscale(0.5);
 }
 
 .btn-dice-shine {
@@ -843,79 +937,84 @@
 }
 
 .btn-dice-icon {
-    font-size: 16px;
+    font-size: 13px;
 }
 
-/* CAPSULE THÔNG BÁO DIỄN BIẾN TRẬN ĐẤU */
+/* HỘP CAPSULE THÔNG BÁO */
 .action-status-capsule {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 12px;
+    gap: 5px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(184, 115, 87, 0.22);
     border-radius: 999px;
-    background: var(--card-surface, rgba(255, 255, 255, 0.9));
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    margin-top: 7px;
-    max-width: 90%;
+    padding: 2.5px 11px;
+    margin: 3px 0 2px;
+    max-width: 95%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-.status-speaker-icon {
-    font-size: 13px;
+.status-dot-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    animation: pulseDot 1.5s infinite;
     flex-shrink: 0;
 }
 
+@keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.6; }
+}
+
 .action-status-msg {
-    font-size: 11.5px;
-    font-weight: 700;
-    color: var(--text-secondary);
-    line-height: 1.3;
+    font-size: 10px;
+    font-weight: 600;
+    color: #57534e;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.2;
 }
 
 .action-status-msg strong {
-    color: var(--text-primary);
+    color: #7c2d12;
 }
 
-/* THANH DOCK CÔNG CỤ TIỆN ÍCH NỔI */
+/* THANH DOCK TIỆN ÍCH NỔI */
 .center-quick-dock {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    padding: 3px 6px;
-    border-radius: 999px;
-    background: var(--card-surface, #ffffff);
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-    margin-top: 8px;
+    margin-top: 2px;
 }
 
 .dock-btn {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 5px 9px;
+    gap: 3px;
+    padding: 3px 7px;
     border-radius: 999px;
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    font-family: var(--font-sans);
-    font-size: 11px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 10px;
     font-weight: 700;
+    color: #57534e;
     cursor: pointer;
-    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: all 0.14s ease;
 }
 
 .dock-btn:hover {
-    background: var(--bg-hover, rgba(0, 0, 0, 0.05));
-    color: var(--text-primary);
+    background: #faf5ee;
+    color: #b87357;
+    border-color: #b87357;
     transform: translateY(-1px);
 }
 
 .dock-icon {
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .dock-label {
@@ -2045,24 +2144,60 @@
     .monopoly-board.grid-7x7 {
         grid-template-columns: repeat(7, 1fr) !important;
         grid-template-rows: repeat(7, 1fr) !important;
-        gap: 2px;
-        padding: 4px;
-        border-radius: 14px;
-        max-width: 380px;
+        gap: 2px !important;
+        padding: 4px !important;
+        border-radius: 14px !important;
+        max-width: 380px !important;
     }
     .monopoly-board.grid-7x7 .board-tile {
-        padding: 2px 1px;
+        padding: 2px 1px !important;
     }
-    .monopoly-board.grid-7x7 .tile-icon {
-        font-size: 14px;
-        margin: 0;
+    .monopoly-board.grid-7x7 .tile-region-strip {
+        height: 8px !important;
+    }
+    .monopoly-board.grid-7x7 .strip-label {
+        font-size: 6px !important;
+    }
+    .monopoly-board.grid-7x7 .tile-photo-wrap {
+        height: 20px !important;
     }
     .monopoly-board.grid-7x7 .tile-name {
-        font-size: 8px;
-        line-height: 1.1;
+        font-size: 7.5px !important;
+        line-height: 1.1 !important;
     }
     .monopoly-board.grid-7x7 .tile-price {
-        font-size: 7.5px;
+        font-size: 6.5px !important;
+        padding: 0.5px 3px !important;
+    }
+    .monopoly-board.grid-7x7 .center-brand-banner .brand-title {
+        font-size: 10px !important;
+    }
+    .monopoly-board.grid-7x7 .dice-arena-tray {
+        width: 80px !important;
+        height: 50px !important;
+    }
+    .monopoly-board.grid-7x7 .dice-scene,
+    .monopoly-board.grid-7x7 .dice-cube {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    .monopoly-board.grid-7x7 .dice-face {
+        width: 20px !important;
+        height: 20px !important;
+    }
+    .monopoly-board.grid-7x7 .dice-face.face-1 { transform: rotateY(0deg) translateZ(10px) !important; }
+    .monopoly-board.grid-7x7 .dice-face.face-2 { transform: rotateY(90deg) translateZ(10px) !important; }
+    .monopoly-board.grid-7x7 .dice-face.face-3 { transform: rotateY(180deg) translateZ(10px) !important; }
+    .monopoly-board.grid-7x7 .dice-face.face-4 { transform: rotateY(-90deg) translateZ(10px) !important; }
+    .monopoly-board.grid-7x7 .dice-face.face-5 { transform: rotateX(90deg) translateZ(10px) !important; }
+    .monopoly-board.grid-7x7 .dice-face.face-6 { transform: rotateX(-90deg) translateZ(10px) !important; }
+    .monopoly-board.grid-7x7 .roll-dice-btn {
+        padding: 3px 10px !important;
+        font-size: 9.5px !important;
+    }
+    .monopoly-board.grid-7x7 .dock-btn {
+        padding: 2px 5px !important;
+        font-size: 8px !important;
     }
     .board-tile {
         padding: 1.5px 0.5px;
@@ -2393,31 +2528,29 @@
         border-radius: 18px !important;
     }
     .monopoly-board.grid-7x7 .board-tile {
-        padding: 4px 2px !important;
+        padding: 3px 2px 2px !important;
     }
-    .monopoly-board.grid-7x7 .tile-icon {
-        font-size: 24px !important;
-        margin: 1px 0 !important;
+    .monopoly-board.grid-7x7 .tile-photo-wrap {
+        height: 25px !important;
+    }
+    .monopoly-board.grid-7x7 .board-tile.is-corner .tile-photo-wrap {
+        height: 32px !important;
     }
     .monopoly-board.grid-7x7 .tile-name {
-        font-size: 11.5px !important;
-        font-weight: 800 !important;
-        line-height: 1.15 !important;
-        max-height: 28px !important;
-    }
-    .monopoly-board.grid-7x7 .tile-price {
         font-size: 10px !important;
         font-weight: 800 !important;
+        line-height: 1.15 !important;
     }
-    .board-tile {
-        padding: 2px 1px !important;
+    .monopoly-board.grid-7x7 .tile-price {
+        font-size: 8.5px !important;
+        font-weight: 800 !important;
     }
     .dice-arena-tray {
-        width: 130px !important;
-        height: 84px !important;
-        margin-bottom: 4px !important;
+        width: 116px !important;
+        height: 72px !important;
+        margin-bottom: 3px !important;
     }
     .board-center-hub {
-        padding: 4px !important;
+        padding: 6px !important;
     }
 }
