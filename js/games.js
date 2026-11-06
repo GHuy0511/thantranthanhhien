@@ -1100,21 +1100,17 @@ function updateUI() {
                 ownerEl.style.display = "none"; // Bỏ tam giác che chữ vùng miền
             }
 
-            // HIỂN THỊ NGÔI NHÀ 3D THẬT SỰ TRÊN Ô CỜ
-            if (tile.level === 0) {
-                // Đã mua đất: Cắm cờ chủ quyền mini 3D
-                estateEl.innerHTML = REAL_ESTATE_3D_MODELS.flag(ownerObj ? ownerObj.color : '#b45d43');
-                estateEl.style.display = "flex";
-            } else if (tile.level === 1) {
-                // 1 Nhà Phố 3D
+            // HIỂN THỊ NGÔI NHÀ 3D THẬT SỰ TRÊN Ô CỜ (KHÔNG BAO GIỜ HIỆN CỘT CỜ)
+            if (tile.level === 0 || tile.level === 1) {
+                // Đã sở hữu / Xây nhà: Hiển thị ngay Ngôi Nhà 3D Mái Ngói Đỏ Ruby
                 estateEl.innerHTML = REAL_ESTATE_3D_MODELS.house1();
                 estateEl.style.display = "flex";
             } else if (tile.level === 2) {
-                // 2 Nhà Phố 3D
+                // 2 Căn Biệt Thự Song Lập 3D
                 estateEl.innerHTML = REAL_ESTATE_3D_MODELS.house2();
                 estateEl.style.display = "flex";
             } else if (tile.level >= 3) {
-                // Khách Sạn 5 Sao 3D
+                // Khách Sạn Hoàng Gia 5 Sao Dát Vàng 3D
                 estateEl.innerHTML = REAL_ESTATE_3D_MODELS.hotel();
                 estateEl.style.display = "flex";
             }
@@ -2241,16 +2237,29 @@ function openPortfolioModal() {
     const modal = document.getElementById("modalPassport");
     if (!modal) return;
 
+    // Header emblem đổi thành SVG mạ vàng
+    const emblemEl = modal.querySelector(".passport-emblem");
+    if (emblemEl) {
+        emblemEl.innerHTML = `<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11H9z"></path></svg>`;
+    }
+
     const statsRow = document.getElementById("portfolioPlayersStats");
     if (statsRow) {
         statsRow.innerHTML = "";
         gameState.players.forEach(p => {
             const col = document.createElement("div");
             col.className = "passport-stat-col";
+            col.style.borderTop = `3px solid ${p.color}`;
             col.innerHTML = `
-                <div style="font-weight:800; color:${p.color};">${p.name}</div>
-                <div style="font-size:16px; font-weight:800; margin:2px 0;">${Number(p.cash).toLocaleString()}M</div>
-                <div style="font-size:11px; color:#64748b;">${p.props.length} BĐS • ${playerJailStatus(p)}</div>
+                <div class="port-player-header">
+                    <span class="port-p-avatar" style="background:${p.bg}; border: 1.5px solid ${p.color};">${p.icon || '👦'}</span>
+                    <span class="port-p-name" style="color:${p.color};">${p.name} ${p.isAi ? '<span class="ai-tag">AI</span>' : ''}</span>
+                </div>
+                <div class="port-p-cash">${Number(p.cash).toLocaleString()}<small>M VNĐ</small></div>
+                <div class="port-p-meta">
+                    <span class="port-badge-props">${p.props.length} Bất Động Sản</span>
+                    <span class="port-badge-status">${playerJailStatus(p)}</span>
+                </div>
             `;
             statsRow.appendChild(col);
         });
@@ -2263,22 +2272,26 @@ function openPortfolioModal() {
     const properties = VIETNAM_TILES.filter(t => t.type === "property" || t.type === "transport" || t.type === "utility");
     properties.forEach(t => {
         const item = document.createElement("div");
-        item.className = `pass-item ${t.owner ? 'unlocked' : ''}`;
+        item.className = `pass-item ${t.owner ? 'unlocked' : 'is-available'}`;
 
-        let statusBadge = `<span class="badge-locked">Còn trống</span>`;
+        let statusBadge = `<span class="badge-locked">Chưa có chủ</span>`;
         if (t.owner) {
             const ownerObj = gameState.players.find(p => p.id === t.owner);
             if (ownerObj) {
-                const houseTag = t.level === 0 ? 'Đất trống' : t.level === 1 ? '🏠 1 Nhà' : t.level === 2 ? '🏠🏠 2 Nhà' : '🏨 Khách Sạn';
-                statusBadge = `<span class="badge-unlocked" style="background:${ownerObj.color};">Sở hữu: ${ownerObj.name} (${houseTag})</span>`;
+                const houseTag = t.level <= 1 ? '1 Nhà Phố' : t.level === 2 ? '2 Biệt Thự' : 'Khách Sạn';
+                statusBadge = `<span class="badge-unlocked" style="background:${ownerObj.color}; color:#fff;">${ownerObj.name} • ${houseTag}</span>`;
             }
         }
 
         item.innerHTML = `
-            <div class="pass-item-icon">${t.icon}</div>
+            <div class="pass-item-top">
+                <span class="pass-item-region">${t.regionName || 'Việt Nam'}</span>
+                <span class="pass-item-price">${t.price}M</span>
+            </div>
             <div class="pass-item-name">${t.name}</div>
-            <div class="pass-item-region">${t.price}M • ${t.regionName}</div>
-            ${statusBadge}
+            <div class="pass-item-status-wrap">
+                ${statusBadge}
+            </div>
         `;
         grid.appendChild(item);
     });
@@ -2497,13 +2510,21 @@ function initGameSetupModal() {
         for (let i = 0; i < count; i++) {
             const cfg = ALL_PLAYER_CONFIGS[i];
             const isAi = isAiMode && i > 0;
+            const defaultAiName = count === 2 ? 'Máy (AI)' : `Máy (AI ${i})`;
+            let displayName = cfg.name;
+            if (isAi) {
+                displayName = defaultAiName;
+            } else if (i === 1 && (cfg.name === 'Máy (AI)' || cfg.name.startsWith('Máy (AI'))) {
+                displayName = 'Hiền';
+            }
+
             const row = document.createElement("div");
             row.className = "setup-player-row";
             row.innerHTML = `
                 <button type="button" class="setup-p-icon clickable" onclick="openAvatarPicker('p${i}')" title="Đổi Avatar người chơi" style="background:${cfg.bg}; color:${cfg.color}; font-size:18px; border:none; cursor:pointer;">
                     ${cfg.icon || '👦'}
                 </button>
-                <input type="text" class="setup-player-name-input" data-player-idx="${i}" value="${cfg.name}" maxlength="12" placeholder="Tên người chơi">
+                <input type="text" class="setup-player-name-input" data-player-idx="${i}" value="${displayName}" maxlength="12" placeholder="Tên người chơi">
                 <span class="setup-p-type-badge ${isAi ? 'type-ai' : 'type-human'}">${isAi ? 'Máy (AI)' : 'Người chơi'}</span>
             `;
             rosterEl.appendChild(row);
@@ -2555,9 +2576,18 @@ function startNewGame(playerCount = 2, gameMode = "pass_play") {
     gameState.players = [];
     for (let i = 0; i < playerCount; i++) {
         const cfg = ALL_PLAYER_CONFIGS[i];
+        const isAi = gameMode === "ai" && i > 0;
+        const defaultAiName = playerCount === 2 ? 'Máy (AI)' : `Máy (AI ${i})`;
+        let finalName = cfg.name;
+        if (isAi) {
+            finalName = (!cfg.name || cfg.name === 'Hiền' || cfg.name.startsWith('Máy (AI')) ? defaultAiName : cfg.name;
+        } else if (i === 1 && (cfg.name === 'Máy (AI)' || cfg.name.startsWith('Máy (AI'))) {
+            finalName = 'Hiền';
+        }
+
         gameState.players.push({
             id: `p${i}`,
-            name: cfg.name,
+            name: finalName,
             icon: cfg.icon,
             color: cfg.color,
             glow: cfg.glow,

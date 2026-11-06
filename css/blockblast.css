@@ -895,3 +895,38 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 22px rgba(184, 115, 87, 0.45);
 }
+
+
+/* ========================================================
+   KHỐI GẠCH CANDY-GEM 3D VIBRANT: BỀ MẶT BÓNG BẨY & VIỀN SÁNG
+   ======================================================== */
+.bb-cell.filled,
+.fall-cell.locked,
+.fall-cell.active-falling,
+.bb-tray-cell {
+    border-radius: 6px !important;
+    box-shadow:
+        inset 0 2.5px 3px rgba(255, 255, 255, 0.6),
+        inset 0 -2.5px 3px rgba(0, 0, 0, 0.4),
+        inset 2px 0 2px rgba(255, 255, 255, 0.3),
+        inset -2px 0 2px rgba(0, 0, 0, 0.25),
+        0 4px 12px rgba(0, 0, 0, 0.45) !important;
+    border: 1px solid rgba(255, 255, 255, 0.45) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.bb-cell.filled::after,
+.fall-cell.locked::after,
+.fall-cell.active-falling::after,
+.bb-tray-cell::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 1.5px !important;
+    left: 2px !important;
+    right: 2px !important;
+    height: 40% !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
+    border-radius: 4px 4px 2px 2px !important;
+    pointer-events: none !important;
+}

@@ -156,7 +156,10 @@
             <button class="vinyl-ctrl-btn" id="musicSkipBtn" type="button" title="Bài tiếp theo (Tiến bài) ⏭" aria-label="Bài tiếp theo">
                 <span>⏭</span>
             </button>
-            <button class="vinyl-ctrl-btn vinyl-playlist-btn" id="musicPlaylistToggleBtn" type="button" title="Danh sách 3 bài hát 🎶" aria-label="Danh sách phát">
+            <button class="vinyl-ctrl-btn vinyl-upload-btn" id="musicUploadTriggerBtn" type="button" title="Tải file nhạc lên & tự động nhận diện" aria-label="Tải nhạc">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </button>
+            <button class="vinyl-ctrl-btn vinyl-playlist-btn" id="musicPlaylistToggleBtn" type="button" title="Danh sách bài hát" aria-label="Danh sách phát">
                 <span class="playlist-icon">🎶</span>
                 <span class="vinyl-track-badge" id="musicTrackBadge">1/3</span>
             </button>
@@ -171,6 +174,15 @@
 
         <!-- Dropdown danh sách bài hát bung mở khi bấm nút 🎶 -->
         <div class="vinyl-playlist-drawer" id="musicPlaylistDrawer" aria-hidden="true">
+            <div class="playlist-drawer-header">
+                <span class="playlist-drawer-title">Danh Sách Phát Nhạc</span>
+                <button type="button" class="drawer-btn-upload-music" id="btnDrawerUploadMusic" title="Tải bài hát lên">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    <span>Tải Nhạc Lên</span>
+                </button>
+            </div>
+            <!-- Input tải file nhạc ẩn -->
+            <input type="file" id="musicUploadFileInput" accept="audio/*,.mp3,.m4a,.wav,.ogg,.aac,.flac" style="display:none;">
             <div class="playlist-drawer-list" id="playlistDrawerList">
                 <!-- Được tạo tự động từ PLAYLIST trong script.js -->
             </div>
@@ -291,7 +303,12 @@
                     <span class="ornament-line"></span>
                 </div>
                 <h2 class="gallery-title">Khoảnh khắc</h2>
-                
+                <div class="gallery-action-header-row">
+                    <button class="btn-create-memory-action" id="btnOpenCreateMemory" type="button" title="Tự tạo kỷ niệm mới với theme thư có sẵn">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        <span>Tạo Kỷ Niệm Mới</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Khung bao bọc dòng chảy ảnh với 2 nút mũi tên điều hướng 2 bên -->
@@ -597,5 +614,145 @@
     </div>
 
     <script src="js/script.js?v=20261106"></script>
+
+    <!-- ========================================================
+         MODAL 1: XÁC NHẬN & CHỈNH SỬA THÔNG TIN BÀI HÁT TỰ TẢI
+         ======================================================== -->
+    <div class="music-modal-overlay" id="modalEditMusicInfo" aria-hidden="true">
+        <div class="music-modal-card">
+            <div class="music-modal-header">
+                <span class="music-modal-badge">Nhận diện thông tin bài hát</span>
+                <h3 class="music-modal-title">Thêm Nhạc Vào Playlist</h3>
+                <p class="music-modal-desc">Máy đã tự động trích xuất thông tin bài hát từ web. Bạn có thể kiểm tra và chỉnh sửa trước khi thêm.</p>
+            </div>
+            <div class="music-modal-body">
+                <div class="music-preview-cover-row">
+                    <img id="musicEditCoverPreview" class="music-edit-cover" src="images/favicon.png" alt="Ảnh bìa bài hát">
+                    <div class="music-cover-edit-inputs">
+                        <label class="music-field-label">Link ảnh bìa (tùy chọn):</label>
+                        <input type="text" id="musicEditCoverInput" class="music-modal-input" placeholder="https://example.com/cover.jpg">
+                    </div>
+                </div>
+                <div class="music-form-group">
+                    <label class="music-field-label">Tên bài hát (*):</label>
+                    <input type="text" id="musicEditTitleInput" class="music-modal-input" placeholder="Nhập tên bài hát..." required>
+                </div>
+                <div class="music-form-group">
+                    <label class="music-field-label">Ca sĩ / Nghệ sĩ (*):</label>
+                    <input type="text" id="musicEditArtistInput" class="music-modal-input" placeholder="Nhập tên ca sĩ..." required>
+                </div>
+                <div class="music-form-group">
+                    <label class="music-field-label">Thời lượng bài hát:</label>
+                    <div class="music-duration-tag" id="musicEditDurationTag">00:00</div>
+                </div>
+            </div>
+            <div class="music-modal-footer">
+                <button type="button" class="btn-music-cancel" id="btnCancelAddMusic">Hủy Bỏ</button>
+                <button type="button" class="btn-music-save-play" id="btnConfirmAddMusic">Thêm & Tự Động Phát</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL 2: TẠO KỶ NIỆM MỚI (THEME THƯ, TẢI ẢNH, TẢI VIDEO, ĐIỀU CẦN GỬI GẮM)
+         ======================================================== -->
+    <div class="memory-create-modal-overlay" id="modalCreateMemory" aria-hidden="true">
+        <div class="memory-create-card">
+            <div class="mem-modal-header">
+                <span class="mem-modal-badge">Khoảnh khắc tình yêu</span>
+                <h3 class="mem-modal-title">Tạo Kỷ Niệm Mới Cùng Nhau</h3>
+                <p class="mem-modal-desc">Lưu giữ từng khoảnh khắc đáng nhớ, chọn theme thư sẵn có và gửi gắm những lời yêu thương.</p>
+            </div>
+            <form id="formCreateMemory" class="mem-create-form">
+                <div class="mem-form-row">
+                    <div class="mem-field-col flex-2">
+                        <label class="mem-label">Tên kỷ niệm (*):</label>
+                        <input type="text" id="newMemTitle" class="mem-input" placeholder="VD: Lần đầu hẹn hò, Kỷ niệm 1 năm..." required>
+                    </div>
+                    <div class="mem-field-col flex-1">
+                        <label class="mem-label">Ngày kỷ niệm (*):</label>
+                        <input type="date" id="newMemDate" class="mem-input" required>
+                    </div>
+                </div>
+                <div class="mem-form-row">
+                    <div class="mem-field-col">
+                        <label class="mem-label">Địa điểm / Cột mốc:</label>
+                        <input type="text" id="newMemLocation" class="mem-input" placeholder="VD: Quán cà phê nhỏ, Hà Nội...">
+                    </div>
+                </div>
+
+                <!-- CHỌN THEME THƯ CÓ SẴN -->
+                <div class="mem-theme-picker-section">
+                    <label class="mem-label">Chọn Theme Thư Tay:</label>
+                    <div class="mem-theme-options-grid" id="memThemeOptionsGrid">
+                        <label class="theme-opt-card active" data-theme="kraft">
+                            <input type="radio" name="letterTheme" value="kraft" checked>
+                            <span class="theme-preview-box theme-kraft"></span>
+                            <span class="theme-name">Giấy Kraft Cổ Điển</span>
+                        </label>
+                        <label class="theme-opt-card" data-theme="autumn">
+                            <input type="radio" name="letterTheme" value="autumn">
+                            <span class="theme-preview-box theme-autumn"></span>
+                            <span class="theme-name">Hoàng Hôn Mùa Thu</span>
+                        </label>
+                        <label class="theme-opt-card" data-theme="starlight">
+                            <input type="radio" name="letterTheme" value="starlight">
+                            <span class="theme-preview-box theme-starlight"></span>
+                            <span class="theme-name">Ánh Sao Đêm Lung Linh</span>
+                        </label>
+                        <label class="theme-opt-card" data-theme="postcard">
+                            <input type="radio" name="letterTheme" value="postcard">
+                            <span class="theme-preview-box theme-postcard"></span>
+                            <span class="theme-name">Bưu Thiếp Du Ký</span>
+                        </label>
+                        <label class="theme-opt-card" data-theme="military">
+                            <input type="radio" name="letterTheme" value="military">
+                            <span class="theme-preview-box theme-military"></span>
+                            <span class="theme-name">Kỷ Niệm Quân Sự</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- TẢI ẢNH KỶ NIỆM (HỖ TRỢ NHIỀU ẢNH) -->
+                <div class="mem-upload-section">
+                    <label class="mem-label">Hình ảnh kỷ niệm (Tải nhiều ảnh):</label>
+                    <div class="mem-dropzone" id="memImageDropzone">
+                        <input type="file" id="memImagesInput" accept="image/*" multiple style="display:none;">
+                        <button type="button" class="btn-browse-media" id="btnBrowseImages">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            <span>Tải Ảnh Lên (Chọn nhiều ảnh)</span>
+                        </button>
+                        <div class="mem-previews-grid" id="memImagePreviews"></div>
+                    </div>
+                </div>
+
+                <!-- TẢI VIDEO KỶ NIỆM (TÙY CHỌN) -->
+                <div class="mem-upload-section">
+                    <label class="mem-label">Video kỷ niệm (Tùy chọn):</label>
+                    <div class="mem-video-row">
+                        <input type="file" id="memVideoInput" accept="video/mp4,video/webm,video/quicktime" style="display:none;">
+                        <button type="button" class="btn-browse-media secondary" id="btnBrowseVideo">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                            <span>Chọn File Video</span>
+                        </button>
+                        <input type="text" id="newMemVideoUrl" class="mem-input flex-1" placeholder="Hoặc dán link video (mp4, webm, drive)...">
+                    </div>
+                    <div id="memVideoPreviewWrap" style="display:none; margin-top:8px;"></div>
+                </div>
+
+                <!-- ĐIỀU CẦN GỬI GẮM (NỘI DUNG THƯ TAY) -->
+                <div class="mem-form-group">
+                    <label class="mem-label">Điều cần gửi gắm (Nội dung bức thư tình cảm):</label>
+                    <textarea id="newMemStory" class="mem-textarea" rows="4" placeholder="Viết những cảm xúc, lời nhắn nhủ yêu thương gửi đến người ấy..." required></textarea>
+                </div>
+
+                <div class="mem-modal-actions">
+                    <button type="button" class="btn-mem-cancel" id="btnCloseCreateMemory">Hủy Bỏ</button>
+                    <button type="submit" class="btn-mem-submit" id="btnSubmitNewMemory">Tạo Kỷ Niệm Ngay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -1247,8 +1247,8 @@
 
 .mode-card-opt.active {
     background: var(--card-surface);
-    border-color: #2563eb;
-    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.18);
+    border-color: var(--accent-terracotta, #b87357);
+    box-shadow: 0 4px 14px rgba(184, 115, 87, 0.22);
 }
 
 .mode-icon {
@@ -2068,8 +2068,8 @@
 
 .edit-name-input:focus,
 .setup-player-name-input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    border-color: var(--accent-terracotta, #b87357);
+    box-shadow: 0 0 0 3px rgba(184, 115, 87, 0.18);
 }
 
 .player-name-edit-btn {
@@ -3601,4 +3601,346 @@
     justify-content: center !important;
     z-index: 6 !important;
     pointer-events: none !important;
+}
+
+
+/* ========================================================
+   MODAL DANH MỤC TÀI SẢN (PORTFOLIO) LUXURY REDESIGN
+   ======================================================== */
+.passport-card {
+    max-width: 620px !important;
+    background: #ffffff !important;
+    border-radius: 24px !important;
+    padding: 24px 20px !important;
+    border: 1.5px solid rgba(184, 115, 87, 0.22) !important;
+    box-shadow: 0 25px 60px rgba(45, 26, 18, 0.18) !important;
+}
+
+.passport-cover-header {
+    text-align: center !important;
+    margin-bottom: 16px !important;
+}
+
+.passport-emblem {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+    border: 1.5px solid rgba(217, 119, 6, 0.25) !important;
+    margin-bottom: 8px !important;
+}
+
+.passport-sub {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #78716c !important;
+}
+
+.passport-stats-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+    gap: 12px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-bottom: 16px !important;
+}
+
+.passport-stat-col {
+    background: #fdfbf7 !important;
+    border: 1px solid rgba(184, 115, 87, 0.18) !important;
+    border-radius: 16px !important;
+    padding: 12px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+}
+
+.port-player-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.port-p-avatar {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 13px !important;
+}
+
+.port-p-name {
+    font-size: 13px !important;
+    font-weight: 800 !important;
+}
+
+.port-p-name .ai-tag {
+    font-size: 9px !important;
+    background: #e0e7ff !important;
+    color: #4338ca !important;
+    padding: 1px 5px !important;
+    border-radius: 999px !important;
+    margin-left: 4px !important;
+}
+
+.port-p-cash {
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #292524 !important;
+    line-height: 1.2 !important;
+}
+
+.port-p-cash small {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #78716c !important;
+    margin-left: 3px !important;
+}
+
+.port-p-meta {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    font-size: 10px !important;
+    color: #57534e !important;
+    font-weight: 600 !important;
+    margin-top: 2px !important;
+}
+
+.passport-landmarks-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    max-height: 320px !important;
+    overflow-y: auto !important;
+    padding: 4px 6px 4px 2px !important;
+    margin-bottom: 16px !important;
+}
+
+.pass-item {
+    background: #ffffff !important;
+    border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 10px 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    text-align: center !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03) !important;
+}
+
+.pass-item:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(184, 115, 87, 0.12) !important;
+}
+
+.pass-item.unlocked {
+    border-color: rgba(184, 115, 87, 0.3) !important;
+    background: #fffcf9 !important;
+}
+
+.pass-item-top {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    font-size: 8.5px !important;
+    font-weight: 700 !important;
+}
+
+.pass-item-region {
+    color: #78716c !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.3px !important;
+}
+
+.pass-item-price {
+    color: #b87357 !important;
+    font-weight: 800 !important;
+}
+
+.pass-item-name {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    color: #292524 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin: 2px 0 !important;
+}
+
+.pass-item-status-wrap {
+    margin-top: auto !important;
+}
+
+.badge-locked {
+    display: inline-block !important;
+    font-size: 8px !important;
+    font-weight: 700 !important;
+    color: #a8a29e !important;
+    background: #f5f5f4 !important;
+    padding: 2.5px 7px !important;
+    border-radius: 999px !important;
+    border: 1px dashed #d6d3d1 !important;
+}
+
+.badge-unlocked {
+    display: inline-block !important;
+    font-size: 8px !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    padding: 2.5px 7px !important;
+    border-radius: 999px !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100% !important;
+}
+
+/* ========================================================
+   CHUẨN HÓA CÁC MODAL XÁC NHẬN / THÔNG BÁO (THÔNG BÁO RA THÔNG BÁO)
+   ======================================================== */
+.game-modal-overlay {
+    z-index: 1000 !important;
+    backdrop-filter: blur(8px) !important;
+    background: rgba(45, 26, 18, 0.45) !important;
+}
+
+.game-modal-card {
+    background: #ffffff !important;
+    border-radius: 24px !important;
+    padding: 28px 24px !important;
+    border: 1.5px solid rgba(184, 115, 87, 0.22) !important;
+    box-shadow: 0 25px 60px rgba(45, 26, 18, 0.2) !important;
+}
+
+.game-modal-title {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    color: #292524 !important;
+    margin-bottom: 8px !important;
+}
+
+.game-modal-desc {
+    font-size: 13.5px !important;
+    color: #57534e !important;
+    line-height: 1.5 !important;
+    margin-bottom: 20px !important;
+}
+
+.game-modal-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+}
+
+.modal-btn-close,
+.modal-btn-cancel,
+#btnCaroModalCancel,
+#btnGoConfirmCancel {
+    flex: 1 !important;
+    max-width: 150px !important;
+    padding: 11px 20px !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    border: 1.5px solid #d6d3d1 !important;
+    color: #57534e !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+.modal-btn-close:hover,
+.modal-btn-cancel:hover,
+#btnCaroModalCancel:hover,
+#btnGoConfirmCancel:hover {
+    background: #f5f5f4 !important;
+    border-color: #a8a29e !important;
+    color: #1c1917 !important;
+    transform: translateY(-1px) !important;
+}
+
+.modal-btn-confirm,
+#btnCaroModalOk,
+#btnGoConfirmOk {
+    flex: 1 !important;
+    max-width: 150px !important;
+    padding: 11px 20px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #b87357 0%, #96533c 100%) !important;
+    color: #ffffff !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 14px rgba(184, 115, 87, 0.35) !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+}
+
+.modal-btn-confirm:hover,
+#btnCaroModalOk:hover,
+#btnGoConfirmOk:hover {
+    background: linear-gradient(135deg, #c47c5f 0%, #a45a42 100%) !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 6px 18px rgba(184, 115, 87, 0.45) !important;
+}
+
+
+/* Tinh chỉnh Modal Cài Đặt Ván Đấu mạ vàng & Terracotta đồng bộ */
+.setup-card {
+    border: 1px solid rgba(184, 115, 87, 0.2) !important;
+    box-shadow: 0 20px 48px rgba(92, 61, 46, 0.25) !important;
+}
+
+.count-opt-btn.active {
+    background: linear-gradient(135deg, #b87357 0%, #96533c 100%) !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+    box-shadow: 0 4px 12px rgba(184, 115, 87, 0.3) !important;
+}
+
+.mode-card-opt.active {
+    border-color: #b87357 !important;
+    background: rgba(184, 115, 87, 0.06) !important;
+    box-shadow: 0 4px 16px rgba(184, 115, 87, 0.2) !important;
+}
+
+.mode-card-opt.active .mode-icon-box {
+    color: #b87357 !important;
+}
+
+#btnStartCustomGame,
+.setup-confirm-btn {
+    background: linear-gradient(135deg, #b87357 0%, #96533c 100%) !important;
+    color: #ffffff !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(184, 115, 87, 0.35) !important;
+}
+
+#btnStartCustomGame:hover,
+.setup-confirm-btn:hover {
+    background: linear-gradient(135deg, #c47c5f 0%, #a45a42 100%) !important;
+    box-shadow: 0 6px 18px rgba(184, 115, 87, 0.45) !important;
 }

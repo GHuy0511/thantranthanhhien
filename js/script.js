@@ -108,6 +108,40 @@ const PLAYLIST = [
     }
 ];
 
+
+// Nạp các bài hát tùy chỉnh và kỷ niệm tùy chỉnh từ localStorage
+try {
+    const savedCustomSongs = localStorage.getItem('couple_custom_music_v2');
+    if (savedCustomSongs) {
+        const parsedSongs = JSON.parse(savedCustomSongs);
+        if (Array.isArray(parsedSongs)) {
+            parsedSongs.forEach(s => {
+                if (!PLAYLIST.some(p => p.id === s.id)) {
+                    PLAYLIST.push(s);
+                }
+            });
+        }
+    }
+} catch (e) {
+    console.warn("Lỗi nạp custom music:", e);
+}
+
+try {
+    const savedCustomMemories = localStorage.getItem('couple_custom_memories_v2');
+    if (savedCustomMemories) {
+        const parsedMems = JSON.parse(savedCustomMemories);
+        if (Array.isArray(parsedMems)) {
+            parsedMems.forEach(m => {
+                if (!MEMORIES.some(orig => orig.id === m.id)) {
+                    MEMORIES.unshift(m);
+                }
+            });
+        }
+    }
+} catch (e) {
+    console.warn("Lỗi nạp custom memories:", e);
+}
+
 let currentTrackIndex = 0;
 
 let isAudioPlaying = false;
@@ -168,6 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initLetterModal();
     initLightboxSystem();
     initAudioSystem();
+    initMusicUploadSystem();
+    initMemoryCreateSystem();
 });
 
 /* ========================================================
@@ -755,6 +791,16 @@ function openLetterModal(memoryIndex) {
 
     const item = MEMORIES[memoryIndex];
     if (!item) return;
+
+    const letterCard = document.querySelector(".letter-modal-card");
+    if (letterCard) {
+        letterCard.classList.remove("theme-kraft", "theme-autumn", "theme-starlight", "theme-postcard", "theme-military");
+        if (item.theme) {
+            letterCard.classList.add(`theme-${item.theme}`);
+        } else {
+            letterCard.classList.add("theme-kraft");
+        }
+    }
 
     const dateEl = document.getElementById("letterModalDate");
     const locationEl = document.getElementById("letterModalLocationText");
@@ -2193,5 +2239,376 @@ if (typeof document !== 'undefined') {
         });
     } else {
         setTimeout(initMemoryEditor, 50);
+    }
+}
+
+
+/* ========================================================
+   HỆ THỐNG TỰ ĐỘNG TẢI NHẠC & TRA CỨU NGƯỢC THÔNG TIN TRÊN WEB
+   ======================================================== */
+let pendingUploadedAudioBlob = null;
+let pendingAudioObjectUrl = null;
+
+function initMusicUploadSystem() {
+    const triggerBtn = document.getElementById("musicUploadTriggerBtn");
+    const drawerUploadBtn = document.getElementById("btnDrawerUploadMusic");
+    const fileInput = document.getElementById("musicUploadFileInput");
+    const modal = document.getElementById("modalEditMusicInfo");
+    const btnCancel = document.getElementById("btnCancelAddMusic");
+    const btnConfirm = document.getElementById("btnConfirmAddMusic");
+
+    if (triggerBtn && fileInput) {
+        triggerBtn.addEventListener("click", () => fileInput.click());
+    }
+    if (drawerUploadBtn && fileInput) {
+        drawerUploadBtn.addEventListener("click", () => fileInput.click());
+    }
+
+    if (fileInput) {
+        fileInput.addEventListener("change", async (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+
+            pendingUploadedAudioBlob = file;
+            if (pendingAudioObjectUrl) URL.revokeObjectURL(pendingAudioObjectUrl);
+            pendingAudioObjectUrl = URL.createObjectURL(file);
+
+            // 1. Phân tích tên file
+            const parsed = extractSongInfoFromFileName(file.name);
+            
+            // Đo thời lượng audio
+            let durationStr = "03:30";
+            try {
+                const tempAudio = new Audio(pendingAudioObjectUrl);
+                await new Promise((res) => {
+                    tempAudio.addEventListener("loadedmetadata", () => {
+                        const m = Math.floor(tempAudio.duration / 60);
+                        const s = Math.floor(tempAudio.duration % 60);
+                        durationStr = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+                        res();
+                    }, { once: true });
+                    setTimeout(res, 1200); // timeout an toàn
+                });
+            } catch (err) {}
+
+            // Điền trước thông tin phân tích được
+            const titleInput = document.getElementById("musicEditTitleInput");
+            const artistInput = document.getElementById("musicEditArtistInput");
+            const coverPreview = document.getElementById("musicEditCoverPreview");
+            const coverInput = document.getElementById("musicEditCoverInput");
+            const durTag = document.getElementById("musicEditDurationTag");
+
+            if (titleInput) titleInput.value = parsed.title;
+            if (artistInput) artistInput.value = parsed.artist;
+            if (durTag) durTag.textContent = durationStr;
+            if (coverPreview) coverPreview.src = "images/favicon.png";
+            if (coverInput) coverInput.value = "";
+
+            // Hiển thị modal để người dùng xem và chỉnh sửa
+            if (modal) modal.classList.add("active");
+
+            // 2. Tra cứu ngược trên Web (iTunes Music Search API)
+            try {
+                const webInfo = await reverseLookupSongOnWeb(parsed.query || parsed.title);
+                if (webInfo) {
+                    if (webInfo.title && titleInput) titleInput.value = webInfo.title;
+                    if (webInfo.artist && artistInput) artistInput.value = webInfo.artist;
+                    if (webInfo.cover) {
+                        if (coverPreview) coverPreview.src = webInfo.cover;
+                        if (coverInput) coverInput.value = webInfo.cover;
+                    }
+                    showMusicToast(`Đã tự động nhận diện bài hát: ${webInfo.title} - ${webInfo.artist}`);
+                }
+            } catch (err) {
+                console.warn("Tra cứu ngược không thành công, dùng dữ liệu phân tích từ file:", err);
+            }
+        });
+    }
+
+    if (btnCancel && modal) {
+        btnCancel.addEventListener("click", () => {
+            modal.classList.remove("active");
+            if (fileInput) fileInput.value = "";
+        });
+    }
+
+    if (btnConfirm && modal) {
+        btnConfirm.addEventListener("click", () => {
+            const titleInput = document.getElementById("musicEditTitleInput");
+            const artistInput = document.getElementById("musicEditArtistInput");
+            const coverInput = document.getElementById("musicEditCoverInput");
+
+            const finalTitle = (titleInput && titleInput.value.trim()) || "Bài Hát Tình Yêu";
+            const finalArtist = (artistInput && artistInput.value.trim()) || "Nghệ sĩ";
+            const finalCover = (coverInput && coverInput.value.trim()) || "images/favicon.png";
+
+            if (!pendingAudioObjectUrl) {
+                alert("Vui lòng chọn một file nhạc!");
+                return;
+            }
+
+            const newTrack = {
+                id: 'custom_audio_' + Date.now(),
+                title: finalTitle,
+                artist: finalArtist,
+                src: pendingAudioObjectUrl,
+                cover: finalCover,
+                isCustom: true
+            };
+
+            // Thêm vào Playlist
+            PLAYLIST.push(newTrack);
+
+            // Lưu metadata vào localStorage
+            try {
+                const existingCustom = JSON.parse(localStorage.getItem('couple_custom_music_v2') || '[]');
+                existingCustom.push(newTrack);
+                localStorage.setItem('couple_custom_music_v2', JSON.stringify(existingCustom));
+            } catch (e) {}
+
+            modal.classList.remove("active");
+            if (fileInput) fileInput.value = "";
+
+            // Tự động chuyển bài và phát ngay lập tức
+            renderPlaylistDrawer();
+            currentTrackIndex = PLAYLIST.length - 1;
+            loadTrack(currentTrackIndex);
+            playAudio();
+
+            showMusicToast(`Đã thêm "${finalTitle}" vào danh sách phát và đang tự động phát!`);
+        });
+    }
+}
+
+function extractSongInfoFromFileName(filename) {
+    let name = filename.replace(/\.[^/.]+$/, ""); // bỏ đuôi file
+    name = name.replace(/\[(?:official|lyrics|hd|audio|mv|320kbps|lossless|audio visualizer)[^\]]*\]/gi, "");
+    name = name.replace(/\((?:official|lyrics|hd|audio|mv|remix)[^\)]*\)/gi, "");
+    name = name.replace(/^\d+[\.\-\s]+/, ""); // bỏ số thứ tự ở đầu "01. "
+    name = name.trim();
+
+    let title = name;
+    let artist = "Nghệ sĩ";
+
+    if (name.includes(" - ")) {
+        const parts = name.split(" - ");
+        artist = parts[0].trim();
+        title = parts.slice(1).join(" - ").trim();
+    } else if (name.includes(" – ")) {
+        const parts = name.split(" – ");
+        artist = parts[0].trim();
+        title = parts.slice(1).join(" – ").trim();
+    } else if (name.includes("_")) {
+        const parts = name.split("_");
+        title = parts.join(" ").trim();
+    }
+    return { title, artist, query: `${title} ${artist}`.trim() };
+}
+
+async function reverseLookupSongOnWeb(query) {
+    try {
+        const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=1`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data.results && data.results.length > 0) {
+            const song = data.results[0];
+            return {
+                title: song.trackName || "",
+                artist: song.artistName || "",
+                cover: (song.artworkUrl100 || "").replace("100x100bb", "600x600bb")
+            };
+        }
+    } catch (e) {}
+    return null;
+}
+
+function showMusicToast(msg) {
+    const toast = document.createElement("div");
+    toast.style.cssText = "position:fixed; top:24px; left:50%; transform:translateX(-50%); background:#292524; color:#fff; padding:10px 20px; border-radius:999px; font-size:12.5px; font-weight:700; z-index:3000; box-shadow:0 8px 24px rgba(0,0,0,0.25); animation:fadeIn 0.3s ease;";
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => toast.remove(), 400);
+    }, 2800);
+}
+
+
+/* ========================================================
+   HỆ THỐNG TỰ TẠO KỶ NIỆM VỚI THEME THƯ CÓ SẴN
+   ======================================================== */
+let newMemPhotosList = [];
+let newMemVideoData = null;
+
+function initMemoryCreateSystem() {
+    const btnOpen = document.getElementById("btnOpenCreateMemory");
+    const modal = document.getElementById("modalCreateMemory");
+    const btnClose = document.getElementById("btnCloseCreateMemory");
+    const form = document.getElementById("formCreateMemory");
+    const themeCards = document.querySelectorAll(".theme-opt-card");
+    const imgInput = document.getElementById("memImagesInput");
+    const btnBrowseImg = document.getElementById("btnBrowseImages");
+    const previewsGrid = document.getElementById("memImagePreviews");
+    const videoInput = document.getElementById("memVideoInput");
+    const btnBrowseVid = document.getElementById("btnBrowseVideo");
+    const videoUrlInput = document.getElementById("newMemVideoUrl");
+    const videoPreviewWrap = document.getElementById("memVideoPreviewWrap");
+
+    if (btnOpen && modal) {
+        btnOpen.addEventListener("click", () => {
+            modal.classList.add("active");
+            // Set default date to today
+            const dateInput = document.getElementById("newMemDate");
+            if (dateInput && !dateInput.value) {
+                dateInput.value = new Date().toISOString().split('T')[0];
+            }
+        });
+    }
+
+    if (btnClose && modal) {
+        btnClose.addEventListener("click", () => modal.classList.remove("active"));
+    }
+
+    // Chọn Theme
+    themeCards.forEach(card => {
+        card.addEventListener("click", () => {
+            themeCards.forEach(c => c.classList.remove("active"));
+            card.classList.add("active");
+            const radio = card.querySelector("input[type='radio']");
+            if (radio) radio.checked = true;
+        });
+    });
+
+    // Tải ảnh lên
+    if (btnBrowseImg && imgInput) {
+        btnBrowseImg.addEventListener("click", () => imgInput.click());
+    }
+
+    if (imgInput) {
+        imgInput.addEventListener("change", (e) => {
+            const files = Array.from(e.target.files || []);
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (re) => {
+                    newMemPhotosList.push(re.target.result);
+                    renderMemPhotosPreviews();
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+    }
+
+    function renderMemPhotosPreviews() {
+        if (!previewsGrid) return;
+        previewsGrid.innerHTML = "";
+        newMemPhotosList.forEach((src, idx) => {
+            const wrap = document.createElement("div");
+            wrap.className = "mem-thumb-wrap";
+            wrap.innerHTML = `
+                <img src="${src}" class="mem-thumb-img" alt="Ảnh kỷ niệm">
+                <button type="button" class="mem-thumb-remove" title="Xóa ảnh">&times;</button>
+            `;
+            wrap.querySelector(".mem-thumb-remove").addEventListener("click", () => {
+                newMemPhotosList.splice(idx, 1);
+                renderMemPhotosPreviews();
+            });
+            previewsGrid.appendChild(wrap);
+        });
+    }
+
+    // Tải video lên
+    if (btnBrowseVid && videoInput) {
+        btnBrowseVid.addEventListener("click", () => videoInput.click());
+    }
+
+    if (videoInput) {
+        videoInput.addEventListener("change", (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            newMemVideoData = URL.createObjectURL(file);
+            renderVideoPreview(newMemVideoData);
+        });
+    }
+
+    if (videoUrlInput) {
+        videoUrlInput.addEventListener("input", (e) => {
+            const url = e.target.value.trim();
+            if (url) {
+                newMemVideoData = url;
+                renderVideoPreview(url);
+            }
+        });
+    }
+
+    function renderVideoPreview(src) {
+        if (!videoPreviewWrap) return;
+        videoPreviewWrap.style.display = "block";
+        videoPreviewWrap.innerHTML = `
+            <video src="${src}" controls style="max-width:100%; height:120px; border-radius:12px; border:1px solid #d6d3d1; object-fit:cover;"></video>
+        `;
+    }
+
+    // Submit form tạo kỷ niệm
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById("newMemTitle").value.trim();
+            const rawDate = document.getElementById("newMemDate").value;
+            const location = document.getElementById("newMemLocation").value.trim() || "Kỷ niệm yêu thương";
+            const story = document.getElementById("newMemStory").value.trim();
+            const checkedThemeRadio = document.querySelector("input[name='letterTheme']:checked");
+            const theme = checkedThemeRadio ? checkedThemeRadio.value : "kraft";
+
+            // Format date to DD/MM/YYYY
+            let dateFormatted = rawDate;
+            if (rawDate && rawDate.includes("-")) {
+                const parts = rawDate.split("-");
+                dateFormatted = `${parts[2]}/${parts[1]}/${parts[0]}`;
+            }
+
+            const images = newMemPhotosList.length > 0 ? [...newMemPhotosList] : ["images/IMG_4151_poster.jpg"];
+
+            const newMemoryItem = {
+                id: 'custom_mem_' + Date.now(),
+                title: title,
+                date: dateFormatted,
+                location: location,
+                type: newMemVideoData ? "mixed" : "photo",
+                theme: theme,
+                video: newMemVideoData || null,
+                poster: images[0],
+                images: images,
+                fallbacks: images,
+                story: story,
+                isCustom: true
+            };
+
+            // Đưa lên đầu danh sách Kỷ Niệm
+            MEMORIES.unshift(newMemoryItem);
+
+            // Lưu vào localStorage
+            try {
+                const customMems = JSON.parse(localStorage.getItem('couple_custom_memories_v2') || '[]');
+                customMems.unshift(newMemoryItem);
+                localStorage.setItem('couple_custom_memories_v2', JSON.stringify(customMems));
+            } catch (err) {}
+
+            // Vẽ lại dòng chảy kỷ niệm ngay lập tức
+            renderMemoriesStream();
+
+            // Đóng modal & reset form
+            form.reset();
+            newMemPhotosList = [];
+            newMemVideoData = null;
+            if (previewsGrid) previewsGrid.innerHTML = "";
+            if (videoPreviewWrap) {
+                videoPreviewWrap.innerHTML = "";
+                videoPreviewWrap.style.display = "none";
+            }
+            if (modal) modal.classList.remove("active");
+
+            showMusicToast(`Kỷ niệm "${title}" với theme thư đã được tạo thành công!`);
+        });
     }
 }

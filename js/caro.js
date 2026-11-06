@@ -434,7 +434,7 @@ window.CaroGame = (function () {
         const winnerNameEl = document.getElementById('caroWinnerName');
         const winnerDescEl = document.getElementById('caroWinnerDesc');
         if (banner) {
-            if (winnerNameEl) winnerNameEl.textContent = `${winner.name} (${winner.icon}) Chiến Thắng!`;
+            if (winnerNameEl) winnerNameEl.textContent = `${winner.name} Chiến Thắng!`;
             if (winnerDescEl) {
                 winnerDescEl.textContent = typeof lineOrMsg === 'string' ? lineOrMsg : `Chúc mừng ${winner.name} đã xuất sắc tạo thành chuỗi 5 quân liên tiếp!`;
             }
@@ -718,8 +718,22 @@ window.CaroGame = (function () {
         if (aiControls) aiControls.style.display = mode === 'ai' ? 'inline-flex' : 'none';
         if (p2pControls) p2pControls.style.display = mode === 'p2p' ? 'inline-flex' : 'none';
 
+        // ĐẶT RÕ TÊN ĐỐI THỦ: NẾU ĐẤU VỚI MÁY THÌ GHI LÀ "MÁY (AI)", KHÔNG GHI TÊN HIỀN
+        if (mode === 'ai') {
+            PLAYERS.O.name = 'Máy (AI)';
+            PLAYERS.O.icon = '';
+        } else {
+            PLAYERS.O.name = 'Hiền';
+            PLAYERS.O.icon = '';
+        }
+
+        const p2NameEl = document.getElementById('caroPlayer2Name');
+        if (p2NameEl) {
+            p2NameEl.textContent = mode === 'ai' ? 'Máy (AI)' : 'Hiền';
+        }
+
         resetGame(false);
-        showStatusNotice(`🎮 Đã chuyển sang chế độ: ${getModeLabel(mode)}`);
+        showStatusNotice(`Đã chuyển sang chế độ: ${getModeLabel(mode)}`);
     }
 
     function updateTurnDisplay() {
@@ -760,7 +774,7 @@ window.CaroGame = (function () {
         item.className = `caro-move-item move-${m.turn.toLowerCase()}`;
         item.innerHTML = `
             <span class="move-num">#${m.moveNum}</span>
-            <span class="move-player">${m.turn === 'X' ? 'Huy' : 'Hiền'}</span>
+            <span class="move-player">${m.turn === 'X' ? 'Huy' : (state.gameMode === 'ai' ? 'Máy (AI)' : 'Hiền')}</span>
             <strong class="move-coord">${m.label}</strong>
             <span class="move-time">${m.time}</span>
         `;

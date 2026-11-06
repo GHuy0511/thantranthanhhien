@@ -13,16 +13,17 @@ window.BlockBlast = (function () {
     'use strict';
 
     // 1. BẢNG MÀU PASTEL TRANG NHÃ - ĐỒNG BỘ TUYỆT ĐỐI THEME WEBSITE
+    // 1. BẢNG MÀU CANDY-GEM VIBRANT RỰC RỠ, TƯƠI SÁNG & SẮC NÉT (ARCADE 3D GEMS)
     const PASTEL_PALETTE = {
-        terracotta: { bg: 'linear-gradient(135deg, #e07a5f 0%, #c46247 100%)', border: '#e88f78', hex: '#e07a5f' },
-        sage:       { bg: 'linear-gradient(135deg, #81b29a 0%, #689981 100%)', border: '#9fc2af', hex: '#81b29a' },
-        caramel:    { bg: 'linear-gradient(135deg, #f2cc8f 0%, #d8b275 100%)', border: '#fae0b5', hex: '#f2cc8f' },
-        slate:      { bg: 'linear-gradient(135deg, #5c677d 0%, #475166 100%)', border: '#78849e', hex: '#5c677d' },
-        mauve:      { bg: 'linear-gradient(135deg, #a38995 0%, #876e7a 100%)', border: '#baa3ad', hex: '#a38995' },
-        peach:      { bg: 'linear-gradient(135deg, #f4a261 0%, #db8644 100%)', border: '#f7b988', hex: '#f4a261' },
-        teal:       { bg: 'linear-gradient(135deg, #6096ba 0%, #467b9e 100%)', border: '#7fb0d1', hex: '#6096ba' },
-        clay:       { bg: 'linear-gradient(135deg, #ba7c70 0%, #9e6459 100%)', border: '#d1988d', hex: '#ba7c70' },
-        garbage:    { bg: 'linear-gradient(135deg, #8a8d91 0%, #6c6f73 100%)', border: '#a5a8ad', hex: '#8a8d91' }
+        terracotta: { bg: 'linear-gradient(135deg, #ff4757 0%, #d63031 100%)', border: '#ff6b81', hex: '#ff4757' },
+        sage:       { bg: 'linear-gradient(135deg, #2ed573 0%, #10ac84 100%)', border: '#7bed9f', hex: '#2ed573' },
+        caramel:    { bg: 'linear-gradient(135deg, #ffa502 0%, #e67e22 100%)', border: '#ffc048', hex: '#ffa502' },
+        slate:      { bg: 'linear-gradient(135deg, #1e90ff 0%, #3742fa 100%)', border: '#70a1ff', hex: '#1e90ff' },
+        mauve:      { bg: 'linear-gradient(135deg, #a55eea 0%, #8854d0 100%)', border: '#d1a3f6', hex: '#a55eea' },
+        peach:      { bg: 'linear-gradient(135deg, #ff6348 0%, #eb4d4b 100%)', border: '#ff7f6e', hex: '#ff6348' },
+        teal:       { bg: 'linear-gradient(135deg, #00d2d3 0%, #01a3a4 100%)', border: '#48dbfb', hex: '#00d2d3' },
+        clay:       { bg: 'linear-gradient(135deg, #ff9f43 0%, #ee5253 100%)', border: '#feca57', hex: '#ff9f43' },
+        garbage:    { bg: 'linear-gradient(135deg, #747d8c 0%, #57606f 100%)', border: '#a4b0be', hex: '#747d8c' }
     };
 
     // 2. DANH MỤC KHỐI XẾP TỰ DO (PUZZLE)

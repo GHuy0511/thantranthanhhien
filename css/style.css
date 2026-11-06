@@ -5569,3 +5569,628 @@ html, body {
     transform: translateY(-1px);
     box-shadow: 0 6px 18px rgba(184, 115, 87, 0.35);
 }
+
+
+/* ========================================================
+   1. NÚT TẠO KỶ NIỆM MỚI TẠI SECTION KHOẢNH KHẮC
+   ======================================================== */
+.gallery-action-header-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 24px;
+}
+
+.btn-create-memory-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 22px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #b87357 0%, #96533c 100%);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(184, 115, 87, 0.32);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.btn-create-memory-action:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(184, 115, 87, 0.45);
+    background: linear-gradient(135deg, #c47c5f 0%, #a45a42 100%);
+}
+
+/* ========================================================
+   2. TRÌNH PHÁT NHẠC (MUSIC WIDGET) NÂNG CẤP & NÚT TẢI NHẠC
+   ======================================================== */
+.vinyl-upload-btn {
+    color: #b87357 !important;
+}
+
+.vinyl-upload-btn:hover {
+    background: #fff7ed !important;
+    transform: translateY(-1px) scale(1.08) !important;
+}
+
+.playlist-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(184, 115, 87, 0.18);
+    background: #fdfbf7;
+}
+
+.playlist-drawer-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #78716c;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.drawer-btn-upload-music {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid #b87357;
+    color: #b87357;
+    font-size: 10.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.drawer-btn-upload-music:hover {
+    background: #b87357;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.playlist-drawer-item.is-custom-track .drawer-item-title::after {
+    content: "Tải lên";
+    font-size: 8px;
+    font-weight: 800;
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 1px 5px;
+    border-radius: 999px;
+    margin-left: 6px;
+}
+
+/* ========================================================
+   3. MODAL CHỈNH SỬA THÔNG TIN BÀI HÁT TỰ TẢI (#modalEditMusicInfo)
+   ======================================================== */
+.music-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 26, 18, 0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+}
+
+.music-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.music-modal-card {
+    width: 100%;
+    max-width: 440px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 24px 22px;
+    border: 1.5px solid rgba(184, 115, 87, 0.25);
+    box-shadow: 0 25px 60px rgba(45, 26, 18, 0.22);
+    animation: modalScaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.music-modal-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #fff7ed;
+    color: #b87357;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.music-modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #292524;
+    margin-bottom: 4px;
+}
+
+.music-modal-desc {
+    font-size: 11.5px;
+    color: #78716c;
+    line-height: 1.45;
+    margin-bottom: 16px;
+}
+
+.music-preview-cover-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    padding: 10px;
+    background: #fdfbf7;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.music-edit-cover {
+    width: 54px;
+    height: 54px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.music-cover-edit-inputs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.music-field-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #57534e;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.music-modal-input {
+    width: 100%;
+    padding: 9px 12px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    font-size: 12.5px;
+    color: #292524;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.music-modal-input:focus {
+    outline: none;
+    border-color: #b87357;
+    box-shadow: 0 0 0 3px rgba(184, 115, 87, 0.15);
+}
+
+.music-form-group {
+    margin-bottom: 12px;
+}
+
+.music-duration-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 8px;
+    background: #f5f5f4;
+    color: #57534e;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.music-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.btn-music-cancel {
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1.5px solid #d6d3d1;
+    color: #57534e;
+    font-size: 12.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-music-cancel:hover {
+    background: #f5f5f4;
+    color: #292524;
+}
+
+.btn-music-save-play {
+    padding: 9px 20px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #b87357 0%, #96533c 100%);
+    color: #ffffff;
+    font-size: 12.5px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(184, 115, 87, 0.35);
+    transition: all 0.2s ease;
+}
+
+.btn-music-save-play:hover {
+    background: linear-gradient(135deg, #c47c5f 0%, #a45a42 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(184, 115, 87, 0.45);
+}
+
+/* ========================================================
+   4. MODAL TẠO KỶ NIỆM MỚI (#modalCreateMemory)
+   ======================================================== */
+.memory-create-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(45, 26, 18, 0.55);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 2100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+}
+
+.memory-create-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.memory-create-card {
+    width: 100%;
+    max-width: 580px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 26px 24px;
+    border: 1.5px solid rgba(184, 115, 87, 0.25);
+    box-shadow: 0 25px 60px rgba(45, 26, 18, 0.25);
+    animation: modalScaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mem-modal-header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.mem-modal-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 999px;
+    background: #fff7ed;
+    color: #b87357;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.mem-modal-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #292524;
+    margin-bottom: 4px;
+}
+
+.mem-modal-desc {
+    font-size: 12px;
+    color: #78716c;
+    line-height: 1.45;
+}
+
+.mem-create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.mem-form-row {
+    display: flex;
+    gap: 12px;
+}
+
+.mem-field-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mem-field-col.flex-1 { flex: 1; }
+.mem-field-col.flex-2 { flex: 2; }
+
+.mem-label {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #44403c;
+    margin-bottom: 2px;
+}
+
+.mem-input,
+.mem-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(0, 0, 0, 0.1);
+    background: #fdfbf7;
+    font-size: 13px;
+    color: #292524;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+}
+
+.mem-input:focus,
+.mem-textarea:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: #b87357;
+    box-shadow: 0 0 0 3px rgba(184, 115, 87, 0.15);
+}
+
+/* KHAY CHỌN THEME THƯ TAY CÓ SẴN */
+.mem-theme-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.theme-opt-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 6px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    background: #fbf8f5;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.theme-opt-card input { display: none; }
+
+.theme-opt-card:hover {
+    border-color: #b87357;
+    background: #fff7ed;
+    transform: translateY(-2px);
+}
+
+.theme-opt-card.active {
+    border-color: #b87357;
+    background: #fff7ed;
+    box-shadow: 0 0 0 2px #b87357;
+}
+
+.theme-preview-box {
+    width: 38px;
+    height: 24px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.theme-preview-box.theme-kraft {
+    background: #f4ebd9;
+    border: 1px solid #d4c2a5;
+}
+
+.theme-preview-box.theme-autumn {
+    background: linear-gradient(135deg, #fcd5ce, #ffb5a7);
+    border: 1px solid #f28482;
+}
+
+.theme-preview-box.theme-starlight {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    border: 1px solid #38bdf8;
+}
+
+.theme-preview-box.theme-postcard {
+    background: #ffffff;
+    border: 1.5px dashed #ef4444;
+}
+
+.theme-preview-box.theme-military {
+    background: linear-gradient(135deg, #58674d, #3c4634);
+    border: 1px solid #7a8d6e;
+}
+
+.theme-name {
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #57534e;
+    line-height: 1.2;
+}
+
+/* DROPZONE & PREVIEWS */
+.mem-dropzone {
+    background: #fdfbf7;
+    border: 1.5px dashed rgba(184, 115, 87, 0.35);
+    border-radius: 16px;
+    padding: 14px;
+    text-align: center;
+}
+
+.btn-browse-media {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1.5px solid #b87357;
+    color: #b87357;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-browse-media:hover {
+    background: #b87357;
+    color: #ffffff;
+}
+
+.btn-browse-media.secondary {
+    border-color: #78716c;
+    color: #57534e;
+}
+
+.btn-browse-media.secondary:hover {
+    background: #78716c;
+    color: #ffffff;
+}
+
+.mem-previews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.mem-thumb-wrap {
+    position: relative;
+    width: 65px;
+    height: 65px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mem-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mem-thumb-remove {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: #ffffff;
+    border: none;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.mem-video-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mem-modal-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-mem-cancel {
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1.5px solid #d6d3d1;
+    color: #57534e;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-mem-cancel:hover {
+    background: #f5f5f4;
+    color: #292524;
+}
+
+.btn-mem-submit {
+    padding: 10px 24px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #b87357 0%, #96533c 100%);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(184, 115, 87, 0.35);
+    transition: all 0.2s ease;
+}
+
+.btn-mem-submit:hover {
+    background: linear-gradient(135deg, #c47c5f 0%, #a45a42 100%);
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 18px rgba(184, 115, 87, 0.45);
+}
+
+/* ========================================================
+   5. CÁC THEME THƯ TAY TRONG MODAL THƯ (#letterModalCard)
+   ======================================================== */
+.letter-modal-card.theme-kraft {
+    background: #fbf5eb url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" fill="%23fbf5eb"/><circle cx="20" cy="20" r="1" fill="%23dccab2" opacity="0.3"/></svg>') !important;
+    border: 2px solid #d5c4a1 !important;
+    color: #433422 !important;
+}
+
+.letter-modal-card.theme-autumn {
+    background: linear-gradient(135deg, #fffcf9 0%, #fff3ec 100%) !important;
+    border: 2px solid rgba(224, 122, 95, 0.4) !important;
+    box-shadow: 0 25px 60px rgba(184, 115, 87, 0.25) !important;
+}
+
+.letter-modal-card.theme-starlight {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%) !important;
+    border: 2px solid rgba(56, 189, 248, 0.4) !important;
+    color: #f8fafc !important;
+    box-shadow: 0 25px 60px rgba(15, 23, 42, 0.6) !important;
+}
+
+.letter-modal-card.theme-starlight .letter-modal-title,
+.letter-modal-card.theme-starlight .letter-modal-text {
+    color: #f1f5f9 !important;
+}
+
+.letter-modal-card.theme-postcard {
+    background: #ffffff !important;
+    border: 4px dashed #ef4444 !important;
+    border-image: repeating-linear-gradient(45deg, #ef4444, #ef4444 10px, #ffffff 10px, #ffffff 20px, #3b82f6 20px, #3b82f6 30px, #ffffff 30px, #ffffff 40px) 12 !important;
+}
+
+.letter-modal-card.theme-military {
+    background: linear-gradient(135deg, #f7f9f6 0%, #edf2ea 100%) !important;
+    border: 2px solid #58674d !important;
+    color: #2b3325 !important;
+}
