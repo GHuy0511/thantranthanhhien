@@ -1132,13 +1132,13 @@ function updateUI() {
 
         if (rollBtnText) {
             if (current.isAi) {
-                rollBtnText.textContent = `🤖 ${current.name} Đang Đổ Xúc Xắc...`;
+                rollBtnText.textContent = `${current.name} (AI) đang đổ...`;
             } else {
-                rollBtnText.textContent = `${current.name} Tung Xúc Xắc Đôi (${current.icon})`;
+                rollBtnText.textContent = `Tung xúc xắc • ${current.name}`;
             }
         }
         if (rollBtnIcon) {
-            rollBtnIcon.textContent = "🎲🎲";
+            rollBtnIcon.style.display = "none";
         }
     }
 }
@@ -1307,6 +1307,10 @@ function movePlayerStepByStep(player, steps, onComplete) {
 
 // 15. XỬ LÝ SỰ KIỆN KHI ĐÁP XUỐNG TỪNG Ô (TILE ACTIONS)
 function handleTileAction(player, tileId, diceRollValue = 2, rolledDouble = false) {
+    const viewMono = document.getElementById("viewMonopoly");
+    if (viewMono && !viewMono.classList.contains("active")) {
+        return;
+    }
     const tile = VIETNAM_TILES[tileId];
     if (!tile) return;
 
@@ -1968,7 +1972,7 @@ function openJailModal() {
 }
 
 function handleUseJailCard(player) {
-    if (!player) player = gameState.players[gameState.turnIndex];
+    if (!player) player = gameState.players[gameState.currentTurnIndex];
     if (!player || player.jailCardsCount <= 0) return;
     player.jailCardsCount--;
     player.inJail = false;
@@ -2368,7 +2372,9 @@ function finishTurn() {
     updateUI();
 
     const nextPlayer = gameState.players[gameState.currentTurnIndex];
-    showStatusNotice(`👉 Đang tới lượt của <strong>${nextPlayer.name}</strong> (${nextPlayer.icon})!`);
+    showStatusNotice(`Lượt của <strong>${nextPlayer.name}</strong>`);
+    const statusDot = document.getElementById("statusDotIndicator");
+    if (statusDot) statusDot.style.background = nextPlayer.color;
 
     if (nextPlayer.isAi && !nextPlayer.isBankrupt) {
         setTimeout(handleRollDice, 1200);
@@ -2623,6 +2629,14 @@ function setupEventListeners() {
         });
     }
 
+    const btnOpenSetup = document.getElementById("btnOpenSetup");
+    if (btnOpenSetup) {
+        btnOpenSetup.addEventListener("click", () => {
+            const m = document.getElementById("modalGameSetup");
+            if (m) m.classList.add("active");
+        });
+    }
+
     const btnRestartFromWin = document.getElementById("btnRestartFromWinner");
     if (btnRestartFromWin) {
         btnRestartFromWin.addEventListener("click", () => {
@@ -2710,11 +2724,20 @@ function initGameSwitcher() {
     const viewMonopoly = document.getElementById("viewMonopoly");
     const viewBlockBlast = document.getElementById("viewBlockBlast");
     const viewCaro = document.getElementById("viewCaro");
+    const viewGo = document.getElementById("viewGo");
     const toolsMonopoly = document.getElementById("toolsMonopoly");
     const toolsBlockBlast = document.getElementById("toolsBlockBlast");
     const toolsCaro = document.getElementById("toolsCaro");
+    const toolsGo = document.getElementById("toolsGo");
 
     function switchGame(gameId, updateHash = true) {
+        // Đóng các modal hành động đang mở khi chuyển game
+        document.querySelectorAll(".game-modal-overlay.active").forEach(m => {
+            if (m.id !== "modalThemeSettings") {
+                m.classList.remove("active");
+            }
+        });
+
         tabs.forEach(t => {
             const active = t.dataset.game === gameId;
             t.classList.toggle("active", active);
@@ -2724,13 +2747,18 @@ function initGameSwitcher() {
         if (viewMonopoly) viewMonopoly.classList.toggle("active", gameId === "monopoly");
         if (viewBlockBlast) viewBlockBlast.classList.toggle("active", gameId === "blockblast");
         if (viewCaro) viewCaro.classList.toggle("active", gameId === "caro");
+        if (viewGo) viewGo.classList.toggle("active", gameId === "go");
 
         if (toolsMonopoly) toolsMonopoly.style.display = gameId === "monopoly" ? "flex" : "none";
         if (toolsBlockBlast) toolsBlockBlast.style.display = gameId === "blockblast" ? "flex" : "none";
         if (toolsCaro) toolsCaro.style.display = gameId === "caro" ? "flex" : "none";
+        if (toolsGo) toolsGo.style.display = gameId === "go" ? "flex" : "none";
 
         if (gameId === "blockblast" && window.BlockBlast && typeof window.BlockBlast.onShow === "function") {
             window.BlockBlast.onShow();
+        }
+        if (gameId === "go" && window.GoGame && typeof window.GoGame.onShow === "function") {
+            window.GoGame.onShow();
         }
 
         if (updateHash) location.hash = gameId;
@@ -2745,7 +2773,9 @@ function initGameSwitcher() {
 
     const hash = location.hash.replace("#", "");
     const saved = localStorage.getItem("active_game_view");
-    if (hash === "caro" || (!hash && saved === "caro")) {
+    if (hash === "go" || (!hash && saved === "go")) {
+        switchGame("go", false);
+    } else if (hash === "caro" || (!hash && saved === "caro")) {
         switchGame("caro", false);
     } else if (hash === "blockblast" || (!hash && saved === "blockblast")) {
         switchGame("blockblast", false);
@@ -2755,7 +2785,7 @@ function initGameSwitcher() {
 
     window.addEventListener("hashchange", () => {
         const curHash = location.hash.replace("#", "");
-        if (curHash === "blockblast" || curHash === "monopoly" || curHash === "caro") {
+        if (curHash === "blockblast" || curHash === "monopoly" || curHash === "caro" || curHash === "go") {
             switchGame(curHash, false);
         }
     });
@@ -2786,6 +2816,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnCaroQuick) {
         btnCaroQuick.addEventListener("click", () => {
             if (window.CaroGame) window.CaroGame.resetGame(true);
+        });
+    }
+
+    if (window.GoGame && typeof window.GoGame.init === "function") {
+        window.GoGame.init();
+    }
+
+    const btnGoQuick = document.getElementById("btnGoQuickRestart");
+    if (btnGoQuick) {
+        btnGoQuick.addEventListener("click", () => {
+            if (window.GoGame) window.GoGame.resetGame(9, true);
         });
     }
 

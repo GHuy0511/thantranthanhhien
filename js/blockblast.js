@@ -166,6 +166,47 @@ window.BlockBlast = (function () {
             window.CoupleNetwork.onMessage(handleNetworkMessage);
         }
 
+        // Gắn sự kiện các nút chức năng và modal
+        const btnPlayAgain = document.getElementById('btnBbPlayAgain');
+        if (btnPlayAgain) {
+            btnPlayAgain.addEventListener('click', () => {
+                const modal = document.getElementById('modalBbGameOver');
+                if (modal) modal.classList.remove('active');
+                restartGame();
+            });
+        }
+
+        const btnHelp = document.getElementById('btnBbHelp');
+        const modalHelp = document.getElementById('modalBbHelp');
+        const btnCloseHelp = document.getElementById('btnCloseBbHelp');
+
+        if (btnHelp && modalHelp) {
+            btnHelp.addEventListener('click', () => {
+                modalHelp.classList.add('active');
+            });
+        }
+        if (btnCloseHelp && modalHelp) {
+            btnCloseHelp.addEventListener('click', () => {
+                modalHelp.classList.remove('active');
+            });
+        }
+
+        const btnRestart = document.getElementById('btnBbRestart');
+        if (btnRestart) {
+            btnRestart.addEventListener('click', () => {
+                restartGame();
+            });
+        }
+
+        const btnSound = document.getElementById('btnBbToggleSound');
+        const iconSound = document.getElementById('bbSoundIcon');
+        if (btnSound) {
+            btnSound.addEventListener('click', () => {
+                state.soundEnabled = !state.soundEnabled;
+                if (iconSound) iconSound.textContent = state.soundEnabled ? '🔊' : '🔇';
+            });
+        }
+
         // Bắt đầu ván đầu tiên
         startCurrentMode();
     }
@@ -181,14 +222,18 @@ window.BlockBlast = (function () {
             tabFalling.addEventListener('click', () => switchPlayMode('falling'));
         }
 
-        // Match Tabs: Solo vs Đối Kháng
+        // Match Tabs: Solo vs Đấu Người Yêu vs Đấu với Máy
         const tabSolo = document.getElementById('bbTabMatchSolo');
-        const tabVs = document.getElementById('bbTabMatchVs');
+        const tabP2p = document.getElementById('bbTabMatchP2p');
+        const tabAi = document.getElementById('bbTabMatchAi');
         if (tabSolo) {
             tabSolo.addEventListener('click', () => switchMatchMode('solo'));
         }
-        if (tabVs) {
-            tabVs.addEventListener('click', () => switchMatchMode('vs'));
+        if (tabP2p) {
+            tabP2p.addEventListener('click', () => switchMatchMode('vs_p2p'));
+        }
+        if (tabAi) {
+            tabAi.addEventListener('click', () => switchMatchMode('vs_ai'));
         }
 
         // Cụm phím ảo trên điện thoại (Virtual Touch D-Pad)
@@ -231,11 +276,12 @@ window.BlockBlast = (function () {
         });
 
         const vsSidebar = document.getElementById('bbVsSidebar');
+        const isVs = (newMatch === 'vs_p2p' || newMatch === 'vs_ai');
         if (vsSidebar) {
-            vsSidebar.style.display = newMatch === 'vs' ? 'flex' : 'none';
+            vsSidebar.style.display = isVs ? 'flex' : 'none';
         }
 
-        if (newMatch === 'vs') {
+        if (isVs) {
             initVsOpponent();
         } else {
             stopPartnerAi();
@@ -580,7 +626,7 @@ window.BlockBlast = (function () {
             updateComboUI();
 
             // Kích hoạt tấn công nếu đang ở chế độ Đối Kháng!
-            if (state.matchMode === 'vs') {
+            if (state.matchMode === 'vs_p2p' || state.matchMode === 'vs_ai') {
                 sendGarbageAttack(totalLines);
             }
 
@@ -874,7 +920,7 @@ window.BlockBlast = (function () {
             audio.blast();
             updateComboUI();
 
-            if (state.matchMode === 'vs') {
+            if (state.matchMode === 'vs_p2p' || state.matchMode === 'vs_ai') {
                 sendGarbageAttack(fullRows.length);
             }
 
@@ -960,12 +1006,10 @@ window.BlockBlast = (function () {
 
     // 9. CHẾ ĐỘ ĐỐI KHÁNG (VS MODE) & TẤN CÔNG GẠCH RÁC
     function initVsOpponent() {
-        const isPartnerOnline = window.CoupleNetwork && window.CoupleNetwork.isPartnerOnline();
-        state.partner.isAi = !isPartnerOnline;
-        state.partner.name = window.CoupleNetwork ? (window.CoupleNetwork.getPartnerRole() === 'hien' ? 'Hiền ✈️' : 'Huy 🚗') : 'Đối Thủ';
+        stopPartnerAi();
 
         const nameEl = document.getElementById('bbPartnerName');
-        if (nameEl) nameEl.textContent = state.partner.name;
+        const scoreEl = document.getElementById('bbPartnerScore');
 
         // Render lưới mini radar đối thủ (8x8)
         const miniBoard = document.getElementById('bbPartnerMiniBoard');
@@ -981,8 +1025,29 @@ window.BlockBlast = (function () {
             }
         }
 
-        if (state.partner.isAi) {
+        if (state.matchMode === 'vs_ai') {
+            state.partner.isAi = true;
+            state.partner.name = 'Máy AI (Tự động)';
+            if (nameEl) nameEl.textContent = state.partner.name;
+            if (scoreEl) scoreEl.textContent = '0';
             startPartnerAi();
+            return;
+        }
+
+        // Chế độ Đấu Người Yêu (P2P thật)
+        state.partner.isAi = false;
+        const partnerName = window.CoupleNetwork ? window.CoupleNetwork.getPartnerName() : 'Người yêu';
+        const isPartnerOnline = window.CoupleNetwork && window.CoupleNetwork.isPartnerOnline();
+        state.partner.name = partnerName;
+
+        if (isPartnerOnline) {
+            if (nameEl) nameEl.textContent = `${partnerName} (🟢 Online)`;
+            if (scoreEl) scoreEl.textContent = '0';
+            showAttackCue(`🟢 ${partnerName} đã sẵn sàng đấu trực tuyến!`);
+        } else {
+            if (nameEl) nameEl.textContent = `${partnerName} (🔴 Offline)`;
+            if (scoreEl) scoreEl.textContent = 'Chờ kết nối...';
+            showAttackCue(`🔴 ${partnerName} đang offline. Gửi link mời người yêu vào cùng chơi nhé!`);
         }
     }
 
@@ -1096,6 +1161,13 @@ window.BlockBlast = (function () {
 
         if (state.matchMode !== 'vs') return;
 
+        if (packet.type === 'presence_change') {
+            if (state.matchMode === 'vs_p2p') {
+                initVsOpponent();
+            }
+            return;
+        }
+
         if (packet.type === 'bb_state_sync') {
             state.partner.score = packet.score || 0;
             state.partner.combo = packet.combo || 0;
@@ -1201,7 +1273,7 @@ window.BlockBlast = (function () {
         } else {
             initPuzzleMode();
         }
-        if (state.matchMode === 'vs') {
+        if (state.matchMode === 'vs_p2p' || state.matchMode === 'vs_ai') {
             initVsOpponent();
         }
     }
@@ -1211,7 +1283,7 @@ window.BlockBlast = (function () {
         if (state.mode === 'falling' && !state.isGameOver) {
             startFallingTimer();
         }
-        if (state.matchMode === 'vs') {
+        if (state.matchMode === 'vs_p2p' || state.matchMode === 'vs_ai') {
             initVsOpponent();
         }
     }

@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="css/games.css?v=20261106">
     <link rel="stylesheet" href="css/blockblast.css?v=20261106">
     <link rel="stylesheet" href="css/caro.css?v=20261106">
+    <link rel="stylesheet" href="css/go.css?v=20261106">
 </head>
 <body class="games-body">
 
@@ -42,24 +43,29 @@
 
     <!-- THANH ĐIỀU HƯỚNG TINH GỌN (TOP NAV) -->
     <header class="games-top-nav">
-        <a class="nav-back-home-btn" href="index.html" title="Trở về trang chủ">
-            <span class="nav-back-icon">‹</span>
-            <span class="nav-back-text">Trang chủ</span>
-        </a>
+        <div style="display:flex; align-items:center; gap:6px;">
+            <a class="nav-back-home-btn" href="index.html" title="Trở về trang chủ">
+                <span class="nav-back-icon">‹</span>
+                <span class="nav-back-text">Trang chủ</span>
+            </a>
+            <a class="nav-back-home-btn" href="goals.html" title="Kế hoạch và Quỹ tương lai">
+                <span class="nav-back-text">Kế hoạch</span>
+            </a>
+        </div>
 
         <!-- BỘ CHỌN TRÒ CHƠI TÍCH HỢP (SEGMENTED SWITCHER) -->
         <div class="game-segmented-switch" id="gameSegmentedSwitch" role="tablist" aria-label="Chọn trò chơi">
             <button class="game-switch-tab active" id="tabGameMonopoly" data-game="monopoly" type="button" role="tab" aria-selected="true">
-                <span class="tab-icon">🎲</span>
                 <span class="tab-name">Cờ Tỷ Phú</span>
             </button>
             <button class="game-switch-tab" id="tabGameBlockBlast" data-game="blockblast" type="button" role="tab" aria-selected="false">
-                <span class="tab-icon">🧩</span>
                 <span class="tab-name">Block Blast</span>
             </button>
             <button class="game-switch-tab" id="tabGameCaro" data-game="caro" type="button" role="tab" aria-selected="false">
-                <span class="tab-icon">⭕</span>
                 <span class="tab-name">Cờ Caro</span>
+            </button>
+            <button class="game-switch-tab" id="tabGameGo" data-game="go" type="button" role="tab" aria-selected="false">
+                <span class="tab-name">Cờ Vây</span>
             </button>
         </div>
 
@@ -112,6 +118,13 @@
             <!-- Tools riêng cho Cờ Caro -->
             <div class="tool-group" id="toolsCaro" style="display: none;">
                 <button class="top-tool-btn" id="btnCaroQuickRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
+                    <span class="tool-icon">🔄</span>
+                </button>
+            </div>
+
+            <!-- Tools riêng cho Cờ Vây -->
+            <div class="tool-group" id="toolsGo" style="display: none;">
+                <button class="top-tool-btn" id="btnGoQuickRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
                     <span class="tool-icon">🔄</span>
                 </button>
             </div>
@@ -187,36 +200,31 @@
 
                     <!-- Nút tung xúc xắc nổi bật với hiệu ứng 3D và màu sắc theo người chơi -->
                     <button class="roll-dice-btn" id="rollDiceBtn" type="button">
-                        <span class="btn-dice-icon" id="rollBtnIcon">🎲🎲</span>
-                        <span class="btn-dice-text" id="rollBtnText">Huy Tung Xúc Xắc Đôi (🚗)</span>
+                        <span class="btn-dice-text" id="rollBtnText">Tung xúc xắc</span>
                         <span class="btn-dice-shine" aria-hidden="true"></span>
                     </button>
 
                     <!-- Hộp capsule thông báo diễn biến ván cờ -->
                     <div class="action-status-capsule" id="actionStatusCapsule">
-                        <span class="status-speaker-icon" id="statusSpeakerIcon">👉</span>
+                        <span class="status-dot-indicator" id="statusDotIndicator"></span>
                         <div class="action-status-msg" id="actionStatusMsg">
-                            Tung xúc xắc đôi để bắt đầu ván cờ!
+                            Tung xúc xắc đôi để bắt đầu ván cờ
                         </div>
                     </div>
 
                     <!-- Thanh Dock công cụ tiện ích nổi thanh lịch -->
                     <div class="center-quick-dock" role="toolbar" aria-label="Công cụ ván cờ">
                         <button class="dock-btn" id="btnOpenPortfolio" type="button" title="Xem danh mục tài sản">
-                            <span class="dock-icon">📊</span>
-                            <span class="dock-label">Tài Sản</span>
+                            <span class="dock-label">Tài sản</span>
                         </button>
                         <button class="dock-btn" id="btnOpenHistory" type="button" title="Xem lịch sử giao dịch & trừ tiền">
-                            <span class="dock-icon">📜</span>
-                            <span class="dock-label">Lịch Sử</span>
+                            <span class="dock-label">Lịch sử</span>
                         </button>
                         <button class="dock-btn" id="btnHelpGuide" type="button" title="Xem luật chơi">
-                            <span class="dock-icon">📖</span>
-                            <span class="dock-label">Luật Chơi</span>
+                            <span class="dock-label">Luật chơi</span>
                         </button>
                         <button class="dock-btn" id="btnRestartQuick" type="button" title="Chơi lại ván mới">
-                            <span class="dock-icon">🔄</span>
-                            <span class="dock-label">Ván Mới</span>
+                            <span class="dock-label">Ván mới</span>
                         </button>
                     </div>
                 </div>
@@ -232,19 +240,22 @@
             <div class="bb-controls-subnav">
                 <div class="bb-pill-group">
                     <button class="bb-mode-pill active" id="bbTabModePuzzle" data-mode="puzzle" type="button" title="Chế độ Tự Xếp Gạch cổ điển">
-                        <span>🧩</span> Tự Xếp
+                        Tự Xếp
                     </button>
                     <button class="bb-mode-pill" id="bbTabModeFalling" data-mode="falling" type="button" title="Chế độ Gạch Tự Rơi điều khiển phím mũi tên">
-                        <span>🕹️</span> Gạch Rơi
+                        Gạch Rơi
                     </button>
                 </div>
 
                 <div class="bb-pill-group">
-                    <button class="bb-match-pill active" id="bbTabMatchSolo" data-match="solo" type="button" title="Chế độ Chơi Đơn thư giãn">
-                        <span>👤</span> Solo
+                    <button class="bb-match-pill active" id="bbTabMatchSolo" data-match="solo" type="button" title="Chế độ chơi một mình">
+                        Chơi Đơn
                     </button>
-                    <button class="bb-match-pill" id="bbTabMatchVs" data-match="vs" type="button" title="Chế độ Đối Kháng cùng người yêu / AI">
-                        <span>⚔️</span> Đối Kháng
+                    <button class="bb-match-pill" id="bbTabMatchP2p" data-match="vs_p2p" type="button" title="Đấu đối kháng trực tuyến với người yêu">
+                        Đấu Người Yêu
+                    </button>
+                    <button class="bb-match-pill" id="bbTabMatchAi" data-match="vs_ai" type="button" title="Đấu với máy AI">
+                        Đấu với Máy
                     </button>
                 </div>
             </div>
@@ -337,9 +348,9 @@
                 <!-- Subnav: Chế độ đấu -->
                 <div class="caro-subnav-dock">
                     <div class="caro-mode-pills" role="tablist" aria-label="Chế độ chơi Cờ Caro">
-                        <button class="caro-mode-tab active" data-mode="p2p" type="button">⚔️ Đấu với Người Yêu</button>
-                        <button class="caro-mode-tab" data-mode="ai" type="button">🤖 Đấu với AI</button>
-                        <button class="caro-mode-tab" data-mode="pass" type="button">👥 Cùng 1 Máy</button>
+                        <button class="caro-mode-tab active" data-mode="p2p" type="button">Đấu với Người Yêu</button>
+                        <button class="caro-mode-tab" data-mode="ai" type="button">Đấu với AI</button>
+                        <button class="caro-mode-tab" data-mode="pass" type="button">Cùng 1 Máy</button>
                     </div>
 
                     <!-- Công cụ theo chế độ -->
@@ -381,13 +392,13 @@
                         <div class="caro-board-footer-dock">
                             <div class="caro-turn-pill" id="caroTurnPill">
                                 <span class="caro-turn-dot" id="caroTurnDot"></span>
-                                <span id="caroTurnText">Lượt: Huy (🚗)</span>
+                                <span id="caroTurnText">Lượt: Huy</span>
                             </div>
 
                             <div class="caro-action-buttons">
-                                <button class="caro-btn" id="btnCaroUndo" type="button" title="Xin đi lại nước vừa rồi">↩️ Đi Lại</button>
-                                <button class="caro-btn" id="btnCaroSurrender" type="button" title="Đầu hàng ván này">🏳️ Đầu Hàng</button>
-                                <button class="caro-btn primary" id="btnCaroRestart" type="button" title="Bắt đầu ván mới">🔄 Ván Mới</button>
+                                <button class="caro-btn" id="btnCaroUndo" type="button" title="Xin đi lại nước vừa rồi">Đi lại</button>
+                                <button class="caro-btn" id="btnCaroSurrender" type="button" title="Đầu hàng ván này">Đầu hàng</button>
+                                <button class="caro-btn primary" id="btnCaroRestart" type="button" title="Bắt đầu ván mới">Ván mới</button>
                             </div>
                         </div>
                     </div>
@@ -420,6 +431,77 @@
                                 <div class="empty-history-notice">Chưa có nước cờ nào. Hãy chọn 1 ô trên bàn cờ để đi!</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             VIEW 4: CỜ VÂY (GO / WEIQI 9x9 & 13x13)
+             ======================================================== -->
+        <div class="game-view-panel" id="viewGo">
+            <div class="go-arena-container">
+                <!-- Subnav: Chế độ đấu & Kích thước bàn cờ -->
+                <div class="go-subnav-dock">
+                    <div class="go-mode-pills" role="tablist" aria-label="Chế độ chơi Cờ Vây">
+                        <button class="go-mode-tab active" data-mode="p2p" type="button">Đấu với Người Yêu</button>
+                        <button class="go-mode-tab" data-mode="ai" type="button">Đấu với AI</button>
+                        <button class="go-mode-tab" data-mode="pass" type="button">Cùng 1 Máy</button>
+                    </div>
+
+                    <div class="go-size-pills" role="tablist" aria-label="Kích thước bàn cờ">
+                        <button class="go-size-tab active" data-size="9" type="button">Bàn 9x9 (Nhanh)</button>
+                        <button class="go-size-tab" data-size="13" type="button">Bàn 13x13 (Chuẩn)</button>
+                    </div>
+                </div>
+
+                <div class="go-main-layout">
+                    <!-- Bảng thông tin người chơi & số quân bắt được -->
+                    <div class="go-players-hud">
+                        <div class="go-player-card active-turn" id="goCardBlack">
+                            <div class="go-stone-badge black"></div>
+                            <div class="go-player-info">
+                                <span class="go-player-name">Quân Đen (Huy)</span>
+                                <span class="go-player-sub" id="goPrisonersBlack">Tù binh: 0</span>
+                            </div>
+                        </div>
+
+                        <span class="go-vs-badge">VS</span>
+
+                        <div class="go-player-card" id="goCardWhite">
+                            <div class="go-stone-badge white"></div>
+                            <div class="go-player-info">
+                                <span class="go-player-name">Quân Trắng (Hiền)</span>
+                                <span class="go-player-sub" id="goPrisonersWhite">Tù binh: 0 (+5.5 mục)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bàn cờ gỗ truyền thống -->
+                    <div class="go-board-wrapper">
+                        <div class="go-board-canvas-wrap" id="goBoardCanvasWrap">
+                            <!-- Bàn cờ được render bởi js/go.js -->
+                        </div>
+                    </div>
+
+                    <!-- Thanh Dock điều khiển dưới bàn cờ -->
+                    <div class="go-actions-dock">
+                        <div class="go-turn-pill" id="goTurnPill">
+                            <span class="go-turn-dot black" id="goTurnDot"></span>
+                            <span id="goTurnText">Lượt: Quân Đen</span>
+                        </div>
+
+                        <div class="go-action-buttons">
+                            <button class="go-btn" id="btnGoPass" type="button" title="Bỏ lượt không đi">Bỏ lượt</button>
+                            <button class="go-btn" id="btnGoUndo" type="button" title="Xin đi lại nước vừa rồi">Đi lại</button>
+                            <button class="go-btn" id="btnGoResign" type="button" title="Xin đầu hàng">Đầu hàng</button>
+                            <button class="go-btn" id="btnGoScore" type="button" title="Đếm đất & Tính điểm">Đếm điểm</button>
+                            <button class="go-btn primary" id="btnGoRestart" type="button" title="Bắt đầu ván mới">Ván mới</button>
+                        </div>
+                    </div>
+
+                    <div class="go-status-toast" id="goStatusNotice">
+                        Ván cờ mới bắt đầu. Quân Đen đi trước.
                     </div>
                 </div>
             </div>
@@ -951,5 +1033,6 @@
     <script src="js/games.js?v=20261106"></script>
     <script src="js/blockblast.js?v=20261106"></script>
     <script src="js/caro.js?v=20261106"></script>
+    <script src="js/go.js?v=20261106"></script>
 </body>
 </html>

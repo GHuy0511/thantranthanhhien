@@ -2296,3 +2296,12 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
+
+.status-dot-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary, #b45d43);
+    flex-shrink: 0;
+    transition: background-color 0.3s ease;
+}

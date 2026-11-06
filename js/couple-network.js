@@ -372,11 +372,12 @@ window.CoupleNetwork = (function () {
     }
 
     function getCurrentActiveGame() {
-        const activeTab = document.querySelector('.game-nav-tab.active');
+        const activeTab = document.querySelector('.game-switch-tab.active') || document.querySelector('.game-nav-tab.active');
         return activeTab ? (activeTab.getAttribute('data-game') || 'monopoly') : 'monopoly';
     }
 
     function getGameTitle(gameKey) {
+        if (gameKey === 'go') return 'Cờ Vây';
         if (gameKey === 'caro') return 'Cờ Caro';
         if (gameKey === 'blockblast') return 'Block Blast';
         return 'Cờ Tỷ Phú';

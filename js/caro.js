@@ -725,7 +725,7 @@ window.CaroGame = (function () {
         const current = PLAYERS[state.currentTurn];
 
         if (turnTextEl) {
-            turnTextEl.textContent = `Lượt: ${current.name} (${current.icon})`;
+            turnTextEl.textContent = `Lượt: ${current.name}`;
         }
         if (turnDotEl) {
             turnDotEl.style.background = current.color;
@@ -856,19 +856,20 @@ window.CaroGame = (function () {
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'caroConfirmModal';
-            modal.className = 'game-modal-backdrop';
+            modal.className = 'game-modal-overlay active';
             modal.innerHTML = `
-                <div class="game-modal-box caro-modal-box">
-                    <div class="modal-card-icon">💕</div>
-                    <h3 class="modal-card-title">Lời Nhắn Từ Người Yêu</h3>
-                    <p class="modal-card-desc" id="caroConfirmMsg"></p>
+                <div class="game-modal-card">
+                    <h3 class="game-modal-title">Thông Báo Cờ Caro</h3>
+                    <p class="game-modal-desc" id="caroConfirmMsg"></p>
                     <div class="game-modal-actions">
-                        <button class="modal-btn-cancel" id="btnCaroModalCancel" type="button">Để sau</button>
-                        <button class="modal-btn-confirm" id="btnCaroModalOk" type="button">Đồng Ý Ngay 💕</button>
+                        <button class="modal-btn-close" id="btnCaroModalCancel" type="button">Để sau</button>
+                        <button class="modal-btn-confirm" id="btnCaroModalOk" type="button">Đồng Ý</button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
+        } else {
+            modal.classList.add('active');
         }
 
         const msgEl = modal.querySelector('#caroConfirmMsg');
@@ -876,7 +877,6 @@ window.CaroGame = (function () {
         const btnCancel = modal.querySelector('#btnCaroModalCancel');
 
         if (msgEl) msgEl.textContent = message;
-        modal.classList.add('active');
 
         btnOk.onclick = () => {
             modal.classList.remove('active');
@@ -889,9 +889,9 @@ window.CaroGame = (function () {
     }
 
     function getModeLabel(m) {
-        if (m === 'p2p') return '⚔️ Đấu Online với Người Yêu';
-        if (m === 'ai') return '🤖 Đấu với AI Máy';
-        return '👥 Đấu 2 Người Trên Cùng 1 Máy';
+        if (m === 'p2p') return 'Đấu với Người Yêu';
+        if (m === 'ai') return 'Đấu với AI';
+        return 'Cùng 1 Máy';
     }
 
     function getAiDifficultyLabel(d) {

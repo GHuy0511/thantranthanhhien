@@ -1,0 +1,547 @@
+/* ========================================================
+   CSS CHO TRANG KẾ HOẠCH & QUỸ TIẾT KIỆM (GOALS & SECRET SAVINGS)
+   - Đồng bộ hoàn hảo phong cách Pastel Modern sang trọng
+   - Không gian riêng cho Huy, cho Hiền và Dự Định Chung
+   - Chế độ Bí mật tạo bất ngờ (Secret Surprise Mode)
+   ======================================================== */
+
+.goals-body {
+    min-height: 100vh;
+    background: var(--bg-body, #faf7f2);
+    font-family: var(--font-sans);
+    color: var(--text-primary, #2d2621);
+    position: relative;
+    overflow-x: hidden;
+    padding-bottom: 60px;
+}
+
+/* TOP NAVIGATION */
+.goals-top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: var(--glass-bg, rgba(255, 255, 255, 0.85));
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.goals-nav-left, .goals-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.goals-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary, #6b635c);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.goals-nav-link:hover {
+    color: var(--text-primary, #2d2621);
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.goals-nav-link.active {
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+}
+
+/* MAIN CONTAINER */
+.goals-container {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 24px 20px;
+}
+
+/* HERO SECTION */
+.goals-hero {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.goals-hero-title {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary, #b45d43);
+    margin: 0 0 8px;
+    letter-spacing: -0.5px;
+}
+
+.goals-hero-subtitle {
+    font-size: 14.5px;
+    color: var(--text-secondary, #6b635c);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+/* DASHBOARD SUMMARY BAR */
+.goals-summary-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.summary-card {
+    background: var(--card-surface, #ffffff);
+    padding: 16px 20px;
+    border-radius: 20px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.summary-card-icon {
+    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(180, 93, 67, 0.08);
+}
+
+.summary-card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.summary-card-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary, #8c827a);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-card-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary, #2d2621);
+    margin-top: 2px;
+}
+
+/* KHÔNG GIAN RIÊNG BIỆT (TABS) */
+.goals-space-dock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.space-pill-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--card-surface, #ffffff);
+    padding: 4px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.space-tab-btn {
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-secondary, #6b635c);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.space-tab-btn:hover {
+    color: var(--text-primary, #2d2621);
+}
+
+.space-tab-btn.active {
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(180, 93, 67, 0.25);
+}
+
+.btn-add-goal {
+    padding: 9px 20px;
+    border-radius: 999px;
+    border: none;
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(180, 93, 67, 0.25);
+    transition: all 0.2s ease;
+}
+
+.btn-add-goal:hover {
+    background: var(--primary-dark, #984832);
+    transform: translateY(-1px);
+}
+
+/* DANH SÁCH THẺ KẾ HOẠCH */
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.goal-card {
+    background: var(--card-surface, #ffffff);
+    border-radius: 20px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.goal-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.goal-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.goal-location-tag {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--primary, #b45d43);
+    background: rgba(180, 93, 67, 0.08);
+    padding: 4px 10px;
+    border-radius: 999px;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+.goal-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary, #2d2621);
+    line-height: 1.35;
+    margin: 0;
+}
+
+.goal-menu-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary, #8c827a);
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.goal-menu-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-primary, #2d2621);
+}
+
+/* THÔNG TIN THỜI GIAN DỰ KIẾN */
+.goal-timing-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--text-secondary, #6b635c);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 6px 12px;
+    border-radius: 12px;
+}
+
+.goal-timing-days {
+    margin-left: auto;
+    font-weight: 700;
+    color: var(--primary, #b45d43);
+}
+
+/* KHU VỰC TIẾT KIỆM TIỀN (PIGGYBANK / SAVINGS) */
+.goal-savings-section {
+    background: #fdfaf6;
+    border: 1px solid rgba(180, 93, 67, 0.12);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.savings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.savings-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary, #6b635c);
+}
+
+.savings-btn-add {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--primary, #b45d43);
+    background: transparent;
+    color: var(--primary, #b45d43);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.savings-btn-add:hover {
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+}
+
+.savings-numbers {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.savings-current {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--primary, #b45d43);
+}
+
+.savings-target {
+    font-size: 12.5px;
+    color: var(--text-secondary, #8c827a);
+}
+
+.savings-progress-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.savings-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #b45d43, #d47a60);
+    transition: width 0.4s ease;
+}
+
+/* CHẾ ĐỘ ẨN TIỀN BÍ MẬT TẠO BẤT NGỜ (SECRET SURPRISE MODE) */
+.secret-savings-capsule {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(254, 243, 199, 0.6), rgba(253, 230, 138, 0.3));
+    border: 1px dashed #d97706;
+    padding: 12px 14px;
+    border-radius: 14px;
+}
+
+.secret-gift-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.secret-gift-content strong {
+    display: block;
+    font-size: 13px;
+    color: #92400e;
+    margin-bottom: 2px;
+}
+
+.secret-gift-content p {
+    font-size: 11.5px;
+    color: #b45309;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.secret-owner-badge {
+    font-size: 11px;
+    color: #92400e;
+    background: rgba(217, 119, 6, 0.12);
+    padding: 2px 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+/* DANH SÁCH VIỆC CẦN CHUẨN BỊ (CHECKLIST) */
+.goal-checklist-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checklist-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-secondary, #6b635c);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.checklist-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-primary, #2d2621);
+    cursor: pointer;
+    user-select: none;
+}
+
+.checklist-item.done {
+    text-decoration: line-through;
+    color: var(--text-secondary, #8c827a);
+}
+
+.checklist-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary, #b45d43);
+    cursor: pointer;
+}
+
+.checklist-add-input-wrap {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.checklist-add-input {
+    flex: 1;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.12));
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: var(--font-sans);
+}
+
+.checklist-btn-add {
+    border: none;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary, #2d2621);
+    cursor: pointer;
+}
+
+/* MODAL FORM */
+.goals-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+    text-align: left;
+}
+
+.goals-form-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-secondary, #6b635c);
+}
+
+.goals-form-input, .goals-form-select, .goals-form-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.12));
+    background: #ffffff;
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    box-sizing: border-box;
+}
+
+.goals-form-textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.goals-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary, #2d2621);
+    cursor: pointer;
+}
+
+.quick-amount-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.quick-amount-btn {
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.03);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary, #2d2621);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quick-amount-btn:hover {
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+    border-color: transparent;
+}

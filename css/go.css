@@ -1,0 +1,424 @@
+/* ========================================================
+   CSS CHO GAME CỜ VÂY (GO / WEIQI / BADUK) CHO HUY & HIỀN
+   - Thiết kế chuẩn bàn cờ gỗ ấm áp, sang trọng, thanh lịch
+   - Quân cờ Đen/Trắng 3D đổ bóng mềm mại, hiệu ứng chân thực
+   - Giao diện Pastel Modern tối giản, không icon rườm rà
+   ======================================================== */
+
+.go-arena-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 12px 16px 24px;
+    box-sizing: border-box;
+}
+
+/* THANH ĐIỀU HƯỚNG CHẾ ĐỘ & KÍCH THƯỚC */
+.go-subnav-dock {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 14px;
+}
+
+.go-mode-pills, .go-size-pills {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--card-surface, #ffffff);
+    padding: 4px 6px;
+    border-radius: 999px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.go-mode-tab, .go-size-tab {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-secondary, #6b635c);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.go-mode-tab:hover, .go-size-tab:hover {
+    color: var(--text-primary, #2d2621);
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.go-mode-tab.active, .go-size-tab.active {
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(180, 93, 67, 0.25);
+}
+
+/* KHU VỰC ĐẤU & BẢNG ĐIỂM */
+.go-main-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+/* BẢNG TÙ BINH & TRẠNG THÁI NGƯỜI CHƠI */
+.go-players-hud {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 580px;
+}
+
+.go-player-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: 16px;
+    background: var(--card-surface, #ffffff);
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s ease;
+}
+
+.go-player-card.active-turn {
+    border-color: var(--primary, #b45d43);
+    box-shadow: 0 4px 16px rgba(180, 93, 67, 0.2);
+    transform: translateY(-2px);
+}
+
+.go-stone-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.go-stone-badge.black {
+    background: radial-gradient(circle at 32% 32%, #4a4a4a 0%, #1e1e1e 60%, #000000 100%);
+}
+
+.go-stone-badge.white {
+    background: radial-gradient(circle at 32% 32%, #ffffff 0%, #f0ede8 65%, #c8c2b8 100%);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.go-player-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.go-player-name {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-primary, #2d2621);
+}
+
+.go-player-sub {
+    font-size: 11.5px;
+    color: var(--text-secondary, #6b635c);
+}
+
+.go-vs-badge {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary, #8c827a);
+    background: rgba(0, 0, 0, 0.05);
+    padding: 4px 8px;
+    border-radius: 999px;
+}
+
+/* KHUNG BÀN CỜ GỖ TRUYỀN THỐNG */
+.go-board-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #e8c89b;
+    background: linear-gradient(135deg, #eecfa2 0%, #d8b07d 100%);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 
+        0 14px 34px rgba(60, 35, 10, 0.18),
+        0 4px 12px rgba(60, 35, 10, 0.12),
+        inset 0 1px 1px rgba(255, 255, 255, 0.6),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.15);
+    border: 2px solid #b38854;
+    user-select: none;
+    touch-action: manipulation;
+}
+
+/* LƯỚI GIAO ĐIỂM BÀN CỜ VÂY */
+.go-board-canvas-wrap {
+    position: relative;
+    width: 440px;
+    height: 440px;
+    cursor: pointer;
+}
+
+@media (max-width: 520px) {
+    .go-board-wrapper {
+        padding: 14px;
+    }
+    .go-board-canvas-wrap {
+        width: 320px;
+        height: 320px;
+    }
+}
+
+@media (max-width: 380px) {
+    .go-board-canvas-wrap {
+        width: 280px;
+        height: 280px;
+    }
+}
+
+.go-board-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* LỚP TƯƠNG TÁC ĐẶT QUÂN CỜ */
+.go-intersections-grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    width: 100%;
+    height: 100%;
+}
+
+.go-point {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* QUÂN CỜ VÂY 3D CHÂN THỰC */
+.go-stone {
+    width: 86%;
+    height: 86%;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.35);
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    z-index: 2;
+    animation: stonePlacePop 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes stonePlacePop {
+    0% { transform: scale(0.65); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.go-stone.black {
+    background: radial-gradient(circle at 35% 35%, #4e4e4e 0%, #202020 55%, #050505 100%);
+}
+
+.go-stone.white {
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f4f0eb 55%, #cbc3b7 100%);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* Dấu nước đi cuối cùng (Last move dot) */
+.go-stone.last-move::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+}
+
+.go-stone.black.last-move::after {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.go-stone.white.last-move::after {
+    background: rgba(40, 40, 40, 0.85);
+}
+
+/* Quân cờ bóng ma xem trước khi di chuột (Ghost stone preview) */
+.go-point:hover:not(.has-stone) .go-ghost-stone {
+    opacity: 0.45;
+    transform: scale(0.88);
+}
+
+.go-ghost-stone {
+    position: absolute;
+    width: 84%;
+    height: 84%;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s ease, transform 0.1s ease;
+    z-index: 1;
+}
+
+.go-ghost-stone.black {
+    background: radial-gradient(circle at 35% 35%, #4e4e4e 0%, #202020 70%, #000 100%);
+}
+
+.go-ghost-stone.white {
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #f0ede8 70%, #ccc 100%);
+}
+
+/* ĐIỀU KHIỂN & NÚT THAO TÁC (TỐI GIẢN, KHÔNG ICON RƯỜM RÀ) */
+.go-actions-dock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    max-width: 580px;
+    background: var(--card-surface, #ffffff);
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    box-sizing: border-box;
+}
+
+.go-turn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary, #2d2621);
+}
+
+.go-turn-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.go-turn-dot.black {
+    background: #1e1e1e;
+}
+
+.go-turn-dot.white {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.go-action-buttons {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.go-btn {
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.1));
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary, #6b635c);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.go-btn:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--text-primary, #2d2621);
+}
+
+.go-btn.primary {
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 2px 6px rgba(180, 93, 67, 0.25);
+}
+
+.go-btn.primary:hover:not(:disabled) {
+    background: var(--primary-dark, #984832);
+    color: #ffffff;
+}
+
+.go-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* THÔNG BÁO VÁN CỜ CỜ VÂY */
+.go-status-toast {
+    font-size: 12px;
+    color: var(--text-secondary, #6b635c);
+    background: var(--card-surface, rgba(255, 255, 255, 0.9));
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
+    margin-top: 6px;
+    min-height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+/* BẢNG KẾT QUẢ TÍNH ĐIỂM (TERRITORY SCORING MODAL) */
+.go-score-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+    text-align: left;
+}
+
+.go-score-col {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.go-score-col h4 {
+    margin: 0 0 8px;
+    font-size: 13.5px;
+    color: var(--text-primary, #2d2621);
+}
+
+.go-score-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-secondary, #6b635c);
+    margin-bottom: 4px;
+}
+
+.go-score-total {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.12);
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--primary, #b45d43);
+}
