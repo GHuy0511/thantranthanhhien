@@ -83,10 +83,10 @@
                 <small id="labelHien" style="display:none;">Offline</small>
             </div>
             <button class="role-switch-btn" id="btnSwitchMyRole" type="button" title="Bấm để chuyển đổi vai trò">
-                <span id="myRoleLabel">Tôi: Huy 🚗</span>
+                <span id="myRoleLabel">Tôi: Huy</span>
             </button>
             <button class="role-switch-btn invite-partner-btn" id="btnInvitePartner" type="button" title="Mời người yêu chơi chung">
-                <span>💌 Mời Hiền</span>
+                <span>Mời bạn</span>
             </button>
         </div>
 
@@ -108,7 +108,7 @@
                     <span class="tool-icon" id="bbSoundIcon">🔊</span>
                 </button>
                 <button class="top-tool-btn" id="btnBbRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
-                    <span class="tool-icon">🔄</span>
+                    <span class="tool-icon">Chơi lại</span>
                 </button>
                 <button class="top-tool-btn" id="btnBbHelp" type="button" title="Hướng dẫn cách chơi" aria-label="Hướng dẫn cách chơi">
                     <span class="tool-icon">❓</span>
@@ -118,14 +118,14 @@
             <!-- Tools riêng cho Cờ Caro -->
             <div class="tool-group" id="toolsCaro" style="display: none;">
                 <button class="top-tool-btn" id="btnCaroQuickRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
-                    <span class="tool-icon">🔄</span>
+                    <span class="tool-icon">Chơi lại</span>
                 </button>
             </div>
 
             <!-- Tools riêng cho Cờ Vây -->
             <div class="tool-group" id="toolsGo" style="display: none;">
                 <button class="top-tool-btn" id="btnGoQuickRestart" type="button" title="Bắt đầu ván mới" aria-label="Bắt đầu ván mới">
-                    <span class="tool-icon">🔄</span>
+                    <span class="tool-icon">Chơi lại</span>
                 </button>
             </div>
 
@@ -154,7 +154,7 @@
                 </div>
                 <div class="turn-status-tag" id="turnStatusTag">
                     <span class="turn-dot" id="turnDot"></span>
-                    <span class="turn-text" id="turnStatusText">Lượt: Huy (🚗)</span>
+                    <span class="turn-text" id="turnStatusText">Lượt: Huy</span>
                 </div>
             </div>
         </section>
@@ -359,7 +359,7 @@
                             <span class="status-indicator-dot off" id="caroP2pDot"></span>
                             <span id="caroP2pStatusLabel">Người yêu đang Offline</span>
                         </span>
-                        <button class="caro-invite-btn" id="btnCaroInvite" type="button">💌 Mời Người Yêu</button>
+                        <button class="caro-invite-btn" id="btnCaroInvite" type="button">Mời bạn</button>
                     </div>
 
                     <div class="caro-tool-group" id="caroAiControlGroup" style="display: none;">
@@ -379,7 +379,7 @@
                 </div>
 
                 <!-- Thông báo trạng thái -->
-                <div class="caro-status-notice" id="caroStatusNotice">Ván cờ mới bắt đầu! Lượt đầu tiên: Huy (🚗)</div>
+                <div class="caro-status-notice" id="caroStatusNotice">Ván cờ mới bắt đầu! Lượt đầu tiên: Huy</div>
 
                 <!-- Bố cục chính: Bàn cờ + Sidebar -->
                 <div class="caro-main-layout">
@@ -409,12 +409,12 @@
                             <div class="scoreboard-title">Bảng Tỷ Số Đối Đầu</div>
                             <div class="scoreboard-row">
                                 <div class="score-player-item">
-                                    <span class="score-player-name" style="color:#b45d43;">🚗 Huy</span>
+                                    <span class="score-player-name" style="color:#b45d43;">Huy</span>
                                     <span class="score-number" id="caroScoreHuy" style="color:#b45d43;">0</span>
                                 </div>
                                 <div class="score-vs-divider">VS</div>
                                 <div class="score-player-item">
-                                    <span class="score-player-name" style="color:#a85d7b;">✈️ Hiền</span>
+                                    <span class="score-player-name" style="color:#a85d7b;">Hiền</span>
                                     <span class="score-number" id="caroScoreHien" style="color:#a85d7b;">0</span>
                                 </div>
                             </div>
@@ -422,7 +422,7 @@
 
                         <div class="caro-history-card">
                             <div class="history-card-header">
-                                <span class="history-card-title">📜 Nhật Ký Nước Cờ</span>
+                                <span class="history-card-title">Nhật Ký Nước Cờ</span>
                                 <label style="font-size:11px; display:inline-flex; align-items:center; gap:4px; cursor:pointer;">
                                     <input type="checkbox" id="caroRuleBlockEnds"> Chặn 2 đầu
                                 </label>

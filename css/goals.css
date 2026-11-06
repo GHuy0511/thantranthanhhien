@@ -1,21 +1,23 @@
 /* ========================================================
-   CSS CHO TRANG KẾ HOẠCH & QUỸ TIẾT KIỆM (GOALS & SECRET SAVINGS)
-   - Đồng bộ hoàn hảo phong cách Pastel Modern sang trọng
-   - Không gian riêng cho Huy, cho Hiền và Dự Định Chung
-   - Chế độ Bí mật tạo bất ngờ (Secret Surprise Mode)
+   CSS CHO TRANG KẾ HOẠCH & QUỸ TIẾT KIỆM (GOALS & SAVINGS)
+   - Thiết kế Tối Giản Hiện Đại (Clean Modern Minimalist)
+   - Màu sắc Pastel trang nhã, typography chuẩn mực, không icon rườm rà
+   - Bố cục khoa học: Financial Strip, Segmented Tabs, Clean Cards
+   - Khắc phục triệt để lỗi vỡ layout góc trên phải và tình trạng trống màn hình
    ======================================================== */
 
 .goals-body {
     min-height: 100vh;
     background: var(--bg-body, #faf7f2);
-    font-family: var(--font-sans);
+    font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif);
     color: var(--text-primary, #2d2621);
     position: relative;
     overflow-x: hidden;
-    padding-bottom: 60px;
+    padding-bottom: 80px;
+    margin: 0;
 }
 
-/* TOP NAVIGATION */
+/* 1. THANH ĐIỀU HƯỚNG CHÍNH (TOP NAV) - KHÔNG BAO GIỜ VỠ DỌC */
 .goals-top-nav {
     position: sticky;
     top: 0;
@@ -23,283 +25,528 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    background: var(--glass-bg, rgba(255, 255, 255, 0.85));
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+    gap: 16px;
+    padding: 10px 24px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.02);
 }
 
-.goals-nav-left, .goals-nav-right {
+.goals-nav-brand-group {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+.goals-nav-logo {
+    font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--primary, #b45d43);
+    text-decoration: none;
+    letter-spacing: -0.3px;
+    white-space: nowrap;
+}
+
+.goals-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .goals-nav-link {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     padding: 6px 14px;
     border-radius: 999px;
     font-size: 13px;
     font-weight: 600;
     color: var(--text-secondary, #6b635c);
     text-decoration: none;
-    transition: all 0.2s ease;
-    background: rgba(0, 0, 0, 0.03);
+    transition: all 0.18s ease;
+    background: transparent;
+    white-space: nowrap;
+}
+
+.goals-nav-link .nav-arrow {
+    font-size: 15px;
+    line-height: 1;
 }
 
 .goals-nav-link:hover {
     color: var(--text-primary, #2d2621);
-    background: rgba(0, 0, 0, 0.06);
+    background: rgba(0, 0, 0, 0.04);
 }
 
 .goals-nav-link.active {
     background: var(--primary, #b45d43);
     color: #ffffff;
+    box-shadow: 0 2px 8px rgba(180, 93, 67, 0.25);
 }
 
-/* MAIN CONTAINER */
+/* 2. DOCK TRẠNG THÁI ONL/OFF CỦA HAI BẠN (CỐ ĐỊNH 1 HÀNG NGANG CHUẨN) */
+.couple-presence-dock {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    padding: 4px 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    font-size: 12.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.presence-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    color: var(--text-primary, #2d2621);
+}
+
+.presence-badge .presence-name {
+    font-size: 12.5px;
+}
+
+.status-indicator-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.status-indicator-dot.on {
+    background-color: #10b981;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+.status-indicator-dot.off {
+    background-color: #ef4444;
+    opacity: 0.75;
+}
+
+.presence-divider {
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 11px;
+}
+
+.presence-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 4px;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    padding-left: 8px;
+}
+
+.role-switch-btn {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary, #57534e);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.role-switch-btn:hover {
+    background: var(--primary, #b45d43);
+    border-color: var(--primary, #b45d43);
+    color: #ffffff;
+}
+
+.invite-partner-btn {
+    background: rgba(180, 93, 67, 0.08);
+    border-color: rgba(180, 93, 67, 0.2);
+    color: var(--primary, #b45d43);
+}
+
+.invite-partner-btn:hover {
+    background: var(--primary, #b45d43);
+    border-color: var(--primary, #b45d43);
+    color: #ffffff;
+}
+
+/* 3. MAIN CONTAINER */
 .goals-container {
-    max-width: 1040px;
+    max-width: 980px;
     margin: 0 auto;
-    padding: 24px 20px;
+    padding: 28px 20px 40px;
 }
 
-/* HERO SECTION */
+/* 4. HERO SECTION */
 .goals-hero {
     text-align: center;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 }
 
 .goals-hero-title {
-    font-family: var(--font-serif);
-    font-size: 32px;
+    font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+    font-size: 28px;
     font-weight: 700;
     color: var(--primary, #b45d43);
-    margin: 0 0 8px;
-    letter-spacing: -0.5px;
+    margin: 0 0 6px;
+    letter-spacing: -0.4px;
 }
 
 .goals-hero-subtitle {
-    font-size: 14.5px;
+    font-size: 14px;
     color: var(--text-secondary, #6b635c);
-    max-width: 600px;
+    max-width: 540px;
     margin: 0 auto;
     line-height: 1.5;
 }
 
-/* DASHBOARD SUMMARY BAR */
-.goals-summary-bar {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
+/* 5. THANH CHỈ SỐ TÀI CHÍNH KHOA HỌC (FINANCIAL PROGRESS OVERVIEW) */
+.goals-financial-strip {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 18px;
+    padding: 18px 22px;
     margin-bottom: 24px;
-}
-
-.summary-card {
-    background: var(--card-surface, #ffffff);
-    padding: 16px 20px;
-    border-radius: 20px;
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 14px;
 }
 
-.summary-card-icon {
-    font-size: 26px;
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(180, 93, 67, 0.08);
-}
-
-.summary-card-info {
+.financial-strip-main {
     display: flex;
     flex-direction: column;
+    gap: 10px;
 }
 
-.summary-card-label {
+.financial-stat-group {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.financial-stat-label {
     font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary, #8c827a);
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.6px;
+    color: var(--text-secondary, #8c827a);
 }
 
-.summary-card-val {
-    font-size: 20px;
+.financial-stat-numbers {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.financial-amount-current {
+    font-size: 22px;
     font-weight: 800;
     color: var(--text-primary, #2d2621);
-    margin-top: 2px;
+    letter-spacing: -0.5px;
 }
 
-/* KHÔNG GIAN RIÊNG BIỆT (TABS) */
-.goals-space-dock {
+.financial-amount-divider {
+    font-size: 15px;
+    color: #a8a29e;
+}
+
+.financial-amount-target {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-secondary, #6b635c);
+}
+
+.financial-badge-pct {
+    font-size: 12px;
+    font-weight: 700;
+    background: rgba(180, 93, 67, 0.1);
+    color: var(--primary, #b45d43);
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 4px;
+}
+
+/* Master Progress Bar mảnh mai 8px */
+.goals-master-track {
+    width: 100%;
+    height: 8px;
+    background: #f1ede7;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.goals-master-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #b45d43 0%, #e07a5f 100%);
+    border-radius: 999px;
+    transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Meta Chips */
+.financial-strip-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 12px;
+}
+
+.financial-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(0, 0, 0, 0.025);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    color: var(--text-secondary, #6b635c);
+}
+
+.financial-chip-num {
+    font-weight: 700;
+    color: var(--text-primary, #2d2621);
+}
+
+.privacy-chip {
+    margin-left: auto;
+    background: rgba(217, 119, 6, 0.07);
+    color: #b45309;
+}
+
+.privacy-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d97706;
+    display: inline-block;
+}
+
+/* 6. THANH BỘ LỌC PHÂN LOẠI (SEGMENTED CONTROL) & NÚT THÊM */
+.goals-filter-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
     gap: 12px;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
 }
 
-.space-pill-group {
+.segmented-control {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    background: var(--card-surface, #ffffff);
-    padding: 4px 6px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    padding: 3px;
     border-radius: 999px;
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
 }
 
-.space-tab-btn {
-    padding: 8px 18px;
-    border-radius: 999px;
+.segmented-btn {
     border: none;
     background: transparent;
-    font-family: var(--font-sans);
-    font-size: 13.5px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 13px;
     font-weight: 600;
     color: var(--text-secondary, #6b635c);
     cursor: pointer;
-    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.18s ease;
 }
 
-.space-tab-btn:hover {
+.segmented-btn:hover {
     color: var(--text-primary, #2d2621);
 }
 
-.space-tab-btn.active {
+.segmented-btn.active {
     background: var(--primary, #b45d43);
     color: #ffffff;
-    box-shadow: 0 2px 10px rgba(180, 93, 67, 0.25);
+    box-shadow: 0 2px 8px rgba(180, 93, 67, 0.22);
 }
 
-.btn-add-goal {
-    padding: 9px 20px;
+.segmented-count {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 6px;
     border-radius: 999px;
+    background: rgba(0, 0, 0, 0.06);
+    color: inherit;
+}
+
+.segmented-btn.active .segmented-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.btn-create-goal {
     border: none;
     background: var(--primary, #b45d43);
     color: #ffffff;
-    font-family: var(--font-sans);
-    font-size: 13.5px;
+    font-family: inherit;
+    font-size: 13px;
     font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 999px;
     cursor: pointer;
-    box-shadow: 0 3px 10px rgba(180, 93, 67, 0.25);
-    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(180, 93, 67, 0.25);
+    transition: all 0.18s ease;
 }
 
-.btn-add-goal:hover {
-    background: var(--primary-dark, #984832);
+.btn-create-goal:hover {
+    background: #984832;
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(180, 93, 67, 0.3);
 }
 
-/* DANH SÁCH THẺ KẾ HOẠCH */
+/* 7. GRID CÁC THẺ KẾ HOẠCH */
 .goals-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
 }
 
 .goal-card {
-    background: var(--card-surface, #ffffff);
-    border-radius: 20px;
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.08));
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-    padding: 20px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    transition: all 0.25s ease;
-    position: relative;
-    overflow: hidden;
+    gap: 14px;
+    transition: all 0.2s ease;
 }
 
 .goal-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    border-color: rgba(180, 93, 67, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
 }
 
+/* Header Thẻ */
 .goal-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
 }
 
-.goal-location-tag {
+.goal-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.goal-space-tag {
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--primary, #b45d43);
+    padding: 3px 8px;
+    border-radius: 6px;
+    width: fit-content;
+}
+
+.goal-space-tag.tag-both {
     background: rgba(180, 93, 67, 0.08);
-    padding: 4px 10px;
-    border-radius: 999px;
-    display: inline-block;
-    margin-bottom: 6px;
+    color: var(--primary, #b45d43);
+}
+
+.goal-space-tag.tag-huy {
+    background: rgba(37, 99, 235, 0.08);
+    color: #2563eb;
+}
+
+.goal-space-tag.tag-hien {
+    background: rgba(219, 39, 119, 0.08);
+    color: #db2777;
 }
 
 .goal-title {
-    font-size: 17px;
+    font-size: 15.5px;
     font-weight: 700;
     color: var(--text-primary, #2d2621);
-    line-height: 1.35;
     margin: 0;
+    line-height: 1.35;
 }
 
-.goal-menu-btn {
-    background: transparent;
+.goal-card-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.goal-action-btn {
     border: none;
-    color: var(--text-secondary, #8c827a);
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--text-secondary, #6b635c);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
     cursor: pointer;
-    font-size: 16px;
-    padding: 4px;
-    border-radius: 8px;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 }
 
-.goal-menu-btn:hover {
-    background: rgba(0, 0, 0, 0.04);
+.goal-action-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
     color: var(--text-primary, #2d2621);
 }
 
-/* THÔNG TIN THỜI GIAN DỰ KIẾN */
-.goal-timing-box {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12.5px;
-    color: var(--text-secondary, #6b635c);
-    background: rgba(0, 0, 0, 0.02);
-    padding: 6px 12px;
-    border-radius: 12px;
+.goal-action-btn.btn-delete:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
 }
 
-.goal-timing-days {
-    margin-left: auto;
+/* Ngày dự kiến */
+.goal-timing-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-secondary, #78716c);
+    background: #faf8f5;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+.goal-timing-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.goal-timing-badge {
     font-weight: 700;
     color: var(--primary, #b45d43);
 }
 
-/* KHU VỰC TIẾT KIỆM TIỀN (PIGGYBANK / SAVINGS) */
-.goal-savings-section {
-    background: #fdfaf6;
-    border: 1px solid rgba(180, 93, 67, 0.12);
-    border-radius: 16px;
-    padding: 14px;
+/* Hộp Tài Chính / Quỹ */
+.goal-savings-box {
+    background: #fdfcfb;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .savings-header {
@@ -309,117 +556,107 @@
 }
 
 .savings-label {
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 700;
-    color: var(--text-secondary, #6b635c);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary, #8c827a);
 }
 
-.savings-btn-add {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--primary, #b45d43);
-    background: transparent;
+.savings-btn-deposit {
+    border: 1px solid rgba(180, 93, 67, 0.25);
+    background: rgba(180, 93, 67, 0.06);
     color: var(--primary, #b45d43);
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 }
 
-.savings-btn-add:hover {
+.savings-btn-deposit:hover {
     background: var(--primary, #b45d43);
     color: #ffffff;
 }
 
-.savings-numbers {
+.savings-row {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
 }
 
-.savings-current {
-    font-size: 18px;
+.savings-val-current {
+    font-size: 17px;
     font-weight: 800;
-    color: var(--primary, #b45d43);
+    color: var(--text-primary, #2d2621);
 }
 
-.savings-target {
-    font-size: 12.5px;
-    color: var(--text-secondary, #8c827a);
+.savings-val-target {
+    font-size: 12px;
+    color: var(--text-secondary, #78716c);
 }
 
-.savings-progress-track {
+.savings-track {
     width: 100%;
-    height: 8px;
-    background: rgba(0, 0, 0, 0.06);
+    height: 6px;
+    background: #eee8e0;
     border-radius: 999px;
     overflow: hidden;
-    position: relative;
 }
 
-.savings-progress-fill {
+.savings-fill {
     height: 100%;
+    background: var(--primary, #b45d43);
     border-radius: 999px;
-    background: linear-gradient(90deg, #b45d43, #d47a60);
-    transition: width 0.4s ease;
+    transition: width 0.3s ease;
 }
 
-/* CHẾ ĐỘ ẨN TIỀN BÍ MẬT TẠO BẤT NGỜ (SECRET SURPRISE MODE) */
-.secret-savings-capsule {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: linear-gradient(135deg, rgba(254, 243, 199, 0.6), rgba(253, 230, 138, 0.3));
-    border: 1px dashed #d97706;
-    padding: 12px 14px;
-    border-radius: 14px;
-}
-
-.secret-gift-icon {
-    font-size: 24px;
-    flex-shrink: 0;
-}
-
-.secret-gift-content strong {
-    display: block;
-    font-size: 13px;
-    color: #92400e;
-    margin-bottom: 2px;
-}
-
-.secret-gift-content p {
-    font-size: 11.5px;
+.savings-secret-indicator {
+    font-size: 11px;
     color: #b45309;
+    font-weight: 600;
+}
+
+/* Chế độ Bí mật khi đối phương xem */
+.secret-surprise-box {
+    background: rgba(217, 119, 6, 0.05);
+    border: 1px dashed rgba(217, 119, 6, 0.3);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.secret-surprise-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #92400e;
+}
+
+.secret-surprise-desc {
+    font-size: 11.5px;
+    color: #78350f;
     margin: 0;
     line-height: 1.4;
 }
 
-.secret-owner-badge {
-    font-size: 11px;
-    color: #92400e;
-    background: rgba(217, 119, 6, 0.12);
-    padding: 2px 8px;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: 4px;
-}
-
-/* DANH SÁCH VIỆC CẦN CHUẨN BỊ (CHECKLIST) */
-.goal-checklist-section {
+/* Checklist Việc Cần Chuẩn Bị */
+.goal-checklist-box {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.checklist-title {
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--text-secondary, #6b635c);
+.checklist-title-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary, #6b635c);
 }
 
 .checklist-items {
@@ -435,113 +672,235 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
+    font-size: 12.5px;
     color: var(--text-primary, #2d2621);
-    cursor: pointer;
-    user-select: none;
 }
 
-.checklist-item.done {
+.checklist-item.done span {
     text-decoration: line-through;
-    color: var(--text-secondary, #8c827a);
+    color: #9ca3af;
 }
 
 .checklist-checkbox {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     accent-color: var(--primary, #b45d43);
     cursor: pointer;
 }
 
-.checklist-add-input-wrap {
+.checklist-input-group {
     display: flex;
+    align-items: center;
     gap: 6px;
     margin-top: 4px;
 }
 
-.checklist-add-input {
+.checklist-input {
     flex: 1;
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.12));
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 6px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #faf8f5;
+    border-radius: 6px;
+    padding: 5px 8px;
     font-size: 12px;
-    font-family: var(--font-sans);
+    font-family: inherit;
+    color: inherit;
+    outline: none;
 }
 
-.checklist-btn-add {
+.checklist-input:focus {
+    border-color: var(--primary, #b45d43);
+    background: #ffffff;
+}
+
+.checklist-btn-submit {
     border: none;
     background: rgba(0, 0, 0, 0.05);
-    padding: 6px 12px;
-    border-radius: 8px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-family: inherit;
     font-size: 12px;
     font-weight: 600;
-    color: var(--text-primary, #2d2621);
+    color: var(--text-secondary, #57534e);
     cursor: pointer;
 }
 
-/* MODAL FORM */
+.checklist-btn-submit:hover {
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+}
+
+/* Empty State Tối Giản */
+.goals-empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 48px 20px;
+    background: #ffffff;
+    border: 1px dashed rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+}
+
+.goals-empty-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary, #2d2621);
+    margin: 0 0 6px;
+}
+
+.goals-empty-desc {
+    font-size: 13px;
+    color: var(--text-secondary, #78716c);
+    margin: 0 0 16px;
+}
+
+.btn-empty-add {
+    border: none;
+    background: var(--primary, #b45d43);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+/* 8. MODAL FORMS STYLING */
 .goals-form-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
     margin-bottom: 14px;
-    text-align: left;
 }
 
 .goals-form-label {
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--text-secondary, #6b635c);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-secondary, #57534e);
 }
 
-.goals-form-input, .goals-form-select, .goals-form-textarea {
+.goals-form-input, .goals-form-select {
     width: 100%;
-    padding: 10px 14px;
-    border-radius: 12px;
-    border: 1px solid var(--border-card, rgba(0, 0, 0, 0.12));
-    background: #ffffff;
-    font-family: var(--font-sans);
-    font-size: 13.5px;
     box-sizing: border-box;
+    padding: 9px 12px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    background: #faf8f5;
+    color: var(--text-primary, #2d2621);
+    outline: none;
 }
 
-.goals-form-textarea {
-    resize: vertical;
-    min-height: 60px;
+.goals-form-input:focus, .goals-form-select:focus {
+    border-color: var(--primary, #b45d43);
+    background: #ffffff;
+}
+
+.goals-secret-box {
+    background: rgba(217, 119, 6, 0.06);
+    border: 1px dashed rgba(217, 119, 6, 0.35);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 4px;
 }
 
 .goals-checkbox-label {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-primary, #2d2621);
     cursor: pointer;
+}
+
+.goals-styled-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary, #b45d43);
+    cursor: pointer;
+}
+
+.goals-checkbox-txt {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.goals-secret-hint {
+    margin: 4px 0 0 24px;
+    font-size: 11.5px;
+    color: #78350f;
+    line-height: 1.4;
 }
 
 .quick-amount-buttons {
     display: flex;
-    flex-wrap: wrap;
     gap: 6px;
-    margin-top: 6px;
+    flex-wrap: wrap;
+    margin-top: 8px;
 }
 
 .quick-amount-btn {
-    padding: 5px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background: rgba(0, 0, 0, 0.03);
-    font-size: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11.5px;
     font-weight: 600;
-    color: var(--text-primary, #2d2621);
+    color: var(--text-secondary, #57534e);
     cursor: pointer;
-    transition: all 0.2s ease;
 }
 
 .quick-amount-btn:hover {
-    background: var(--primary, #b45d43);
-    color: #ffffff;
-    border-color: transparent;
+    border-color: var(--primary, #b45d43);
+    color: var(--primary, #b45d43);
+}
+
+/* 9. RESPONSIVE MEDIA QUERIES */
+@media (max-width: 768px) {
+    .goals-top-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px 16px;
+    }
+
+    .goals-nav-brand-group {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .goals-nav-links {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
+    }
+
+    .couple-presence-dock {
+        align-self: flex-start;
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: space-between;
+    }
+
+    .goals-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .segmented-control {
+        width: 100%;
+        box-sizing: border-box;
+        overflow-x: auto;
+    }
+
+    .segmented-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .btn-create-goal {
+        width: 100%;
+        text-align: center;
+    }
 }

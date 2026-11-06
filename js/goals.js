@@ -1,10 +1,10 @@
 /**
  * ========================================================
  * KẾ HOẠCH & QUỸ TIẾT KIỆM TƯƠNG LAI CHO HUY & HIỀN
- * - Quản lý mục tiêu chung, không gian riêng cho Huy, cho Hiền
- * - Quỹ tiết kiệm heo đất (Savings Piggybank)
- * - TÍNH NĂNG ĐỘC ĐÁO: Ẩn tiến độ tiền bí mật tạo bất ngờ (Secret Mode)
- * - Checklist việc cần chuẩn bị
+ * - Quản lý mục tiêu chung và không gian riêng tư của mỗi người
+ * - Quỹ tiết kiệm heo đất tích lũy cho các dự định
+ * - TÍNH NĂNG BÍ MẬT: Ẩn tiến độ tiền với đối phương để tạo bất ngờ
+ * - Checklist việc cần chuẩn bị cho từng chuyến đi/dự định
  * - Đồng bộ P2P thời gian thực giữa 2 máy qua CoupleNetwork
  * ========================================================
  */
@@ -12,8 +12,8 @@
 window.GoalsApp = (function () {
     'use strict';
 
-    const STORAGE_KEY = 'couple_goals_data_v1';
-    let currentSpace = 'both'; // 'both', 'huy', 'hien'
+    const STORAGE_KEY = 'couple_goals_data_v2';
+    let currentSpace = 'all'; // 'all', 'both', 'huy', 'hien'
     let goals = [];
     let editingGoalId = null;
     let depositingGoalId = null;
@@ -26,46 +26,46 @@ window.GoalsApp = (function () {
             space: 'both',
             targetDate: '2026-12-24',
             targetAmount: 6000000,
-            currentAmount: 3800000,
+            currentAmount: 4200000,
             isSecret: false,
             ownerRole: 'huy',
             status: 'active',
             checklist: [
-                { id: 'c1', text: 'Đặt vé máy bay khứ hồi', done: true },
+                { id: 'c1', text: 'Đặt vé tàu / vé máy bay khứ hồi', done: true },
                 { id: 'c2', text: 'Đặt homestay view sông Hương thơ mộng', done: true },
-                { id: 'c3', text: 'Lên lịch trình quán chè Huế & bún bò chuẩn vị', done: false },
-                { id: 'c4', text: 'Chuẩn bị máy ảnh & sạc dự phòng', done: false }
+                { id: 'c3', text: 'Lên danh sách quán chè hẻm & bún bò chuẩn vị', done: true },
+                { id: 'c4', text: 'Thuê áo dài chụp ảnh kỷ niệm tại Đại Nội', done: false }
             ],
             deposits: [
                 { id: 'd1', amount: 1500000, note: 'Khởi tạo quỹ chuyến đi Huế', date: '2026-10-15', by: 'Huy' },
-                { id: 'd2', amount: 1300000, note: 'Tiền thưởng dự án', date: '2026-10-28', by: 'Huy' },
-                { id: 'd3', amount: 1000000, note: 'Nuôi heo đất tuần này', date: '2026-11-02', by: 'Hiền' }
+                { id: 'd2', amount: 1700000, note: 'Tiền thưởng dự án', date: '2026-10-28', by: 'Huy' },
+                { id: 'd3', amount: 1000000, note: 'Nuôi heo đất tiết kiệm', date: '2026-11-02', by: 'Hiền' }
             ]
         },
         {
             id: 'g_hanoi_2027',
-            title: 'Chuyến đi Hà Nội mùa thu lá vàng & trà chanh Nhà Thờ',
+            title: 'Khám phá Hà Nội mùa thu lá vàng & phố cổ',
             location: 'Hà Nội',
             space: 'both',
             targetDate: '2027-04-20',
             targetAmount: 7000000,
-            currentAmount: 2200000,
+            currentAmount: 3500000,
             isSecret: false,
             ownerRole: 'hien',
             status: 'active',
             checklist: [
-                { id: 'c11', text: 'Đặt vé máy bay ra Hà Nội', done: false },
-                { id: 'c12', text: 'Dạo quanh Hồ Gươm ăn kem Tràng Tiền', done: false },
+                { id: 'c11', text: 'Đặt vé máy bay khứ hồi Hà Nội', done: false },
+                { id: 'c12', text: 'Dạo quanh Hồ Gươm ăn kem Tràng Tiền', done: true },
                 { id: 'c13', text: 'Thưởng thức cà phê trứng Giảng & phở gánh', done: false }
             ],
             deposits: [
-                { id: 'd11', amount: 1200000, note: 'Tiết kiệm ban đầu', date: '2026-10-20', by: 'Hiền' },
-                { id: 'd12', amount: 1000000, note: 'Góp quỹ chung', date: '2026-11-01', by: 'Huy' }
+                { id: 'd11', amount: 2000000, note: 'Tiết kiệm đầu tháng', date: '2026-10-20', by: 'Hiền' },
+                { id: 'd12', amount: 1500000, note: 'Góp quỹ chung', date: '2026-11-01', by: 'Huy' }
             ]
         },
         {
             id: 'g_secret_huy',
-            title: 'Bí mật chuyến dã ngoại camping ngắm hoàng hôn tặng Hiền',
+            title: 'Dã ngoại cắm trại ngắm hoàng hôn tặng Hiền',
             location: 'Dã ngoại',
             space: 'huy',
             targetDate: '2026-11-28',
@@ -75,13 +75,33 @@ window.GoalsApp = (function () {
             ownerRole: 'huy',
             status: 'active',
             checklist: [
-                { id: 'c21', text: 'Thuê lều phong cách vintage & dây đèn ấm', done: true },
-                { id: 'c22', text: 'Đặt bánh kem kỷ niệm ngọt ngào', done: false },
-                { id: 'c23', text: 'Chuẩn bị playlist nhạc lãng mạn', done: true }
+                { id: 'c21', text: 'Thuê lều phong cách vintage & đèn fairy', done: true },
+                { id: 'c22', text: 'Đặt bánh kem kỷ niệm ngọt ngào', done: true },
+                { id: 'c23', text: 'Chuẩn bị loa bluetooth & playlist acoustic', done: false }
             ],
             deposits: [
                 { id: 'd21', amount: 1000000, note: 'Tiết kiệm bí mật', date: '2026-10-18', by: 'Huy' },
-                { id: 'd22', amount: 900000, note: 'Nhịn cafe & ăn vặt', date: '2026-11-03', by: 'Huy' }
+                { id: 'd22', amount: 900000, note: 'Trích quỹ cá nhân', date: '2026-11-03', by: 'Huy' }
+            ]
+        },
+        {
+            id: 'g_secret_hien',
+            title: 'Chuẩn bị album ảnh kỷ niệm và quà bất ngờ cho Huy',
+            location: 'Quà tặng',
+            space: 'hien',
+            targetDate: '2026-12-10',
+            targetAmount: 2000000,
+            currentAmount: 1500000,
+            isSecret: true,
+            ownerRole: 'hien',
+            status: 'active',
+            checklist: [
+                { id: 'c31', text: 'In photobook ảnh những chuyến đi chung', done: true },
+                { id: 'c32', text: 'Viết thiệp tay 100 điều yêu thương', done: false },
+                { id: 'c33', text: 'Bí mật đặt bàn tối lãng mạn', done: false }
+            ],
+            deposits: [
+                { id: 'd31', amount: 1500000, note: 'Nuôi heo đất bí mật', date: '2026-10-25', by: 'Hiền' }
             ]
         }
     ];
@@ -91,20 +111,38 @@ window.GoalsApp = (function () {
         bindUIEvents();
         initP2PSync();
         renderGoals();
-        updateSummary();
+        updateFinancialOverview();
     }
 
     function loadData() {
         try {
             const raw = localStorage.getItem(STORAGE_KEY);
             if (raw) {
-                goals = JSON.parse(raw);
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    goals = parsed;
+                } else {
+                    goals = JSON.parse(JSON.stringify(DEFAULT_GOALS));
+                    saveData(false);
+                }
             } else {
-                goals = [...DEFAULT_GOALS];
+                // Kiểm tra key cũ nếu có
+                const oldRaw = localStorage.getItem('couple_goals_data_v1');
+                if (oldRaw) {
+                    const oldParsed = JSON.parse(oldRaw);
+                    if (Array.isArray(oldParsed) && oldParsed.length > 0) {
+                        goals = oldParsed;
+                    } else {
+                        goals = JSON.parse(JSON.stringify(DEFAULT_GOALS));
+                    }
+                } else {
+                    goals = JSON.parse(JSON.stringify(DEFAULT_GOALS));
+                }
                 saveData(false);
             }
         } catch (e) {
-            goals = [...DEFAULT_GOALS];
+            goals = JSON.parse(JSON.stringify(DEFAULT_GOALS));
+            saveData(false);
         }
     }
 
@@ -119,7 +157,7 @@ window.GoalsApp = (function () {
                 goals: goals
             });
         }
-        updateSummary();
+        updateFinancialOverview();
     }
 
     function initP2PSync() {
@@ -130,7 +168,7 @@ window.GoalsApp = (function () {
                 goals = packet.goals;
                 try { localStorage.setItem(STORAGE_KEY, JSON.stringify(goals)); } catch (e) {}
                 renderGoals();
-                updateSummary();
+                updateFinancialOverview();
             }
         });
     }
@@ -154,7 +192,7 @@ window.GoalsApp = (function () {
     }
 
     // ========================================================
-    // RENDER GIAO DIỆN
+    // RENDER GIAO DIỆN CHÍNH
     // ========================================================
     function renderGoals() {
         const grid = document.getElementById('goalsGrid');
@@ -164,6 +202,7 @@ window.GoalsApp = (function () {
         const myRole = getMyRole();
 
         const filtered = goals.filter(g => {
+            if (currentSpace === 'all') return true;
             if (currentSpace === 'both') return g.space === 'both';
             if (currentSpace === 'huy') return g.space === 'huy';
             if (currentSpace === 'hien') return g.space === 'hien';
@@ -171,12 +210,15 @@ window.GoalsApp = (function () {
         });
 
         if (filtered.length === 0) {
+            let emptyMsg = 'Chưa có kế hoạch nào trong danh mục này.';
+            if (currentSpace === 'huy') emptyMsg = 'Huy chưa tạo kế hoạch riêng nào.';
+            else if (currentSpace === 'hien') emptyMsg = 'Hiền chưa tạo kế hoạch riêng nào.';
+
             grid.innerHTML = `
-                <div style="grid-column: 1/-1; text-align: center; padding: 40px 20px; background: #ffffff; border-radius: 20px; border: 1px dashed rgba(0,0,0,0.12);">
-                    <span style="font-size: 36px;">🗺️</span>
-                    <h3 style="margin: 10px 0 6px; font-size: 16px;">Chưa có kế hoạch nào trong mục này</h3>
-                    <p style="color: #6b635c; font-size: 13px; margin: 0 0 16px;">Hãy cùng lên lịch trình hoặc bí mật tạo mục tiêu để dành nhé!</p>
-                    <button class="btn-add-goal" onclick="window.GoalsApp.openCreateModal()">+ Thêm Kế Hoạch Ngay</button>
+                <div class="goals-empty-state">
+                    <h3 class="goals-empty-title">${emptyMsg}</h3>
+                    <p class="goals-empty-desc">Cùng lên lịch trình hoặc bí mật tích lũy cho mục tiêu nhé.</p>
+                    <button class="btn-empty-add" type="button" onclick="window.GoalsApp.openCreateModal()">+ Thêm kế hoạch</button>
                 </div>
             `;
             return;
@@ -188,59 +230,68 @@ window.GoalsApp = (function () {
             card.id = `goal-card-${goal.id}`;
 
             const daysLeft = calculateDaysRemaining(goal.targetDate);
-            let daysText = '';
+            let daysBadgeText = '';
             if (daysLeft !== null) {
-                if (daysLeft > 0) daysText = `Còn ${daysLeft} ngày`;
-                else if (daysLeft === 0) daysText = 'Hôm nay!';
-                else daysText = 'Đã đến hạn';
+                if (daysLeft > 0) daysBadgeText = `Còn ${daysLeft} ngày`;
+                else if (daysLeft === 0) daysBadgeText = 'Hôm nay';
+                else daysBadgeText = 'Đã đến hạn';
             }
 
-            // Kiểm tra quyền riêng tư & Bí mật
+            // Tag không gian
+            let spaceTagClass = 'tag-both';
+            let spaceTagText = 'Kế hoạch chung';
+            if (goal.space === 'huy') {
+                spaceTagClass = 'tag-huy';
+                spaceTagText = 'Của Huy';
+            } else if (goal.space === 'hien') {
+                spaceTagClass = 'tag-hien';
+                spaceTagText = 'Của Hiền';
+            }
+
+            // Quyền riêng tư & Bảo mật
             const isCreator = (goal.ownerRole === myRole);
             const shouldHideSavings = goal.isSecret && !isCreator;
 
-            // Tính phần trăm tiến độ
+            // Tính phần trăm hoàn thành
             const pct = goal.targetAmount > 0 
                 ? Math.min(100, Math.round((goal.currentAmount / goal.targetAmount) * 100))
                 : 0;
 
-            // Render phần Quỹ Tiết Kiệm (Savings)
+            // Render phần Tài Chính / Tiết Kiệm
             let savingsHtml = '';
             if (shouldHideSavings) {
-                // Người xem là đối phương -> Ẩn tiền và hiện hộp quà bí mật!
-                const creatorName = goal.ownerRole === 'huy' ? 'Huy 🚗' : 'Hiền ✈️';
+                // Người xem là đối phương -> Ẩn số tiền và hiện thông điệp thanh lịch
+                const creatorName = goal.ownerRole === 'huy' ? 'Huy' : 'Hiền';
                 savingsHtml = `
-                    <div class="secret-savings-capsule">
-                        <span class="secret-gift-icon">🎁</span>
-                        <div class="secret-gift-content">
-                            <strong>Bí mật của ${creatorName} 💕</strong>
-                            <p>Đang âm thầm để dành tiền tạo bất ngờ cho bạn, hãy đón chờ nhé!</p>
-                        </div>
+                    <div class="secret-surprise-box">
+                        <div class="secret-surprise-title">Bất ngờ từ ${creatorName}</div>
+                        <p class="secret-surprise-desc">Kế hoạch đang được âm thầm chuẩn bị, số tiền được bảo mật riêng tư.</p>
                     </div>
                 `;
             } else {
-                // Hiển thị bình thường
                 savingsHtml = `
-                    <div class="goal-savings-section">
+                    <div class="goal-savings-box">
                         <div class="savings-header">
-                            <span class="savings-label">Quỹ Đã Tích Lũy (${pct}%)</span>
-                            <button class="savings-btn-add" onclick="window.GoalsApp.openDepositModal('${goal.id}')">+ Nạp Tiền</button>
+                            <span class="savings-label">Quỹ tích lũy (${pct}%)</span>
+                            <button class="savings-btn-deposit" type="button" onclick="window.GoalsApp.openDepositModal('${goal.id}')">+ Nạp quỹ</button>
                         </div>
-                        <div class="savings-numbers">
-                            <span class="savings-current">${formatVND(goal.currentAmount)}</span>
-                            <span class="savings-target">Mục tiêu: ${formatVND(goal.targetAmount)}</span>
+                        <div class="savings-row">
+                            <span class="savings-val-current">${formatVND(goal.currentAmount)}</span>
+                            <span class="savings-val-target">Mục tiêu: ${formatVND(goal.targetAmount)}</span>
                         </div>
-                        <div class="savings-progress-track">
-                            <div class="savings-progress-fill" style="width: ${pct}%;"></div>
+                        <div class="savings-track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="savings-fill" style="width: ${pct}%;"></div>
                         </div>
-                        ${goal.isSecret ? '<div class="secret-owner-badge">🔒 Đang ẩn với đối phương (Bí mật)</div>' : ''}
+                        ${goal.isSecret ? '<span class="savings-secret-indicator">• Đang ẩn số tiền với đối phương</span>' : ''}
                     </div>
                 `;
             }
 
             // Render Checklist
+            const checklist = goal.checklist || [];
+            const doneCount = checklist.filter(c => c.done).length;
             let checklistItemsHtml = '';
-            (goal.checklist || []).forEach(item => {
+            checklist.forEach(item => {
                 checklistItemsHtml += `
                     <li class="checklist-item ${item.done ? 'done' : ''}">
                         <input type="checkbox" class="checklist-checkbox" ${item.done ? 'checked' : ''} 
@@ -252,37 +303,39 @@ window.GoalsApp = (function () {
 
             card.innerHTML = `
                 <div class="goal-card-header">
-                    <div>
-                        <span class="goal-location-tag">${goal.location || 'Kế hoạch'}</span>
+                    <div class="goal-header-left">
+                        <span class="goal-space-tag ${spaceTagClass}">${spaceTagText}</span>
                         <h3 class="goal-title">${goal.title}</h3>
                     </div>
-                    <div style="display:flex; gap:4px;">
-                        <button class="goal-menu-btn" title="Chỉnh sửa" onclick="window.GoalsApp.openEditModal('${goal.id}')">✏️</button>
-                        <button class="goal-menu-btn" title="Xóa" onclick="window.GoalsApp.deleteGoal('${goal.id}')">🗑️</button>
+                    <div class="goal-card-actions">
+                        <button class="goal-action-btn" type="button" title="Chỉnh sửa" onclick="window.GoalsApp.openEditModal('${goal.id}')">Sửa</button>
+                        <button class="goal-action-btn btn-delete" type="button" title="Xóa" onclick="window.GoalsApp.deleteGoal('${goal.id}')">Xóa</button>
                     </div>
                 </div>
 
                 ${goal.targetDate ? `
-                    <div class="goal-timing-box">
-                        <span>📅 Dự kiến: ${goal.targetDate}</span>
-                        <span class="goal-timing-days">${daysText}</span>
+                    <div class="goal-timing-strip">
+                        <div class="goal-timing-left">
+                            <span>Dự kiến: ${goal.targetDate}</span>
+                        </div>
+                        <span class="goal-timing-badge">${daysBadgeText}</span>
                     </div>
                 ` : ''}
 
                 ${savingsHtml}
 
-                <div class="goal-checklist-section">
-                    <div class="checklist-title">
+                <div class="goal-checklist-box">
+                    <div class="checklist-title-row">
                         <span>Việc cần chuẩn bị</span>
-                        <small style="color:#8c827a;">${(goal.checklist || []).filter(c => c.done).length}/${(goal.checklist || []).length}</small>
+                        <span>${doneCount}/${checklist.length}</span>
                     </div>
                     <ul class="checklist-items">
                         ${checklistItemsHtml}
                     </ul>
-                    <div class="checklist-add-input-wrap">
-                        <input type="text" class="checklist-add-input" id="checkInput-${goal.id}" placeholder="+ Thêm việc cần làm..." 
+                    <div class="checklist-input-group">
+                        <input type="text" class="checklist-input" id="checkInput-${goal.id}" placeholder="Thêm việc cần làm..." 
                             onkeydown="if(event.key==='Enter') window.GoalsApp.addChecklistItem('${goal.id}')">
-                        <button class="checklist-btn-add" onclick="window.GoalsApp.addChecklistItem('${goal.id}')">Thêm</button>
+                        <button class="checklist-btn-submit" type="button" onclick="window.GoalsApp.addChecklistItem('${goal.id}')">Thêm</button>
                     </div>
                 </div>
             `;
@@ -291,26 +344,63 @@ window.GoalsApp = (function () {
         });
     }
 
-    function updateSummary() {
+    // ========================================================
+    // TÍNH TOÁN THANH TỔNG QUAN TÀI CHÍNH KHOA HỌC
+    // ========================================================
+    function updateFinancialOverview() {
         const myRole = getMyRole();
         const activeGoals = goals.filter(g => g.status === 'active');
-        const countActiveEl = document.getElementById('summaryCountActive');
-        const totalSavedEl = document.getElementById('summaryTotalSaved');
-
-        if (countActiveEl) countActiveEl.textContent = `${activeGoals.length} mục tiêu`;
 
         let totalVisibleSaved = 0;
+        let totalTarget = 0;
+        let totalChecklistItems = 0;
+        let doneChecklistItems = 0;
+
         goals.forEach(g => {
-            // Không cộng tiền của các mục tiêu mà đối phương giấu bí mật
-            if (g.isSecret && g.ownerRole !== myRole) return;
-            totalVisibleSaved += (g.currentAmount || 0);
+            // Kiểm tra số tiền được phép nhìn thấy
+            const canSee = !g.isSecret || (g.ownerRole === myRole);
+            if (canSee) {
+                totalVisibleSaved += (g.currentAmount || 0);
+            }
+            totalTarget += (g.targetAmount || 0);
+
+            if (g.checklist && Array.isArray(g.checklist)) {
+                totalChecklistItems += g.checklist.length;
+                doneChecklistItems += g.checklist.filter(c => c.done).length;
+            }
         });
 
-        if (totalSavedEl) totalSavedEl.textContent = formatVND(totalVisibleSaved);
+        const overallPct = totalTarget > 0 ? Math.min(100, Math.round((totalVisibleSaved / totalTarget) * 100)) : 0;
+
+        // Cập nhật DOM
+        const savedEl = document.getElementById('summaryTotalSaved');
+        const targetEl = document.getElementById('summaryTotalTarget');
+        const pctEl = document.getElementById('summaryPercent');
+        const masterFillEl = document.getElementById('summaryMasterFill');
+        const countActiveEl = document.getElementById('summaryCountActive');
+        const checklistStatsEl = document.getElementById('summaryChecklistStats');
+
+        if (savedEl) savedEl.textContent = formatVND(totalVisibleSaved);
+        if (targetEl) targetEl.textContent = formatVND(totalTarget);
+        if (pctEl) pctEl.textContent = `${overallPct}%`;
+        if (masterFillEl) masterFillEl.style.width = `${overallPct}%`;
+        if (countActiveEl) countActiveEl.textContent = `${activeGoals.length}`;
+        if (checklistStatsEl) checklistStatsEl.textContent = `${doneChecklistItems}/${totalChecklistItems}`;
+
+        // Cập nhật số đếm trên từng tab bộ lọc
+        const countAllEl = document.getElementById('countTabAll');
+        const countBothEl = document.getElementById('countTabBoth');
+        const countHuyEl = document.getElementById('countTabHuy');
+        const countHienEl = document.getElementById('countTabHien');
+
+        if (countAllEl) countAllEl.textContent = goals.length;
+        if (countBothEl) countBothEl.textContent = goals.filter(g => g.space === 'both').length;
+        if (countHuyEl) countHuyEl.textContent = goals.filter(g => g.space === 'huy').length;
+        if (countHienEl) countHienEl.textContent = goals.filter(g => g.space === 'hien').length;
     }
 
     // ========================================================
-    // THAO TÁC MỤC TIÊU & CHECKLIST
+    // CHECKLIST THAO TÁC
     // ========================================================
     function toggleChecklist(goalId, itemId) {
         const goal = goals.find(g => g.id === goalId);
@@ -353,11 +443,11 @@ window.GoalsApp = (function () {
         document.getElementById('goalFormTitle').textContent = 'Thêm Kế Hoạch & Dự Định Mới';
         document.getElementById('inputGoalTitle').value = '';
         document.getElementById('inputGoalLocation').value = 'Huế';
-        document.getElementById('selectGoalSpace').value = currentSpace;
+        document.getElementById('selectGoalSpace').value = currentSpace === 'all' ? 'both' : currentSpace;
         document.getElementById('inputGoalDate').value = '';
         document.getElementById('inputGoalTarget').value = '5000000';
         document.getElementById('inputGoalInitial').value = '0';
-        document.getElementById('checkboxGoalSecret').checked = (currentSpace !== 'both');
+        document.getElementById('checkboxGoalSecret').checked = (currentSpace === 'huy' || currentSpace === 'hien');
 
         modal.classList.add('active');
     }
@@ -392,7 +482,7 @@ window.GoalsApp = (function () {
         const isSecret = document.getElementById('checkboxGoalSecret').checked;
 
         if (!title) {
-            alert('Vui lòng nhập tên kế hoạch/dự định!');
+            alert('Vui lòng nhập tên kế hoạch / dự định!');
             return;
         }
 
@@ -413,7 +503,7 @@ window.GoalsApp = (function () {
             const newGoal = {
                 id: 'g_' + Date.now(),
                 title: title,
-                location: location || 'Du lịch',
+                location: location || 'Kế hoạch',
                 space: space,
                 targetDate: date,
                 targetAmount: targetAmount,
@@ -422,7 +512,7 @@ window.GoalsApp = (function () {
                 ownerRole: myRole,
                 status: 'active',
                 checklist: [
-                    { id: 'c_' + Date.now() + '_1', text: 'Lên kế hoạch cụ thể', done: false }
+                    { id: 'c_' + Date.now() + '_1', text: 'Lên kế hoạch chi tiết', done: false }
                 ],
                 deposits: initialAmount > 0 ? [{
                     id: 'd_' + Date.now(),
@@ -458,7 +548,7 @@ window.GoalsApp = (function () {
         const modal = document.getElementById('modalDeposit');
         if (!modal) return;
 
-        document.getElementById('depositGoalTitle').textContent = `Nạp Tiền: ${goal.title}`;
+        document.getElementById('depositGoalTitle').textContent = `Nạp quỹ: ${goal.title}`;
         document.getElementById('inputDepositAmount').value = '200000';
         document.getElementById('inputDepositNote').value = 'Nuôi heo đất tiết kiệm';
 
@@ -501,13 +591,17 @@ window.GoalsApp = (function () {
     }
 
     function bindUIEvents() {
-        // Space Tabs Switcher
-        const tabs = document.querySelectorAll('.space-tab-btn');
+        // Segmented Tabs Switcher
+        const tabs = document.querySelectorAll('.segmented-btn');
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
                 tab.classList.add('active');
-                currentSpace = tab.dataset.space || 'both';
+                tab.setAttribute('aria-selected', 'true');
+                currentSpace = tab.dataset.space || 'all';
                 renderGoals();
             });
         });
@@ -527,7 +621,7 @@ window.GoalsApp = (function () {
             btnSwitch.addEventListener('click', () => {
                 window.CoupleNetwork.toggleRole();
                 renderGoals();
-                updateSummary();
+                updateFinancialOverview();
             });
         }
     }
@@ -547,7 +641,7 @@ window.GoalsApp = (function () {
     };
 })();
 
-// Khởi chạy khi tài liệu sẵn sàng
+// Khởi chạy khi DOM sẵn sàng
 document.addEventListener('DOMContentLoaded', () => {
     if (window.GoalsApp) window.GoalsApp.init();
 });

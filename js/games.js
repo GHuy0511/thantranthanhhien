@@ -1077,7 +1077,7 @@ function updateUI() {
     const turnTextEl = document.getElementById("turnStatusText");
     const turnDotEl = document.getElementById("turnDot");
     if (turnTextEl && current) {
-        turnTextEl.textContent = `Lượt: ${current.name} (${current.icon}) ${current.isAi ? '[Máy]' : ''}`;
+        turnTextEl.textContent = `Lượt: ${current.name} ${current.isAi ? '[AI]' : ''}`;
     }
     if (turnDotEl && current) {
         turnDotEl.style.background = current.color;
@@ -2191,7 +2191,7 @@ function openPortfolioModal() {
             const col = document.createElement("div");
             col.className = "passport-stat-col";
             col.innerHTML = `
-                <div style="font-weight:800; color:${p.color};">${p.name} ${p.icon}</div>
+                <div style="font-weight:800; color:${p.color};">${p.name}</div>
                 <div style="font-size:16px; font-weight:800; margin:2px 0;">${Number(p.cash).toLocaleString()}M</div>
                 <div style="font-size:11px; color:#64748b;">${p.props.length} BĐS • ${playerJailStatus(p)}</div>
             `;
@@ -2386,7 +2386,7 @@ function triggerGameOver(winner) {
     if (!modal) return;
 
     soundEffects.jackpotWin();
-    document.getElementById("winnerText").innerHTML = `🎉 Người chiến thắng: <strong style="color:${winner.color}; font-size:22px;">${winner.name}</strong> (${winner.icon}) với khối tài sản khổng lồ <strong>${Number(calculateNetWorth(winner)).toLocaleString()}M VNĐ</strong>!`;
+    document.getElementById("winnerText").innerHTML = `🎉 Người chiến thắng: <strong style="color:${winner.color}; font-size:22px;">${winner.name}</strong> với khối tài sản khổng lồ <strong>${Number(calculateNetWorth(winner)).toLocaleString()}M VNĐ</strong>!`;
 
     modal.classList.add("active");
 }

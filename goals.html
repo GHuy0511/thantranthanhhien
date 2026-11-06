@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Kế Hoạch & Quỹ Tiết Kiệm Tương Lai • Huy & Hiền 💕</title>
+    <title>Kế Hoạch & Quỹ Tiết Kiệm • Huy & Hiền</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- Đồng bộ ngay theme đã chọn từ trang chính -->
@@ -25,8 +25,7 @@
 
     <!-- CSS chung & CSS riêng cho Kế Hoạch & Quỹ -->
     <link rel="stylesheet" href="css/style.css?v=20261106">
-    <link rel="stylesheet" href="css/games.css?v=20261106">
-    <link rel="stylesheet" href="css/goals.css?v=20261106">
+    <link rel="stylesheet" href="css/goals.css?v=20261106_v2">
 </head>
 <body class="goals-body">
 
@@ -36,99 +35,118 @@
         <div class="bg-glow-orb orb-2"></div>
     </div>
 
-    <!-- THANH ĐIỀU HƯỚNG CHÍNH (TOP NAV) -->
+    <!-- THANH ĐIỀU HƯỚNG CHÍNH (TOP NAV) - CỐ ĐỊNH, KHÔNG BAO GIỜ VỠ DỌC -->
     <header class="goals-top-nav">
-        <div class="goals-nav-left">
-            <a class="goals-nav-link" href="index.html" title="Trở về trang chủ">
-                <span>‹</span>
-                <span>Trang Chủ</span>
-            </a>
-            <a class="goals-nav-link" href="index.html#memories" title="Xem kỷ niệm">
-                <span>Kỷ Niệm</span>
-            </a>
-            <a class="goals-nav-link active" href="goals.html" title="Kế hoạch & Quỹ tương lai">
-                <span>Kế Hoạch & Quỹ</span>
-            </a>
-            <a class="goals-nav-link" href="games.html" title="Góc trò chơi">
-                <span>Góc Trò Chơi</span>
-            </a>
+        <div class="goals-nav-brand-group">
+            <a href="index.html" class="goals-nav-logo" title="Trang chủ">Huy &amp; Hiền</a>
+            <nav class="goals-nav-links" aria-label="Điều hướng chính">
+                <a class="goals-nav-link" href="index.html" title="Trở về trang chủ">
+                    <span class="nav-arrow">‹</span>
+                    <span>Trang Chủ</span>
+                </a>
+                <a class="goals-nav-link" href="index.html#memories" title="Xem kỷ niệm">
+                    <span>Kỷ Niệm</span>
+                </a>
+                <a class="goals-nav-link active" href="goals.html" title="Kế hoạch & Quỹ tương lai">
+                    <span>Kế Hoạch &amp; Quỹ</span>
+                </a>
+                <a class="goals-nav-link" href="games.html" title="Góc trò chơi">
+                    <span>Góc Trò Chơi</span>
+                </a>
+            </nav>
         </div>
 
-        <!-- THANH TRẠNG THÁI ONL/OFF CỦA HAI BẠN -->
+        <!-- THANH TRẠNG THÁI ONL/OFF VÀ VAI TRÒ CỦA HAI BẠN (1 HÀNG DUY NHẤT) -->
         <div class="couple-presence-dock" id="couplePresenceDock" title="Trạng thái kết nối của hai bạn">
             <div class="presence-badge" id="presenceBadgeHuy">
                 <span class="status-indicator-dot off" id="dotHuy"></span>
-                <span>Huy</span>
-                <small id="labelHuy" style="display:none;">Offline</small>
+                <span class="presence-name">Huy</span>
             </div>
-            <span class="presence-divider">♥</span>
+            <span class="presence-divider">•</span>
             <div class="presence-badge" id="presenceBadgeHien">
                 <span class="status-indicator-dot off" id="dotHien"></span>
-                <span>Hiền</span>
-                <small id="labelHien" style="display:none;">Offline</small>
+                <span class="presence-name">Hiền</span>
             </div>
-            <button class="role-switch-btn" id="btnSwitchMyRole" type="button" title="Bấm để chuyển đổi vai trò">
-                <span id="myRoleLabel">Tôi: Huy 🚗</span>
-            </button>
-            <button class="role-switch-btn invite-partner-btn" id="btnInvitePartner" type="button" title="Mời người yêu vào xem cùng">
-                <span>💌 Mời Hiền</span>
-            </button>
+            <div class="presence-actions">
+                <button class="role-switch-btn" id="btnSwitchMyRole" type="button" title="Chuyển đổi vai trò">
+                    <span id="myRoleLabel">Tôi: Huy</span>
+                </button>
+                <button class="role-switch-btn invite-partner-btn" id="btnInvitePartner" type="button" title="Mời người yêu vào cùng">
+                    <span>Mời bạn</span>
+                </button>
+            </div>
         </div>
     </header>
 
     <!-- NỘI DUNG CHÍNH (MAIN CONTAINER) -->
     <main class="goals-container">
-        <!-- HERO HEADER -->
+        <!-- TIÊU ĐỀ SECTION TINH TẾ -->
         <section class="goals-hero">
-            <h1 class="goals-hero-title">Kế Hoạch & Quỹ Tương Lai</h1>
+            <h1 class="goals-hero-title">Kế Hoạch &amp; Quỹ Tương Lai</h1>
             <p class="goals-hero-subtitle">
-                Cùng nhau lên lịch trình những chuyến đi, tích lũy quỹ heo đất và tạo những bất ngờ ngọt ngào cho người thương.
+                Lên lịch trình những chuyến đi, tích lũy quỹ heo đất và chuẩn bị những bất ngờ cho nhau.
             </p>
         </section>
 
-        <!-- DASHBOARD SUMMARY CARDS -->
-        <section class="goals-summary-bar">
-            <div class="summary-card">
-                <div class="summary-card-icon">🎯</div>
-                <div class="summary-card-info">
-                    <span class="summary-card-label">Mục Tiêu Đang Thực Hiện</span>
-                    <span class="summary-card-val" id="summaryCountActive">3 mục tiêu</span>
+        <!-- THANH TỔNG QUAN TÀI CHÍNH KHOA HỌC (FINANCIAL PROGRESS OVERVIEW) -->
+        <section class="goals-financial-strip" aria-label="Tổng quan tiến độ tài chính">
+            <div class="financial-strip-main">
+                <div class="financial-stat-group">
+                    <span class="financial-stat-label">Tổng Quỹ Tích Lũy</span>
+                    <div class="financial-stat-numbers">
+                        <span class="financial-amount-current" id="summaryTotalSaved">0 đ</span>
+                        <span class="financial-amount-divider">/</span>
+                        <span class="financial-amount-target" id="summaryTotalTarget">0 đ</span>
+                        <span class="financial-badge-pct" id="summaryPercent">0%</span>
+                    </div>
+                </div>
+
+                <!-- Thanh tiến độ tổng thể mảnh mai 8px -->
+                <div class="goals-master-track" role="progressbar" aria-label="Tiến độ hoàn thành mục tiêu">
+                    <div class="goals-master-fill" id="summaryMasterFill" style="width: 0%;"></div>
                 </div>
             </div>
 
-            <div class="summary-card">
-                <div class="summary-card-icon">💰</div>
-                <div class="summary-card-info">
-                    <span class="summary-card-label">Tổng Quỹ Đã Tích Lũy</span>
-                    <span class="summary-card-val" id="summaryTotalSaved">7,900,000 đ</span>
+            <!-- Dải chip thông tin phụ tinh gọn, không emoji gây nhiễu -->
+            <div class="financial-strip-meta">
+                <div class="financial-chip" id="chipGoalsCount">
+                    <span class="financial-chip-num" id="summaryCountActive">0</span>
+                    <span class="financial-chip-txt">kế hoạch</span>
                 </div>
-            </div>
-
-            <div class="summary-card">
-                <div class="summary-card-icon">✨</div>
-                <div class="summary-card-info">
-                    <span class="summary-card-label">Chế Độ Bất Ngờ</span>
-                    <span class="summary-card-val" style="font-size: 15px; color: var(--primary);">Đang bật bảo mật</span>
+                <div class="financial-chip" id="chipChecklistCount">
+                    <span class="financial-chip-num" id="summaryChecklistStats">0/0</span>
+                    <span class="financial-chip-txt">việc chuẩn bị</span>
+                </div>
+                <div class="financial-chip privacy-chip" id="chipPrivacyStatus" title="Chế độ bí mật bảo vệ số tiền riêng tư">
+                    <span class="privacy-status-dot"></span>
+                    <span class="financial-chip-txt">Bảo mật riêng tư</span>
                 </div>
             </div>
         </section>
 
-        <!-- KHÔNG GIAN RIÊNG BIỆT (TABS DỰ ĐỊNH CHUNG / CỦA HUY / CỦA HIỀN) -->
-        <div class="goals-space-dock">
-            <div class="space-pill-group" role="tablist" aria-label="Chọn không gian kế hoạch">
-                <button class="space-tab-btn active" data-space="both" type="button">
-                    Dự Định Chung
+        <!-- THANH ĐIỀU KHIỂN & BỘ LỌC PHÂN LOẠI (SEGMENTED TABS) -->
+        <div class="goals-filter-bar">
+            <div class="segmented-control" role="tablist" aria-label="Chọn không gian kế hoạch">
+                <button class="segmented-btn active" data-space="all" type="button" role="tab" aria-selected="true">
+                    <span>Tất Cả</span>
+                    <span class="segmented-count" id="countTabAll">0</span>
                 </button>
-                <button class="space-tab-btn" data-space="huy" type="button">
-                    Không Gian Của Huy
+                <button class="segmented-btn" data-space="both" type="button" role="tab" aria-selected="false">
+                    <span>Kế Hoạch Chung</span>
+                    <span class="segmented-count" id="countTabBoth">0</span>
                 </button>
-                <button class="space-tab-btn" data-space="hien" type="button">
-                    Không Gian Của Hiền
+                <button class="segmented-btn" data-space="huy" type="button" role="tab" aria-selected="false">
+                    <span>Của Huy</span>
+                    <span class="segmented-count" id="countTabHuy">0</span>
+                </button>
+                <button class="segmented-btn" data-space="hien" type="button" role="tab" aria-selected="false">
+                    <span>Của Hiền</span>
+                    <span class="segmented-count" id="countTabHien">0</span>
                 </button>
             </div>
 
-            <button class="btn-add-goal" type="button" onclick="window.GoalsApp.openCreateModal()">
-                + Thêm Kế Hoạch Mới
+            <button class="btn-create-goal" type="button" onclick="window.GoalsApp.openCreateModal()" title="Tạo kế hoạch mới">
+                <span>+ Kế hoạch mới</span>
             </button>
         </div>
 
@@ -143,16 +161,16 @@
          ======================================================== -->
     <div class="game-modal-overlay" id="modalGoalForm" aria-hidden="true">
         <div class="game-modal-card" style="max-width: 480px;">
-            <h3 class="game-modal-title" id="goalFormTitle">Thêm Kế Hoạch & Dự Định Mới</h3>
-            <p class="game-modal-desc">Lên kế hoạch du lịch, mua sắm hoặc chuẩn bị điều bất ngờ</p>
+            <h3 class="game-modal-title" id="goalFormTitle">Thêm Kế Hoạch &amp; Dự Định</h3>
+            <p class="game-modal-desc">Lên lịch trình du lịch, dự định chung hoặc chuẩn bị bất ngờ</p>
 
             <form id="goalForm" onsubmit="event.preventDefault(); window.GoalsApp.handleSaveGoalForm();">
                 <div class="goals-form-group">
                     <label class="goals-form-label" for="inputGoalTitle">Tên Kế Hoạch / Dự Định *</label>
-                    <input type="text" class="goals-form-input" id="inputGoalTitle" required placeholder="VD: Đi Huế với Hiền ngắm sông Hương...">
+                    <input type="text" class="goals-form-input" id="inputGoalTitle" required placeholder="VD: Đi Huế cùng Hiền ngắm sông Hương...">
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div class="goals-form-group">
                         <label class="goals-form-label" for="inputGoalLocation">Địa Điểm / Danh Mục</label>
                         <input type="text" class="goals-form-input" id="inputGoalLocation" placeholder="VD: Huế, Hà Nội, Đà Lạt...">
@@ -160,40 +178,40 @@
                     <div class="goals-form-group">
                         <label class="goals-form-label" for="selectGoalSpace">Không Gian Lưu Trữ</label>
                         <select class="goals-form-select" id="selectGoalSpace">
-                            <option value="both">💑 Dự Định Chung</option>
-                            <option value="huy">🚗 Của Huy (Riêng)</option>
-                            <option value="hien">✈️ Của Hiền (Riêng)</option>
+                            <option value="both">Kế Hoạch Chung</option>
+                            <option value="huy">Của Huy (Riêng)</option>
+                            <option value="hien">Của Hiền (Riêng)</option>
                         </select>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
                     <div class="goals-form-group">
-                        <label class="goals-form-label" for="inputGoalDate">Thời Gian Dự Kiến Đi</label>
+                        <label class="goals-form-label" for="inputGoalDate">Thời Gian Dự Kiến</label>
                         <input type="date" class="goals-form-input" id="inputGoalDate">
                     </div>
                     <div class="goals-form-group">
-                        <label class="goals-form-label" for="inputGoalTarget">Số Tiền Mục Tiêu (VNĐ)</label>
+                        <label class="goals-form-label" for="inputGoalTarget">Mục Tiêu Tiết Kiệm (VNĐ)</label>
                         <input type="number" class="goals-form-input" id="inputGoalTarget" step="100000" min="0" placeholder="6000000">
                     </div>
                 </div>
 
                 <div class="goals-form-group">
-                    <label class="goals-form-label" for="inputGoalInitial">Số Tiền Đã Có Sẵn Hiện Tại (VNĐ)</label>
+                    <label class="goals-form-label" for="inputGoalInitial">Số Tiền Đã Có Sẵn (VNĐ)</label>
                     <input type="number" class="goals-form-input" id="inputGoalInitial" step="50000" min="0" placeholder="0">
                 </div>
 
-                <div class="goals-form-group" style="background: rgba(217, 119, 6, 0.08); padding: 12px; border-radius: 12px; border: 1px dashed #d97706;">
+                <div class="goals-secret-box">
                     <label class="goals-checkbox-label" for="checkboxGoalSecret">
-                        <input type="checkbox" id="checkboxGoalSecret" style="width: 18px; height: 18px; accent-color: var(--primary);">
-                        <span>🔒 Ẩn số tiền với đối phương (Bí mật tạo bất ngờ)</span>
+                        <input type="checkbox" id="checkboxGoalSecret" class="goals-styled-checkbox">
+                        <span class="goals-checkbox-txt">Ẩn tiến độ tiền với đối phương (Chế độ bí mật)</span>
                     </label>
-                    <p style="margin: 4px 0 0 26px; font-size: 11.5px; color: #92400e;">
-                        Khi bật tùy chọn này, đối phương sẽ chỉ thấy hộp quà bí mật và không biết số tiền cụ thể bạn đã tích lũy!
+                    <p class="goals-secret-hint">
+                        Khi bật tùy chọn này, người yêu sẽ chỉ thấy kế hoạch bất ngờ và không biết cụ thể bạn đã tích lũy được bao nhiêu!
                     </p>
                 </div>
 
-                <div class="game-modal-actions" style="margin-top: 18px;">
+                <div class="game-modal-actions" style="margin-top: 20px;">
                     <button class="modal-btn-close" type="button" onclick="window.GoalsApp.closeModal('modalGoalForm')">Hủy</button>
                     <button class="modal-btn-confirm" type="submit">Lưu Kế Hoạch</button>
                 </div>
@@ -206,8 +224,8 @@
          ======================================================== -->
     <div class="game-modal-overlay" id="modalDeposit" aria-hidden="true">
         <div class="game-modal-card" style="max-width: 420px;">
-            <h3 class="game-modal-title">Nạp Tiền Vào Quỹ Tiết Kiệm</h3>
-            <p class="game-modal-desc" id="depositGoalTitle">Nuôi heo đất cùng người yêu</p>
+            <h3 class="game-modal-title">Nạp Quỹ Tiết Kiệm</h3>
+            <p class="game-modal-desc" id="depositGoalTitle">Nuôi heo đất tích lũy cho kế hoạch</p>
 
             <form onsubmit="event.preventDefault(); window.GoalsApp.handleConfirmDeposit();">
                 <div class="goals-form-group">
@@ -225,12 +243,12 @@
 
                 <div class="goals-form-group">
                     <label class="goals-form-label" for="inputDepositNote">Ghi Chú Nguồn Tiền</label>
-                    <input type="text" class="goals-form-input" id="inputDepositNote" placeholder="VD: Tiền thưởng dự án, Tiết kiệm cafe...">
+                    <input type="text" class="goals-form-input" id="inputDepositNote" placeholder="VD: Thưởng dự án, tiết kiệm cafe...">
                 </div>
 
-                <div class="game-modal-actions" style="margin-top: 18px;">
+                <div class="game-modal-actions" style="margin-top: 20px;">
                     <button class="modal-btn-close" type="button" onclick="window.GoalsApp.closeModal('modalDeposit')">Hủy</button>
-                    <button class="modal-btn-confirm" type="submit">Xác Nhận Nạp Tiền 💕</button>
+                    <button class="modal-btn-confirm" type="submit">Xác Nhận Nạp Tiền</button>
                 </div>
             </form>
         </div>
@@ -239,6 +257,6 @@
     <!-- Hệ thống Kết nối Mạng P2P & Đồng bộ 2 Người -->
     <script src="lib/peerjs.min.js?v=20261106"></script>
     <script src="js/couple-network.js?v=20261106"></script>
-    <script src="js/goals.js?v=20261106"></script>
+    <script src="js/goals.js?v=20261106_v2"></script>
 </body>
 </html>

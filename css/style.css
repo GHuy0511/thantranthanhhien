@@ -6160,3 +6160,97 @@ html, body {
     color: #ffffff;
     box-shadow: 0 4px 14px rgba(217, 107, 82, 0.3);
 }
+
+/* ========================================================
+   GLOBAL PRESENCE DOCK & ROLE SWITCHER
+   - Đảm bảo hiển thị chuẩn 1 hàng ngang trên toàn bộ các trang
+   ======================================================== */
+.couple-presence-dock {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+    padding: 4px 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+    font-size: 12.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.presence-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    color: var(--text-primary, #2d2621);
+}
+
+.presence-badge.is-me {
+    font-weight: 700;
+}
+
+.presence-divider {
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 11px;
+}
+
+.status-indicator-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.status-indicator-dot.on {
+    background-color: #10b981;
+    box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+
+.status-indicator-dot.off {
+    background-color: #ef4444;
+    opacity: 0.75;
+}
+
+.presence-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 4px;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+    padding-left: 8px;
+}
+
+.role-switch-btn {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary, #57534e);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.role-switch-btn:hover {
+    background: var(--primary, #b45d43);
+    border-color: var(--primary, #b45d43);
+    color: #ffffff;
+}
+
+.invite-partner-btn {
+    background: rgba(180, 93, 67, 0.08);
+    border-color: rgba(180, 93, 67, 0.2);
+    color: var(--primary, #b45d43);
+}
+
+.invite-partner-btn:hover {
+    background: var(--primary, #b45d43);
+    border-color: var(--primary, #b45d43);
+    color: #ffffff;
+}

@@ -410,7 +410,7 @@ window.CoupleNetwork = (function () {
     // ========================================================
     function getMyRole() { return myRole; }
     function getPartnerRole() { return myRole === 'huy' ? 'hien' : 'huy'; }
-    function getPartnerName() { return myRole === 'huy' ? 'Hiền ✈️' : 'Huy 🚗'; }
+    function getPartnerName() { return myRole === 'huy' ? 'Hiền' : 'Huy'; }
 
     function setMyRole(role) {
         if (role !== 'huy' && role !== 'hien') return;
@@ -457,11 +457,11 @@ window.CoupleNetwork = (function () {
         if (badgeHien) badgeHien.classList.toggle('is-me', myRole === 'hien');
 
         if (myRoleLabel) {
-            myRoleLabel.textContent = myRole === 'huy' ? 'Tôi: Huy 🚗' : 'Tôi: Hiền ✈️';
+            myRoleLabel.textContent = myRole === 'huy' ? 'Tôi: Huy' : 'Tôi: Hiền';
         }
 
         if (btnInvite) {
-            btnInvite.innerHTML = `💌 Mời ${getPartnerName()}`;
+            btnInvite.innerHTML = `Mời ${getPartnerName()}`;
             btnInvite.title = `Sao chép link mời ${getPartnerName()} cùng chơi`;
         }
     }

@@ -23,7 +23,7 @@ window.CaroGame = (function () {
             id: 'huy',
             symbol: 'X',
             name: 'Huy',
-            icon: '🚗',
+            icon: '',
             color: '#b45d43', // Terracotta pastel ấm áp
             glow: 'rgba(180, 93, 67, 0.25)',
             pieceName: 'Quân Đỏ Đất (Huy)'
@@ -32,7 +32,7 @@ window.CaroGame = (function () {
             id: 'hien',
             symbol: 'O',
             name: 'Hiền',
-            icon: '✈️',
+            icon: '',
             color: '#a85d7b', // Vintage Rose pastel dịu dàng
             glow: 'rgba(168, 93, 123, 0.25)',
             pieceName: 'Quân Hồng Rose (Hiền)'
@@ -702,7 +702,7 @@ window.CaroGame = (function () {
         if (banner) banner.classList.remove('show');
 
         if (notify) {
-            showStatusNotice('✨ Ván cờ mới bắt đầu! Lượt đầu tiên: Huy (🚗)');
+            showStatusNotice('✨ Ván cờ mới bắt đầu! Lượt đầu tiên: Huy');
         }
     }
 
@@ -756,7 +756,7 @@ window.CaroGame = (function () {
         item.className = `caro-move-item move-${m.turn.toLowerCase()}`;
         item.innerHTML = `
             <span class="move-num">#${m.moveNum}</span>
-            <span class="move-player">${m.turn === 'X' ? '🚗 Huy' : '✈️ Hiền'}</span>
+            <span class="move-player">${m.turn === 'X' ? 'Huy' : 'Hiền'}</span>
             <strong class="move-coord">${m.label}</strong>
             <span class="move-time">${m.time}</span>
         `;
