@@ -889,7 +889,7 @@ function initMonopolyBoard() {
             priceEl.textContent = `-${tile.price}M`;
             priceEl.classList.add("price-tax");
         } else if (tile.type === "parking") {
-            priceEl.textContent = "Hũ 🅿️";
+            priceEl.textContent = "Hũ Quỹ";
             priceEl.classList.add("price-parking");
         } else if (tile.type === "go_to_jail") {
             priceEl.textContent = "Vào Tù";
@@ -1055,7 +1055,7 @@ function updateUI() {
 
         if (nameEl) nameEl.textContent = player.name;
         if (scoreEl) scoreEl.textContent = Number(player.cash).toLocaleString();
-        if (propsEl) propsEl.textContent = `🏛️ ${player.props.length} BĐS`;
+        if (propsEl) propsEl.textContent = `${player.props.length} BĐS`;
         if (netEl) netEl.textContent = `Tổng: ${Number(calculateNetWorth(player)).toLocaleString()}M`;
 
         if (cardEl) {
@@ -2404,7 +2404,7 @@ function finishTurn() {
     const current = gameState.players[gameState.currentTurnIndex];
     if (gameState.rolledDoubleTurn && current && !current.inJail && !current.isBankrupt) {
         gameState.rolledDoubleTurn = false;
-        showStatusNotice(`🎲 <strong>${current.name}</strong> lắc được cặp đôi nên <strong>ĐƯỢC TUNG THÊM 1 LƯỢT NỮA</strong>!`);
+        showStatusNotice(`<strong>${current.name}</strong> đổ được cặp đôi, nhận thêm 1 lượt tung!`);
         updateUI();
         if (current.isAi) {
             setTimeout(handleRollDice, 1200);
@@ -2585,7 +2585,7 @@ function startNewGame(playerCount = 2, gameMode = "pass_play") {
     });
 
     initMonopolyBoard();
-    showStatusNotice(`🎲 Ván cờ bắt đầu! Người chơi đầu tiên: <strong>${gameState.players[0].name}</strong>`);
+    showStatusNotice(`Ván cờ bắt đầu • Lượt đầu tiên: <strong>${gameState.players[0].name}</strong>`);
 }
 
 function closeModal(modalId) {
