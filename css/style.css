@@ -5873,51 +5873,129 @@ html, body {
 }
 
 /* ========================================================
-   THANH ĐIỀU HƯỚNG GÓC TRÊN CÙNG (THEME & GÓC TRÒ CHƠI)
+   THANH ĐIỀU HƯỚNG GÓC TRÊN TINH TẾ (FLOATING GLASS ISLAND)
+   Thống nhất Cài đặt Theme, Kế hoạch & Quỹ, Góc trò chơi thành một khối đảo kính mờ cao cấp
    ======================================================== */
 .top-nav-bar {
     position: fixed;
-    top: 22px;
-    left: 24px;
+    top: 20px;
+    left: 22px;
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    pointer-events: auto;
 }
 
-.top-nav-bar .theme-setting-btn {
-    position: static;
-    top: auto;
-    left: auto;
-}
-
-.nav-games-btn {
+.top-nav-island {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 9px 16px;
+    gap: 2px;
+    padding: 4px 6px;
     border-radius: 999px;
-    background: var(--theme-gear-bg, rgba(255, 255, 255, 0.88));
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1.5px solid var(--theme-gear-border, rgba(217, 107, 82, 0.25));
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-    color: var(--text-primary);
-    text-decoration: none;
-    font-family: var(--font-sans);
-    font-size: 13.5px;
-    font-weight: 600;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
+    background: var(--theme-gear-bg, rgba(255, 255, 255, 0.82));
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--theme-gear-border, rgba(217, 107, 82, 0.22));
+    box-shadow: 0 8px 24px rgba(70, 45, 35, 0.08), 0 2px 6px rgba(70, 45, 35, 0.04);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.top-nav-island:hover {
+    box-shadow: 0 12px 32px rgba(70, 45, 35, 0.12), 0 3px 10px rgba(70, 45, 35, 0.06);
+    border-color: var(--accent-terracotta, rgba(217, 107, 82, 0.35));
+}
+
+/* Nút Cài đặt Theme bên trong đảo */
+.top-nav-island .theme-setting-btn,
+.top-nav-theme-btn {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+    border: none !important;
+    background: transparent !important;
+    color: var(--text-primary, #604235) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s ease, color 0.25s ease !important;
+}
+
+.top-nav-island .theme-setting-btn:hover,
+.top-nav-theme-btn:hover {
+    background: rgba(217, 107, 82, 0.12) !important;
+    color: var(--accent-terracotta, #b35c44) !important;
+    transform: rotate(60deg) !important;
+    box-shadow: none !important;
+}
+
+.top-nav-island .theme-setting-btn:active,
+.top-nav-theme-btn:active {
+    transform: rotate(90deg) scale(0.92) !important;
+}
+
+/* Vạch phân cách siêu mảnh */
+.top-nav-sep {
+    width: 1px;
+    height: 16px;
+    background: var(--theme-gear-border, rgba(140, 95, 75, 0.22));
+    margin: 0 3px;
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+/* Các nút điều hướng (Pill Links) */
+.top-nav-pill,
+.nav-games-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 6px 13px !important;
+    border-radius: 999px !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+    color: var(--text-primary, #604235) !important;
+    text-decoration: none !important;
+    font-family: var(--font-sans, system-ui, -apple-system, sans-serif) !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.15px !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    white-space: nowrap !important;
+}
+
+.top-nav-pill:hover,
 .nav-games-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(217, 107, 82, 0.25);
-    background: var(--card-surface, #ffffff);
+    background: rgba(217, 107, 82, 0.1) !important;
+    color: var(--accent-terracotta, #b35c44) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: none !important;
 }
 
-.nav-games-icon {
-    font-size: 16px;
+.top-nav-pill:active,
+.nav-games-btn:active {
+    transform: translateY(0) scale(0.98) !important;
+}
+
+/* Icon SVG đồng bộ */
+.top-nav-svg {
+    stroke-width: 2;
+    flex-shrink: 0;
+    transition: transform 0.25s ease, stroke 0.25s ease;
+}
+
+.top-nav-pill:hover .top-nav-svg,
+.nav-games-btn:hover .top-nav-svg {
+    stroke: var(--accent-terracotta, #b35c44);
+    transform: scale(1.1);
+}
+
+.top-nav-label {
     line-height: 1;
 }
 
@@ -6072,13 +6150,27 @@ html, body {
 
 @media (max-width: 600px) {
     .top-nav-bar {
-        top: calc(10px + env(safe-area-inset-top, 0px));
-        left: 12px;
-        gap: 8px;
+        top: calc(10px + env(safe-area-inset-top, 0px)) !important;
+        left: 10px !important;
     }
+    .top-nav-island {
+        padding: 3px 5px !important;
+        gap: 2px !important;
+    }
+    .top-nav-island .theme-setting-btn,
+    .top-nav-theme-btn {
+        width: 28px !important;
+        height: 28px !important;
+    }
+    .top-nav-pill,
     .nav-games-btn {
-        padding: 6px 12px;
-        font-size: 12px;
+        padding: 5px 9px !important;
+        font-size: 11.5px !important;
+        gap: 4px !important;
+    }
+    .top-nav-svg {
+        width: 13px !important;
+        height: 13px !important;
     }
     .calligraphy-clock-display {
         gap: 8px;
