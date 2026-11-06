@@ -4226,10 +4226,13 @@ html, body {
 /* ========================================================
    MODAL ĐỔI THEME GIAO DIỆN HIỆN ĐẠI (12 THEMES LUXURY PALETTE STUDIO)
    ======================================================== */
+/* ========================================================
+   MODAL CHỌN THEME TINH TẾ & TINH GỌN (6 THEMES TUYỂN CHỌN)
+   ======================================================== */
 .theme-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(12, 10, 10, 0.72);
+    background: rgba(18, 12, 10, 0.65);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     z-index: 2500;
@@ -4239,7 +4242,7 @@ html, body {
     padding: 16px;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.35s ease, visibility 0.35s ease;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .theme-modal-overlay.active {
@@ -4247,1628 +4250,236 @@ html, body {
     visibility: visible;
 }
 
+.theme-modal-card,
 .theme-modal-box {
-    background: var(--card-surface, #ffffff);
-    color: var(--text-primary);
-    width: 100%;
-    max-width: 640px;
-    border-radius: 28px;
-    padding: 24px 22px 20px;
-    box-shadow: 0 26px 70px rgba(0, 0, 0, 0.28);
-    position: relative;
-    transform: scale(0.92) translateY(12px);
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
-    border: 1.5px solid var(--border-card);
-    display: flex;
-    flex-direction: column;
-    max-height: 90vh;
+    background: var(--card-surface, #fffdfa) !important;
+    color: var(--text-primary, #4a342b) !important;
+    width: 100% !important;
+    max-width: 520px !important;
+    border-radius: 28px !important;
+    padding: 26px 24px 22px !important;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32), 0 6px 20px rgba(70, 45, 35, 0.12) !important;
+    position: relative !important;
+    transform: scale(0.92) translateY(12px) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease !important;
+    border: 1.5px solid var(--border-card, rgba(140, 95, 75, 0.2)) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 90vh !important;
+    box-sizing: border-box !important;
 }
 
+.theme-modal-overlay.active .theme-modal-card,
 .theme-modal-overlay.active .theme-modal-box {
-    transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0) !important;
 }
 
+/* Nút đóng modal tròn góc trên bên phải */
+.theme-modal-close-btn,
 .theme-modal-close {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    background: rgba(120, 100, 90, 0.1);
-    border: none;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    font-size: 14px;
-    color: var(--text-primary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s, transform 0.25s ease;
-    z-index: 10;
-}
-
-.theme-modal-close:hover {
-    background: var(--accent-warm);
-    color: #ffffff;
-    transform: rotate(90deg) scale(1.05);
-}
-
-/* Header & Status Pill */
-.theme-modal-header {
-    text-align: center;
-    margin-bottom: 14px;
-    padding: 0 20px;
-}
-
-.theme-header-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 4px 14px;
-    border-radius: 20px;
-    background: var(--accent-soft);
-    border: 1px solid var(--border-card);
-    font-size: 11.5px;
-    color: var(--accent-warm);
-    margin-bottom: 6px;
-}
-
-.theme-modal-icon {
-    font-size: 15px;
-}
-
-.theme-current-label strong {
-    font-weight: 700;
-}
-
-.theme-modal-title {
-    font-family: var(--font-serif);
-    font-size: 23px;
-    color: var(--text-primary);
-    margin: 0;
-    line-height: 1.25;
-}
-
-.theme-modal-sub {
-    font-size: 12.5px;
-    color: var(--text-muted);
-    margin-top: 3px;
-}
-
-/* Segmented Category Filter Bar */
-.theme-filter-bar {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    overflow-x: auto;
-    padding: 2px 4px 10px;
-    margin-bottom: 6px;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-}
-
-.theme-filter-bar::-webkit-scrollbar {
-    display: none;
-}
-
-.theme-tab-btn {
-    border: 1px solid var(--border-card);
-    background: var(--bg-page);
-    color: var(--text-secondary);
-    padding: 6px 12px;
-    border-radius: 18px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-}
-
-.theme-tab-btn:hover {
-    border-color: var(--accent-warm);
-    color: var(--accent-warm);
-}
-
-.theme-tab-btn.active {
-    background: var(--accent-warm);
-    border-color: var(--accent-warm);
-    color: #ffffff;
-    box-shadow: 0 3px 10px rgba(217, 107, 82, 0.25);
-}
-
-.tab-count {
-    font-size: 10px;
-    opacity: 0.8;
-    background: rgba(0, 0, 0, 0.08);
-    padding: 1px 5px;
-    border-radius: 10px;
-}
-
-.theme-tab-btn.active .tab-count {
-    background: rgba(255, 255, 255, 0.25);
-    color: #ffffff;
-}
-
-/* Grid of 12 Theme Cards */
-.theme-options-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    max-height: min(58vh, 440px);
-    overflow-y: auto;
-    padding: 4px 2px 8px;
-    scroll-behavior: smooth;
-}
-
-.theme-card-option {
-    background: var(--bg-page);
-    border: 1.5px solid var(--border-card);
-    border-radius: 18px;
-    padding: 0;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-    position: relative;
-    outline: none;
-    overflow: hidden;
-    width: 100%;
-}
-
-.theme-card-option:hover {
-    transform: translateY(-2.5px);
-    border-color: var(--accent-warm);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
-}
-
-.theme-card-option.active {
-    border-color: var(--accent-warm);
-    background: var(--card-surface);
-    box-shadow: 
-        0 0 0 2px var(--accent-warm),
-        0 8px 24px rgba(217, 107, 82, 0.22);
-}
-
-.theme-card-option.is-hidden {
-    display: none !important;
-}
-
-/* Mini Swatch Header Banner */
-.theme-card-swatch-banner {
-    position: relative;
-    height: 44px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 12px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-.theme-card-emoji {
-    font-size: 19px;
-    line-height: 1;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
-}
-
-.theme-palette-dots {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(255, 255, 255, 0.72);
-    backdrop-filter: blur(6px);
-    padding: 4px 7px;
-    border-radius: 16px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.theme-dot {
-    width: 13px;
-    height: 13px;
-    border-radius: 50%;
-    display: inline-block;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
-}
-
-/* Specific Palette Gradients & Swatches */
-.theme-banner-sunset { background: linear-gradient(135deg, #faece6, #f6dacb); }
-.theme-banner-sunset .dot-1 { background: #d96b52; }
-.theme-banner-sunset .dot-2 { background: #c9933b; }
-.theme-banner-sunset .dot-3 { background: #fbf8f4; border: 1px solid #d96b52; }
-
-.theme-banner-vintage-rose { background: linear-gradient(135deg, #faebee, #eed4da); }
-.theme-banner-vintage-rose .dot-1 { background: #c86b85; }
-.theme-banner-vintage-rose .dot-2 { background: #719171; }
-.theme-banner-vintage-rose .dot-3 { background: #faf5f6; }
-
-.theme-banner-midnight { background: linear-gradient(135deg, #1b2138, #101422); }
-.theme-banner-midnight .theme-palette-dots { background: rgba(25, 31, 52, 0.85); border-color: rgba(167, 139, 250, 0.25); }
-.theme-banner-midnight .dot-1 { background: #a78bfa; }
-.theme-banner-midnight .dot-2 { background: #fbbf24; }
-.theme-banner-midnight .dot-3 { background: #101422; border: 1px solid #a78bfa; }
-
-.theme-banner-autumn { background: linear-gradient(135deg, #faeee0, #eddcc6); }
-.theme-banner-autumn .dot-1 { background: #c27835; }
-.theme-banner-autumn .dot-2 { background: #d49a42; }
-.theme-banner-autumn .dot-3 { background: #f9f5ed; }
-
-.theme-banner-cotton-candy { background: linear-gradient(135deg, #fde8f2, #fad0e6); }
-.theme-banner-cotton-candy .dot-1 { background: #ec4899; }
-.theme-banner-cotton-candy .dot-2 { background: #0284c7; }
-.theme-banner-cotton-candy .dot-3 { background: #fff5f8; }
-
-.theme-banner-ocean { background: linear-gradient(135deg, #e2f4f2, #c9eae6); }
-.theme-banner-ocean .dot-1 { background: #2a9d8f; }
-.theme-banner-ocean .dot-2 { background: #e76f51; }
-.theme-banner-ocean .dot-3 { background: #f1f8f8; }
-
-.theme-banner-secret-garden { background: linear-gradient(135deg, #eef5e6, #d9e8cb); }
-.theme-banner-secret-garden .dot-1 { background: #558b2f; }
-.theme-banner-secret-garden .dot-2 { background: #b45309; }
-.theme-banner-secret-garden .dot-3 { background: #f5f8f2; }
-
-.theme-banner-bordeaux { background: linear-gradient(135deg, #fbebf0, #edd0da); }
-.theme-banner-bordeaux .dot-1 { background: #9f1239; }
-.theme-banner-bordeaux .dot-2 { background: #d97706; }
-.theme-banner-bordeaux .dot-3 { background: #fcf5f6; }
-
-.theme-banner-mocha { background: linear-gradient(135deg, #f4eae2, #e7d5c5); }
-.theme-banner-mocha .dot-1 { background: #824d28; }
-.theme-banner-mocha .dot-2 { background: #c28b38; }
-.theme-banner-mocha .dot-3 { background: #f7f3ed; }
-
-.theme-banner-lavender { background: linear-gradient(135deg, #f1ebfc, #ded0f7); }
-.theme-banner-lavender .dot-1 { background: #8b5cf6; }
-.theme-banner-lavender .dot-2 { background: #f59e0b; }
-.theme-banner-lavender .dot-3 { background: #f8f6fc; }
-
-.theme-banner-peach { background: linear-gradient(135deg, #feece2, #ffd8c4); }
-.theme-banner-peach .dot-1 { background: #f46a38; }
-.theme-banner-peach .dot-2 { background: #f59e0b; }
-.theme-banner-peach .dot-3 { background: #fff8f3; }
-
-.theme-banner-aurora-night { background: linear-gradient(135deg, #13243d, #09111e); }
-.theme-banner-aurora-night .theme-palette-dots { background: rgba(17, 29, 49, 0.85); border-color: rgba(56, 189, 248, 0.25); }
-.theme-banner-aurora-night .dot-1 { background: #38bdf8; }
-.theme-banner-aurora-night .dot-2 { background: #34d399; }
-.theme-banner-aurora-night .dot-3 { background: #09111e; border: 1px solid #38bdf8; }
-
-/* Card Content Area */
-.theme-card-body {
-    padding: 9px 12px 10px;
-}
-
-.theme-card-title-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    width: 100%;
-}
-
-.theme-card-name {
-    font-size: 13.5px;
-    font-weight: 700;
-    color: var(--text-primary);
-    line-height: 1.25;
-}
-
-.theme-active-tag {
-    font-size: 9.5px;
-    font-weight: 700;
-    color: #ffffff;
-    background: var(--accent-warm);
-    padding: 2px 7px;
-    border-radius: 10px;
-    display: none;
-    white-space: nowrap;
-    animation: gentlePulse 2s infinite ease-in-out;
-}
-
-.theme-card-option.active .theme-active-tag {
-    display: inline-block;
-}
-
-.theme-card-desc {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 3px;
-    line-height: 1.3;
-    display: block;
-}
-
-/* Modal Footer */
-.theme-modal-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding-top: 14px;
-    margin-top: 8px;
-    border-top: 1px solid var(--border-card);
-}
-
-.theme-footer-hint {
-    font-size: 11.5px;
-    color: var(--text-muted);
-}
-
-.theme-apply-btn {
-    padding: 8px 18px;
-    border-radius: 16px;
-    border: none;
-    background: linear-gradient(135deg, var(--accent-warm), var(--accent-warm-hover));
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 14px rgba(217, 107, 82, 0.28);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    white-space: nowrap;
-    outline: none;
-}
-
-.theme-apply-btn:hover {
-    transform: translateY(-1.5px) scale(1.02);
-    box-shadow: 0 6px 18px rgba(217, 107, 82, 0.36);
-}
-
-/* Hỗ trợ Dark Mode đồng bộ cho cả Midnight và Aurora-Night */
-[data-theme="midnight"] .vinyl-player-widget,
-[data-theme="aurora-night"] .vinyl-player-widget {
-    background: rgba(18, 25, 42, 0.92);
-    border-color: var(--border-card);
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.55);
-}
-
-[data-theme="midnight"] .vinyl-song-title,
-[data-theme="aurora-night"] .vinyl-song-title {
-    color: #f1f3f9;
-}
-
-[data-theme="midnight"] .vinyl-song-artist,
-[data-theme="aurora-night"] .vinyl-song-artist {
-    color: #94a3b8;
-}
-
-[data-theme="midnight"] .vinyl-ctrl-btn,
-[data-theme="aurora-night"] .vinyl-ctrl-btn {
-    background: rgba(30, 42, 68, 0.9);
-    border-color: var(--border-card);
-    color: #cbd5e1;
-}
-
-[data-theme="midnight"] .polaroid-item,
-[data-theme="aurora-night"] .polaroid-item {
-    background: var(--card-surface);
-    border-color: var(--border-card);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-}
-
-[data-theme="midnight"] .polaroid-caption,
-[data-theme="aurora-night"] .polaroid-caption {
-    color: var(--text-secondary);
-}
-
-[data-theme="midnight"] .polaroid-date,
-[data-theme="aurora-night"] .polaroid-date {
-    color: var(--text-muted);
-}
-
-[data-theme="midnight"] .clock-artistic-prefix,
-[data-theme="aurora-night"] .clock-artistic-prefix {
-    color: var(--text-secondary);
-}
-
-[data-theme="midnight"] .clock-date-badge,
-[data-theme="aurora-night"] .clock-date-badge {
-    background: var(--card-surface);
-    border-color: var(--border-card);
-}
-
-[data-theme="midnight"] .clock-artistic-quote-card,
-[data-theme="aurora-night"] .clock-artistic-quote-card {
-    background: transparent !important;
-    border: none !important;
+    position: absolute !important;
+    top: 18px !important;
+    right: 18px !important;
+    background: rgba(120, 95, 80, 0.08) !important;
+    border: 1px solid var(--border-card, rgba(140, 95, 75, 0.15)) !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    font-size: 13px !important;
+    color: var(--text-primary, #4a342b) !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.2s ease !important;
+    z-index: 10 !important;
+    outline: none !important;
     box-shadow: none !important;
 }
 
-[data-theme="midnight"] .clock-scroll-down-cue,
-[data-theme="aurora-night"] .clock-scroll-down-cue,
-[data-theme="midnight"] .hero-scroll-cue,
-[data-theme="aurora-night"] .hero-scroll-cue {
-    background: var(--card-surface);
-    border-color: var(--border-card);
-    color: var(--text-secondary);
+.theme-modal-close-btn:hover,
+.theme-modal-close:hover {
+    background: var(--accent-terracotta, #b35c44) !important;
+    color: #ffffff !important;
+    transform: rotate(90deg) scale(1.05) !important;
+    border-color: transparent !important;
 }
 
-[data-theme="midnight"] .letter-modal-paper,
-[data-theme="aurora-night"] .letter-modal-paper {
-    background: var(--card-surface);
-    color: var(--text-primary);
+/* Header modal */
+.theme-modal-header {
+    text-align: center !important;
+    margin-bottom: 20px !important;
+    padding: 0 20px !important;
 }
 
-@media (max-width: 580px) {
-    .theme-modal-box {
-        padding: 20px 14px 16px;
-        border-radius: 24px;
-        max-height: 94vh;
-    }
-
-    .theme-options-grid {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        max-height: min(56vh, 400px);
-    }
-
-    .theme-modal-footer {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-    }
-
-    .theme-apply-btn {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .theme-footer-hint {
-        text-align: center;
-    }
-}
-/* ========================================================
-   TỐI ƯU TOÀN DIỆN CHO GIAO DIỆN ĐIỆN THOẠI & TABLET (RESPONSIVE)
-   ======================================================== */
-
-
-/* NÚT CUỘN XUỐNG XEM KHOẢNH KHẮC */
-.hero-scroll-cue {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11.5px;
-    font-weight: 600;
-    color: #a48f84;
-    margin-top: 10px;
-    text-decoration: none;
-    padding: 4px 12px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(235, 215, 205, 0.6);
-    transition: all 0.2s ease;
-    animation: gentleCueBounce 2.5s infinite ease-in-out;
+.theme-modal-title {
+    font-family: var(--font-serif, "Playfair Display", Georgia, serif) !important;
+    font-size: 23px !important;
+    font-weight: 700 !important;
+    color: var(--text-primary, #4a342b) !important;
+    margin: 0 0 5px 0 !important;
+    line-height: 1.25 !important;
 }
 
-@keyframes gentleCueBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(3px); }
+.theme-modal-sub {
+    font-size: 13px !important;
+    color: var(--text-muted, #7d6559) !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
 }
 
-.hero-scroll-cue:hover {
-    color: #d96b52;
-    background: #ffffff;
-    border-color: #d96b52;
+/* Lưới 6 Theme: Đúng 2 cột rộng rãi, dễ nhìn */
+.theme-options-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    padding: 2px 0 10px !important;
 }
 
-.scroll-cue-arrow {
-    font-size: 13px;
-    font-weight: 700;
+/* Thẻ theme đơn lẻ */
+.theme-card-option {
+    background: var(--bg-page, #fcf8f5) !important;
+    border: 1.5px solid var(--border-card, rgba(140, 95, 75, 0.18)) !important;
+    border-radius: 18px !important;
+    padding: 12px 14px !important;
+    cursor: pointer !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 12px !important;
+    text-align: left !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    position: relative !important;
+    outline: none !important;
+    user-select: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-
-
-
-
-@media (max-width: 768px) {
-    /* TỐI ƯU TIÊU ĐỀ HERO TRÊN MOBILE (KHI KHÔNG CÒN ĐỒNG HỒ Ở MÀN 1) */
-    .intro-hero-title {
-        gap: 2px;
-        width: 100%;
-        max-width: 280px;
-        margin: 0 auto;
-    }
-
-    .intro-hero-prefix {
-        font-size: 20px;
-        letter-spacing: 0.8px;
-    }
-
-    .intro-hero-name {
-        font-size: 26px;
-        letter-spacing: 0.8px;
-        white-space: normal;
-        word-break: keep-all;
-        text-align: center;
-        max-width: 280px;
-        line-height: 1.2;
-    }
-
-    .intro-hero-subtitle {
-        font-size: 13.5px;
-        max-width: 240px;
-        margin: 4px auto 10px;
-        line-height: 1.3;
-    }
-
-    /* TỐI ƯU CỘT MỐC ĐỒNG HỒ TRÊN MOBILE (MÀN HÌNH 2 DÀNH RIÊNG) */
-    .love-clock-section {
-        padding: 70px 14px 45px;
-        min-height: 90vh;
-    }
-
-    .clock-milestone-container {
-        gap: 16px;
-        max-width: 100%;
-    }
-
-    .clock-artistic-prefix {
-        font-size: 20px;
-    }
-
-    .clock-artistic-title {
-        font-size: 34px;
-        letter-spacing: 0.5px;
-    }
-
-    .clock-date-badge {
-        font-size: 10px;
-        padding: 5px 12px;
-        letter-spacing: 1px;
-    }
-
-    .artistic-clock-display {
-        gap: 6px;
-        margin-top: 4px;
-    }
-
-    .artistic-clock-card {
-        min-width: 62px;
-        padding: 12px 6px 10px;
-        border-radius: 14px;
-    }
-
-    .artistic-clock-num {
-        font-size: 28px;
-    }
-
-    .artistic-clock-label {
-        font-size: 14px;
-        margin-top: 3px;
-    }
-
-    .artistic-clock-sep {
-        font-size: 13px;
-    }
-
-    .clock-artistic-quote-card {
-        padding: 14px 16px;
-        margin-top: 4px;
-    }
-
-    .quote-main-text {
-        font-size: 16px;
-    }
-
-    .quote-sub-note {
-        font-size: 13.5px;
-    }
-
-    .theme-setting-btn {
-        top: calc(10px + env(safe-area-inset-top, 0px));
-        left: 12px;
-        width: 38px;
-        height: 38px;
-    }
-
-    .theme-gear-icon {
-        font-size: 18px;
-    }
-
-    /* 1. KHUNG TRANG & BỐ CỤC CHUNG */
-    .page-wrapper {
-        padding: 12px 10px calc(85px + env(safe-area-inset-bottom, 0px));
-        overflow-x: hidden;
-    }
-
-    /* 2. HERO / MỞ ĐẦU CHÍNH DIỆN - TỐI ƯU TRỌN VẸN 1 MÀN HÌNH ĐẦU TIÊN (100dvh) */
-    .timeline-hero {
-        min-height: calc(100dvh - 30px);
-        min-height: calc(100svh - 30px);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 10px 8px calc(80px + env(safe-area-inset-bottom, 0px));
-        box-sizing: border-box;
-        margin: 0 auto;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .intro-showcase-wrapper,
-    .intro-box-wrapper {
-        min-height: 390px;
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 10px 4px 6px;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .intro-center-hero {
-        padding: 4px;
-        width: 100%;
-        max-width: 100%;
-        z-index: 5;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .intro-hero-title {
-        gap: 1px;
-        width: 100%;
-        max-width: 205px;
-        margin: 0 auto 2px;
-    }
-
-    .intro-hero-prefix {
-        font-size: 16px;
-        letter-spacing: 0.5px;
-    }
-
-    .intro-hero-name {
-        font-size: 20px;
-        letter-spacing: 0.5px;
-        white-space: normal;
-        word-break: keep-all;
-        text-align: center;
-        max-width: 205px;
-        line-height: 1.15;
-    }
-
-    .love-counter-wrapper {
-        margin-top: 8px;
-        padding: 12px 14px 10px;
-        max-width: 256px;
-        border-radius: 16px;
-        gap: 7px;
-    }
-
-    .love-clock-washi {
-        width: 48px;
-        height: 14px;
-        top: -7px;
-    }
-
-    .clock-header-text {
-        font-size: 8.5px;
-        letter-spacing: 1px;
-    }
-
-    .counter-tile {
-        min-width: 42px;
-        padding: 5px 6px 4px;
-        border-radius: 9px;
-    }
-
-    .counter-val {
-        font-size: 19px;
-    }
-
-    .counter-label {
-        font-size: 8px;
-        margin-top: 2px;
-    }
-
-    .counter-heart-sep {
-        font-size: 10px;
-        margin-top: -4px;
-    }
-
-    .love-counter-quote {
-        font-size: 14px;
-        gap: 4px;
-        margin-top: 1px;
-    }
-
-    .quote-flourish {
-        font-size: 10px;
-    }
-
-    .love-counter-board {
-        padding: 2px 6px;
-        gap: 3px;
-        border-radius: 10px;
-    }
-
-    .counter-box {
-        min-width: 32px;
-        padding: 1px;
-    }
-
-    .counter-val {
-        font-size: 17px;
-    }
-
-    .counter-label {
-        font-size: 7.5px;
-        margin-top: 1px;
-    }
-
-    .counter-sep {
-        font-size: 11px;
-        margin-top: -4px;
-    }
-
-    .love-counter-quote {
-        font-size: 13px;
-        line-height: 1.2;
-    }
-
-    /* 4 Tấm ảnh Polaroid góc nhỏ gọn, ôm sát không gây tràn màn hình và KHÔNG che nội dung */
-    .polaroid-item {
-        width: 62px;
-        padding: 3px 3px 6px 3px;
-        border-radius: 4px;
-        box-shadow: 0 4px 10px rgba(45, 30, 20, 0.1);
-        z-index: 2;
-    }
-
-    /* 2 ảnh trên ôm sát 2 góc trên, hoàn toàn không chạm chữ tiêu đề */
-    .polaroid-tl {
-        top: 6px;
-        left: 2px;
-        transform: rotate(-7deg);
-    }
-
-    .polaroid-tr {
-        top: 6px;
-        right: 2px;
-        transform: rotate(7deg);
-    }
-
-    /* 2 ảnh dưới đặt ở 2 bên Đồng hồ đếm ngày, ôm gọn bố cục cực kỳ xinh xắn */
-    .polaroid-bl {
-        top: auto;
-        bottom: 12px;
-        left: 4px;
-        transform: rotate(6deg);
-    }
-
-    .polaroid-br {
-        top: auto;
-        bottom: 12px;
-        right: 4px;
-        transform: rotate(-6deg);
-    }
-
-    .polaroid-tl .polaroid-caption,
-    .polaroid-tr .polaroid-caption,
-    .polaroid-bl .polaroid-caption,
-    .polaroid-br .polaroid-caption {
-        font-size: 8px;
-        margin-top: 3px;
-        line-height: 1.1;
-    }
-
-    .polaroid-tl .polaroid-date,
-    .polaroid-tr .polaroid-date,
-    .polaroid-bl .polaroid-date,
-    .polaroid-br .polaroid-date {
-        font-size: 7px;
-    }
-
-    /* Ẩn các ảnh polaroid cạnh trên mobile */
-    .polaroid-tml,
-    .polaroid-bml,
-    .polaroid-tmr,
-    .polaroid-bmr,
-    .polaroid-ml,
-    .polaroid-mr {
-        display: none !important;
-    }
-
-
-
-    /* Đưa mục Khoảnh khắc xuống màn hình thứ 2 sạch sẽ, không bị che */
-    .memories-gallery-section {
-        margin-top: 20px;
-        padding-top: 30px;
-    }
-
-    /* Đưa Widget nổi lên góc trên bên phải trên mobile (tránh đè thanh nhạc và nội dung dưới) */
-    .couple-floating-widget {
-        top: calc(10px + env(safe-area-inset-top, 0px));
-        right: 10px;
-        bottom: auto;
-    }
-
-    .couple-pill-trigger {
-        width: 44px;
-        height: 44px;
-    }
-
-    .pill-avatar-wrap {
-        width: 36px;
-        height: 36px;
-        font-size: 20px;
-    }
-
-    .couple-floating-panel {
-        top: calc(100% + 8px);
-        bottom: auto;
-        right: 0;
-    }
-    
-    /* 3. MỤC "KHOẢNH KHẮC" (GALLERY STREAM) */
-    .gallery-header {
-        margin-bottom: 16px;
-    }
-
-    .gallery-title {
-        font-size: clamp(24px, 6.5vw, 32px);
-    }
-
-    .memories-stream-wrapper {
-        position: relative;
-        width: 100vw;
-        margin-left: calc(-50vw + 50%);
-        margin-right: calc(-50vw + 50%);
-        padding-bottom: 46px;
-        overflow: visible;
-    }
-
-    /* Bỏ gradient che mờ ở 2 mép để card không bị mờ chữ trên màn hình nhỏ */
-    .memories-stream-viewport {
-        mask-image: none !important;
-        -webkit-mask-image: none !important;
-        padding: 10px 0 14px;
-        overflow: hidden;
-    }
-
-    .memories-stream-track,
-    .timeline-container {
-        gap: 16px;
-        padding: 0 calc((100vw - min(calc(100vw - 44px), 324px)) / 2);
-    }
-
-    /* Card kỷ niệm hiển thị trọn vẹn, bo góc mềm mại */
-    .stream-card,
-    .timeline-item,
-    .timeline-card {
-        flex: 0 0 min(calc(100vw - 44px), 324px);
-        width: min(calc(100vw - 44px), 324px);
-        border-radius: 18px;
-        box-shadow: 0 8px 24px rgba(45, 35, 30, 0.08);
-    }
-
-    .card-photo-frame {
-        border-radius: 14px 14px 0 0;
-    }
-
-    .timeline-content {
-        padding: 16px 14px 18px;
-    }
-
-    .timeline-date-badge {
-        font-size: 11px;
-    }
-
-    .timeline-title {
-        font-size: 18.5px;
-        margin: 4px 0 6px;
-    }
-
-    .timeline-story {
-        font-size: 13.5px;
-        line-height: 1.65;
-    }
-
-    .timeline-card-action {
-        margin-top: 14px;
-    }
-
-    .timeline-open-letter-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 9px 18px;
-        font-size: 13px;
-    }
-
-    /* Nút mũi tên chuyển ảnh: đưa xuống dưới đáy card, KHÔNG che lên ảnh */
-    .stream-nav-btn {
-        top: auto;
-        bottom: 0px;
-        transform: none;
-        width: 36px;
-        height: 36px;
-        background: rgba(255, 255, 255, 0.96);
-        border: 1.5px solid rgba(217, 107, 82, 0.35);
-        box-shadow: 0 4px 12px rgba(45, 30, 20, 0.12);
-        color: var(--accent-warm, #d96b52);
-        z-index: 10;
-    }
-
-    .stream-nav-btn svg {
-        width: 16px;
-        height: 16px;
-    }
-
-    .stream-nav-prev {
-        left: calc(50% - 44px);
-    }
-
-    .stream-nav-next {
-        right: calc(50% - 44px);
-    }
-
-    /* 4. MODAL BỨC THƯ (PHONG BÌ & LÁ THƯ KỶ NIỆM) */
-    .letter-modal-overlay {
-        padding: 12px 10px calc(12px + env(safe-area-inset-bottom, 0px));
-        align-items: center;
-        justify-content: center;
-    }
-
-    .letter-modal-container {
-        width: 100%;
-        max-width: 100%;
-        max-height: 92vh;
-        height: 92vh;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .letter-modal-paper {
-        max-height: 100%;
-        height: 100%;
-        padding: 22px 15px 18px;
-        border-radius: 16px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Nút X đóng thư đặt ở góc trên bên phải trang thư, dễ bấm trên mobile */
-    .letter-modal-close {
-        top: 10px;
-        right: 10px;
-        width: 34px;
-        height: 34px;
-        background: rgba(45, 30, 20, 0.08);
-        border: 1px solid rgba(45, 30, 20, 0.14);
-        color: #55443b;
-        font-size: 15px;
-        z-index: 30;
-    }
-
-    .vintage-postage-stamp {
-        top: 8px;
-        right: 48px;
-        transform: scale(0.72) rotate(2deg);
-        transform-origin: top right;
-    }
-
-    .washi-tape-strip {
-        width: 90px;
-        height: 18px;
-        top: -9px;
-    }
-
-    .letter-modal-header {
-        margin-bottom: 12px;
-        padding-right: 80px;
-    }
-
-    .letter-modal-badge {
-        font-size: 11px;
-        padding: 2.5px 9px;
-    }
-
-    .letter-modal-title {
-        font-size: 19px;
-        margin: 4px 0 0;
-    }
-
-    /* Khung media trong thư co giãn tự nhiên theo video hoặc ảnh */
-    .letter-modal-gallery {
-        height: auto !important;
-        max-height: none !important;
-        margin-bottom: 16px;
-        border-radius: 12px;
-        flex-shrink: 0;
-    }
-
-    .letter-carousel-wrap {
-        aspect-ratio: 3 / 2;
-        max-height: 240px;
-        height: auto;
-    }
-
-    .letter-carousel-viewport {
-        height: 100%;
-    }
-
-    .letter-carousel-track {
-        height: 100%;
-    }
-
-    .letter-carousel-slide {
-        height: 100%;
-    }
-
-    .letter-single-img {
-        max-height: 220px;
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-    }
-
-    .letter-carousel-btn {
-        width: 30px;
-        height: 30px;
-        font-size: 15px;
-    }
-
-    .letter-modal-body {
-        font-size: 14px;
-        line-height: 1.75;
-        color: #4a3830;
-        flex-grow: 1;
-    }
-
-    .letter-modal-footer {
-        margin-top: 18px;
-        padding-top: 12px;
-        flex-shrink: 0;
-        width: 100%;
-    }
-
-    .letter-fold-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 10px 20px;
-        font-size: 13.5px;
-    }
-
-    /* Phong bì thu nhỏ chuẩn tỷ lệ màn hình điện thoại khi đóng */
-    .envelope-3d-stage,
-    .envelope-anim-box {
-        width: 220px;
-        height: 145px;
-    }
-
-    .envelope-inner-paper {
-        height: 115px;
-    }
-
-    .envelope-wax-seal,
-    .envelope-seal-stamp {
-        top: 74px;
-        width: 36px;
-        height: 36px;
-    }
-
-    .wax-seal-body {
-        width: 34px;
-        height: 34px;
-    }
-
-    .wax-seal-heart {
-        font-size: 14px;
-    }
-
-    /* 5. THANH PHÁT NHẠC VIÊN NANG (VINYL PLAYER CAPSULE) */
-    .vinyl-player-widget {
-        top: auto;
-        bottom: calc(10px + env(safe-area-inset-bottom, 0px));
-        left: 50%;
-        transform: translateX(-50%);
-        right: auto;
-        margin: 0;
-        justify-content: space-between;
-        padding: 5px 8px 7px 7px;
-        gap: 6px;
-        width: calc(100vw - 18px);
-        max-width: 384px;
-        border-radius: 26px;
-        box-shadow: 0 10px 26px rgba(45, 30, 20, 0.16), 0 2px 8px rgba(217, 107, 82, 0.14);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-    }
-
-    .vinyl-player-widget:hover {
-        transform: translateX(-50%);
-    }
-
-    .vinyl-disc-wrap {
-        width: 36px;
-        height: 36px;
-        flex-shrink: 0;
-    }
-
-    .vinyl-disc {
-        width: 36px;
-        height: 36px;
-    }
-
-    .vinyl-glow-aura {
-        width: 38px;
-        height: 38px;
-    }
-
-    .vinyl-groove-ring.ring-1 {
-        width: 26px;
-        height: 26px;
-    }
-
-    .vinyl-groove-ring.ring-2 {
-        width: 18px;
-        height: 18px;
-    }
-
-    .vinyl-center-label {
-        width: 14px;
-        height: 14px;
-    }
-
-    .vinyl-center-icon {
-        font-size: 7px;
-    }
-
-    /* Cụm thông tin bài hát: co giãn linh hoạt, chống đè chữ */
-    .vinyl-info-box {
-        flex: 1 1 auto;
-        min-width: 0;
-        overflow: hidden;
-        cursor: pointer;
-    }
-
-    .vinyl-song-title-row {
-        gap: 3px;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    .vinyl-song-title {
-        font-size: 11px;
-        font-weight: 700;
-        max-width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .vinyl-meta-row {
-        font-size: 9px;
-        gap: 3px;
-        margin-top: 1px;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    .vinyl-song-artist {
-        max-width: 70px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .vinyl-time-tag {
-        font-size: 8.5px;
-        padding: 0.5px 3px;
-        flex-shrink: 0;
-    }
-
-    /* Ẩn sóng nhạc trên điện thoại nhỏ để tránh chen lấn chữ */
-    .vinyl-equalizer {
-        display: none !important;
-    }
-
-    .vinyl-controls-group {
-        display: flex;
-        align-items: center;
-        gap: 3.5px;
-        flex-shrink: 0;
-    }
-
-    .vinyl-ctrl-btn {
-        width: 26px;
-        height: 26px;
-        font-size: 9px;
-    }
-
-    .vinyl-play-center-btn {
-        width: 31px;
-        height: 31px;
-        font-size: 10.5px;
-    }
-
-    .vinyl-playlist-btn {
-        padding: 0 5px;
-        height: 26px;
-        font-size: 9px;
-        gap: 2.5px;
-    }
-
-    .vinyl-track-badge {
-        font-size: 8px;
-        padding: 1px 3px;
-    }
-
-    .vinyl-playlist-drawer {
-        width: calc(100vw - 18px);
-        max-width: 384px;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: calc(100% + 8px);
-        border-radius: 16px;
-        max-height: 55vh;
-    }
-
-    /* 6. LIGHTBOX XEM ẢNH TRÀN MÀN HÌNH */
-    .lightbox-content {
-        max-width: 96vw;
-        max-height: 85vh;
-    }
-
-    .lightbox-close {
-        top: 12px;
-        right: 12px;
-        position: fixed;
-        font-size: 32px;
-        z-index: 2100;
-    }
-
-    .lightbox-nav-btn {
-        width: 38px;
-        height: 38px;
-        font-size: 18px;
-    }
-
-    .lb-prev { left: 6px; }
-    .lb-next { right: 6px; }
+.theme-card-option:hover {
+    transform: translateY(-2px) !important;
+    border-color: var(--accent-terracotta, #b35c44) !important;
+    background: var(--card-surface, #ffffff) !important;
+    box-shadow: 0 6px 18px rgba(179, 92, 68, 0.12) !important;
 }
 
-/* ========================================================
-   TỐI ƯU SIÊU NHỎ CHO MÀN HÌNH NARROW (IPHONE SE, GALAXY A, < 380px)
-   ======================================================== */
-@media (max-width: 380px) {
-    .intro-hero-prefix {
-        font-size: 20px;
-    }
-
-    .intro-hero-name {
-        font-size: 24px;
-    }
-
-    .polaroid-item {
-        width: 86px;
-        padding: 4px 4px 10px 4px;
-    }
-
-    .polaroid-tl .polaroid-caption,
-    .polaroid-tr .polaroid-caption,
-    .polaroid-bl .polaroid-caption,
-    .polaroid-br .polaroid-caption {
-        font-size: 8px;
-    }
-
-    .stream-card,
-    .timeline-item,
-    .timeline-card {
-        flex: 0 0 calc(100vw - 32px);
-        width: calc(100vw - 32px);
-    }
-
-    .vinyl-song-artist {
-        max-width: 55px;
-    }
-
-    .vinyl-ctrl-btn {
-        width: 24px;
-        height: 24px;
-    }
-
-    .vinyl-play-center-btn {
-        width: 28px;
-        height: 28px;
-    }
+.theme-card-option.active {
+    border-color: var(--accent-terracotta, #b35c44) !important;
+    background: var(--card-surface, #ffffff) !important;
+    box-shadow: 0 0 0 2px var(--accent-terracotta, #b35c44), 0 6px 20px rgba(179, 92, 68, 0.18) !important;
 }
 
-
-
-
-/* ========================================================
-   HỆ THỐNG VIDEO & THƯỚC PHIM KỶ NIỆM (VIDEO STORAGE & PLAYBACK)
-   ======================================================== */
-
-.gallery-subtitle {
-    font-size: 14.5px;
-    color: var(--text-muted, #7a6e65);
-    margin-top: 8px;
-    margin-bottom: 2px;
-    font-style: italic;
-    text-align: center;
-    letter-spacing: 0.35px;
-    opacity: 0.92;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+/* Swatch Pill tròn sắc nét */
+.theme-swatch-pill {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50% !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16), inset 0 0 0 1.5px rgba(255, 255, 255, 0.85) !important;
 }
 
-.gallery-subtitle::before,
-.gallery-subtitle::after {
-    content: "";
-    display: inline-block;
-    width: 28px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(225, 29, 72, 0.35), transparent);
+.theme-swatch-sunset { background: linear-gradient(135deg, #f7d6c8, #e89882, #b35c44) !important; }
+.theme-swatch-vintage-rose { background: linear-gradient(135deg, #fad2e1, #c86b85, #8a3b53) !important; }
+.theme-swatch-midnight { background: linear-gradient(135deg, #1b2038, #2e3860, #8b5cf6) !important; }
+.theme-swatch-mocha { background: linear-gradient(135deg, #e6ccb2, #b08968, #7f4f24) !important; }
+.theme-swatch-secret-garden { background: linear-gradient(135deg, #d8f3dc, #74c69d, #2d6a4f) !important; }
+.theme-swatch-bordeaux { background: linear-gradient(135deg, #fbb1bd, #a4133c, #590d22) !important; }
+
+/* Thông tin chi tiết theme */
+.theme-card-info {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    flex: 1 !important;
+    min-width: 0 !important;
 }
 
-/* Bộ lọc định dạng kỷ niệm cao cấp (Tất cả / Ảnh kỷ niệm / Thước phim) */
-.gallery-filter-dock,
-.gallery-filter-tabs {
+.theme-card-name {
+    font-size: 14.5px !important;
+    font-weight: 700 !important;
+    color: var(--text-primary, #4a342b) !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+}
+
+.theme-card-desc {
+    font-size: 11.5px !important;
+    color: var(--text-muted, #856a5c) !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+}
+
+/* Dấu tích ✓ khi active */
+.theme-active-check {
     display: none !important;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 18px;
-    margin-bottom: 8px;
-    padding: 5px;
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.95);
-    border-radius: 999px;
-    box-shadow: 0 10px 28px -6px rgba(225, 29, 72, 0.12), 0 3px 8px rgba(0, 0, 0, 0.04);
-    position: relative;
-    z-index: 5;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    background: var(--accent-terracotta, #b35c44) !important;
+    color: #ffffff !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    margin-left: auto !important;
 }
 
-.gallery-filter-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 8px 18px;
-    background: transparent;
-    border: none;
-    border-radius: 999px;
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--text-muted, #64748b);
-    cursor: pointer;
-    transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-    user-select: none;
-    position: relative;
-    outline: none;
-    white-space: nowrap;
+.theme-card-option.active .theme-active-check {
+    display: flex !important;
 }
 
-.gallery-filter-tab:hover {
-    color: var(--accent-warm, #e11d48);
-    background: rgba(255, 255, 255, 0.7);
-    transform: translateY(-1px);
+/* Footer Modal */
+.theme-modal-footer {
+    padding-top: 16px !important;
+    margin-top: 6px !important;
+    border-top: 1px solid var(--border-card, rgba(140, 95, 75, 0.15)) !important;
+    display: flex !important;
+    justify-content: center !important;
 }
 
-.gallery-filter-tab.active {
-    background: linear-gradient(135deg, var(--accent-warm, #e11d48) 0%, #fb7185 100%);
-    color: #ffffff;
-    box-shadow: 0 4px 15px rgba(225, 29, 72, 0.35);
-    transform: translateY(-1px) scale(1.02);
+.theme-apply-btn {
+    width: 100% !important;
+    padding: 12px 20px !important;
+    border-radius: 999px !important;
+    background: var(--accent-terracotta, #b35c44) !important;
+    color: #ffffff !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    border: none !important;
+    cursor: pointer !important;
+    box-shadow: 0 4px 14px rgba(179, 92, 68, 0.25) !important;
+    transition: all 0.25s ease !important;
+    text-align: center !important;
+    letter-spacing: 0.2px !important;
 }
 
-.filter-tab-icon {
-    font-size: 14px;
-    line-height: 1;
-    transition: transform 0.25s ease;
+.theme-apply-btn:hover {
+    background: #9c4b35 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(179, 92, 68, 0.35) !important;
 }
 
-.gallery-filter-tab:hover .filter-tab-icon,
-.gallery-filter-tab.active .filter-tab-icon {
-    transform: scale(1.15);
+.theme-apply-btn:active {
+    transform: translateY(0) scale(0.99) !important;
 }
 
-.filter-tab-count {
-    font-size: 11px;
-    font-weight: 700;
-    padding: 1.5px 7px;
-    border-radius: 999px;
-    background: rgba(100, 116, 139, 0.1);
-    color: var(--text-muted, #64748b);
-    transition: all 0.25s ease;
-    line-height: 1.3;
-}
-
-.gallery-filter-tab.active .filter-tab-count {
-    background: rgba(255, 255, 255, 0.28);
-    color: #ffffff;
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12);
-}
-
-/* Huy hiệu Video trên thẻ kỷ niệm */
-.stream-card-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 20px;
-    z-index: 2;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
-    transition: transform 0.25s ease;
-}
-
-.stream-card:hover .stream-card-badge {
-    transform: scale(1.05);
-}
-
-.stream-card-badge.video-badge {
-    background: linear-gradient(135deg, rgba(224, 76, 76, 0.95), rgba(217, 107, 82, 0.95));
-    color: #ffffff;
-}
-
-.stream-card-badge.mixed-badge {
-    background: linear-gradient(135deg, rgba(142, 68, 173, 0.92), rgba(217, 107, 82, 0.92));
-    color: #ffffff;
-}
-
-.stream-card-video-play-hint {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.92);
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent-warm, #d96b52);
-    font-size: 20px;
-    padding-left: 3px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-    opacity: 0.88;
-    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    pointer-events: none;
-    z-index: 2;
-}
-
-.stream-card:hover .stream-card-video-play-hint {
-    transform: translate(-50%, -50%) scale(1.1);
-    opacity: 1;
-    background: #ffffff;
-}
-
-/* Lightbox Video Player */
-.lightbox-video {
-    max-width: 90vw;
-    max-height: 80vh;
-    border-radius: 14px;
-    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6);
-    outline: none;
-    background: #000000;
-}
-
-/* Video Player trong thư kỷ niệm (Letter Modal) */
-.letter-video-player-wrap {
-    position: relative;
-    width: 100%;
-    max-width: 640px;
-    margin: 0 auto;
-    border-radius: var(--radius-md, 18px);
-    overflow: hidden;
-    box-shadow: 0 12px 34px rgba(45, 30, 20, 0.16), 0 3px 10px rgba(0, 0, 0, 0.08);
-    background: #181412;
-}
-
-.letter-modal-video {
-    width: 100%;
-    height: auto;
-    max-height: 460px;
-    display: block;
-    outline: none;
-    object-fit: cover;
-    border-radius: var(--radius-md, 18px);
-}
-
-.letter-video-caption {
-    padding: 10px 16px;
-    background: rgba(24, 20, 18, 0.95);
-    color: #f7ede8;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.letter-media-tabs {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 14px;
-}
-
-.letter-media-tab-btn {
-    padding: 7px 16px;
-    border-radius: 20px;
-    border: 1px solid rgba(217, 107, 82, 0.25);
-    background: rgba(255, 255, 255, 0.85);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-main, #33272a);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.letter-media-tab-btn:hover,
-.letter-media-tab-btn.active {
-    background: var(--accent-warm, #d96b52);
-    color: #ffffff;
-    border-color: var(--accent-warm, #d96b52);
-    box-shadow: 0 3px 10px rgba(217, 107, 82, 0.25);
-}
-
-@media (max-width: 680px) {
-    .gallery-filter-dock,
-    .gallery-filter-tabs {
-        width: calc(100% - 32px);
-        max-width: 350px;
-        justify-content: space-between;
-        padding: 4px;
-        gap: 3px;
+/* Mobile responsive */
+@media (max-width: 480px) {
+    .theme-modal-card,
+    .theme-modal-box {
+        padding: 22px 16px 18px !important;
+        border-radius: 22px !important;
     }
-
-    .gallery-filter-tab {
-        padding: 6px 9px;
-        font-size: 11.5px;
-        gap: 4px;
-        flex: 1;
-        justify-content: center;
-        white-space: nowrap;
+    .theme-options-grid {
+        grid-template-columns: 1fr !important;
+        gap: 9px !important;
     }
-
-    .filter-tab-count {
-        padding: 1px 4.5px;
-        font-size: 9.5px;
+    .theme-card-option {
+        padding: 10px 12px !important;
     }
-
-    .lightbox-video {
-        max-width: 96vw;
-        max-height: 70vh;
-        border-radius: 10px;
-    }
-
-    .letter-modal-video {
-        max-height: 240px;
-        aspect-ratio: 16 / 9;
-        object-fit: cover;
-    }
-
-    .letter-video-player-wrap {
-        margin-bottom: 6px;
+    .theme-modal-title {
+        font-size: 20px !important;
     }
 }
 
@@ -6073,81 +4684,6 @@ html, body {
     margin: 0 -2px;
 }
 
-/* ========================================================
-   GIAO DIỆN CHỌN THEME TỐI GIẢN (MINIMALIST PALETTE STUDIO)
-   ======================================================== */
-.theme-options-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 10px !important;
-    max-height: 380px !important;
-    overflow-y: auto !important;
-    padding: 8px 4px !important;
-}
-
-.theme-card-option {
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 10px 14px !important;
-    background: var(--bg-page) !important;
-    border: 1.5px solid var(--border-card) !important;
-    border-radius: 16px !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-    text-align: left !important;
-    outline: none !important;
-    user-select: none !important;
-    height: auto !important;
-}
-
-.theme-card-option:hover {
-    transform: translateY(-2px) !important;
-    border-color: var(--accent-warm) !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
-}
-
-.theme-card-option.active {
-    border-color: var(--accent-warm) !important;
-    background: var(--card-surface) !important;
-    box-shadow: 
-        0 0 0 2px var(--accent-warm),
-        0 4px 16px rgba(217, 107, 82, 0.2) !important;
-}
-
-.theme-swatch-pill {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), inset 0 0 0 1.5px rgba(255, 255, 255, 0.7);
-}
-
-.theme-card-name {
-    font-family: var(--font-sans);
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* 12 Swatches */
-.theme-swatch-sunset { background: linear-gradient(135deg, #ffd3b6, #ffaaa5, #d96b52); }
-.theme-swatch-vintage-rose { background: linear-gradient(135deg, #fff0f3, #e8a598, #b85d58); }
-.theme-swatch-midnight { background: linear-gradient(135deg, #1b263b, #415a77, #e0a96d); }
-.theme-swatch-autumn { background: linear-gradient(135deg, #fed9b7, #ee8959, #b23a22); }
-.theme-swatch-cotton-candy { background: linear-gradient(135deg, #ffc6ff, #bdb2ff, #a0c4ff); }
-.theme-swatch-ocean { background: linear-gradient(135deg, #bde0fe, #a2d2ff, #437f97); }
-.theme-swatch-secret-garden { background: linear-gradient(135deg, #d8f3dc, #74c69d, #2d6a4f); }
-.theme-swatch-bordeaux { background: linear-gradient(135deg, #590d22, #a4133c, #ff758f); }
-.theme-swatch-mocha { background: linear-gradient(135deg, #ddb892, #9c6644, #7f4f24); }
-.theme-swatch-lavender { background: linear-gradient(135deg, #f3e8ff, #c084fc, #7e22ce); }
-.theme-swatch-peach { background: linear-gradient(135deg, #ffe5d9, #ff9b85, #ea580c); }
-.theme-swatch-aurora-night { background: linear-gradient(135deg, #0b132b, #1c2541, #5bc0be); }
-
 @media (max-width: 600px) {
     .top-nav-bar {
         top: calc(10px + env(safe-area-inset-top, 0px)) !important;
@@ -6187,7 +4723,7 @@ html, body {
         opacity: 0.45;
     }
     .theme-options-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-columns: 1fr !important;
         gap: 8px !important;
     }
 }

@@ -2666,17 +2666,11 @@ function setupEventListeners() {
 // 31. ĐỒNG BỘ THEME VỚI TRANG CHỦ
 const THEME_NAMES = {
     "sunset": "Hoàng Hôn",
-    "vintage-rose": "Hoa Hồng Cổ",
-    "midnight": "Đêm Đầy Sao",
-    "autumn": "Mùa Thu",
-    "cotton-candy": "Kẹo Ngọt",
-    "ocean": "Biển Xanh",
-    "secret-garden": "Vườn Bí Mật",
-    "bordeaux": "Rượu Vang",
+    "vintage-rose": "Vườn Hoa",
+    "midnight": "Đêm Sao",
     "mocha": "Cà Phê",
-    "lavender": "Oải Hương",
-    "peach": "Trà Đào",
-    "aurora-night": "Đêm Đông"
+    "secret-garden": "Khu Vườn",
+    "bordeaux": "Rượu Vang"
 };
 
 function initThemeSwitcher() {

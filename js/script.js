@@ -1837,20 +1837,14 @@ function initThemeSwitcher() {
     const themeCards = document.querySelectorAll('.theme-card-option');
     const filterTabs = document.querySelectorAll('.theme-tab-btn');
 
-    // Từ điển tên 12 Theme
+    // Từ điển 6 Theme tinh tuyển
     const THEME_NAMES = {
-        'sunset': 'Hoàng Hôn Ấm Áp',
-        'vintage-rose': 'Vườn Hoa Cổ Điển',
-        'midnight': 'Đêm Đầy Sao',
-        'autumn': 'Mùa Thu Dịu Dàng',
-        'cotton-candy': 'Kẹo Ngọt Tình Yêu',
-        'ocean': 'Biển Chiều Yên Bình',
-        'secret-garden': 'Khu Vườn Bí Mật',
-        'bordeaux': 'Rượu Vang Lãng Mạn',
-        'mocha': 'Cà Phê & Sách Cũ',
-        'lavender': 'Đồng Hoa Oải Hương',
-        'peach': 'Trà Đào Thanh Xuân',
-        'aurora-night': 'Đêm Đông Tuyết Trắng'
+        'sunset': 'Hoàng Hôn',
+        'vintage-rose': 'Vườn Hoa',
+        'midnight': 'Đêm Sao',
+        'mocha': 'Cà Phê',
+        'secret-garden': 'Khu Vườn',
+        'bordeaux': 'Rượu Vang'
     };
 
     // 1. Khôi phục theme đã lưu hoặc đặt sunset mặc định
