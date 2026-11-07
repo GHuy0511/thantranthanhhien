@@ -6220,3 +6220,49 @@ html, body {
     border: 2px solid #58674d !important;
     color: #2b3325 !important;
 }
+
+
+/* ========================================================
+   TỐI ƯU HÓA HIỆU NĂNG CHO TOÀN BỘ WEBSITE (60-120FPS SMOOTH)
+   ======================================================== */
+.vinyl-disk {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.vinyl-arm {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.gallery-track {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.gallery-slide {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.letter-modal-card,
+.music-modal-card {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.editor-modal-card {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Tối ưu hoá smooth scroll toàn cục */
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}

@@ -4084,3 +4084,78 @@
     background: linear-gradient(135deg, #c47c5f 0%, #a45a42 100%) !important;
     box-shadow: 0 6px 18px rgba(184, 115, 87, 0.45) !important;
 }
+
+
+/* ========================================================
+   TỐI ƯU HÓA HIỆU NĂNG & GPU HARDWARE ACCELERATION 60-120FPS
+   ======================================================== */
+.board-cell {
+    contain: layout style;
+}
+
+.board-cell-inner {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.token-pin {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.dice-arena-tray {
+    transform: translateZ(0);
+}
+
+.dice-scene {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+.dice-cube {
+    will-change: transform;
+    transform-style: preserve-3d;
+}
+
+.real-estate-3d-model {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.floating-money {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    pointer-events: none;
+}
+
+.caro-cell {
+    contain: layout style paint;
+}
+
+.caro-piece {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.go-cell {
+    contain: layout style paint;
+}
+
+.go-stone {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.game-modal-overlay {
+    will-change: opacity;
+    transform: translateZ(0);
+}
+
+.game-modal-card {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}

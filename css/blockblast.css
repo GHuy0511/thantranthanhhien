@@ -930,3 +930,25 @@
     border-radius: 4px 4px 2px 2px !important;
     pointer-events: none !important;
 }
+
+
+/* Tối ưu hóa GPU cho Block Blast combo explosions & falling blocks */
+.cell {
+    contain: layout style paint;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.cell.blasting {
+    will-change: transform, opacity, filter;
+    transform: translateZ(0);
+}
+
+.bb-falling-block {
+    will-change: transform, top, left;
+    transform: translateZ(0);
+}
+
+.mini-cell {
+    contain: layout style paint;
+}

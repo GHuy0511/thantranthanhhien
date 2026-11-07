@@ -1134,13 +1134,28 @@ function updateUI() {
     const rollBtnText = document.getElementById("rollBtnText");
     const rollBtnIcon = document.getElementById("rollBtnIcon");
     if (rollBtn && current) {
-        rollBtn.disabled = gameState.isRolling || current.isAi;
+        const myRole = window.CoupleNetwork ? window.CoupleNetwork.getMyRole() : 'huy';
+        const isPartnerOnline = window.CoupleNetwork && window.CoupleNetwork.isPartnerOnline();
+        const isTwoPlayerPass = gameState.players.length === 2 && gameState.gameMode === "pass_play";
+
+        let canRollNow = true;
+        if (current.isAi) {
+            canRollNow = false;
+        } else if (isTwoPlayerPass && isPartnerOnline) {
+            // Huy là người chơi 0, Hiền là người chơi 1
+            const expectedIdx = (myRole === 'huy' ? 0 : 1);
+            canRollNow = (gameState.currentTurnIndex === expectedIdx);
+        }
+
+        rollBtn.disabled = gameState.isRolling || !canRollNow;
         rollBtn.style.setProperty("--active-roll-gradient", `linear-gradient(135deg, ${current.color}, ${adjustBrightness(current.color, -25)})`);
         rollBtn.style.setProperty("--active-roll-glow", current.glow);
 
         if (rollBtnText) {
             if (current.isAi) {
                 rollBtnText.textContent = `${current.name} (AI) đang đổ...`;
+            } else if (!canRollNow && isTwoPlayerPass && isPartnerOnline) {
+                rollBtnText.textContent = `Đang đợi ${current.name} tung xúc xắc...`;
             } else {
                 rollBtnText.textContent = `Tung xúc xắc • ${current.name}`;
             }
@@ -1153,6 +1168,12 @@ function updateUI() {
 
 // 12. HÀM TUNG XÚC XẮC ĐÔI 3D (DOUBLE DICE ROLLING)
 function roll3DDice(callback) {
+    const val1 = Math.floor(Math.random() * 6) + 1;
+    const val2 = Math.floor(Math.random() * 6) + 1;
+    roll3DDiceSpecified(val1, val2, callback);
+}
+
+function roll3DDiceSpecified(val1, val2, callback) {
     const diceCube1 = document.getElementById("diceCube1");
     const diceCube2 = document.getElementById("diceCube2");
     const diceScene1 = document.getElementById("diceScene1");
@@ -1172,8 +1193,6 @@ function roll3DDice(callback) {
         6: { x: 90, y: 0 }
     };
 
-    const val1 = Math.floor(Math.random() * 6) + 1;
-    const val2 = Math.floor(Math.random() * 6) + 1;
     const isDouble = (val1 === val2);
     const sum = val1 + val2;
 
@@ -1632,6 +1651,7 @@ function confirmBuyProperty(player, tile) {
 
     visualFX.spawnFloatingMoney(tile.id, `-${tile.price}M`, false);
     visualFX.triggerConstructionCelebration(tile, 0, player);
+    broadcastMonopolyState();
     showStatusNotice(`🏠 <strong>${player.name}</strong> đã mua thành công <strong>${tile.name}</strong> (${tile.price}M VNĐ)!`);
 
     recordTransaction({
@@ -1720,6 +1740,7 @@ function confirmUpgradeProperty(player, tile) {
     const levelIcon = tile.level === 1 ? "1 Nhà Phố 🏠" : tile.level === 2 ? "2 Nhà Phố 🏠🏠" : "Khách Sạn Cao Cấp 🏨";
     visualFX.spawnFloatingMoney(tile.id, `-${tile.upgradeCost}M`, false);
     visualFX.triggerConstructionCelebration(tile, tile.level, player);
+    broadcastMonopolyState();
     showStatusNotice(`✨ <strong>${player.name}</strong> đã nâng cấp <strong>${tile.name}</strong> lên <strong>${levelIcon}</strong>!`);
 
     recordTransaction({
@@ -2467,6 +2488,7 @@ function finishTurn() {
 
     gameState.currentTurnIndex = nextIdx;
     updateUI();
+    broadcastMonopolyState();
 
     const nextPlayer = gameState.players[gameState.currentTurnIndex];
     showStatusNotice(`Lượt của <strong>${nextPlayer.name}</strong>`);
@@ -2884,13 +2906,16 @@ function initGameSwitcher() {
         });
     });
 
+    const urlGame = new URLSearchParams(window.location.search).get("game");
     const hash = location.hash.replace("#", "");
     const saved = localStorage.getItem("active_game_view");
-    if (hash === "go" || (!hash && saved === "go")) {
+    const targetGame = urlGame || hash || saved;
+
+    if (targetGame === "go") {
         switchGame("go", false);
-    } else if (hash === "caro" || (!hash && saved === "caro")) {
+    } else if (targetGame === "caro") {
         switchGame("caro", false);
-    } else if (hash === "blockblast" || (!hash && saved === "blockblast")) {
+    } else if (targetGame === "blockblast") {
         switchGame("blockblast", false);
     } else {
         switchGame("monopoly", false);
@@ -2947,21 +2972,110 @@ document.addEventListener("DOMContentLoaded", () => {
     // Role switch handled centrally by CoupleNetwork
 });
 
-// 34. ĐỒNG BỘ CỜ TỶ PHÚ QUA MẠNG P2P
+// 34. ĐỒNG BỘ CỜ TỶ PHÚ QUA MẠNG P2P CHO HAI NGƯỜI
 function initMonopolyNetworkSync() {
     if (!window.CoupleNetwork) return;
 
     window.CoupleNetwork.onMessage((packet) => {
         if (!packet || typeof packet !== "object") return;
 
+        // 1. Nhận lượt tung xúc xắc từ đối phương
         if (packet.type === "monopoly_sync_roll") {
-            // Khi đối phương tung xúc xắc trên máy của họ
-            if (!gameState.isRolling && gameState.currentTurnIndex === packet.playerIndex) {
-                // Áp dụng trực tiếp kết quả xúc xắc của đối phương
+            if (!gameState.isRolling) {
+                if (typeof packet.playerIndex === "number") {
+                    gameState.currentTurnIndex = packet.playerIndex;
+                }
                 executeNetworkRoll(packet.d1, packet.d2);
             }
         }
+        // 2. Nhận gói đồng bộ toàn diện trạng thái bàn cờ (Full Board State Sync)
+        else if (packet.type === "monopoly_sync_state") {
+            applyMonopolySyncState(packet);
+        }
+        // 3. Khi đối phương kết nối vào phòng, tự động gửi bàn cờ hiện tại
+        else if (packet.type === "presence_change" && packet.online) {
+            const myRole = window.CoupleNetwork.getMyRole();
+            if (myRole === 'huy') {
+                broadcastMonopolyState();
+            }
+            updateUI();
+        }
     });
+}
+
+function broadcastMonopolyState() {
+    if (!window.CoupleNetwork) return;
+
+    try {
+        const syncPacket = {
+            type: 'monopoly_sync_state',
+            currentTurnIndex: gameState.currentTurnIndex,
+            roundCount: gameState.roundCount,
+            parkingPool: gameState.parkingPool,
+            players: gameState.players.map(p => ({
+                id: p.id,
+                name: p.name,
+                cash: p.cash,
+                position: p.position,
+                inJail: p.inJail,
+                jailTurns: p.jailTurns,
+                frozenTurns: p.frozenTurns,
+                props: [...p.props]
+            })),
+            tiles: VIETNAM_TILES.map(t => ({
+                id: t.id,
+                owner: t.owner,
+                level: t.level
+            }))
+        };
+        window.CoupleNetwork.send(syncPacket);
+    } catch(e) {
+        console.warn("Lỗi gửi monopoly sync state:", e);
+    }
+}
+
+function applyMonopolySyncState(packet) {
+    if (!packet) return;
+
+    if (typeof packet.currentTurnIndex === "number") {
+        gameState.currentTurnIndex = packet.currentTurnIndex;
+    }
+    if (typeof packet.roundCount === "number") {
+        gameState.roundCount = packet.roundCount;
+    }
+    if (typeof packet.parkingPool === "number") {
+        gameState.parkingPool = packet.parkingPool;
+    }
+
+    // Cập nhật người chơi
+    if (Array.isArray(packet.players)) {
+        packet.players.forEach(pData => {
+            const p = gameState.players.find(item => item.id === pData.id);
+            if (p) {
+                p.cash = pData.cash;
+                p.position = pData.position;
+                p.inJail = pData.inJail;
+                p.jailTurns = pData.jailTurns;
+                p.frozenTurns = pData.frozenTurns;
+                if (Array.isArray(pData.props)) p.props = [...pData.props];
+            }
+        });
+    }
+
+    // Cập nhật sở hữu đất & cấp công trình nhà 3D
+    if (Array.isArray(packet.tiles)) {
+        packet.tiles.forEach(tData => {
+            const t = VIETNAM_TILES.find(item => item.id === tData.id);
+            if (t) {
+                t.owner = tData.owner;
+                t.level = tData.level;
+            }
+        });
+    }
+
+    renderPlayerHUD();
+    renderPlayerTokens();
+    updateUI();
 }
 
 function executeNetworkRoll(d1, d2) {
@@ -2970,16 +3084,15 @@ function executeNetworkRoll(d1, d2) {
     if (!player || player.isBankrupt) return;
 
     gameState.isRolling = true;
-    soundEffects.diceShake();
+    updateUI();
 
-    const sum = d1 + d2;
-    const isDouble = (d1 === d2);
+    showStatusNotice(`🎲 <strong>${player.name}</strong> đang gieo cặp xúc xắc...`);
 
-    animateDiceCubes(d1, d2);
-
-    setTimeout(() => {
-        soundEffects.diceDrop();
+    roll3DDiceSpecified(d1, d2, (rollRes) => {
+        const sum = d1 + d2;
+        const isDouble = (d1 === d2);
         gameState.isRolling = false;
+
         showStatusCapsule(`🎲 <strong>${player.name}</strong> đổ xúc xắc: <strong>${d1}</strong> + <strong>${d2}</strong> = <strong>${sum}</strong>!`);
 
         recordTransaction({
@@ -2991,7 +3104,6 @@ function executeNetworkRoll(d1, d2) {
             detail: isDouble ? "Đổ đôi - Được thêm lượt tung!" : "Di chuyển trên bàn cờ"
         });
 
-        // Xử lý thoát tù nếu đang trong tù và lắc ra đôi
         if (player.inJail) {
             if (isDouble) {
                 player.inJail = false;
@@ -3011,7 +3123,7 @@ function executeNetworkRoll(d1, d2) {
         }
 
         movePlayerSteps(player, sum);
-    }, 1100);
+    });
 }
 
 

@@ -1160,7 +1160,7 @@ window.BlockBlast = (function () {
             return;
         }
 
-        if (state.matchMode !== 'vs') return;
+        if (state.matchMode !== 'vs_p2p' && state.matchMode !== 'vs') return;
 
         if (packet.type === 'presence_change') {
             if (state.matchMode === 'vs_p2p') {
