@@ -792,14 +792,11 @@ function openLetterModal(memoryIndex) {
     const item = MEMORIES[memoryIndex];
     if (!item) return;
 
-    const letterCard = document.querySelector(".letter-modal-card");
+    const letterCard = document.querySelector(".letter-modal-paper, .letter-modal-card");
     if (letterCard) {
         letterCard.classList.remove("theme-kraft", "theme-autumn", "theme-starlight", "theme-postcard", "theme-military");
-        if (item.theme) {
-            letterCard.classList.add(`theme-${item.theme}`);
-        } else {
-            letterCard.classList.add("theme-kraft");
-        }
+        // Thống nhất toàn bộ sử dụng theme hoàng hôn hiện tại
+        letterCard.classList.add("theme-autumn");
     }
 
     const dateEl = document.getElementById("letterModalDate");
@@ -1874,128 +1871,11 @@ function initAmbientParticles() {
    HỆ THỐNG ĐỔI GIAO DIỆN MÀU SẮC (12 THEMES PHÂN LOẠI & XEM THỬ REALTIME)
    ======================================================== */
 function initThemeSwitcher() {
-    const THEME_STORAGE_KEY = 'couple_love_theme';
-    const gearBtn = document.getElementById('themeSettingBtn');
-    const modalOverlay = document.getElementById('themeModalOverlay');
-    const closeBtn = document.getElementById('themeModalCloseBtn');
-    const applyBtn = document.getElementById('themeApplyBtn');
-    const currentNameEl = document.getElementById('themeCurrentName');
-    const themeCards = document.querySelectorAll('.theme-card-option');
-    const filterTabs = document.querySelectorAll('.theme-tab-btn');
-
-    // Từ điển 6 Theme tinh tuyển
-    const THEME_NAMES = {
-        'sunset': 'Hoàng Hôn',
-        'vintage-rose': 'Vườn Hoa',
-        'midnight': 'Đêm Sao',
-        'mocha': 'Cà Phê',
-        'secret-garden': 'Khu Vườn',
-        'bordeaux': 'Rượu Vang'
-    };
-
-    // 1. Khôi phục theme đã lưu hoặc đặt sunset mặc định
-    let currentTheme = 'sunset';
+    // Thống nhất toàn bộ sử dụng theme hoàng hôn (sunset)
+    document.documentElement.setAttribute('data-theme', 'sunset');
     try {
-        const saved = localStorage.getItem(THEME_STORAGE_KEY);
-        if (saved && THEME_NAMES[saved]) currentTheme = saved;
+        localStorage.setItem('couple_love_theme', 'sunset');
     } catch (e) {}
-
-    applyTheme(currentTheme);
-
-    function applyTheme(themeKey) {
-        if (!THEME_NAMES[themeKey]) themeKey = 'sunset';
-        document.documentElement.setAttribute('data-theme', themeKey);
-        try {
-            localStorage.setItem(THEME_STORAGE_KEY, themeKey);
-        } catch (e) {}
-        currentTheme = themeKey;
-
-        // Cập nhật nhãn tên theme đang dùng trên header modal
-        if (currentNameEl) {
-            currentNameEl.textContent = THEME_NAMES[themeKey] || themeKey;
-        }
-
-        // Cập nhật thẻ active
-        if (themeCards) {
-            themeCards.forEach(card => {
-                const cardTheme = card.getAttribute('data-theme');
-                if (cardTheme === themeKey) {
-                    card.classList.add('active');
-                    card.setAttribute('aria-selected', 'true');
-                } else {
-                    card.classList.remove('active');
-                    card.setAttribute('aria-selected', 'false');
-                }
-            });
-        }
-    }
-
-    // 2. Mở / Đóng Modal
-    function openModal() {
-        if (!modalOverlay) return;
-        modalOverlay.classList.add('active');
-        modalOverlay.setAttribute('aria-hidden', 'false');
-        applyTheme(currentTheme); // Đồng bộ thẻ active khi mở
-    }
-
-    function closeModal() {
-        if (!modalOverlay) return;
-        modalOverlay.classList.remove('active');
-        modalOverlay.setAttribute('aria-hidden', 'true');
-    }
-
-    if (gearBtn) gearBtn.addEventListener('click', openModal);
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (applyBtn) applyBtn.addEventListener('click', closeModal);
-
-    if (modalOverlay) {
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) closeModal();
-        });
-    }
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('active')) {
-            closeModal();
-        }
-    });
-
-    // 3. Phân loại theo danh mục (Category Filter Tabs)
-    if (filterTabs) {
-        filterTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                filterTabs.forEach(t => {
-                    t.classList.remove('active');
-                    t.setAttribute('aria-selected', 'false');
-                });
-                tab.classList.add('active');
-                tab.setAttribute('aria-selected', 'true');
-
-                const filter = tab.getAttribute('data-filter') || 'all';
-
-                themeCards.forEach(card => {
-                    const cardCategory = card.getAttribute('data-category');
-                    if (filter === 'all' || cardCategory === filter) {
-                        card.classList.remove('is-hidden');
-                    } else {
-                        card.classList.add('is-hidden');
-                    }
-                });
-            });
-        });
-    }
-
-    // 4. Chọn theme: Áp dụng realtime tức thì để người dùng xem thử nền phía sau đổi màu!
-    if (themeCards) {
-        themeCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const selectedTheme = card.getAttribute('data-theme');
-                if (selectedTheme) {
-                    applyTheme(selectedTheme);
-                }
-            });
-        });
-    }
 }
 
 
@@ -2444,8 +2324,8 @@ function initMemoryCreateSystem() {
     const btnOpen = document.getElementById("btnOpenCreateMemory");
     const modal = document.getElementById("modalCreateMemory");
     const btnClose = document.getElementById("btnCloseCreateMemory");
+    const btnCloseCorner = document.getElementById("btnCloseCreateMemoryCorner");
     const form = document.getElementById("formCreateMemory");
-    const themeCards = document.querySelectorAll(".theme-opt-card");
     const imgInput = document.getElementById("memImagesInput");
     const btnBrowseImg = document.getElementById("btnBrowseImages");
     const previewsGrid = document.getElementById("memImagePreviews");
@@ -2457,7 +2337,6 @@ function initMemoryCreateSystem() {
     if (btnOpen && modal) {
         btnOpen.addEventListener("click", () => {
             modal.classList.add("active");
-            // Set default date to today
             const dateInput = document.getElementById("newMemDate");
             if (dateInput && !dateInput.value) {
                 dateInput.value = new Date().toISOString().split('T')[0];
@@ -2468,16 +2347,9 @@ function initMemoryCreateSystem() {
     if (btnClose && modal) {
         btnClose.addEventListener("click", () => modal.classList.remove("active"));
     }
-
-    // Chọn Theme
-    themeCards.forEach(card => {
-        card.addEventListener("click", () => {
-            themeCards.forEach(c => c.classList.remove("active"));
-            card.classList.add("active");
-            const radio = card.querySelector("input[type='radio']");
-            if (radio) radio.checked = true;
-        });
-    });
+    if (btnCloseCorner && modal) {
+        btnCloseCorner.addEventListener("click", () => modal.classList.remove("active"));
+    }
 
     // Tải ảnh lên
     if (btnBrowseImg && imgInput) {
@@ -2557,8 +2429,7 @@ function initMemoryCreateSystem() {
             const rawDate = document.getElementById("newMemDate").value;
             const location = document.getElementById("newMemLocation").value.trim() || "Kỷ niệm yêu thương";
             const story = document.getElementById("newMemStory").value.trim();
-            const checkedThemeRadio = document.querySelector("input[name='letterTheme']:checked");
-            const theme = checkedThemeRadio ? checkedThemeRadio.value : "kraft";
+            const theme = "autumn"; // Thống nhất theme hoàng hôn
 
             // Format date to DD/MM/YYYY
             let dateFormatted = rawDate;
@@ -2608,7 +2479,7 @@ function initMemoryCreateSystem() {
             }
             if (modal) modal.classList.remove("active");
 
-            showMusicToast(`Kỷ niệm "${title}" với theme thư đã được tạo thành công!`);
+            showMusicToast(`Kỷ niệm "${title}" đã được lưu thành công!`);
         });
     }
 }

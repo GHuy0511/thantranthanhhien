@@ -2951,40 +2951,11 @@ const THEME_NAMES = {
 };
 
 function initThemeSwitcher() {
-    const savedTheme = localStorage.getItem("preferred_theme") || "sunset";
-    document.documentElement.setAttribute("data-theme", savedTheme);
-
-    const settingBtn = document.getElementById("themeSettingBtn");
-    const modal = document.getElementById("themeModalOverlay");
-    const closeBtn = document.getElementById("themeModalCloseBtn");
-    const applyBtn = document.getElementById("themeApplyBtn");
-    const currentNameEl = document.getElementById("themeCurrentName");
-
-    if (currentNameEl) {
-        currentNameEl.textContent = THEME_NAMES[savedTheme] || savedTheme;
-    }
-
-    if (settingBtn && modal) {
-        settingBtn.addEventListener("click", () => modal.classList.add("active"));
-    }
-    if (closeBtn && modal) {
-        closeBtn.addEventListener("click", () => modal.classList.remove("active"));
-    }
-    if (applyBtn && modal) {
-        applyBtn.addEventListener("click", () => modal.classList.remove("active"));
-    }
-
-    const cards = document.querySelectorAll(".theme-card-option");
-    cards.forEach(card => {
-        card.addEventListener("click", () => {
-            const themeKey = card.getAttribute("data-theme");
-            document.documentElement.setAttribute("data-theme", themeKey);
-            localStorage.setItem("preferred_theme", themeKey);
-            if (currentNameEl) {
-                currentNameEl.textContent = THEME_NAMES[themeKey] || themeKey;
-            }
-        });
-    });
+    document.documentElement.setAttribute("data-theme", "sunset");
+    try {
+        localStorage.setItem("preferred_theme", "sunset");
+        localStorage.setItem("couple_love_theme", "sunset");
+    } catch (e) {}
 }
 
 // 32. KHỞI CHẠY KHI TẢI TRANG (DOM CONTENT LOADED)

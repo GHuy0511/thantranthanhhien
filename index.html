@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" data-theme="sunset">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -19,14 +19,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css?v=20261106">
+    <link rel="stylesheet" href="css/style.css?v=20261108_sunset">
     <script>
         (function() {
             try {
-                var savedTheme = localStorage.getItem('couple_love_theme');
-                if (savedTheme) {
-                    document.documentElement.setAttribute('data-theme', savedTheme);
-                }
+                document.documentElement.setAttribute('data-theme', 'sunset');
+                localStorage.setItem('couple_love_theme', 'sunset');
             } catch(e) {}
         })();
     </script>
@@ -36,14 +34,6 @@
     <!-- THANH ĐIỀU HƯỚNG GÓC TRÊN TINH TẾ (FLOATING GLASS ISLAND) -->
     <nav class="top-nav-bar" aria-label="Điều hướng chính">
         <div class="top-nav-island">
-            <!-- Nút Cài đặt Theme -->
-            <button class="theme-setting-btn top-nav-theme-btn" id="themeSettingBtn" type="button" aria-label="Đổi giao diện màu sắc" title="Cài đặt giao diện màu sắc">
-                <svg class="top-nav-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="3"></circle>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                </svg>
-            </button>
-
             <!-- Nút Cây Bút Chỉnh Sửa Thư Kỷ Niệm (Theo Yêu Cầu Của Bạn) -->
             <button class="theme-setting-btn top-nav-edit-btn" id="btnEditMemoriesNav" type="button" aria-label="Chỉnh sửa thư kỷ niệm" title="Chỉnh sửa thư &amp; kỷ niệm">
                 <svg class="top-nav-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -448,92 +438,6 @@
     </div>
 
     
-    <!-- MODAL ĐỔI THEME GIAO DIỆN (CURATED PALETTE STUDIO) -->
-    <div class="theme-modal-overlay" id="themeModalOverlay" aria-hidden="true">
-        <div class="theme-modal-card theme-modal-box">
-            <!-- Nút đóng x ở góc trên bên phải -->
-            <button class="theme-modal-close-btn theme-modal-close" id="themeModalCloseBtn" type="button" aria-label="Đóng bảng màu">✕</button>
-
-            <div class="theme-modal-header">
-                <h3 class="theme-modal-title">Tông Màu Kỷ Niệm</h3>
-                <p class="theme-modal-sub">Chọn gam màu bạn và Hiền yêu thích nhất</p>
-            </div>
-
-            <!-- Lưới 6 theme tinh tuyển, cân đối, dễ nhìn -->
-            <div class="theme-options-grid" id="themeOptionsGrid">
-                <!-- Theme 1: Hoàng Hôn (Mặc định) -->
-                <button class="theme-card-option" type="button" data-theme="sunset">
-                    <div class="theme-swatch-pill theme-swatch-sunset"></div>
-                    <div class="theme-card-info">
-                        <span class="theme-card-name">Hoàng Hôn</span>
-                        <span class="theme-card-desc">Mặc định • Cam ấm áp</span>
-                    </div>
-                    <span class="theme-active-check" aria-hidden="true">✓</span>
-                </button>
-
-                <!-- Theme 2: Vườn Hoa -->
-                <button class="theme-card-option" type="button" data-theme="vintage-rose">
-                    <div class="theme-swatch-pill theme-swatch-vintage-rose"></div>
-                    <div class="theme-card-info">
-                        <span class="theme-card-name">Vườn Hoa</span>
-                        <span class="theme-card-desc">Hồng phấn dịu ngọt</span>
-                    </div>
-                    <span class="theme-active-check" aria-hidden="true">✓</span>
-                </button>
-
-                <!-- Theme 3: Đêm Sao -->
-                <button class="theme-card-option" type="button" data-theme="midnight">
-                    <div class="theme-swatch-pill theme-swatch-midnight"></div>
-                    <div class="theme-card-info">
-                        <span class="theme-card-name">Đêm Sao</span>
-                        <span class="theme-card-desc">Xanh thẫm huyền bí</span>
-                    </div>
-                    <span class="theme-active-check" aria-hidden="true">✓</span>
-                </button>
-
-                <!-- Theme 4: Cà Phê -->
-                <button class="theme-card-option" type="button" data-theme="mocha">
-                    <div class="theme-swatch-pill theme-swatch-mocha"></div>
-                    <div class="theme-card-info">
-                        <span class="theme-card-name">Cà Phê</span>
-                        <span class="theme-card-desc">Nâu gỗ hoài niệm</span>
-                    </div>
-                    <span class="theme-active-check" aria-hidden="true">✓</span>
-                </button>
-
-                <!-- Theme 5: Khu Vườn -->
-                <button class="theme-card-option" type="button" data-theme="secret-garden">
-                    <div class="theme-swatch-pill theme-swatch-secret-garden"></div>
-                    <div class="theme-card-info">
-                        <span class="theme-card-name">Khu Vườn</span>
-                        <span class="theme-card-desc">Xanh ngọc yên bình</span>
-                    </div>
-                    <span class="theme-active-check" aria-hidden="true">✓</span>
-                </button>
-
-                <!-- Theme 6: Rượu Vang -->
-                <button class="theme-card-option" type="button" data-theme="bordeaux">
-                    <div class="theme-swatch-pill theme-swatch-bordeaux"></div>
-                    <div class="theme-card-info">
-                        <span class="theme-card-name">Rượu Vang</span>
-                        <span class="theme-card-desc">Đỏ thẫm nồng nàn</span>
-                    </div>
-                    <span class="theme-active-check" aria-hidden="true">✓</span>
-                </button>
-            </div>
-
-            <div class="theme-modal-custom-action">
-                <button class="theme-edit-letter-shortcut" id="btnOpenLetterEditorFromModal" type="button">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                    <span>Chỉnh sửa các bức thư kỷ niệm</span>
-                </button>
-            </div>
-
-            <div class="theme-modal-footer">
-                <button class="theme-apply-btn" id="themeApplyBtn" type="button">Áp Dụng Giao Diện</button>
-            </div>
-        </div>
-    </div>
     </div>
     </div>
 
@@ -613,7 +517,7 @@
         </div>
     </div>
 
-    <script src="js/script.js?v=20261106"></script>
+    <script src="js/script.js?v=20261108_sunset"></script>
 
     <!-- ========================================================
          MODAL 1: XÁC NHẬN & CHỈNH SỬA THÔNG TIN BÀI HÁT TỰ TẢI
@@ -658,58 +562,29 @@
          ======================================================== -->
     <div class="memory-create-modal-overlay" id="modalCreateMemory" aria-hidden="true">
         <div class="memory-create-card">
+            <!-- Nút đóng x ở góc trên bên phải -->
+            <button type="button" class="mem-modal-close-corner" id="btnCloseCreateMemoryCorner" aria-label="Đóng">✕</button>
+
             <div class="mem-modal-header">
                 <span class="mem-modal-badge">Khoảnh khắc tình yêu</span>
                 <h3 class="mem-modal-title">Tạo Kỷ Niệm Mới Cùng Nhau</h3>
-                <p class="mem-modal-desc">Lưu giữ từng khoảnh khắc đáng nhớ, chọn theme thư sẵn có và gửi gắm những lời yêu thương.</p>
+                <p class="mem-modal-desc">Lưu giữ từng khoảnh khắc đáng nhớ và gửi gắm những lời yêu thương đến người thương.</p>
             </div>
             <form id="formCreateMemory" class="mem-create-form">
                 <div class="mem-form-row">
                     <div class="mem-field-col flex-2">
-                        <label class="mem-label">Tên kỷ niệm (*):</label>
+                        <label class="mem-label" for="newMemTitle">Tên kỷ niệm (*):</label>
                         <input type="text" id="newMemTitle" class="mem-input" placeholder="VD: Lần đầu hẹn hò, Kỷ niệm 1 năm..." required>
                     </div>
                     <div class="mem-field-col flex-1">
-                        <label class="mem-label">Ngày kỷ niệm (*):</label>
+                        <label class="mem-label" for="newMemDate">Ngày kỷ niệm (*):</label>
                         <input type="date" id="newMemDate" class="mem-input" required>
                     </div>
                 </div>
                 <div class="mem-form-row">
-                    <div class="mem-field-col">
-                        <label class="mem-label">Địa điểm / Cột mốc:</label>
-                        <input type="text" id="newMemLocation" class="mem-input" placeholder="VD: Quán cà phê nhỏ, Hà Nội...">
-                    </div>
-                </div>
-
-                <!-- CHỌN THEME THƯ CÓ SẴN -->
-                <div class="mem-theme-picker-section">
-                    <label class="mem-label">Chọn Theme Thư Tay:</label>
-                    <div class="mem-theme-options-grid" id="memThemeOptionsGrid">
-                        <label class="theme-opt-card active" data-theme="kraft">
-                            <input type="radio" name="letterTheme" value="kraft" checked>
-                            <span class="theme-preview-box theme-kraft"></span>
-                            <span class="theme-name">Giấy Kraft Cổ Điển</span>
-                        </label>
-                        <label class="theme-opt-card" data-theme="autumn">
-                            <input type="radio" name="letterTheme" value="autumn">
-                            <span class="theme-preview-box theme-autumn"></span>
-                            <span class="theme-name">Hoàng Hôn Mùa Thu</span>
-                        </label>
-                        <label class="theme-opt-card" data-theme="starlight">
-                            <input type="radio" name="letterTheme" value="starlight">
-                            <span class="theme-preview-box theme-starlight"></span>
-                            <span class="theme-name">Ánh Sao Đêm Lung Linh</span>
-                        </label>
-                        <label class="theme-opt-card" data-theme="postcard">
-                            <input type="radio" name="letterTheme" value="postcard">
-                            <span class="theme-preview-box theme-postcard"></span>
-                            <span class="theme-name">Bưu Thiếp Du Ký</span>
-                        </label>
-                        <label class="theme-opt-card" data-theme="military">
-                            <input type="radio" name="letterTheme" value="military">
-                            <span class="theme-preview-box theme-military"></span>
-                            <span class="theme-name">Kỷ Niệm Quân Sự</span>
-                        </label>
+                    <div class="mem-field-col flex-full">
+                        <label class="mem-label" for="newMemLocation">Địa điểm / Cột mốc:</label>
+                        <input type="text" id="newMemLocation" class="mem-input" placeholder="VD: Quán cà phê nhỏ, Hà Nội, Cầu Rồng...">
                     </div>
                 </div>
 
@@ -743,7 +618,7 @@
                 <!-- ĐIỀU CẦN GỬI GẮM (NỘI DUNG THƯ TAY) -->
                 <div class="mem-form-group">
                     <label class="mem-label">Điều cần gửi gắm (Nội dung bức thư tình cảm):</label>
-                    <textarea id="newMemStory" class="mem-textarea" rows="4" placeholder="Viết những cảm xúc, lời nhắn nhủ yêu thương gửi đến người ấy..." required></textarea>
+                    <textarea id="newMemStory" class="mem-textarea" rows="3" placeholder="Viết những cảm xúc, lời nhắn nhủ yêu thương gửi đến người ấy..." required></textarea>
                 </div>
 
                 <div class="mem-modal-actions">
