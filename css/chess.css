@@ -1,6 +1,7 @@
 /* ========================================================
    CỜ VUA (INTERNATIONAL CHESS) LUXURY STYLES - HUY & HIỀN EDITION
    Layout: Bàn cờ trọn khung hình + Thông tin & Điều khiển bên cạnh
+   Thiết kế cố định chiều cao (Stationary Board & Fixed History Table)
    ======================================================== */
 
 .chess-view-panel {
@@ -13,9 +14,10 @@
     height: 100%;
     max-height: 100%;
     margin: 0 auto;
-    padding: 4px 16px;
+    padding: 0 16px;
     box-sizing: border-box;
     overflow: hidden;
+    position: relative;
 }
 
 .chess-view-panel.active {
@@ -26,12 +28,14 @@
 .chess-arena-layout {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    gap: 32px;
+    gap: 28px;
     width: 100%;
-    max-width: 1360px;
+    max-width: 1280px;
     margin: 0 auto;
+    height: 100%;
+    max-height: 100%;
 }
 
 /* CỘT TRÁI: BÀN CỜ VUA GỖ HOÀNG GIA TRỌN KHUNG HÌNH */
@@ -40,25 +44,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     background: #fdfaf5;
-    padding: 18px;
-    border-radius: 24px;
-    box-shadow: 0 16px 48px rgba(45, 26, 18, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
+    padding: 14px;
+    border-radius: 20px;
+    box-shadow: 0 12px 36px rgba(45, 26, 18, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
     border: 2px solid rgba(184, 115, 87, 0.28);
     position: relative;
     user-select: none;
     -webkit-user-select: none;
+    align-self: center;
 }
 
 /* THÔNG BÁO CHIẾU TƯỚNG / KẾT QUẢ VÁN */
 .chess-notice-banner {
     display: none;
     width: 100%;
-    padding: 8px 16px;
-    margin-bottom: 12px;
-    border-radius: 12px;
+    padding: 6px 14px;
+    margin-bottom: 8px;
+    border-radius: 10px;
     text-align: center;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     box-sizing: border-box;
     animation: chessBannerPop 0.25s ease;
@@ -90,20 +96,20 @@
 }
 
 @keyframes chessBannerPop {
-    from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+    from { opacity: 0; transform: translateY(-4px) scale(0.98); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* BÀN CỜ 8x8 Ô GỖ VINTAGE TRỌN KHUNG HÌNH (TỶ LỆ 1:1 TỰ CO GIÃN) */
+/* BÀN CỜ 8x8 Ô GỖ VINTAGE TRỌN KHUNG HÌNH (TỶ LỆ 1:1 TỰ CO GIÃN THEO VIEWPORT) */
 .chess-board-wrapper {
     position: relative;
-    width: min(calc(100vh - 96px), 530px);
-    height: min(calc(100vh - 96px), 530px);
+    width: min(calc(100vh - 110px), 510px);
+    height: min(calc(100vh - 110px), 510px);
     aspect-ratio: 1 / 1;
     border-radius: 14px;
     overflow: hidden;
     box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.12);
-    border: 9px solid #451a03;
+    border: 8px solid #451a03;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
@@ -132,7 +138,7 @@
 /* Tọa độ hiển thị góc ô */
 .chess-coord-file, .chess-coord-rank {
     position: absolute;
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 800;
     pointer-events: none;
     opacity: 0.65;
@@ -141,12 +147,12 @@
 
 .chess-coord-file {
     bottom: 2px;
-    right: 4px;
+    right: 3px;
 }
 
 .chess-coord-rank {
     top: 2px;
-    left: 4px;
+    left: 3px;
 }
 
 .chess-cell.light .chess-coord-file,
@@ -181,8 +187,8 @@
 /* CHẤM GỢI Ý NƯỚC ĐI HỢP LỆ */
 .chess-move-hint {
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     background: rgba(30, 41, 59, 0.32);
     border-radius: 50%;
     pointer-events: none;
@@ -197,7 +203,7 @@
 .chess-capture-hint {
     position: absolute;
     inset: 4px;
-    border: 4px solid rgba(239, 68, 68, 0.7);
+    border: 3.5px solid rgba(239, 68, 68, 0.75);
     border-radius: 50%;
     pointer-events: none;
     z-index: 5;
@@ -228,29 +234,31 @@
     filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.25));
 }
 
-/* CỘT PHẢI: BẢNG THÔNG TIN & ĐIỀU KHIỂN RỘNG RÃI */
+/* CỘT PHẢI: BẢNG THÔNG TIN & ĐIỀU KHIỂN RỘNG RÃI (CHIỀU CAO CỐ ĐỊNH, KHÔNG BỊ PHÌNH KHI ĐI CỜ) */
 .chess-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    width: 380px;
+    gap: 10px;
+    width: 350px;
     flex-shrink: 0;
+    box-sizing: border-box;
 }
 
 /* THẺ PANEL TRONG SIDEBAR */
 .chess-card-box {
     background: #ffffff;
-    border-radius: 18px;
-    padding: 16px 20px;
+    border-radius: 16px;
+    padding: 12px 16px;
     box-shadow: 0 4px 18px rgba(45, 26, 18, 0.06);
     border: 1px solid rgba(184, 115, 87, 0.2);
+    box-sizing: border-box;
 }
 
 .chess-card-title {
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 800;
     color: #451a03;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -259,21 +267,21 @@
 /* BỘ CHỌN CHẾ ĐỘ & ELO TRONG SIDEBAR */
 .chess-mode-pills, .chess-elo-pills {
     display: flex;
-    gap: 6px;
+    gap: 5px;
     background: rgba(0, 0, 0, 0.04);
-    padding: 4px;
-    border-radius: 12px;
-    margin-bottom: 12px;
+    padding: 3px;
+    border-radius: 10px;
+    margin-bottom: 8px;
 }
 
 .chess-mode-tab, .chess-elo-tab {
     flex: 1;
-    padding: 7px 6px;
-    font-size: 12px;
+    padding: 6px 4px;
+    font-size: 11.5px;
     font-weight: 700;
     border: none;
     background: transparent;
-    border-radius: 8px;
+    border-radius: 7px;
     cursor: pointer;
     color: #78716c;
     transition: all 0.2s ease;
@@ -289,20 +297,22 @@
 
 .chess-subnav-actions {
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 
 .chess-action-btn {
-    padding: 7px 16px;
-    font-size: 12.5px;
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 12px;
     font-weight: 700;
     font-family: inherit;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
     border: 1px solid rgba(184, 115, 87, 0.28);
     background: #fcfaf7;
     color: #451a03;
     transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-align: center;
 }
 
 .chess-action-btn:hover {
@@ -316,29 +326,14 @@
     background: #9a3412;
     border-color: #9a3412;
     color: #ffffff;
-    box-shadow: 0 4px 12px rgba(154, 52, 18, 0.28);
+    box-shadow: 0 3px 10px rgba(154, 52, 18, 0.28);
 }
 
 .chess-action-btn.primary:hover {
     background: #b45309;
     border-color: #b45309;
     color: #ffffff;
-    box-shadow: 0 6px 16px rgba(180, 83, 9, 0.35);
-}
-
-.chess-action-btn:hover {
-    background: #fde68a;
-    transform: translateY(-1px);
-}
-
-.chess-action-btn.primary {
-    background: #9a3412;
-    color: #ffffff;
-    border: none;
-}
-
-.chess-action-btn.primary:hover {
-    background: #7c2d12;
+    box-shadow: 0 5px 14px rgba(180, 83, 9, 0.35);
 }
 
 /* THẺ TRẠNG THÁI LƯỢT ĐI & KHAY QUÂN BỊ BẮT */
@@ -346,17 +341,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 14px;
+    margin-bottom: 8px;
 }
 
 .chess-turn-badge {
     width: 100%;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 14px;
-    border-radius: 12px;
-    font-size: 13.5px;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 12.5px;
     font-weight: 800;
 }
 
@@ -373,8 +368,8 @@
 }
 
 .chess-turn-dot {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
 }
 
@@ -389,65 +384,112 @@
 }
 
 .chess-captured-box {
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-top: 6px;
+    padding-top: 6px;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .chess-captured-title {
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
     color: #a8a29e;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .chess-captured-pieces {
     display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    min-height: 28px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 3px;
+    height: 24px;
+    min-height: 24px;
+    max-height: 24px;
     align-items: center;
+    scrollbar-width: none;
+}
+
+.chess-captured-pieces::-webkit-scrollbar {
+    display: none;
 }
 
 .chess-captured-mini {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
     opacity: 0.85;
 }
 
-/* NHẬT KÝ NƯỚC ĐI */
+/* NHẬT KÝ NƯỚC ĐI: KHÓA CHIỀU CAO CỐ ĐỊNH 100%, KHÔNG LÀM NHẢY KHUNG HÌNH */
+.chess-moves-card {
+    display: flex;
+    flex-direction: column;
+}
+
 .chess-moves-scroll {
     overflow-y: auto;
-    max-height: 230px;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+    height: 140px;
+    min-height: 140px;
+    max-height: 140px;
     padding-right: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.015);
+    box-sizing: border-box;
+}
+
+.chess-moves-scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.chess-moves-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+}
+
+.chess-moves-scroll::-webkit-scrollbar-thumb {
+    background: rgba(184, 115, 87, 0.4);
+    border-radius: 4px;
+}
+
+.chess-moves-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(184, 115, 87, 0.7);
 }
 
 .chess-moves-table {
     width: 100%;
-    font-size: 12.5px;
+    font-size: 11.5px;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .chess-moves-table th {
     text-align: left;
     color: #a8a29e;
     font-weight: 700;
-    font-size: 11px;
-    padding-bottom: 6px;
+    font-size: 10.5px;
+    padding: 5px 6px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    position: sticky;
+    top: 0;
+    background: #fdfbf7;
+    z-index: 2;
 }
 
 .chess-moves-table td {
-    padding: 5px 6px;
+    padding: 4px 6px;
     color: #292524;
     font-family: 'Courier New', Courier, monospace;
     font-weight: 700;
 }
 
 .chess-moves-table tr:nth-child(even) {
-    background: rgba(0, 0, 0, 0.02);
+    background: rgba(0, 0, 0, 0.025);
 }
 
 /* MODAL PHONG CẤP TỐT */
@@ -528,17 +570,18 @@
     .chess-arena-layout {
         flex-direction: column;
         align-items: center;
+        gap: 16px;
     }
     
     .chess-board-wrapper {
         width: 90vw;
         height: 90vw;
-        max-width: 480px;
-        max-height: 480px;
+        max-width: 440px;
+        max-height: 440px;
     }
     
     .chess-sidebar {
         width: 100%;
-        max-width: 480px;
+        max-width: 440px;
     }
 }

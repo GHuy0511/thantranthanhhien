@@ -1003,6 +1003,9 @@ window.ChessGame = (function () {
                 const c = isBoardFlipped ? (7 - colIdx) : colIdx;
 
                 const cell = document.createElement('div');
+                cell.id = "chessCell_" + r + "_" + c;
+                cell.dataset.r = r;
+                cell.dataset.c = c;
                 const isLight = (r + c) % 2 === 0;
                 cell.className = `chess-cell ${isLight ? 'light' : 'dark'}`;
 
@@ -1078,7 +1081,7 @@ window.ChessGame = (function () {
             if (turn === 'w') {
                 turnText.textContent = 'Lượt đi: Trắng (Huy)';
             } else {
-                const blackName = gameMode === 'ai' ? `Máy AI (${currentElo})` : 'Đen (Hiền)';
+                const blackName = gameMode === 'ai' ? 'Máy (AI)' : 'Đen (Hiền)';
                 turnText.textContent = `Lượt đi: ${blackName}`;
             }
         }
@@ -1097,20 +1100,34 @@ window.ChessGame = (function () {
         const logBody = document.getElementById('chessMovesTableBody');
         if (logBody) {
             logBody.innerHTML = '';
-            for (let i = 0; i < moveHistory.length; i += 2) {
-                const moveNum = Math.floor(i / 2) + 1;
-                const whiteMove = moveHistory[i] ? moveHistory[i].notation : '';
-                const blackMove = moveHistory[i + 1] ? moveHistory[i + 1].notation : '';
+            if (moveHistory.length === 0) {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td style="color:#a8a29e; width: 35px;">${moveNum}.</td>
-                    <td>${whiteMove}</td>
-                    <td>${blackMove}</td>
-                `;
+                tr.innerHTML = '<td colspan="3" style="text-align: center; color: #a8a29e; font-weight: 500; font-family: inherit; font-size: 11.5px; padding: 24px 0;">Chưa có nước đi nào</td>';
                 logBody.appendChild(tr);
+            } else {
+                for (let i = 0; i < moveHistory.length; i += 2) {
+                    const moveNum = Math.floor(i / 2) + 1;
+                    const whiteMove = moveHistory[i] ? moveHistory[i].notation : '';
+                    const blackMove = moveHistory[i + 1] ? moveHistory[i + 1].notation : '';
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="color:#a8a29e; width: 35px;">${moveNum}.</td>
+                        <td>${whiteMove}</td>
+                        <td>${blackMove}</td>
+                    `;
+                    logBody.appendChild(tr);
+                }
             }
             const scrollContainer = document.getElementById('chessMovesScroll');
-            if (scrollContainer) scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            if (scrollContainer) {
+                scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            }
+            // Khóa cuộn màn hình tuyệt đối, ngăn nhảy layout
+            if (window.scrollY !== 0) window.scrollTo(0, 0);
+            const mainEl = document.querySelector('.games-main-container');
+            if (mainEl && mainEl.scrollTop !== 0) mainEl.scrollTop = 0;
+            const panelEl = document.getElementById('viewChess');
+            if (panelEl && panelEl.scrollTop !== 0) panelEl.scrollTop = 0;
         }
     }
 

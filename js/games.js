@@ -2996,7 +2996,6 @@ function initGameSwitcher() {
     const viewBlockBlast = document.getElementById("viewBlockBlast");
     const viewCaro = document.getElementById("viewCaro");
     const viewGo = document.getElementById("viewGo");
-    const viewXiangqi = document.getElementById("viewXiangqi");
     const viewChess = document.getElementById("viewChess");
     const viewSudoku = document.getElementById("viewSudoku");
     const toolsMonopoly = document.getElementById("toolsMonopoly");
@@ -3022,7 +3021,6 @@ function initGameSwitcher() {
         if (viewBlockBlast) viewBlockBlast.classList.toggle("active", gameId === "blockblast");
         if (viewCaro) viewCaro.classList.toggle("active", gameId === "caro");
         if (viewGo) viewGo.classList.toggle("active", gameId === "go");
-        if (viewXiangqi) viewXiangqi.classList.toggle("active", gameId === "xiangqi");
         if (viewChess) viewChess.classList.toggle("active", gameId === "chess");
         if (viewSudoku) viewSudoku.classList.toggle("active", gameId === "sudoku");
 
@@ -3057,8 +3055,6 @@ function initGameSwitcher() {
         switchGame("sudoku", false);
     } else if (targetGame === "chess") {
         switchGame("chess", false);
-    } else if (targetGame === "xiangqi") {
-        switchGame("xiangqi", false);
     } else if (targetGame === "go") {
         switchGame("go", false);
     } else if (targetGame === "caro") {
@@ -3071,7 +3067,7 @@ function initGameSwitcher() {
 
     window.addEventListener("hashchange", () => {
         const curHash = location.hash.replace("#", "");
-        if (["blockblast", "monopoly", "caro", "go", "xiangqi", "chess", "sudoku"].includes(curHash)) {
+        if (["blockblast", "monopoly", "caro", "go", "chess", "sudoku"].includes(curHash)) {
             switchGame(curHash, false);
         }
     });
@@ -3108,10 +3104,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (window.GoGame && typeof window.GoGame.init === "function") {
         window.GoGame.init();
-    }
-
-    if (window.XiangqiGame && typeof window.XiangqiGame.init === "function") {
-        window.XiangqiGame.init();
     }
 
     if (window.ChessGame && typeof window.ChessGame.init === "function") {

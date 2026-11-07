@@ -451,7 +451,6 @@ window.CoupleNetwork = (function () {
     }
 
     function getGameTitle(gameKey) {
-        if (gameKey === 'xiangqi') return 'Cờ Tướng';
         if (gameKey === 'chess') return 'Cờ Vua';
         if (gameKey === 'sudoku') return 'Sudoku';
         if (gameKey === 'go') return 'Cờ Vây';
