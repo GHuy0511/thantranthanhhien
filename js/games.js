@@ -2995,6 +2995,9 @@ function initGameSwitcher() {
     const viewBlockBlast = document.getElementById("viewBlockBlast");
     const viewCaro = document.getElementById("viewCaro");
     const viewGo = document.getElementById("viewGo");
+    const viewXiangqi = document.getElementById("viewXiangqi");
+    const viewChess = document.getElementById("viewChess");
+    const viewSudoku = document.getElementById("viewSudoku");
     const toolsMonopoly = document.getElementById("toolsMonopoly");
     const toolsBlockBlast = document.getElementById("toolsBlockBlast");
     const toolsCaro = document.getElementById("toolsCaro");
@@ -3018,6 +3021,9 @@ function initGameSwitcher() {
         if (viewBlockBlast) viewBlockBlast.classList.toggle("active", gameId === "blockblast");
         if (viewCaro) viewCaro.classList.toggle("active", gameId === "caro");
         if (viewGo) viewGo.classList.toggle("active", gameId === "go");
+        if (viewXiangqi) viewXiangqi.classList.toggle("active", gameId === "xiangqi");
+        if (viewChess) viewChess.classList.toggle("active", gameId === "chess");
+        if (viewSudoku) viewSudoku.classList.toggle("active", gameId === "sudoku");
 
         if (toolsMonopoly) toolsMonopoly.style.display = gameId === "monopoly" ? "flex" : "none";
         if (toolsBlockBlast) toolsBlockBlast.style.display = gameId === "blockblast" ? "flex" : "none";
@@ -3046,7 +3052,13 @@ function initGameSwitcher() {
     const saved = localStorage.getItem("active_game_view");
     const targetGame = urlGame || hash || saved;
 
-    if (targetGame === "go") {
+    if (targetGame === "sudoku") {
+        switchGame("sudoku", false);
+    } else if (targetGame === "chess") {
+        switchGame("chess", false);
+    } else if (targetGame === "xiangqi") {
+        switchGame("xiangqi", false);
+    } else if (targetGame === "go") {
         switchGame("go", false);
     } else if (targetGame === "caro") {
         switchGame("caro", false);
@@ -3058,7 +3070,7 @@ function initGameSwitcher() {
 
     window.addEventListener("hashchange", () => {
         const curHash = location.hash.replace("#", "");
-        if (curHash === "blockblast" || curHash === "monopoly" || curHash === "caro" || curHash === "go") {
+        if (["blockblast", "monopoly", "caro", "go", "xiangqi", "chess", "sudoku"].includes(curHash)) {
             switchGame(curHash, false);
         }
     });
@@ -3095,6 +3107,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (window.GoGame && typeof window.GoGame.init === "function") {
         window.GoGame.init();
+    }
+
+    if (window.XiangqiGame && typeof window.XiangqiGame.init === "function") {
+        window.XiangqiGame.init();
+    }
+
+    if (window.ChessGame && typeof window.ChessGame.init === "function") {
+        window.ChessGame.init();
+    }
+
+    if (window.SudokuGame && typeof window.SudokuGame.init === "function") {
+        window.SudokuGame.init();
     }
 
     const btnGoQuick = document.getElementById("btnGoQuickRestart");

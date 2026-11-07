@@ -1,0 +1,374 @@
+/* ========================================================
+   SUDOKU VINTAGE LUXURY STYLES - HUY & HIỀN EDITION
+   ======================================================== */
+
+.sudoku-view-panel {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px 16px 40px;
+    box-sizing: border-box;
+}
+
+.sudoku-view-panel.active {
+    display: flex;
+}
+
+/* SUBNAV DOCK */
+.sudoku-subnav-dock {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    max-width: 720px;
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(184, 115, 87, 0.22);
+    border-radius: 16px;
+    padding: 8px 14px;
+    box-shadow: 0 4px 16px rgba(45, 26, 18, 0.05);
+}
+
+.sudoku-diff-pills {
+    display: flex;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.sudoku-diff-tab {
+    padding: 6px 14px;
+    font-size: 12.5px;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #78716c;
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    font-family: inherit;
+}
+
+.sudoku-diff-tab.active {
+    background: #ffffff;
+    color: #9a3412;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* THÔNG TIN TRẠNG THÁI: THỜI GIAN & LỖI SAI */
+.sudoku-stats-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.sudoku-stat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #451a03;
+    background: #fdfbf7;
+    border: 1px solid rgba(184, 115, 87, 0.25);
+    padding: 5px 12px;
+    border-radius: 10px;
+}
+
+.sudoku-stat-pill.mistakes {
+    color: #b91c1c;
+    border-color: #fca5a5;
+    background: #fef2f2;
+}
+
+/* BANNER THẮNG CUỘC */
+.sudoku-notice-banner {
+    display: none;
+    width: 100%;
+    max-width: 720px;
+    margin-bottom: 14px;
+    padding: 12px 20px;
+    border-radius: 14px;
+    text-align: center;
+    font-size: 14.5px;
+    font-weight: 700;
+    box-sizing: border-box;
+    animation: sudokuPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sudoku-notice-banner.active {
+    display: block;
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #86efac;
+    box-shadow: 0 6px 18px rgba(22, 163, 74, 0.16);
+}
+
+@keyframes sudokuPop {
+    from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* KHUNG CHÍNH: BÀN CỜ + BÀN PHÍM ĐIỀU KHIỂN */
+.sudoku-arena-card {
+    background: #fdfbf7;
+    padding: 20px;
+    border-radius: 22px;
+    box-shadow: 0 16px 40px rgba(45, 26, 18, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+    border: 2px solid rgba(184, 115, 87, 0.28);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* LƯỚI BÀN CỜ 9x9 */
+.sudoku-board-grid {
+    width: 450px;
+    height: 450px;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    background: #ffffff;
+    border: 3px solid #451a03;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.06);
+}
+
+/* TỪNG Ô CỜ */
+.sudoku-cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    border-right: 1px solid rgba(184, 115, 87, 0.22);
+    border-bottom: 1px solid rgba(184, 115, 87, 0.22);
+    transition: background-color 0.15s ease, transform 0.1s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Viền dày phân chia 9 block 3x3 */
+.sudoku-cell:nth-child(3n) {
+    border-right: 2.5px solid #451a03;
+}
+.sudoku-cell:nth-child(9n) {
+    border-right: none;
+}
+.sudoku-cell.row-divider {
+    border-bottom: 2.5px solid #451a03;
+}
+.sudoku-cell.bottom-edge {
+    border-bottom: none;
+}
+
+/* Số đề bài gốc (Clue) */
+.sudoku-cell.clue {
+    font-weight: 800;
+    color: #292524;
+    background: #faf7f2;
+}
+
+/* Số người chơi tự điền */
+.sudoku-cell.user-input {
+    color: #9a3412;
+    font-weight: 800;
+}
+
+/* Ô đang được chọn */
+.sudoku-cell.selected {
+    background: #fef08a !important;
+}
+
+/* Các ô cùng hàng, cùng cột, cùng khối 3x3 */
+.sudoku-cell.peer {
+    background: #fefce8;
+}
+
+/* Các ô có cùng số với ô được chọn */
+.sudoku-cell.same-number {
+    background: #fed7aa !important;
+    color: #7c2d12;
+}
+
+/* Ô phạm quy (bị trùng) */
+.sudoku-cell.error {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+    animation: sudokuErrorShake 0.3s ease;
+}
+
+@keyframes sudokuErrorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+/* LƯỚI GHI CHÚ BÚT CHÌ (PENCIL NOTES 3x3) */
+.sudoku-notes-grid {
+    position: absolute;
+    inset: 2px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    pointer-events: none;
+}
+
+.sudoku-note-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: #78716c;
+}
+
+/* BẢN ĐIỀU KHIỂN & BÀN PHÍM SỐ */
+.sudoku-controls {
+    margin-top: 18px;
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* CÁC NÚT CHỨC NĂNG (GHI CHÚ, XÓA, HOÀN TÁC, GỢI Ý) */
+.sudoku-tools-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.sudoku-tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 4px;
+    background: #ffffff;
+    border: 1px solid rgba(184, 115, 87, 0.25);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #451a03;
+    font-family: inherit;
+    transition: all 0.18s ease;
+}
+
+.sudoku-tool-btn:hover {
+    background: #fef3c7;
+    border-color: #d97706;
+    transform: translateY(-1px);
+}
+
+.sudoku-tool-btn.active {
+    background: #9a3412;
+    color: #ffffff;
+    border-color: #9a3412;
+    box-shadow: 0 3px 8px rgba(154, 52, 18, 0.3);
+}
+
+.sudoku-tool-icon {
+    font-size: 18px;
+}
+
+/* BÀN PHÍM SỐ 1 - 9 */
+.sudoku-numpad {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 6px;
+}
+
+.sudoku-num-btn {
+    aspect-ratio: 1;
+    background: #ffffff;
+    border: 1.5px solid rgba(184, 115, 87, 0.3);
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #451a03;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(45, 26, 18, 0.05);
+}
+
+.sudoku-num-btn:hover {
+    background: #fef3c7;
+    border-color: #d97706;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(217, 119, 6, 0.15);
+}
+
+.sudoku-num-btn:active {
+    transform: translateY(0);
+}
+
+/* NÚT VÁN MỚI */
+.sudoku-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #ffffff;
+    background: #9a3412;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    box-shadow: 0 2px 6px rgba(154, 52, 18, 0.25);
+}
+
+.sudoku-action-btn:hover {
+    background: #7c2d12;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(124, 45, 18, 0.3);
+}
+
+/* RESPONSIVE DESIGN CHO SUDOKU */
+@media (max-width: 520px) {
+    .sudoku-board-grid {
+        width: 90vw;
+        height: 90vw;
+        max-width: 360px;
+        max-height: 360px;
+    }
+
+    .sudoku-cell {
+        font-size: 17px;
+    }
+
+    .sudoku-note-num {
+        font-size: 7.5px;
+    }
+
+    .sudoku-controls {
+        max-width: 90vw;
+    }
+
+    .sudoku-num-btn {
+        font-size: 16px;
+    }
+}
