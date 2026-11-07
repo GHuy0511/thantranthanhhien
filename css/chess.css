@@ -1,7 +1,7 @@
 /* ========================================================
-   CỜ VUA (INTERNATIONAL CHESS) LUXURY STYLES - HUY & HIỀN EDITION
-   Layout: Bàn cờ trọn khung hình + Thông tin & Điều khiển bên cạnh
-   Thiết kế cố định chiều cao (Stationary Board & Fixed History Table)
+   CỜ VUA (INTERNATIONAL CHESS) BESPOKE LUXURY - HUY & HIỀN EDITION
+   Bàn cờ gỗ hoàng gia tinh xảo (Sycamore Maple & Terracotta Chestnut)
+   Thiết kế cố định chiều cao (Stationary Board & Fixed Move Log)
    ======================================================== */
 
 .chess-view-panel {
@@ -18,6 +18,7 @@
     box-sizing: border-box;
     overflow: hidden;
     position: relative;
+    font-family: 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
 }
 
 .chess-view-panel.active {
@@ -45,10 +46,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #fdfaf5;
+    background: #fffdfa;
     padding: 14px;
     border-radius: 20px;
-    box-shadow: 0 12px 36px rgba(45, 26, 18, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 14px 40px rgba(45, 26, 18, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
     border: 2px solid rgba(184, 115, 87, 0.28);
     position: relative;
     user-select: none;
@@ -68,6 +69,7 @@
     font-weight: 700;
     box-sizing: border-box;
     animation: chessBannerPop 0.25s ease;
+    font-family: inherit;
 }
 
 .chess-notice-banner.active {
@@ -108,15 +110,20 @@
     aspect-ratio: 1 / 1;
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.12);
-    border: 8px solid #451a03;
+    /* Khung viền gỗ óc chó cổ điển lót chỉ vàng tinh tế */
+    box-shadow: 
+        inset 0 0 0 2px rgba(217, 163, 102, 0.65),
+        inset 0 0 16px rgba(0, 0, 0, 0.4),
+        0 10px 30px rgba(35, 18, 10, 0.16);
+    border: 9px solid #3c2013;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
-    background: #f5edd6;
+    background: #fbf5eb;
+    box-sizing: border-box;
 }
 
-/* Ô CỜ VUA: Ô SÁNG & Ô TỐI */
+/* Ô CỜ VUA: Ô SÁNG (GỖ THÔNG SÁNG) & Ô TỐI (TERRACOTTA HẠT DẺ ẤM) */
 .chess-cell {
     position: relative;
     display: flex;
@@ -124,25 +131,27 @@
     justify-content: center;
     cursor: pointer;
     box-sizing: border-box;
-    transition: background-color 0.15s ease;
+    transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .chess-cell.light {
-    background-color: #f7eed8;
+    background: #fbf5ec;
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.7), inset 0 -1px 2px rgba(184, 115, 87, 0.08);
 }
 
 .chess-cell.dark {
-    background-color: #b88656;
+    background: #b26e50;
+    box-shadow: inset 0 0 0 0.5px rgba(255, 255, 255, 0.12), inset 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
-/* Tọa độ hiển thị góc ô */
+/* Tọa độ hiển thị góc ô với font Lora mỹ thuật */
 .chess-coord-file, .chess-coord-rank {
     position: absolute;
-    font-size: 10.5px;
-    font-weight: 800;
+    font-size: 11px;
+    font-weight: 700;
     pointer-events: none;
-    opacity: 0.65;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    opacity: 0.75;
+    font-family: 'Lora', 'Be Vietnam Pro', serif;
 }
 
 .chess-coord-file {
@@ -157,39 +166,48 @@
 
 .chess-cell.light .chess-coord-file,
 .chess-cell.light .chess-coord-rank {
-    color: #92400e;
+    color: #8c4c32;
 }
 
 .chess-cell.dark .chess-coord-file,
 .chess-cell.dark .chess-coord-rank {
-    color: #fef3c7;
+    color: #faeedd;
+}
+
+/* Hover nhẹ nhàng khi rê chuột */
+.chess-cell:hover {
+    filter: brightness(1.04);
 }
 
 /* Highlight ô vừa đi & ô đang chọn */
 .chess-cell.selected {
-    background-color: #fde047 !important;
+    background-color: #f7d486 !important;
+    box-shadow: inset 0 0 0 2px #d97706, inset 0 0 14px rgba(217, 119, 6, 0.5) !important;
 }
 
 .chess-cell.last-move {
-    background-color: rgba(245, 158, 11, 0.45) !important;
+    background-color: rgba(217, 119, 6, 0.28) !important;
+    box-shadow: inset 0 0 0 1.5px rgba(217, 119, 6, 0.45) !important;
 }
 
 .chess-cell.in-check {
-    background-color: #f87171 !important;
+    background-color: #fecaca !important;
+    box-shadow: inset 0 0 0 2px #dc2626, inset 0 0 16px rgba(220, 38, 38, 0.55) !important;
     animation: chessKingPulse 1.2s infinite alternate;
 }
 
 @keyframes chessKingPulse {
-    from { box-shadow: inset 0 0 6px #b91c1c; }
-    to { box-shadow: inset 0 0 18px #ef4444; }
+    from { filter: brightness(1); }
+    to { filter: brightness(1.12); }
 }
 
 /* CHẤM GỢI Ý NƯỚC ĐI HỢP LỆ */
 .chess-move-hint {
     position: absolute;
-    width: 16px;
-    height: 16px;
-    background: rgba(30, 41, 59, 0.32);
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle, #b45309 30%, rgba(180, 83, 9, 0.4) 100%);
+    box-shadow: 0 0 8px rgba(180, 83, 9, 0.5);
     border-radius: 50%;
     pointer-events: none;
     z-index: 5;
@@ -197,41 +215,48 @@
 }
 
 .chess-cell:hover .chess-move-hint {
-    transform: scale(1.25);
+    transform: scale(1.35);
 }
 
 .chess-capture-hint {
     position: absolute;
     inset: 4px;
-    border: 3.5px solid rgba(239, 68, 68, 0.75);
+    border: 3.5px solid #dc2626;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.4);
     border-radius: 50%;
     pointer-events: none;
     z-index: 5;
+    animation: chessCapPulse 1.2s infinite alternate;
 }
 
-/* QUÂN CỜ VUA VECTOR SVG */
+@keyframes chessCapPulse {
+    from { transform: scale(0.96); opacity: 0.85; }
+    to { transform: scale(1.02); opacity: 1; }
+}
+
+/* QUÂN CỜ VUA VECTOR SVG TINH XẢO */
 .chess-piece-wrapper {
     position: relative;
-    width: 84%;
-    height: 84%;
+    width: 86%;
+    height: 86%;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 4;
-    transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
+    filter: drop-shadow(0 4px 6px rgba(20, 10, 5, 0.28));
 }
 
 .chess-cell.selected .chess-piece-wrapper {
     transform: scale(1.18) translateY(-4px);
-    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.4));
+    filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.45));
 }
 
 .chess-piece-svg {
     width: 100%;
     height: 100%;
     display: block;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.25));
 }
 
 /* CỘT PHẢI: BẢNG THÔNG TIN & ĐIỀU KHIỂN RỘNG RÃI (CHIỀU CAO CỐ ĐỊNH, KHÔNG BỊ PHÌNH KHI ĐI CỜ) */
@@ -262,6 +287,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-family: inherit;
 }
 
 /* BỘ CHỌN CHẾ ĐỘ & ELO TRONG SIDEBAR */
@@ -353,6 +379,7 @@
     border-radius: 10px;
     font-size: 12.5px;
     font-weight: 800;
+    font-family: inherit;
 }
 
 .chess-turn-badge.white {
@@ -396,6 +423,7 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 4px;
+    font-family: inherit;
 }
 
 .chess-captured-pieces {
@@ -466,6 +494,7 @@
     font-size: 11.5px;
     border-collapse: collapse;
     table-layout: fixed;
+    font-family: inherit;
 }
 
 .chess-moves-table th {
@@ -479,6 +508,7 @@
     top: 0;
     background: #fdfbf7;
     z-index: 2;
+    font-family: inherit;
 }
 
 .chess-moves-table td {
@@ -520,7 +550,7 @@
 }
 
 .chess-promotion-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Lora', 'Playfair Display', 'Be Vietnam Pro', serif;
     font-size: 18px;
     font-weight: 700;
     color: #451a03;
@@ -531,6 +561,7 @@
     font-size: 12.5px;
     color: #78716c;
     margin-bottom: 16px;
+    font-family: inherit;
 }
 
 .chess-promotion-choices {
@@ -550,6 +581,7 @@
     padding: 10px 4px;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-family: inherit;
 }
 
 .chess-promo-btn:hover {

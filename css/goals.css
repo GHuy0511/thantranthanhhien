@@ -1,3 +1,34 @@
+.goal-card-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 2px;
+}
+
+.goal-timing-chip {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid rgba(217, 119, 6, 0.25);
+    white-space: nowrap;
+}
+
+.goal-title {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: #2d2621;
+    margin: 2px 0 4px;
+    line-height: 1.35;
+    font-family: inherit;
+    width: 100%;
+}
+button, input, select, textarea {
+    font-family: inherit;
+}
 /* ========================================================
    CSS CHO TRANG KẾ HOẠCH & QUỸ TIẾT KIỆM (GOALS & SAVINGS)
    - Thiết kế Tối Giản Hiện Đại (Clean Modern Minimalist)
@@ -9,7 +40,7 @@
 .goals-body {
     min-height: 100vh;
     background: var(--bg-body, #faf7f2);
-    font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif);
+    font-family: var(--font-sans, 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif);
     color: var(--text-primary, #2d2621);
     position: relative;
     overflow-x: hidden;
@@ -42,7 +73,7 @@
 }
 
 .goals-nav-logo {
-    font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
+    font-family: var(--font-serif, 'Lora', 'Playfair Display', 'Be Vietnam Pro', Georgia, serif);
     font-size: 19px;
     font-weight: 700;
     color: var(--primary, #b45d43);
@@ -192,13 +223,35 @@
     margin-bottom: 24px;
 }
 
-.goals-hero-title {
-    font-family: var(--font-serif, 'Playfair Display', Georgia, serif);
-    font-size: 28px;
+.goals-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    background: rgba(180, 93, 67, 0.08);
+    border: 1px solid rgba(180, 93, 67, 0.22);
+    border-radius: 999px;
+    font-size: 12px;
     font-weight: 700;
-    color: var(--primary, #b45d43);
-    margin: 0 0 6px;
+    color: #b45d43;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(180, 93, 67, 0.06);
+}
+
+.goals-hero-badge .badge-sparkle {
+    color: #d97706;
+    font-size: 11px;
+}
+
+.goals-hero-title {
+    font-family: 'Lora', 'Playfair Display', 'Be Vietnam Pro', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #8c3b24;
+    margin: 0 0 8px;
     letter-spacing: -0.4px;
+    line-height: 1.25;
 }
 
 .goals-hero-subtitle {
@@ -211,15 +264,16 @@
 
 /* 5. THANH CHỈ SỐ TÀI CHÍNH KHOA HỌC (FINANCIAL PROGRESS OVERVIEW) */
 .goals-financial-strip {
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 18px;
-    padding: 18px 22px;
-    margin-bottom: 24px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+    background: linear-gradient(135deg, #ffffff 0%, #fdfaf6 100%);
+    border: 1px solid rgba(184, 115, 87, 0.2);
+    border-radius: 20px;
+    padding: 22px 26px;
+    margin-bottom: 26px;
+    box-shadow: 0 8px 28px rgba(45, 26, 18, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02);
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
+    position: relative;
 }
 
 .financial-strip-main {
@@ -251,10 +305,11 @@
 }
 
 .financial-amount-current {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 800;
-    color: var(--text-primary, #2d2621);
+    color: #7c2d12;
     letter-spacing: -0.5px;
+    font-family: 'Plus Jakarta Sans', 'Be Vietnam Pro', sans-serif;
 }
 
 .financial-amount-divider {
@@ -281,18 +336,20 @@
 /* Master Progress Bar mảnh mai 8px */
 .goals-master-track {
     width: 100%;
-    height: 8px;
-    background: #f1ede7;
+    height: 10px;
+    background: #ede6de;
     border-radius: 999px;
     overflow: hidden;
     position: relative;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .goals-master-fill {
     height: 100%;
-    background: linear-gradient(90deg, #b45d43 0%, #e07a5f 100%);
+    background: linear-gradient(90deg, #b45309 0%, #ea580c 50%, #16a34a 100%);
     border-radius: 999px;
     transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 8px rgba(234, 88, 12, 0.35);
 }
 
 /* Meta Chips */
@@ -424,19 +481,21 @@
 
 .goal-card {
     background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(184, 115, 87, 0.2);
+    border-radius: 20px;
+    padding: 20px 22px;
+    box-shadow: 0 4px 18px rgba(45, 26, 18, 0.05);
     display: flex;
     flex-direction: column;
     gap: 14px;
-    transition: all 0.2s ease;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
 }
 
 .goal-card:hover {
-    border-color: rgba(180, 93, 67, 0.2);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    transform: translateY(-3px);
+    border-color: rgba(184, 115, 87, 0.4);
+    box-shadow: 0 12px 32px rgba(45, 26, 18, 0.1);
 }
 
 /* Header Thẻ */
@@ -453,44 +512,98 @@
     gap: 4px;
 }
 
+.goal-badges-cluster {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+    margin-bottom: 6px;
+}
+
+.goal-category-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: #fdf5ed;
+    color: #9a3412;
+    border: 1px solid rgba(184, 115, 87, 0.25);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+}
+
 .goal-space-tag {
     font-size: 11px;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 3px 8px;
-    border-radius: 6px;
-    width: fit-content;
+    letter-spacing: 0.2px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
 }
 
 .goal-space-tag.tag-both {
-    background: rgba(180, 93, 67, 0.08);
-    color: var(--primary, #b45d43);
+    background: rgba(180, 93, 67, 0.1);
+    color: #b45d43;
+    border: 1px solid rgba(180, 93, 67, 0.22);
 }
 
 .goal-space-tag.tag-huy {
     background: rgba(37, 99, 235, 0.08);
     color: #2563eb;
+    border: 1px solid rgba(37, 99, 235, 0.2);
 }
 
 .goal-space-tag.tag-hien {
     background: rgba(219, 39, 119, 0.08);
     color: #db2777;
-}
-
-.goal-title {
-    font-size: 15.5px;
-    font-weight: 700;
-    color: var(--text-primary, #2d2621);
-    margin: 0;
-    line-height: 1.35;
+    border: 1px solid rgba(219, 39, 119, 0.2);
 }
 
 .goal-card-actions {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: 5px;
     flex-shrink: 0;
+}
+
+.goal-action-btn {
+    padding: 4px 10px;
+    font-size: 11.5px;
+    font-weight: 700;
+    border-radius: 8px;
+    border: 1px solid rgba(184, 115, 87, 0.22);
+    background: #fcfaf7;
+    color: #57534e;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.goal-action-btn:hover {
+    background: #fdf3e7;
+    border-color: #b87357;
+    color: #7c2d12;
+}
+
+.goal-action-btn.btn-view-detail {
+    background: rgba(180, 93, 67, 0.08);
+    color: #b45d43;
+    border-color: rgba(180, 93, 67, 0.25);
+}
+
+.goal-action-btn.btn-view-detail:hover {
+    background: #b45d43;
+    color: #ffffff;
+}
+
+.goal-action-btn.btn-delete:hover {
+    background: #fef2f2;
+    border-color: #fca5a5;
+    color: #dc2626;
 }
 
 .goal-action-btn {
@@ -1350,7 +1463,7 @@
 }
 
 .fund-modal-main-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Lora', 'Playfair Display', 'Be Vietnam Pro', serif;
     font-size: 22px;
     font-weight: 700;
     color: #292524;

@@ -15,6 +15,75 @@ window.GoalsApp = (function () {
     'use strict';
 
     const STORAGE_KEY = 'couple_goals_data_clean';
+    const DEFAULT_SAMPLE_GOALS = [
+        {
+            id: 'g_hue_trip',
+            title: 'Chuyến Đi Huế & Đà Nẵng Cùng Hiền',
+            category: 'travel',
+            space: 'both',
+            targetAmount: 8000000,
+            currentAmount: 3500000,
+            targetDate: '2026-12-25',
+            isSecret: false,
+            ownerRole: 'huy',
+            status: 'active',
+            momoLink: '',
+            checklist: [
+                { id: 'c_1', text: 'Đặt vé máy bay khứ hồi hai đứa', done: true },
+                { id: 'c_2', text: 'Thuê homestay view sông Hương thơ mộng', done: true },
+                { id: 'c_3', text: 'Thưởng thức bún bò Huế mụ Rơi và chè cung đình', done: false },
+                { id: 'c_4', text: 'Chụp bộ ảnh áo dài đôi cổ kính tại Đại Nội', done: false }
+            ],
+            deposits: [
+                { id: 'd_1', amount: 2000000, note: 'Huy góp đợt 1', date: '2026-11-01', by: 'Huy' },
+                { id: 'd_2', amount: 1500000, note: 'Hiền góp nuôi heo', date: '2026-11-05', by: 'Hiền' }
+            ]
+        },
+        {
+            id: 'g_birthday_hien',
+            title: 'Bí Mật Món Quà Sinh Nhật Cho Hiền',
+            category: 'gift',
+            space: 'huy',
+            targetAmount: 3000000,
+            currentAmount: 1800000,
+            targetDate: '2026-11-20',
+            isSecret: true,
+            ownerRole: 'huy',
+            status: 'active',
+            momoLink: '',
+            checklist: [
+                { id: 'c_5', text: 'Tìm mẫu quà đặc biệt Hiền thích từ lâu', done: true },
+                { id: 'c_6', text: 'Tự tay viết thiệp tỏ tình ngọt ngào', done: false },
+                { id: 'c_7', text: 'Đặt bó hoa hồng pastel người yêu mê', done: false }
+            ],
+            deposits: [
+                { id: 'd_3', amount: 1800000, note: 'Huy âm thầm tích lũy', date: '2026-11-04', by: 'Huy' }
+            ]
+        },
+        {
+            id: 'g_anniversary',
+            title: 'Bộ Ảnh Kỷ Niệm Tình Yêu Chúng Mình',
+            category: 'anniversary',
+            space: 'both',
+            targetAmount: 2000000,
+            currentAmount: 2000000,
+            targetDate: '2026-11-01',
+            isSecret: false,
+            ownerRole: 'both',
+            status: 'completed',
+            momoLink: '',
+            checklist: [
+                { id: 'c_8', text: 'Chọn trang phục tone nâu be đồng điệu', done: true },
+                { id: 'c_9', text: 'Đặt lịch studio phong cách ấm áp', done: true },
+                { id: 'c_10', text: 'In album ảnh kỷ niệm giữ làm kỷ vật', done: true }
+            ],
+            deposits: [
+                { id: 'd_4', amount: 1000000, note: 'Huy góp quỹ ảnh', date: '2026-10-25', by: 'Huy' },
+                { id: 'd_5', amount: 1000000, note: 'Hiền góp hoàn tất quỹ', date: '2026-10-28', by: 'Hiền' }
+            ]
+        }
+    ];
+
     let currentSpace = 'all'; // 'all', 'both', 'huy', 'hien'
     let goals = [];
     let editingGoalId = null;
@@ -49,17 +118,18 @@ window.GoalsApp = (function () {
             const raw = localStorage.getItem(STORAGE_KEY);
             if (raw) {
                 const parsed = JSON.parse(raw);
-                if (Array.isArray(parsed)) {
+                if (Array.isArray(parsed) && parsed.length > 0) {
                     goals = parsed;
                 } else {
-                    goals = [];
+                    goals = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_GOALS));
+                    saveData(false);
                 }
             } else {
-                goals = [];
+                goals = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_GOALS));
                 saveData(false);
             }
         } catch (e) {
-            goals = [];
+            goals = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_GOALS));
             saveData(false);
         }
     }
@@ -260,30 +330,28 @@ window.GoalsApp = (function () {
             });
 
             card.innerHTML = `
-                <div class="goal-card-header">
-                    <div class="goal-header-left">
-                        <div class="goal-badges-cluster">
-                            <span class="goal-category-badge" title="Danh mục: ${catInfo.name}">
-                                ${catInfo.name}
-                            </span>
-                            <span class="goal-space-tag ${spaceTagClass}">${spaceTagText}</span>
-                        </div>
-                        <h3 class="goal-title">${goal.title}</h3>
-                        ${goal.location ? `<span class="goal-location-sub">📍 ${goal.location}</span>` : ''}
+                <div class="goal-card-topbar">
+                    <div class="goal-badges-cluster">
+                        <span class="goal-category-badge" title="Danh mục: ${catInfo.name}">
+                            ${catInfo.name}
+                        </span>
+                        <span class="goal-space-tag ${spaceTagClass}">${spaceTagText}</span>
+                        ${daysBadgeText ? `<span class="goal-timing-chip">${daysBadgeText}</span>` : ''}
                     </div>
                     <div class="goal-card-actions">
-                        <button class="goal-action-btn btn-view-detail" type="button" title="Xem chi tiết & Quét QR MoMo" onclick="window.GoalsApp.openFundDetailModal('${goal.id}')">Xem Quỹ &amp; QR</button>
                         <button class="goal-action-btn" type="button" title="Chỉnh sửa" onclick="window.GoalsApp.openEditModal('${goal.id}')">Sửa</button>
                         <button class="goal-action-btn btn-delete" type="button" title="Xóa" onclick="window.GoalsApp.promptDeleteGoal('${goal.id}')">Xóa</button>
                     </div>
                 </div>
+
+                <h3 class="goal-title">${goal.title}</h3>
+                ${goal.location ? `<span class="goal-location-sub">📍 ${goal.location}</span>` : ''}
 
                 ${goal.targetDate ? `
                     <div class="goal-timing-strip">
                         <div class="goal-timing-left">
                             <span>📅 Dự kiến: ${goal.targetDate}</span>
                         </div>
-                        <span class="goal-timing-badge">${daysBadgeText}</span>
                     </div>
                 ` : ''}
 

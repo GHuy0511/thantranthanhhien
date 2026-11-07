@@ -1,3 +1,6 @@
+button, input, select, textarea {
+    font-family: inherit;
+}
 /**
  * ========================================================
  * CSS CỜ TỶ PHÚ VIỆT NAM (MONOPOLY VIETNAM EDITION)
@@ -12,7 +15,7 @@
     min-height: 100vh;
     background-color: var(--bg-page, #fbf8f4);
     color: var(--text-primary, #2d2623);
-    font-family: var(--font-sans, 'Plus Jakarta Sans', system-ui, sans-serif);
+    font-family: var(--font-sans, 'Be Vietnam Pro', 'Plus Jakarta Sans', system-ui, sans-serif);
     overflow-x: hidden;
     position: relative;
     padding-bottom: 30px;
