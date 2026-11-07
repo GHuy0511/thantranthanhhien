@@ -4248,3 +4248,23 @@
     transform: translateY(-1.5px) !important;
     box-shadow: 0 6px 18px rgba(184, 115, 87, 0.45) !important;
 }
+
+/* KHÓA CUỘN VIEWPORT TUYỆT ĐỐI TRÊN DESKTOP CHO TOÀN BỘ CÁC TRÒ CHƠI */
+@media (min-width: 992px) {
+    html, body.games-body {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
+    }
+    .games-main-container {
+        height: calc(100vh - 52px) !important;
+        max-height: calc(100vh - 52px) !important;
+        overflow: hidden !important;
+        padding: 2px 16px !important;
+    }
+    .game-view-panel {
+        height: 100% !important;
+        max-height: 100% !important;
+        overflow: hidden !important;
+    }
+}
