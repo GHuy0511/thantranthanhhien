@@ -4185,3 +4185,66 @@
     transform: translateZ(0);
     backface-visibility: hidden;
 }
+
+/* TỐI ƯU HÓA NÚT MODAL & BỎ HOÀN TOÀN VIỀN ĐEN NATIVE BROWSER */
+.modal-btn-cancel,
+.modal-btn-close,
+#btnCaroModalCancel,
+#btnGoConfirmCancel {
+    min-width: 120px !important;
+    padding: 10px 22px !important;
+    border-radius: 999px !important;
+    background: #fcfaf7 !important;
+    border: 1.5px solid rgba(184, 115, 87, 0.35) !important;
+    color: #78350f !important;
+    font-family: var(--font-sans, inherit) !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    outline: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.modal-btn-cancel:hover,
+.modal-btn-close:hover,
+#btnCaroModalCancel:hover,
+#btnGoConfirmCancel:hover {
+    background: #fdf4eb !important;
+    border-color: #b87357 !important;
+    color: #451a03 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 3px 10px rgba(184, 115, 87, 0.15) !important;
+}
+
+.modal-btn-confirm,
+#btnCaroModalOk,
+#btnGoConfirmOk {
+    min-width: 120px !important;
+    padding: 10px 24px !important;
+    border-radius: 999px !important;
+    background: linear-gradient(135deg, #b87357 0%, #96533c 100%) !important;
+    color: #ffffff !important;
+    font-family: var(--font-sans, inherit) !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    border: none !important;
+    cursor: pointer !important;
+    outline: none !important;
+    box-shadow: 0 4px 14px rgba(184, 115, 87, 0.35) !important;
+    transition: all 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.modal-btn-confirm:hover,
+#btnCaroModalOk:hover,
+#btnGoConfirmOk:hover {
+    background: linear-gradient(135deg, #c47c5f 0%, #a45a42 100%) !important;
+    transform: translateY(-1.5px) !important;
+    box-shadow: 0 6px 18px rgba(184, 115, 87, 0.45) !important;
+}

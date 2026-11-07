@@ -20,7 +20,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- CSS chung & CSS riêng cho Game -->
     <link rel="stylesheet" href="css/style.css?v=20261106">
@@ -395,9 +395,9 @@
                 <!-- Subnav: Chế độ đấu -->
                 <div class="caro-subnav-dock">
                     <div class="caro-mode-pills" role="tablist" aria-label="Chế độ chơi Cờ Caro">
-                        <button class="caro-mode-tab active" data-mode="p2p" type="button">Chơi Đối Kháng</button>
-                        <button class="caro-mode-tab" data-mode="ai" type="button">Đấu với AI</button>
-                        <button class="caro-mode-tab" data-mode="pass" type="button">Cùng 1 Máy</button>
+                        <button class="caro-mode-tab active" data-mode="ai" type="button">Đấu với AI</button>
+                        <button class="caro-mode-tab" data-mode="pass" type="button">Bạn Bè</button>
+                        <button class="caro-mode-tab" data-mode="p2p" type="button">Chơi Đối Kháng (P2P)</button>
                     </div>
 
                     <!-- Công cụ theo chế độ -->
@@ -461,7 +461,7 @@
                                 </div>
                                 <div class="score-vs-divider">VS</div>
                                 <div class="score-player-item">
-                                    <span class="score-player-name" id="caroPlayer2Name" style="color:#a85d7b;">Hiền</span>
+                                    <span class="score-player-name" id="caroPlayer2Name" style="color:#a85d7b;">Máy (AI)</span>
                                     <span class="score-number" id="caroScoreHien" style="color:#a85d7b;">0</span>
                                 </div>
                             </div>
@@ -491,9 +491,9 @@
                 <!-- Subnav: Chế độ đấu & Kích thước bàn cờ -->
                 <div class="go-subnav-dock">
                     <div class="go-mode-pills" role="tablist" aria-label="Chế độ chơi Cờ Vây">
-                        <button class="go-mode-tab active" data-mode="p2p" type="button">Chơi Đối Kháng</button>
-                        <button class="go-mode-tab" data-mode="ai" type="button">Đấu với AI</button>
-                        <button class="go-mode-tab" data-mode="pass" type="button">Cùng 1 Máy</button>
+                        <button class="go-mode-tab active" data-mode="ai" type="button">Đấu với AI</button>
+                        <button class="go-mode-tab" data-mode="pass" type="button">Bạn Bè</button>
+                        <button class="go-mode-tab" data-mode="p2p" type="button">Chơi Đối Kháng (P2P)</button>
                     </div>
 
                     <div class="go-size-pills" role="tablist" aria-label="Kích thước bàn cờ">
@@ -634,8 +634,8 @@
                             <button class="xq-elo-tab" data-elo="2000" type="button">2000+</button>
                         </div>
                         <div class="xiangqi-tools-group">
-                            <button class="xq-tool-btn" id="xqBtnUndo" type="button">↩ Đi Lại</button>
-                            <button class="xq-tool-btn primary" id="xqBtnNewGame" type="button">🔄 Ván Mới</button>
+                            <button class="xq-tool-btn" id="xqBtnUndo" type="button">Đi Lại</button>
+                            <button class="xq-tool-btn primary" id="xqBtnNewGame" type="button">Ván Mới</button>
                         </div>
                     </div>
 
@@ -653,7 +653,7 @@
                             </div>
                             <div class="xq-vs-divider">VS</div>
                             <div class="xq-player-box black">
-                                <div class="xq-player-label">Đen (AI / Hiền)</div>
+                                <div class="xq-player-label" id="xqBlackPlayerLabel">Đen (Máy AI)</div>
                                 <div class="xq-player-score" id="xqScoreBlack">0</div>
                                 <div class="xq-captured-tray" id="xqCapturedRed" title="Quân Đỏ bị Đen bắt"></div>
                             </div>
@@ -702,9 +702,9 @@
                             <button class="chess-elo-tab" data-elo="2000" type="button">2000+</button>
                         </div>
                         <div class="chess-subnav-actions">
-                            <button class="chess-action-btn" id="chessBtnFlip" type="button">🔄 Lật Bàn</button>
-                            <button class="chess-action-btn" id="chessBtnUndo" type="button">↩ Đi Lại</button>
-                            <button class="chess-action-btn primary" id="chessBtnNewGame" type="button">✨ Ván Mới</button>
+                            <button class="chess-action-btn" id="chessBtnFlip" type="button">Lật Bàn</button>
+                            <button class="chess-action-btn" id="chessBtnUndo" type="button">Đi Lại</button>
+                            <button class="chess-action-btn primary" id="chessBtnNewGame" type="button">Ván Mới</button>
                         </div>
                     </div>
 
@@ -755,61 +755,69 @@
              VIEW 7: TRÒ CHƠI SUDOKU CỔ ĐIỂN VINTAGE LUXURY
              ======================================================== -->
         <div class="game-view-panel sudoku-view-panel" id="viewSudoku">
-            <div class="sudoku-subnav-dock">
-                <div class="sudoku-diff-pills" role="group" aria-label="Độ khó Sudoku">
-                    <button class="sudoku-diff-tab active" data-diff="easy" type="button">Dễ</button>
-                    <button class="sudoku-diff-tab" data-diff="medium" type="button">Vừa</button>
-                    <button class="sudoku-diff-tab" data-diff="hard" type="button">Khó</button>
-                    <button class="sudoku-diff-tab" data-diff="expert" type="button">Chuyên Gia</button>
+            <div class="sudoku-arena-layout">
+                <!-- CỘT TRÁI: BÀN CỜ SUDOKU TRỌN KHUNG HÌNH -->
+                <div class="sudoku-board-card">
+                    <div class="sudoku-notice-banner" id="sudokuNoticeBanner"></div>
+                    <div class="sudoku-board-grid" id="sudokuBoardGrid">
+                        <!-- 81 ô Sudoku tạo bởi JS -->
+                    </div>
                 </div>
-                <div class="sudoku-stats-bar">
-                    <div class="sudoku-stat-pill" title="Thời gian chơi">
-                        <span>⏱️</span>
-                        <span id="sudokuTimerDisplay">00:00</span>
-                    </div>
-                    <div class="sudoku-stat-pill mistakes" title="Số lần điền sai">
-                        <span>⚠️</span>
-                        <span id="sudokuMistakesDisplay">Lỗi: 0/3</span>
-                    </div>
-                    <button class="sudoku-action-btn" id="sudokuBtnNewGame" type="button">Ván Mới</button>
-                </div>
-            </div>
 
-            <div class="sudoku-notice-banner" id="sudokuNoticeBanner"></div>
-
-            <div class="sudoku-arena-card">
-                <div class="sudoku-board-grid" id="sudokuBoardGrid"></div>
-
-                <div class="sudoku-controls">
-                    <div class="sudoku-tools-row">
-                        <button class="sudoku-tool-btn" id="sudokuBtnUndo" type="button">
-                            <span class="sudoku-tool-icon">↩</span>
-                            <span>Hoàn Tác</span>
-                        </button>
-                        <button class="sudoku-tool-btn" id="sudokuBtnErase" type="button">
-                            <span class="sudoku-tool-icon">⌫</span>
-                            <span>Xóa</span>
-                        </button>
-                        <button class="sudoku-tool-btn" id="sudokuBtnPencil" type="button">
-                            <span class="sudoku-tool-icon">✏️</span>
-                            <span>Ghi Chú</span>
-                        </button>
-                        <button class="sudoku-tool-btn" id="sudokuBtnHint" type="button">
-                            <span class="sudoku-tool-icon">💡</span>
-                            <span>Gợi Ý</span>
-                        </button>
+                <!-- CỘT PHẢI: BẢNG THÔNG TIN & ĐIỀU KHIỂN RỘNG RÃI -->
+                <div class="sudoku-sidebar">
+                    <!-- 1. Mức độ & Ván mới -->
+                    <div class="sudoku-card-box">
+                        <div class="sudoku-card-title">Mức Độ Thử Thách</div>
+                        <div class="sudoku-diff-pills" role="group" aria-label="Độ khó Sudoku">
+                            <button class="sudoku-diff-tab active" data-diff="easy" type="button">Dễ</button>
+                            <button class="sudoku-diff-tab" data-diff="medium" type="button">Vừa</button>
+                            <button class="sudoku-diff-tab" data-diff="hard" type="button">Khó</button>
+                            <button class="sudoku-diff-tab" data-diff="expert" type="button">Chuyên Gia</button>
+                        </div>
+                        <button class="sudoku-action-btn" id="sudokuBtnNewGame" type="button">Ván Mới</button>
                     </div>
 
-                    <div class="sudoku-numpad">
-                        <button class="sudoku-num-btn" data-num="1" type="button">1</button>
-                        <button class="sudoku-num-btn" data-num="2" type="button">2</button>
-                        <button class="sudoku-num-btn" data-num="3" type="button">3</button>
-                        <button class="sudoku-num-btn" data-num="4" type="button">4</button>
-                        <button class="sudoku-num-btn" data-num="5" type="button">5</button>
-                        <button class="sudoku-num-btn" data-num="6" type="button">6</button>
-                        <button class="sudoku-num-btn" data-num="7" type="button">7</button>
-                        <button class="sudoku-num-btn" data-num="8" type="button">8</button>
-                        <button class="sudoku-num-btn" data-num="9" type="button">9</button>
+                    <!-- 2. Thông tin ván chơi (Thời gian & Lỗi sai) -->
+                    <div class="sudoku-card-box">
+                        <div class="sudoku-card-title">Thông Tin Ván Đấu</div>
+                        <div class="sudoku-stats-row">
+                            <div class="sudoku-stat-pill">
+                                <span class="sudoku-stat-label">Thời Gian</span>
+                                <span class="sudoku-stat-value" id="sudokuTimerDisplay">00:00</span>
+                            </div>
+                            <div class="sudoku-stat-pill mistakes">
+                                <span class="sudoku-stat-label">Lỗi Sai</span>
+                                <span class="sudoku-stat-value" id="sudokuMistakesDisplay">0/3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Công cụ thao tác (Không dùng icon) -->
+                    <div class="sudoku-card-box">
+                        <div class="sudoku-card-title">Công Cụ Hỗ Trợ</div>
+                        <div class="sudoku-tools-grid">
+                            <button class="sudoku-tool-btn" id="sudokuBtnPencil" type="button">Ghi Chú</button>
+                            <button class="sudoku-tool-btn" id="sudokuBtnErase" type="button">Xóa</button>
+                            <button class="sudoku-tool-btn" id="sudokuBtnUndo" type="button">Hoàn Tác</button>
+                            <button class="sudoku-tool-btn" id="sudokuBtnHint" type="button">Gợi Ý</button>
+                        </div>
+                    </div>
+
+                    <!-- 4. Bàn phím số Numpad 3x3 -->
+                    <div class="sudoku-card-box">
+                        <div class="sudoku-card-title">Bàn Phím Số</div>
+                        <div class="sudoku-numpad-grid">
+                            <button class="sudoku-num-btn" data-num="1" type="button">1</button>
+                            <button class="sudoku-num-btn" data-num="2" type="button">2</button>
+                            <button class="sudoku-num-btn" data-num="3" type="button">3</button>
+                            <button class="sudoku-num-btn" data-num="4" type="button">4</button>
+                            <button class="sudoku-num-btn" data-num="5" type="button">5</button>
+                            <button class="sudoku-num-btn" data-num="6" type="button">6</button>
+                            <button class="sudoku-num-btn" data-num="7" type="button">7</button>
+                            <button class="sudoku-num-btn" data-num="8" type="button">8</button>
+                            <button class="sudoku-num-btn" data-num="9" type="button">9</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1141,7 +1149,11 @@
     <div class="game-modal-overlay" id="modalPassport" aria-hidden="true">
         <div class="game-modal-card passport-card">
             <div class="passport-cover-header">
-                <span class="passport-emblem">📊</span>
+                <span class="passport-emblem">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 21h18"></path><path d="M5 21V7l7-4 7 4v14"></path><path d="M9 10a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v11H9z"></path>
+                    </svg>
+                </span>
                 <h3 class="game-modal-title">Danh Mục Bất Động Sản & Tài Sản</h3>
                 <span class="passport-sub" id="portfolioSubTitle">Thống kê tài sản người chơi</span>
             </div>

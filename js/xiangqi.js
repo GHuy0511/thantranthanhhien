@@ -763,18 +763,18 @@ window.XiangqiGame = (function () {
             if (legalMoves.length === 0) {
                 const winnerSide = state.turn === 'r' ? 'b' : 'r';
                 const winnerName = winnerSide === 'r' ? 'Huy (Quân Đỏ)' : (state.gameMode === 'ai' ? 'Máy AI' : 'Hiền (Quân Đen)');
-                endGame(winnerSide, `Chiếu Bí! ${winnerName} đã giành chiến thắng ngoạn mục! 🎉`);
+                endGame(winnerSide, `Chiếu Bí! ${winnerName} đã giành chiến thắng!`);
                 renderBoardPieces();
                 updateStatusHUD();
                 return;
             } else {
-                updateStatusNotice(`⚔️ <strong>CHIẾU TƯỚNG!</strong> ${state.turn === 'r' ? 'Huy' : 'Hiền/AI'} đang bị chiếu!`);
+                updateStatusNotice(`<strong>CHIẾU TƯỚNG!</strong> ${state.turn === 'r' ? 'Huy' : (state.gameMode === 'ai' ? 'Máy AI' : 'Hiền')} đang bị chiếu!`);
             }
         } else {
             const oppLegalMoves = getAllLegalMoves(state.board, state.turn);
             if (oppLegalMoves.length === 0) {
                 const winnerSide = state.turn === 'r' ? 'b' : 'r';
-                endGame(winnerSide, `Hết nước đi! ${winnerSide === 'r' ? 'Huy' : 'Hiền/AI'} chiến thắng!`);
+                endGame(winnerSide, `Hết nước đi! ${winnerSide === 'r' ? 'Huy' : (state.gameMode === 'ai' ? 'Máy AI' : 'Hiền')} chiến thắng!`);
                 renderBoardPieces();
                 updateStatusHUD();
                 return;
@@ -924,7 +924,7 @@ window.XiangqiGame = (function () {
             const isRedTurn = state.turn === 'r';
             const name = isRedTurn ? 'Huy (Quân Đỏ)' : (state.gameMode === 'ai' ? 'Máy AI' : 'Hiền (Quân Đen)');
             turnText.className = `xq-turn-indicator ${isRedTurn ? 'turn-red' : 'turn-black'}`;
-            turnText.innerHTML = `<span>${isRedTurn ? '🔴 Lượt Đỏ' : '⚫ Lượt Đen'}: <strong>${name}</strong></span>`;
+            turnText.innerHTML = `<span>${isRedTurn ? 'Lượt Đỏ' : 'Lượt Đen'}: <strong>${name}</strong></span>`;
         }
     }
 
@@ -1022,6 +1022,11 @@ window.XiangqiGame = (function () {
                 document.querySelectorAll('.xq-mode-tab').forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
                 state.gameMode = tab.dataset.mode;
+
+                const blackLabel = document.getElementById('xqBlackPlayerLabel');
+                if (blackLabel) {
+                    blackLabel.textContent = state.gameMode === 'ai' ? 'Đen (Máy AI)' : (state.gameMode === 'p2p' ? 'Đen (Đối thủ)' : 'Đen (Hiền)');
+                }
 
                 const eloGroup = document.getElementById('xqEloSelectorGroup');
                 if (eloGroup) {

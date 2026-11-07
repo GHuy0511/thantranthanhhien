@@ -2433,10 +2433,11 @@ function openPortfolioModal() {
             const col = document.createElement("div");
             col.className = "passport-stat-col";
             col.style.borderTop = `3px solid ${p.color}`;
+            const pDisplayName = (p.isAi || (gameState.gameMode === "ai" && p.id !== "p0")) ? 'Máy (AI)' : p.name;
             col.innerHTML = `
                 <div class="port-player-header">
-                    <span class="port-p-avatar" style="background:${p.bg}; border: 1.5px solid ${p.color};">${p.icon || '👦'}</span>
-                    <span class="port-p-name" style="color:${p.color};">${p.name} ${p.isAi ? '<span class="ai-tag">AI</span>' : ''}</span>
+                    <span class="port-p-avatar" style="background:${p.bg}; border: 1.5px solid ${p.color};">${p.isAi ? '🤖' : (p.icon || '👦')}</span>
+                    <span class="port-p-name" style="color:${p.color};">${pDisplayName} ${p.isAi ? '<span class="ai-tag">AI</span>' : ''}</span>
                 </div>
                 <div class="port-p-cash">${Number(p.cash).toLocaleString()}<small>M VNĐ</small></div>
                 <div class="port-p-meta">
@@ -3081,7 +3082,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupEventListeners();
     initGameSetupModal();
     initAvatarPickerModal();
-    startNewGame(2, "pass_play");
+    startNewGame(2, "ai");
     initGameSwitcher();
 
     // Khởi tạo hệ thống mạng đồng bộ P2P hai người

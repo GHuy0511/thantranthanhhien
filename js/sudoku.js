@@ -222,7 +222,7 @@ window.SudokuGame = (function () {
     function updateMistakesDisplay() {
         const el = document.getElementById('sudokuMistakesDisplay');
         if (!el) return;
-        el.textContent = `Lỗi: ${mistakes}/${maxMistakes}`;
+        el.textContent = `${mistakes}/${maxMistakes}`;
     }
 
     function showWinBanner() {
@@ -230,7 +230,7 @@ window.SudokuGame = (function () {
         if (!banner) return;
         const mm = String(Math.floor(timerSeconds / 60)).padStart(2, '0');
         const ss = String(timerSeconds % 60).padStart(2, '0');
-        banner.innerHTML = `🎉 <strong>Tuyệt Vời!</strong> Bạn đã giải xong câu đố Sudoku (${difficulty.toUpperCase()}) trong thời gian <strong>${mm}:${ss}</strong>!`;
+        banner.innerHTML = `<strong>Chúc Mừng!</strong> Bạn đã giải xong câu đố Sudoku (${difficulty.toUpperCase()}) trong thời gian <strong>${mm}:${ss}</strong>!`;
         banner.className = 'sudoku-notice-banner active';
     }
 

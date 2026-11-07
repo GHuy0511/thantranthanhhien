@@ -45,7 +45,7 @@ window.CaroGame = (function () {
     let state = {
         board: Array(BOARD_SIZE).fill(null).map(() => Array(BOARD_SIZE).fill(null)),
         currentTurn: 'X', // 'X' hoặc 'O'
-        gameMode: 'p2p', // 'p2p' (Người yêu từ xa), 'ai' (Máy), 'pass' (Cùng máy)
+        gameMode: 'ai', // 'p2p' (Người yêu từ xa), 'ai' (Máy), 'pass' (Cùng máy)
         aiDifficulty: 'hard', // 'easy', 'medium', 'hard'
         isGameOver: false,
         winner: null,
@@ -105,6 +105,7 @@ window.CaroGame = (function () {
     // ========================================================
     function init() {
         loadScoreFromStorage();
+        if (state.gameMode === 'ai') { PLAYERS.O.name = 'Máy (AI)'; PLAYERS.O.icon = ''; }
         renderBoardDOM();
         bindUIEvents();
         initP2PNetworkSync();
@@ -430,18 +431,19 @@ window.CaroGame = (function () {
         }
 
         // Hiển thị Banner chiến thắng
+        const winnerDisplayName = (winnerTurn === 'O' && state.gameMode === 'ai') ? 'Máy (AI)' : winner.name;
         const banner = document.getElementById('caroWinBanner');
         const winnerNameEl = document.getElementById('caroWinnerName');
         const winnerDescEl = document.getElementById('caroWinnerDesc');
         if (banner) {
-            if (winnerNameEl) winnerNameEl.textContent = `${winner.name} Chiến Thắng!`;
+            if (winnerNameEl) winnerNameEl.textContent = `${winnerDisplayName} Chiến Thắng!`;
             if (winnerDescEl) {
-                winnerDescEl.textContent = typeof lineOrMsg === 'string' ? lineOrMsg : `Chúc mừng ${winner.name} đã xuất sắc tạo thành chuỗi 5 quân liên tiếp!`;
+                winnerDescEl.textContent = typeof lineOrMsg === 'string' ? lineOrMsg : `Chúc mừng ${winnerDisplayName} đã xuất sắc tạo thành chuỗi 5 quân liên tiếp!`;
             }
             banner.classList.add('show');
         }
 
-        showStatusNotice(`🎉 <strong>${winner.name}</strong> (${winner.icon}) đã chiến thắng ván cờ!`);
+        showStatusNotice(`<strong>${winnerDisplayName}</strong> đã chiến thắng ván cờ!`);
     }
 
     function handleDraw() {
@@ -729,7 +731,7 @@ window.CaroGame = (function () {
 
         const p2NameEl = document.getElementById('caroPlayer2Name');
         if (p2NameEl) {
-            p2NameEl.textContent = mode === 'ai' ? 'Máy (AI)' : 'Hiền';
+            p2NameEl.textContent = mode === 'ai' ? 'Máy (AI)' : (mode === 'p2p' ? 'Đối thủ' : 'Hiền');
         }
 
         resetGame(false);
@@ -876,11 +878,11 @@ window.CaroGame = (function () {
             modal.id = 'caroConfirmModal';
             modal.className = 'game-modal-overlay active';
             modal.innerHTML = `
-                <div class="game-modal-card">
+                <div class="game-modal-card caro-confirm-card">
                     <h3 class="game-modal-title">Thông Báo Cờ Caro</h3>
                     <p class="game-modal-desc" id="caroConfirmMsg"></p>
-                    <div class="game-modal-actions">
-                        <button class="modal-btn-close" id="btnCaroModalCancel" type="button">Để sau</button>
+                    <div class="game-modal-actions caro-modal-actions-row">
+                        <button class="modal-btn-cancel" id="btnCaroModalCancel" type="button">Để sau</button>
                         <button class="modal-btn-confirm" id="btnCaroModalOk" type="button">Đồng Ý</button>
                     </div>
                 </div>

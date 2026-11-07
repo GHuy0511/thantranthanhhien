@@ -20,7 +20,7 @@
     --shadow-soft: 0 6px 24px rgba(45, 35, 30, 0.05);
     --shadow-hover: 0 16px 40px rgba(45, 35, 30, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(255, 253, 250, 0.96) 0%, rgba(254, 246, 239, 0.94) 100%);
@@ -46,7 +46,7 @@
     --shadow-soft: 0 6px 24px rgba(45, 25, 35, 0.05);
     --shadow-hover: 0 16px 40px rgba(45, 25, 35, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(255, 252, 253, 0.96) 0%, rgba(253, 244, 246, 0.94) 100%);
@@ -72,7 +72,7 @@
     --shadow-soft: 0 6px 24px rgba(0, 0, 0, 0.35);
     --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.55);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(28, 34, 58, 0.96) 0%, rgba(22, 27, 46, 0.94) 100%);
@@ -98,7 +98,7 @@
     --shadow-soft: 0 6px 24px rgba(45, 35, 20, 0.05);
     --shadow-hover: 0 16px 40px rgba(45, 35, 20, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(255, 252, 248, 0.96) 0%, rgba(253, 246, 237, 0.94) 100%);
@@ -124,7 +124,7 @@
     --shadow-soft: 0 6px 24px rgba(45, 20, 35, 0.05);
     --shadow-hover: 0 16px 40px rgba(45, 20, 35, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(255, 252, 254, 0.96) 0%, rgba(254, 244, 249, 0.94) 100%);
@@ -150,7 +150,7 @@
     --shadow-soft: 0 6px 24px rgba(20, 40, 45, 0.05);
     --shadow-hover: 0 16px 40px rgba(20, 40, 45, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(252, 255, 255, 0.96) 0%, rgba(242, 250, 250, 0.94) 100%);
@@ -176,7 +176,7 @@
     --shadow-soft: 0 6px 24px rgba(25, 45, 20, 0.05);
     --shadow-hover: 0 16px 40px rgba(25, 45, 20, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(253, 255, 251, 0.96) 0%, rgba(245, 250, 241, 0.94) 100%);
@@ -202,7 +202,7 @@
     --shadow-soft: 0 6px 24px rgba(45, 20, 25, 0.05);
     --shadow-hover: 0 16px 40px rgba(45, 20, 25, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(255, 252, 253, 0.96) 0%, rgba(254, 243, 246, 0.94) 100%);
@@ -228,7 +228,7 @@
     --shadow-soft: 0 6px 24px rgba(45, 30, 20, 0.05);
     --shadow-hover: 0 16px 40px rgba(45, 30, 20, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(255, 253, 250, 0.96) 0%, rgba(251, 245, 238, 0.94) 100%);
@@ -254,7 +254,7 @@
     --shadow-soft: 0 6px 24px rgba(35, 20, 45, 0.05);
     --shadow-hover: 0 16px 40px rgba(35, 20, 45, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(254, 252, 255, 0.96) 0%, rgba(248, 244, 253, 0.94) 100%);
@@ -280,7 +280,7 @@
     --shadow-soft: 0 6px 24px rgba(45, 25, 20, 0.05);
     --shadow-hover: 0 16px 40px rgba(45, 25, 20, 0.1);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(255, 253, 251, 0.96) 0%, rgba(255, 247, 242, 0.94) 100%);
@@ -306,7 +306,7 @@
     --shadow-soft: 0 6px 24px rgba(0, 0, 0, 0.35);
     --shadow-hover: 0 16px 40px rgba(0, 0, 0, 0.55);
     --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-sans: 'Plus Jakarta Sans', 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --radius-md: 18px;
     --radius-lg: 24px;
     --clock-card-bg: linear-gradient(135deg, rgba(17, 29, 49, 0.96) 0%, rgba(13, 22, 38, 0.94) 100%);
