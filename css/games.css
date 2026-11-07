@@ -3318,33 +3318,58 @@
 
 
 /* ========================================================
-   MÔ HÌNH NGÔI NHÀ 3D & KHÁCH SẠN 3D ISOMETRIC TRÊN BÀN CỜ
+   MÔ HÌNH NGÔI NHÀ 3D & KHÁCH SẠN 3D ISOMETRIC TRÊN BÀN CỜ (LUXURY CORNER BADGE)
    ======================================================== */
 .tile-real-estate-view {
     position: absolute !important;
-    bottom: 25px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    top: 26px !important;
+    right: 6px !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     z-index: 6 !important;
     pointer-events: none !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    border: 1px solid rgba(184, 115, 87, 0.32) !important;
+    border-radius: 6px !important;
+    padding: 1.5px 2px !important;
+    box-shadow: 0 2px 6px rgba(45, 26, 18, 0.2) !important;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease !important;
+}
+
+.tile-real-estate-view:has(.mini-3d-hotel) {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(254, 243, 199, 0.95)) !important;
+    border-color: rgba(217, 119, 6, 0.45) !important;
+    box-shadow: 0 3px 8px rgba(217, 119, 6, 0.28) !important;
 }
 
 .mini-3d-flag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
     animation: real3DFlagPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .mini-3d-house {
-    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
-    animation: real3DHouseDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.18));
+    animation: real3DHouseDrop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .mini-3d-hotel {
-    filter: drop-shadow(0 4px 10px rgba(217, 119, 6, 0.55));
-    animation: real3DHotelDrop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 2px 6px rgba(217, 119, 6, 0.35));
+    animation: real3DHotelDrop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes real3DFlagPop {
@@ -3719,28 +3744,29 @@
 .mini-3d-flag svg {
     width: 18px !important;
     height: 18px !important;
+    flex-shrink: 0 !important;
+    display: block !important;
 }
 
 .mini-3d-house svg {
-    width: 21px !important;
-    height: 21px !important;
+    width: 22px !important;
+    height: 20px !important;
+    flex-shrink: 0 !important;
+    display: block !important;
+}
+
+.mini-3d-house.house-lvl-2 svg {
+    width: 27px !important;
+    height: 20px !important;
+    flex-shrink: 0 !important;
+    display: block !important;
 }
 
 .mini-3d-hotel svg {
-    width: 22px !important;
+    width: 24px !important;
     height: 24px !important;
-}
-
-.tile-real-estate-view {
-    position: absolute !important;
-    bottom: 24px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    z-index: 6 !important;
-    pointer-events: none !important;
+    flex-shrink: 0 !important;
+    display: block !important;
 }
 
 

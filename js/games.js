@@ -1,10 +1,10 @@
 
-// --- BỘ MÔ HÌNH NHÀ & KHÁCH SẠN 3D ISOMETRIC CỰC KỲ SỐNG ĐỘNG ---
+// FULL GRADIENT LUXURY VECTOR MODELS FOR GAME BOARD & PORTFOLIO
 const REAL_ESTATE_3D_MODELS = {
     flag(color) {
         return `
         <div class="mini-3d-flag" title="Đất đã có chủ">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <path d="M4 2v20" stroke="#57534e" stroke-width="2.5" stroke-linecap="round"/>
                 <path d="M4 4h14l-3 4.5 3 4.5H4V4z" fill="${color || '#b45d43'}" stroke="#ffffff" stroke-width="1.2"/>
                 <circle cx="4" cy="2" r="2.2" fill="#f59e0b"/>
@@ -13,64 +13,199 @@ const REAL_ESTATE_3D_MODELS = {
     },
     house1() {
         return `
-        <div class="mini-3d-house house-lvl-1" title="1 Nhà Phố 3D">
-            <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
-                <!-- Mái ngói đỏ ruby 3D -->
-                <path d="M18 4L4 14L18 20L32 14L18 4Z" fill="#dc2626"/>
-                <path d="M18 4L32 14L28 16L18 10L18 4Z" fill="#b91c1c"/>
-                <path d="M4 14L18 20L18 10L4 6L4 14Z" fill="#ef4444"/>
-                <rect x="22" y="5" width="3" height="6" fill="#991b1b"/>
-                <ellipse cx="23.5" cy="5" rx="1.5" ry="0.8" fill="#7f1d1d"/>
-                <!-- Thân nhà màu kem -->
-                <path d="M5 14.5L18 20.5V32L5 26V14.5Z" fill="#fef3c7"/>
-                <path d="M18 20.5L31 14.5V26L18 32V20.5Z" fill="#fde68a"/>
-                <!-- Cửa ra vào -->
-                <path d="M10 21C10 19.5 13 19.5 13 21V28L10 26.5V21Z" fill="#78350f"/>
-                <rect x="21" y="18" width="5" height="5" rx="1" fill="#f59e0b" stroke="#ffffff" stroke-width="0.8"/>
+        <div class="mini-3d-house house-lvl-1" title="1 Nhà Phố Cổ Điển 3D">
+            <svg width="22" height="20" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="h1_rf_l" x1="12" y1="6" x2="24" y2="22" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#ea580c"/>
+                        <stop offset="60%" stop-color="#c2410c"/>
+                        <stop offset="100%" stop-color="#9a3412"/>
+                    </linearGradient>
+                    <linearGradient id="h1_rf_r" x1="24" y1="6" x2="38" y2="22" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#c2410c"/>
+                        <stop offset="70%" stop-color="#9a3412"/>
+                        <stop offset="100%" stop-color="#7c2d12"/>
+                    </linearGradient>
+                    <linearGradient id="h1_wl_l" x1="10" y1="18" x2="24" y2="35" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#fef08a"/>
+                        <stop offset="50%" stop-color="#fde047"/>
+                        <stop offset="100%" stop-color="#eab308"/>
+                    </linearGradient>
+                    <linearGradient id="h1_wl_r" x1="24" y1="18" x2="38" y2="35" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#eab308"/>
+                        <stop offset="60%" stop-color="#ca8a04"/>
+                        <stop offset="100%" stop-color="#a16207"/>
+                    </linearGradient>
+                    <linearGradient id="h1_gl" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="100%" stop-color="#f59e0b"/>
+                    </linearGradient>
+                </defs>
+                <!-- Ground Shadow -->
+                <ellipse cx="24" cy="37" rx="17" ry="4" fill="#451a03" fill-opacity="0.28"/>
+                <!-- Stone Foundation -->
+                <path d="M8 29.5L24 36L40 29.5L40 32L24 38.5L8 32Z" fill="#78716c"/>
+                <path d="M8 29.5L24 36L24 38.5L8 32Z" fill="#a8a29e"/>
+                <!-- Facades -->
+                <path d="M9 17L24 23.5V36L9 29.5Z" fill="url(#h1_wl_l)"/>
+                <path d="M24 23.5L39 17V29.5L24 36Z" fill="url(#h1_wl_r)"/>
+                <!-- Moulding -->
+                <path d="M8.5 17L24 23.8L39.5 17" stroke="#fffbeb" stroke-width="1.4" stroke-linecap="round"/>
+                <!-- Arched French Door -->
+                <path d="M13.5 24C13.5 22 17.5 23.5 17.5 25.2V32.5L13.5 31Z" fill="#451a03"/>
+                <path d="M14 24.5C14 23 17 24.2 17 25.5V32L14 30.8Z" fill="#78350f"/>
+                <circle cx="16.5" cy="28.5" r="0.6" fill="#fbbf24"/>
+                <path d="M14 18.5C14 17.2 17 18.2 17 19.5V22.2L14 21Z" fill="url(#h1_gl)" stroke="#78350f" stroke-width="0.6"/>
+                <!-- Windows with Emerald Shutters -->
+                <path d="M27 21L31 19.2V23L27 24.8Z" fill="url(#h1_gl)"/>
+                <path d="M25.5 21.6L27 21V24.8L25.5 25.4Z" fill="#065f46"/>
+                <path d="M31 19.2L32.5 18.6V22.4L31 23Z" fill="#064e3b"/>
+                <!-- Brick Chimney -->
+                <path d="M30 8V14L34 12V6Z" fill="#991b1b"/>
+                <path d="M28.5 7.5L32.5 5.5L34.5 6.5L30.5 8.5Z" fill="#fef08a" stroke="#ca8a04" stroke-width="0.5"/>
+                <!-- Terracotta Roof -->
+                <path d="M24 4L7 16.5L24 24L24 4Z" fill="url(#h1_rf_l)"/>
+                <path d="M24 4L41 16.5L24 24L24 4Z" fill="url(#h1_rf_r)"/>
+                <!-- Roof Ribs -->
+                <path d="M19 8L9.5 15" stroke="#fed7aa" stroke-width="0.6" stroke-linecap="round"/>
+                <path d="M21.5 12L12 19" stroke="#fed7aa" stroke-width="0.6" stroke-linecap="round"/>
+                <path d="M24 16L15 22.5" stroke="#fed7aa" stroke-width="0.6" stroke-linecap="round"/>
+                <path d="M29 8L38.5 15" stroke="#7c2d12" stroke-width="0.6" stroke-linecap="round"/>
+                <path d="M26.5 12L36 19" stroke="#7c2d12" stroke-width="0.6" stroke-linecap="round"/>
+                <path d="M24 16L33 22.5" stroke="#7c2d12" stroke-width="0.6" stroke-linecap="round"/>
+                <!-- Ridge Caps -->
+                <path d="M24 4L7 16.5" stroke="#ffedd5" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M24 4L41 16.5" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M24 4L24 24" stroke="#fef08a" stroke-width="1.3" stroke-linecap="round"/>
+                <circle cx="24" cy="4" r="1.2" fill="#fbbf24"/>
+                <!-- Bougainvillea Accent -->
+                <circle cx="10" cy="18" r="1.3" fill="#ec4899"/>
+                <circle cx="12" cy="17.2" r="1.1" fill="#f43f5e"/>
             </svg>
         </div>`;
     },
     house2() {
         return `
-        <div class="mini-3d-house house-lvl-2" title="2 Nhà Phố 3D">
-            <svg width="34" height="26" viewBox="0 0 46 36" fill="none">
-                <!-- Nhà 1 bên trái -->
+        <div class="mini-3d-house house-lvl-2" title="2 Biệt Thự Song Lập 3D">
+            <svg width="27" height="20" viewBox="0 0 56 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="h2_rf_l" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#ea580c"/>
+                        <stop offset="100%" stop-color="#9a3412"/>
+                    </linearGradient>
+                    <linearGradient id="h2_rf_r" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#c2410c"/>
+                        <stop offset="100%" stop-color="#7c2d12"/>
+                    </linearGradient>
+                    <linearGradient id="h2_wl_l" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#fef9c3"/>
+                        <stop offset="100%" stop-color="#eab308"/>
+                    </linearGradient>
+                    <linearGradient id="h2_wl_r" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#facc15"/>
+                        <stop offset="100%" stop-color="#a16207"/>
+                    </linearGradient>
+                </defs>
+                <!-- Ground Shadow -->
+                <ellipse cx="28" cy="38" rx="23" ry="4.5" fill="#451a03" fill-opacity="0.25"/>
+                <!-- Villa 1 -->
                 <g transform="translate(0, 2)">
-                    <path d="M14 4L2 13L14 18L26 13L14 4Z" fill="#dc2626"/>
-                    <path d="M3 13.5L14 18.5V29L3 24V13.5Z" fill="#fef3c7"/>
-                    <path d="M14 18.5L25 13.5V24L14 29V18.5Z" fill="#fde68a"/>
-                    <path d="M7 19C7 17.5 10 17.5 10 19V25L7 24V19Z" fill="#78350f"/>
+                    <path d="M6 18L19 23.5V35L6 29.5Z" fill="url(#h2_wl_l)"/>
+                    <path d="M19 23.5L32 18.5V30L19 35Z" fill="url(#h2_wl_r)"/>
+                    <path d="M5.5 18L19 23.8L32.5 18.5" stroke="#fffbeb" stroke-width="1.2"/>
+                    <path d="M10 24C10 22.5 13.5 23.8 13.5 25V31.5L10 30Z" fill="#451a03"/>
+                    <rect x="22" y="21" width="6" height="5" rx="1" fill="#fef08a" stroke="#78350f" stroke-width="0.6"/>
+                    <path d="M19 5L5 17.5L19 24L19 5Z" fill="url(#h2_rf_l)"/>
+                    <path d="M19 5L33 17.5L19 24L19 5Z" fill="url(#h2_rf_r)"/>
+                    <path d="M19 5L5 17.5" stroke="#ffedd5" stroke-width="1.1"/>
+                    <path d="M19 5L33 17.5" stroke="#9a3412" stroke-width="1.1"/>
+                    <path d="M19 5L19 24" stroke="#fef08a" stroke-width="1.2"/>
+                    <circle cx="19" cy="5" r="1.1" fill="#fbbf24"/>
+                    <circle cx="7" cy="19" r="1" fill="#ec4899"/>
                 </g>
-                <!-- Nhà 2 bên phải xếp so le -->
-                <g transform="translate(18, 0)">
-                    <path d="M14 4L2 13L14 18L26 13L14 4Z" fill="#b91c1c"/>
-                    <path d="M3 13.5L14 18.5V29L3 24V13.5Z" fill="#fffbeb"/>
-                    <path d="M14 18.5L25 13.5V24L14 29V18.5Z" fill="#fef3c7"/>
-                    <rect x="17" y="16" width="4" height="4" rx="0.8" fill="#f59e0b" stroke="#ffffff" stroke-width="0.8"/>
+                <!-- Villa 2 -->
+                <g transform="translate(18, -2)">
+                    <path d="M26 8V13L29 11.5V6.5Z" fill="#991b1b"/>
+                    <rect x="25.5" y="6" width="4" height="1" fill="#fef08a"/>
+                    <path d="M8 18L20 23V34L8 29Z" fill="url(#h2_wl_l)"/>
+                    <path d="M20 23L32 18V29L20 34Z" fill="url(#h2_wl_r)"/>
+                    <path d="M7.5 18L20 23.2L32.5 18" stroke="#fffbeb" stroke-width="1.2"/>
+                    <rect x="11" y="22" width="5" height="5" rx="1" fill="#fef08a" stroke="#78350f" stroke-width="0.6"/>
+                    <path d="M20 5L7 17.5L20 23.5L20 5Z" fill="url(#h2_rf_l)"/>
+                    <path d="M20 5L33 17.5L20 23.5L20 5Z" fill="url(#h2_rf_r)"/>
+                    <path d="M20 5L7 17.5" stroke="#ffedd5" stroke-width="1.1"/>
+                    <path d="M20 5L33 17.5" stroke="#9a3412" stroke-width="1.1"/>
+                    <path d="M20 5L20 23.5" stroke="#fef08a" stroke-width="1.2"/>
+                    <circle cx="20" cy="5" r="1.1" fill="#fbbf24"/>
                 </g>
             </svg>
         </div>`;
     },
     hotel() {
         return `
-        <div class="mini-3d-hotel hotel-lvl-3" title="Khách Sạn 5 Sao 3D">
-            <svg width="30" height="32" viewBox="0 0 40 40" fill="none">
-                <!-- Mái vòm hoàng gia vàng kim -->
-                <path d="M20 2C15 7 15 10 20 12C25 10 25 7 20 2Z" fill="#f59e0b"/>
-                <circle cx="20" cy="2" r="2" fill="#fbbf24"/>
-                <!-- Tháp khách sạn 3D -->
-                <path d="M8 12L20 8L32 12V36L20 39L8 36V12Z" fill="#ffffff" stroke="#d97706" stroke-width="1.2"/>
-                <path d="M20 8L32 12V36L20 39V8Z" fill="#fef3c7"/>
-                <path d="M8 12L20 8V39L8 36V12Z" fill="#fffbeb"/>
-                <!-- Các ô cửa sổ xanh ngọc -->
-                <rect x="11" y="15" width="6" height="4" rx="0.8" fill="#38bdf8"/>
-                <rect x="23" y="15" width="6" height="4" rx="0.8" fill="#0284c7"/>
-                <rect x="11" y="21" width="6" height="4" rx="0.8" fill="#38bdf8"/>
-                <rect x="23" y="21" width="6" height="4" rx="0.8" fill="#0284c7"/>
-                <rect x="11" y="27" width="6" height="4" rx="0.8" fill="#38bdf8"/>
-                <rect x="23" y="27" width="6" height="4" rx="0.8" fill="#0284c7"/>
-                <!-- Biển hiệu HOTEL -->
-                <rect x="13" y="11" width="14" height="3" rx="1" fill="#b45309"/>
+        <div class="mini-3d-hotel hotel-lvl-3" title="Khách Sạn Hoàng Gia 5 Sao 3D">
+            <svg width="24" height="24" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="ht_gd_dome" x1="26" y1="2" x2="26" y2="15" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#fef08a"/>
+                        <stop offset="35%" stop-color="#f59e0b"/>
+                        <stop offset="85%" stop-color="#b45309"/>
+                        <stop offset="100%" stop-color="#78350f"/>
+                    </linearGradient>
+                    <linearGradient id="ht_fc_l" x1="10" y1="14" x2="26" y2="44" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="50%" stop-color="#f8fafc"/>
+                        <stop offset="100%" stop-color="#e2e8f0"/>
+                    </linearGradient>
+                    <linearGradient id="ht_fc_r" x1="26" y1="14" x2="42" y2="44" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#f1f5f9"/>
+                        <stop offset="50%" stop-color="#cbd5e1"/>
+                        <stop offset="100%" stop-color="#94a3b8"/>
+                    </linearGradient>
+                    <linearGradient id="ht_gls" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#38bdf8"/>
+                        <stop offset="60%" stop-color="#0284c7"/>
+                        <stop offset="100%" stop-color="#0369a1"/>
+                    </linearGradient>
+                    <linearGradient id="ht_st_gold" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#fef08a"/>
+                        <stop offset="100%" stop-color="#f59e0b"/>
+                    </linearGradient>
+                </defs>
+                <!-- Ground Shadow -->
+                <ellipse cx="26" cy="47" rx="19" ry="4" fill="#1e293b" fill-opacity="0.32"/>
+                <!-- Base Steps -->
+                <path d="M8 41.5L26 46.5L44 41.5L44 43L26 48L8 43Z" fill="#cbd5e1"/>
+                <!-- Main Hotel Tower -->
+                <path d="M10 16L26 21V46L10 41Z" fill="url(#ht_fc_l)"/>
+                <path d="M26 21L42 16V41L26 46Z" fill="url(#ht_fc_r)"/>
+                <path d="M9.5 16L26 21.2L42.5 16" stroke="#d97706" stroke-width="1.4" stroke-linecap="round"/>
+                <!-- French Windows -->
+                <rect x="13" y="19" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#d97706" stroke-width="0.5"/>
+                <rect x="19" y="21" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#d97706" stroke-width="0.5"/>
+                <rect x="29" y="21" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#b45309" stroke-width="0.5"/>
+                <rect x="35" y="19" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#b45309" stroke-width="0.5"/>
+                <rect x="13" y="27" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#d97706" stroke-width="0.5"/>
+                <rect x="19" y="29" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#d97706" stroke-width="0.5"/>
+                <rect x="29" y="29" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#b45309" stroke-width="0.5"/>
+                <rect x="35" y="27" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#b45309" stroke-width="0.5"/>
+                <!-- Grand Entrance -->
+                <path d="M22 37.5L26 39L30 37.5V45L26 46.5L22 45Z" fill="#1e293b"/>
+                <path d="M20 37L26 39L32 37L31 35.5L26 37L21 35.5Z" fill="#f59e0b" stroke="#78350f" stroke-width="0.5"/>
+                <path d="M24 40.5L26 41.2L28 40.5L28.5 47L26 47.8L23.5 47Z" fill="#dc2626"/>
+                <!-- Golden Mansard Dome -->
+                <path d="M12 16L26 12L40 16L36 7L26 5L16 7Z" fill="url(#ht_gd_dome)"/>
+                <path d="M20 12C20 6.5 23 4 26 4C29 4 32 6.5 32 12Z" fill="url(#ht_gd_dome)"/>
+                <path d="M26 1V4" stroke="#fbbf24" stroke-width="1.4" stroke-linecap="round"/>
+                <circle cx="26" cy="1" r="1.3" fill="#fef08a" stroke="#d97706" stroke-width="0.5"/>
+                <!-- 5 Gold Stars -->
+                <g transform="translate(15, 12.5) scale(0.65)">
+                    <polygon points="5,0 6.2,3 9.5,3.2 7,5.3 7.8,8.5 5,6.8 2.2,8.5 3,5.3 0.5,3.2 3.8,3" fill="url(#ht_st_gold)"/>
+                    <polygon points="12,0 13.2,3 16.5,3.2 14,5.3 14.8,8.5 12,6.8 9.2,8.5 10,5.3 7.5,3.2 10.8,3" fill="url(#ht_st_gold)"/>
+                    <polygon points="19,0 20.2,3 23.5,3.2 21,5.3 21.8,8.5 19,6.8 16.2,8.5 17,5.3 14.5,3.2 17.8,3" fill="url(#ht_st_gold)"/>
+                    <polygon points="26,0 27.2,3 30.5,3.2 28,5.3 28.8,8.5 26,6.8 23.2,8.5 24,5.3 21.5,3.2 24.8,3" fill="url(#ht_st_gold)"/>
+                    <polygon points="33,0 34.2,3 37.5,3.2 35,5.3 35.8,8.5 33,6.8 30.2,8.5 31,5.3 28.5,3.2 31.8,3" fill="url(#ht_st_gold)"/>
+                </g>
             </svg>
         </div>`;
     }
