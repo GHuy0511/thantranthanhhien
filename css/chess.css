@@ -1,5 +1,6 @@
 /* ========================================================
    CỜ VUA (INTERNATIONAL CHESS) LUXURY STYLES - HUY & HIỀN EDITION
+   Layout: Bàn cờ trọn khung hình + Thông tin & Điều khiển bên cạnh
    ======================================================== */
 
 .chess-view-panel {
@@ -7,9 +8,9 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1440px;
     margin: 0 auto;
-    padding: 10px 16px 40px;
+    padding: 8px 16px 36px;
     box-sizing: border-box;
 }
 
@@ -17,93 +18,46 @@
     display: flex;
 }
 
-/* SUBNAV DOCK CỦA CỜ VUA */
-.chess-subnav-dock {
+/* KHUNG ĐẤU CHÍNH: 2 CỘT (BÀN CỜ BÊN TRÁI + SIDEBAR BÊN PHẢI) */
+.chess-arena-layout {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 32px;
     width: 100%;
-    max-width: 960px;
-    margin-bottom: 16px;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(184, 115, 87, 0.22);
-    border-radius: 16px;
-    padding: 8px 14px;
-    box-shadow: 0 4px 16px rgba(45, 26, 18, 0.05);
+    max-width: 1360px;
+    margin: 0 auto;
 }
 
-.chess-mode-pills, .chess-elo-pills {
+/* CỘT TRÁI: BÀN CỜ VUA GỖ HOÀNG GIA TRỌN KHUNG HÌNH */
+.chess-board-card {
+    flex: 0 0 auto;
     display: flex;
-    gap: 6px;
-    background: rgba(0, 0, 0, 0.04);
-    padding: 4px;
-    border-radius: 12px;
-}
-
-.chess-mode-tab, .chess-elo-tab {
-    padding: 6px 14px;
-    font-size: 12.5px;
-    font-weight: 700;
-    border: none;
-    background: transparent;
-    border-radius: 8px;
-    cursor: pointer;
-    color: #78716c;
-    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-    font-family: inherit;
-}
-
-.chess-mode-tab.active, .chess-elo-tab.active {
-    background: #ffffff;
-    color: #854d0e;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.chess-subnav-actions {
-    display: flex;
-    gap: 8px;
+    flex-direction: column;
     align-items: center;
-}
-
-.chess-action-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    font-size: 12.5px;
-    font-weight: 700;
-    color: #451a03;
-    background: #fef3c7;
-    border: 1px solid rgba(217, 119, 6, 0.3);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: inherit;
-}
-
-.chess-action-btn:hover {
-    background: #fde68a;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(180, 83, 9, 0.15);
+    background: #fdfaf5;
+    padding: 18px;
+    border-radius: 24px;
+    box-shadow: 0 16px 48px rgba(45, 26, 18, 0.14), 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 2px solid rgba(184, 115, 87, 0.28);
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 /* THÔNG BÁO CHIẾU TƯỚNG / KẾT QUẢ VÁN */
 .chess-notice-banner {
     display: none;
     width: 100%;
-    max-width: 960px;
-    margin-bottom: 14px;
-    padding: 10px 18px;
+    padding: 8px 16px;
+    margin-bottom: 12px;
     border-radius: 12px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     box-sizing: border-box;
-    animation: chessBannerPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: chessBannerPop 0.25s ease;
 }
 
 .chess-notice-banner.active {
@@ -132,45 +86,20 @@
 }
 
 @keyframes chessBannerPop {
-    from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+    from { opacity: 0; transform: translateY(-6px) scale(0.98); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* KHUNG ĐẤU CHÍNH: BÀN CỜ + BẢNG ĐIỀU KHIỂN & LỊCH SỬ */
-.chess-arena-layout {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 24px;
-    width: 100%;
-    max-width: 1080px;
-}
-
-/* BẢN THÂN KHUNG BÀN CỜ GỖ HOÀNG GIA */
-.chess-board-card {
-    background: #fdfbf7;
-    padding: 18px;
-    border-radius: 20px;
-    box-shadow: 0 16px 38px rgba(45, 26, 18, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
-    border: 2px solid rgba(184, 115, 87, 0.28);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
-/* BÀN CỜ 8x8 Ô GỖ VINTAGE */
+/* BÀN CỜ 8x8 Ô GỖ VINTAGE TRỌN KHUNG HÌNH (TỶ LỆ 1:1 TỰ CO GIÃN) */
 .chess-board-wrapper {
     position: relative;
-    width: 480px;
-    height: 480px;
-    border-radius: 12px;
+    width: min(76vh, 640px);
+    height: min(76vh, 640px);
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
     overflow: hidden;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.15);
-    border: 8px solid #451a03;
+    box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.12);
+    border: 9px solid #451a03;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(8, 1fr);
@@ -199,7 +128,7 @@
 /* Tọa độ hiển thị góc ô */
 .chess-coord-file, .chess-coord-rank {
     position: absolute;
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 800;
     pointer-events: none;
     opacity: 0.65;
@@ -242,15 +171,15 @@
 
 @keyframes chessKingPulse {
     from { box-shadow: inset 0 0 6px #b91c1c; }
-    to { box-shadow: inset 0 0 16px #ef4444; }
+    to { box-shadow: inset 0 0 18px #ef4444; }
 }
 
 /* CHẤM GỢI Ý NƯỚC ĐI HỢP LỆ */
 .chess-move-hint {
     position: absolute;
-    width: 16px;
-    height: 16px;
-    background: rgba(30, 41, 59, 0.28);
+    width: 18px;
+    height: 18px;
+    background: rgba(30, 41, 59, 0.32);
     border-radius: 50%;
     pointer-events: none;
     z-index: 5;
@@ -258,13 +187,13 @@
 }
 
 .chess-cell:hover .chess-move-hint {
-    transform: scale(1.2);
+    transform: scale(1.25);
 }
 
 .chess-capture-hint {
     position: absolute;
-    inset: 3px;
-    border: 4px solid rgba(239, 68, 68, 0.6);
+    inset: 4px;
+    border: 4px solid rgba(239, 68, 68, 0.7);
     border-radius: 50%;
     pointer-events: none;
     z-index: 5;
@@ -273,8 +202,8 @@
 /* QUÂN CỜ VUA VECTOR SVG */
 .chess-piece-wrapper {
     position: relative;
-    width: 82%;
-    height: 82%;
+    width: 84%;
+    height: 84%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -284,49 +213,130 @@
 }
 
 .chess-cell.selected .chess-piece-wrapper {
-    transform: scale(1.15) translateY(-3px);
-    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+    transform: scale(1.18) translateY(-4px);
+    filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.4));
 }
 
 .chess-piece-svg {
     width: 100%;
     height: 100%;
     display: block;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.22));
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.25));
 }
 
-/* BẢNG ĐIỀU KHIỂN & LỊCH SỬ BÊN PHẢI */
+/* CỘT PHẢI: BẢNG THÔNG TIN & ĐIỀU KHIỂN RỘNG RÃI */
 .chess-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    width: 320px;
+    gap: 16px;
+    width: 380px;
     flex-shrink: 0;
 }
 
-/* CARD THÔNG TIN NGƯỜI CHƠI & LƯỢT ĐI */
-.chess-status-card {
+/* THẺ PANEL TRONG SIDEBAR */
+.chess-card-box {
     background: #ffffff;
-    border-radius: 16px;
-    padding: 14px 18px;
-    box-shadow: 0 4px 16px rgba(45, 26, 18, 0.06);
+    border-radius: 18px;
+    padding: 16px 20px;
+    box-shadow: 0 4px 18px rgba(45, 26, 18, 0.06);
     border: 1px solid rgba(184, 115, 87, 0.2);
 }
 
+.chess-card-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #451a03;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* BỘ CHỌN CHẾ ĐỘ & ELO TRONG SIDEBAR */
+.chess-mode-pills, .chess-elo-pills {
+    display: flex;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.04);
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.chess-mode-tab, .chess-elo-tab {
+    flex: 1;
+    padding: 7px 6px;
+    font-size: 12px;
+    font-weight: 700;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #78716c;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    text-align: center;
+}
+
+.chess-mode-tab.active, .chess-elo-tab.active {
+    background: #ffffff;
+    color: #854d0e;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.chess-subnav-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.chess-action-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #451a03;
+    background: #fef3c7;
+    border: 1px solid rgba(217, 119, 6, 0.3);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.chess-action-btn:hover {
+    background: #fde68a;
+    transform: translateY(-1px);
+}
+
+.chess-action-btn.primary {
+    background: #9a3412;
+    color: #ffffff;
+    border: none;
+}
+
+.chess-action-btn.primary:hover {
+    background: #7c2d12;
+}
+
+/* THẺ TRẠNG THÁI LƯỢT ĐI & KHAY QUÂN BỊ BẮT */
 .chess-turn-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 }
 
 .chess-turn-badge {
+    width: 100%;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-size: 13.5px;
     font-weight: 800;
 }
 
@@ -350,13 +360,14 @@
 
 .chess-turn-badge.white .chess-turn-dot {
     background: #d97706;
+    box-shadow: 0 0 6px rgba(217, 119, 6, 0.6);
 }
 
 .chess-turn-badge.black .chess-turn-dot {
     background: #38bdf8;
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
 }
 
-/* KHAY QUÂN BỊ BẮT (CAPTURED PIECES TRAY) */
 .chess-captured-box {
     margin-top: 10px;
     padding-top: 10px;
@@ -376,41 +387,20 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-    min-height: 26px;
+    min-height: 28px;
     align-items: center;
 }
 
 .chess-captured-mini {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     opacity: 0.85;
 }
 
-/* NHẬT KÝ NƯỚC ĐI (MOVE LOG) */
-.chess-history-card {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 14px 18px;
-    box-shadow: 0 4px 16px rgba(45, 26, 18, 0.06);
-    border: 1px solid rgba(184, 115, 87, 0.2);
-    display: flex;
-    flex-direction: column;
-    max-height: 320px;
-}
-
-.chess-history-title {
-    font-size: 13px;
-    font-weight: 800;
-    color: #451a03;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
+/* NHẬT KÝ NƯỚC ĐI */
 .chess-moves-scroll {
     overflow-y: auto;
-    max-height: 240px;
+    max-height: 230px;
     padding-right: 4px;
 }
 
@@ -430,7 +420,7 @@
 }
 
 .chess-moves-table td {
-    padding: 4px 6px;
+    padding: 5px 6px;
     color: #292524;
     font-family: 'Courier New', Courier, monospace;
     font-weight: 700;
@@ -440,7 +430,7 @@
     background: rgba(0, 0, 0, 0.02);
 }
 
-/* MODAL PHONG CẤP TỐT (PAWN PROMOTION MODAL) */
+/* MODAL PHONG CẤP TỐT */
 .chess-promotion-overlay {
     position: fixed;
     inset: 0;
@@ -513,8 +503,8 @@
     color: #451a03;
 }
 
-/* RESPONSIVE DESIGN CHO CỜ VUA */
-@media (max-width: 860px) {
+/* RESPONSIVE DESIGN */
+@media (max-width: 992px) {
     .chess-arena-layout {
         flex-direction: column;
         align-items: center;
@@ -523,12 +513,12 @@
     .chess-board-wrapper {
         width: 90vw;
         height: 90vw;
-        max-width: 440px;
-        max-height: 440px;
+        max-width: 480px;
+        max-height: 480px;
     }
     
     .chess-sidebar {
         width: 100%;
-        max-width: 440px;
+        max-width: 480px;
     }
 }

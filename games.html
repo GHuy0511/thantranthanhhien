@@ -558,119 +558,114 @@
              VIEW 5: CỜ TƯỚNG (XIANGQI 9x10) ĐỐI KHÁNG & ĐẤU AI & P2P
              ======================================================== -->
         <div class="game-view-panel xiangqi-view-panel" id="viewXiangqi">
-            <!-- Subnav: Chế độ đấu & ELO -->
-            <div class="xiangqi-subnav-dock">
-                <div class="xiangqi-mode-pills" role="group" aria-label="Chế độ cờ tướng">
-                    <button class="xq-mode-tab active" data-mode="ai" type="button">Đấu với Máy (AI)</button>
-                    <button class="xq-mode-tab" data-mode="pass" type="button">Chơi Cùng Bạn Bè</button>
-                    <button class="xq-mode-tab" data-mode="p2p" type="button">Đối Kháng Online (P2P)</button>
-                </div>
-                <div class="xiangqi-elo-pills" id="xqEloSelectorGroup" role="group" aria-label="Độ khó ELO AI">
-                    <button class="xq-elo-tab active" data-elo="800" type="button">800 ELO</button>
-                    <button class="xq-elo-tab" data-elo="1200" type="button">1200 ELO</button>
-                    <button class="xq-elo-tab" data-elo="1600" type="button">1600 ELO</button>
-                    <button class="xq-elo-tab" data-elo="2000" type="button">2000+ ELO</button>
-                </div>
-                <div class="xiangqi-tools-group">
-                    <button class="xq-tool-btn" id="xqBtnUndo" type="button">Đi Lại</button>
-                    <button class="xq-tool-btn" id="xqBtnNewGame" type="button">Ván Mới</button>
-                </div>
-            </div>
-
-            <!-- Banner thông báo trạng thái -->
-            <div class="xq-notice-banner" id="xqNoticeBanner">Sẵn sàng! Lượt đi: Đỏ (Huy đi trước)</div>
-
-            <!-- Khung đấu chính -->
-            <div class="xiangqi-main-arena">
-                <!-- Bàn cờ gỗ hoàng gia 9x10 -->
+            <div class="xiangqi-arena-layout">
+                <!-- CỘT TRÁI: BÀN CỜ TRỌN KHUNG HÌNH -->
                 <div class="xiangqi-board-card">
+                    <div class="xiangqi-notice-banner" id="xqNoticeBanner">Sẵn sàng! Lượt đi: Đỏ (Huy đi trước)</div>
                     <div class="xiangqi-board-inner" id="xqBoardInner">
-                        <!-- Lưới đồ họa SVG chuẩn 9x10 -->
-                        <svg class="xiangqi-grid-svg" viewBox="0 0 400 450" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Đường viền ngoài kép -->
-                            <rect x="5" y="5" width="390" height="440" fill="none" stroke="#7c2d12" stroke-width="3" rx="4"/>
-                            <rect x="12" y="12" width="376" height="426" fill="none" stroke="#a8715a" stroke-width="1.2"/>
-                            
-                            <!-- 10 Đường ngang -->
-                            <line x1="12" y1="12" x2="388" y2="12" stroke="#7c2d12" stroke-width="1.5"/>
-                            <line x1="12" y1="59.3" x2="388" y2="59.3" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="12" y1="106.6" x2="388" y2="106.6" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="12" y1="154" x2="388" y2="154" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="12" y1="201.3" x2="388" y2="201.3" stroke="#7c2d12" stroke-width="1.5"/>
-                            
-                            <!-- Sông Sở Hà Hán Giới ở giữa -->
-                            <line x1="12" y1="248.6" x2="388" y2="248.6" stroke="#7c2d12" stroke-width="1.5"/>
-                            <line x1="12" y1="296" x2="388" y2="296" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="12" y1="343.3" x2="388" y2="343.3" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="12" y1="390.6" x2="388" y2="390.6" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="12" y1="438" x2="388" y2="438" stroke="#7c2d12" stroke-width="1.5"/>
-
-                            <!-- 9 Đường dọc -->
-                            <line x1="12" y1="12" x2="12" y2="438" stroke="#7c2d12" stroke-width="1.5"/>
-                            <line x1="388" y1="12" x2="388" y2="438" stroke="#7c2d12" stroke-width="1.5"/>
-
-                            <!-- Nửa trên (Đen) -->
-                            <line x1="59" y1="12" x2="59" y2="201.3" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="106" y1="12" x2="106" y2="201.3" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="153" y1="12" x2="153" y2="201.3" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="200" y1="12" x2="200" y2="201.3" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="247" y1="12" x2="247" y2="201.3" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="294" y1="12" x2="294" y2="201.3" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="341" y1="12" x2="341" y2="201.3" stroke="#a8715a" stroke-width="1"/>
-
-                            <!-- Nửa dưới (Đỏ) -->
-                            <line x1="59" y1="248.6" x2="59" y2="438" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="106" y1="248.6" x2="106" y2="438" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="153" y1="248.6" x2="153" y2="438" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="200" y1="248.6" x2="200" y2="438" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="247" y1="248.6" x2="247" y2="438" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="294" y1="248.6" x2="294" y2="438" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="341" y1="248.6" x2="341" y2="438" stroke="#a8715a" stroke-width="1"/>
-
-                            <!-- Cung Tướng Đen -->
-                            <line x1="153" y1="12" x2="247" y2="106.6" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="247" y1="12" x2="153" y2="106.6" stroke="#a8715a" stroke-width="1"/>
-
-                            <!-- Cung Tướng Đỏ -->
-                            <line x1="153" y1="343.3" x2="247" y2="438" stroke="#a8715a" stroke-width="1"/>
-                            <line x1="247" y1="343.3" x2="153" y2="438" stroke="#a8715a" stroke-width="1"/>
-
-                            <!-- Chữ Sông: Sở Hà Hán Giới -->
-                            <text x="100" y="230" font-family="'Playfair Display', serif" font-size="16" font-weight="700" fill="#9a3412" letter-spacing="6" opacity="0.85">楚 河</text>
-                            <text x="245" y="230" font-family="'Playfair Display', serif" font-size="16" font-weight="700" fill="#9a3412" letter-spacing="6" opacity="0.85">漢 界</text>
-                        </svg>
-
-                        <!-- Layer chứa quân cờ động & các điểm gợi ý -->
+                        <svg class="xiangqi-grid-svg" viewBox="0 0 540 600" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <radialGradient id="xq_board_wood" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stop-color="#fff8ed"/>
+            <stop offset="60%" stop-color="#faeed7"/>
+            <stop offset="100%" stop-color="#f1dfbf"/>
+        </radialGradient>
+        <linearGradient id="xq_frame_wood" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#854d0e"/>
+            <stop offset="50%" stop-color="#451a03"/>
+            <stop offset="100%" stop-color="#270e02"/>
+        </linearGradient>
+    </defs>
+    <rect x="0" y="0" width="540" height="600" rx="12" fill="url(#xq_board_wood)" />
+    <rect x="23" y="23" width="494" height="554" rx="8" fill="none" stroke="#7c2d12" stroke-width="2.5" />
+    <rect x="29" y="29" width="482" height="542" rx="6" fill="none" stroke="#b45309" stroke-width="1.2" opacity="0.65" />
+    <line x1="35.00" y1="35.00" x2="505.00" y2="35.00" stroke="#7c2d12" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="93.89" x2="505.00" y2="93.89" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="152.78" x2="505.00" y2="152.78" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="211.67" x2="505.00" y2="211.67" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="270.56" x2="505.00" y2="270.56" stroke="#7c2d12" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="329.44" x2="505.00" y2="329.44" stroke="#7c2d12" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="388.33" x2="505.00" y2="388.33" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="447.22" x2="505.00" y2="447.22" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="506.11" x2="505.00" y2="506.11" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="565.00" x2="505.00" y2="565.00" stroke="#7c2d12" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="35.00" y1="35.00" x2="35.00" y2="565.00" stroke="#7c2d12" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="505.00" y1="35.00" x2="505.00" y2="565.00" stroke="#7c2d12" stroke-width="2.2" stroke-linecap="round"/>
+    <line x1="93.75" y1="35.00" x2="93.75" y2="270.56" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="93.75" y1="329.44" x2="93.75" y2="565.00" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="152.50" y1="35.00" x2="152.50" y2="270.56" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="152.50" y1="329.44" x2="152.50" y2="565.00" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="211.25" y1="35.00" x2="211.25" y2="270.56" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="211.25" y1="329.44" x2="211.25" y2="565.00" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="270.00" y1="35.00" x2="270.00" y2="270.56" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="270.00" y1="329.44" x2="270.00" y2="565.00" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="328.75" y1="35.00" x2="328.75" y2="270.56" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="328.75" y1="329.44" x2="328.75" y2="565.00" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="387.50" y1="35.00" x2="387.50" y2="270.56" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="387.50" y1="329.44" x2="387.50" y2="565.00" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="446.25" y1="35.00" x2="446.25" y2="270.56" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="446.25" y1="329.44" x2="446.25" y2="565.00" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="211.25" y1="35.00" x2="328.75" y2="152.78" stroke="#9a3412" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="328.75" y1="35.00" x2="211.25" y2="152.78" stroke="#9a3412" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="211.25" y1="447.22" x2="328.75" y2="565.00" stroke="#9a3412" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="328.75" y1="447.22" x2="211.25" y2="565.00" stroke="#9a3412" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M 85.25 150.28 H 91.25 V 144.28 M 85.25 155.28 H 91.25 V 161.28 M 102.25 150.28 H 96.25 V 144.28 M 102.25 155.28 H 96.25 V 161.28 M 437.75 150.28 H 443.75 V 144.28 M 437.75 155.28 H 443.75 V 161.28 M 454.75 150.28 H 448.75 V 144.28 M 454.75 155.28 H 448.75 V 161.28 M 85.25 444.72 H 91.25 V 438.72 M 85.25 449.72 H 91.25 V 455.72 M 102.25 444.72 H 96.25 V 438.72 M 102.25 449.72 H 96.25 V 455.72 M 437.75 444.72 H 443.75 V 438.72 M 437.75 449.72 H 443.75 V 455.72 M 454.75 444.72 H 448.75 V 438.72 M 454.75 449.72 H 448.75 V 455.72 M 43.50 209.17 H 37.50 V 203.17 M 43.50 214.17 H 37.50 V 220.17 M 144.00 209.17 H 150.00 V 203.17 M 144.00 214.17 H 150.00 V 220.17 M 161.00 209.17 H 155.00 V 203.17 M 161.00 214.17 H 155.00 V 220.17 M 261.50 209.17 H 267.50 V 203.17 M 261.50 214.17 H 267.50 V 220.17 M 278.50 209.17 H 272.50 V 203.17 M 278.50 214.17 H 272.50 V 220.17 M 379.00 209.17 H 385.00 V 203.17 M 379.00 214.17 H 385.00 V 220.17 M 396.00 209.17 H 390.00 V 203.17 M 396.00 214.17 H 390.00 V 220.17 M 496.50 209.17 H 502.50 V 203.17 M 496.50 214.17 H 502.50 V 220.17 M 43.50 385.83 H 37.50 V 379.83 M 43.50 390.83 H 37.50 V 396.83 M 144.00 385.83 H 150.00 V 379.83 M 144.00 390.83 H 150.00 V 396.83 M 161.00 385.83 H 155.00 V 379.83 M 161.00 390.83 H 155.00 V 396.83 M 261.50 385.83 H 267.50 V 379.83 M 261.50 390.83 H 267.50 V 396.83 M 278.50 385.83 H 272.50 V 379.83 M 278.50 390.83 H 272.50 V 396.83 M 379.00 385.83 H 385.00 V 379.83 M 379.00 390.83 H 385.00 V 396.83 M 396.00 385.83 H 390.00 V 379.83 M 396.00 390.83 H 390.00 V 396.83 M 496.50 385.83 H 502.50 V 379.83 M 496.50 390.83 H 502.50 V 396.83" stroke="#9a3412" stroke-width="1.1" fill="none" opacity="0.75"/>
+    <text x="145" y="307.50" font-family="'KaiTi', 'STKaiti', 'BiauKai', 'Noto Serif SC', 'Playfair Display', serif" font-size="23" font-weight="900" fill="#7c2d12" letter-spacing="10" opacity="0.85" text-anchor="middle">楚 河</text>
+    <text x="395" y="307.50" font-family="'KaiTi', 'STKaiti', 'BiauKai', 'Noto Serif SC', 'Playfair Display', serif" font-size="23" font-weight="900" fill="#7c2d12" letter-spacing="10" opacity="0.85" text-anchor="middle">漢 界</text>
+</svg>
                         <div class="xiangqi-piece-layer" id="xqPieceLayer"></div>
                     </div>
                 </div>
 
-                <!-- Bảng trạng thái & Lịch sử nước cờ -->
+                <!-- CỘT PHẢI: BẢNG THÔNG TIN & ĐIỀU KHIỂN RỘNG RÃI -->
                 <div class="xiangqi-side-panel">
-                    <div class="xq-card xq-turn-status-card">
+                    <!-- 1. Bảng điều khiển chế độ & ELO -->
+                    <div class="xq-panel-card xq-controls-card">
+                        <div class="xq-card-header-title">Chế Độ & Độ Khó</div>
+                        <div class="xiangqi-mode-pills" role="group" aria-label="Chế độ cờ tướng">
+                            <button class="xq-mode-tab active" data-mode="ai" type="button">Đấu Máy (AI)</button>
+                            <button class="xq-mode-tab" data-mode="pass" type="button">Bạn Bè</button>
+                            <button class="xq-mode-tab" data-mode="p2p" type="button">Đối Kháng (P2P)</button>
+                        </div>
+                        <div class="xiangqi-elo-pills" id="xqEloSelectorGroup" role="group" aria-label="Độ khó ELO AI">
+                            <button class="xq-elo-tab active" data-elo="800" type="button">800</button>
+                            <button class="xq-elo-tab" data-elo="1200" type="button">1200</button>
+                            <button class="xq-elo-tab" data-elo="1600" type="button">1600</button>
+                            <button class="xq-elo-tab" data-elo="2000" type="button">2000+</button>
+                        </div>
+                        <div class="xiangqi-tools-group">
+                            <button class="xq-tool-btn" id="xqBtnUndo" type="button">↩ Đi Lại</button>
+                            <button class="xq-tool-btn primary" id="xqBtnNewGame" type="button">🔄 Ván Mới</button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Trạng thái người chơi & Tỷ số -->
+                    <div class="xq-panel-card xq-status-card">
                         <div class="xq-turn-indicator turn-red" id="xqTurnIndicator">
                             <span class="xq-turn-dot"></span>
                             <span class="xq-turn-text">Lượt đi: Đỏ (Huy)</span>
                         </div>
-                        <span class="xq-elo-badge" id="xqCurrentEloBadge">1200 ELO</span>
-                    </div>
-
-                    <div class="xq-card xq-score-board">
-                        <div class="xq-player-box">
-                            <div class="xq-player-name" style="color: #dc2626;">Đỏ (Huy)</div>
-                            <div class="xq-player-score" id="xqScoreRed">0</div>
-                            <div class="xq-captured-tray" id="xqCapturedBlack" title="Quân Đen bị Đỏ bắt"></div>
-                        </div>
-                        <div class="xq-vs-divider">VS</div>
-                        <div class="xq-player-box">
-                            <div class="xq-player-name" style="color: #0284c7;">Đen (AI / Hiền)</div>
-                            <div class="xq-player-score" id="xqScoreBlack">0</div>
-                            <div class="xq-captured-tray" id="xqCapturedRed" title="Quân Đỏ bị Đen bắt"></div>
+                        <div class="xq-score-board">
+                            <div class="xq-player-box red">
+                                <div class="xq-player-label">Đỏ (Huy)</div>
+                                <div class="xq-player-score" id="xqScoreRed">0</div>
+                                <div class="xq-captured-tray" id="xqCapturedBlack" title="Quân Đen bị Đỏ bắt"></div>
+                            </div>
+                            <div class="xq-vs-divider">VS</div>
+                            <div class="xq-player-box black">
+                                <div class="xq-player-label">Đen (AI / Hiền)</div>
+                                <div class="xq-player-score" id="xqScoreBlack">0</div>
+                                <div class="xq-captured-tray" id="xqCapturedRed" title="Quân Đỏ bị Đen bắt"></div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="xq-card xq-log-card">
-                        <div class="xq-log-title">Nhật Ký Nước Cờ</div>
+                    <!-- 3. Nhật ký nước cờ -->
+                    <div class="xq-panel-card xq-log-card">
+                        <div class="xq-card-header-title">
+                            <span>Nhật Ký Nước Cờ</span>
+                            <span class="xq-elo-badge" id="xqCurrentEloBadge">1200 ELO</span>
+                        </div>
                         <div class="xq-moves-log" id="xqMovesLog">
                             <div class="xq-log-empty">Chưa có nước đi nào</div>
                         </div>
@@ -683,34 +678,38 @@
              VIEW 6: CỜ VUA (INTERNATIONAL CHESS) ĐỐI KHÁNG & ĐẤU AI & P2P
              ======================================================== -->
         <div class="game-view-panel chess-view-panel" id="viewChess">
-            <div class="chess-subnav-dock">
-                <div class="chess-mode-pills" role="group" aria-label="Chế độ cờ vua">
-                    <button class="chess-mode-tab active" data-mode="ai" type="button">Đấu với Máy (AI)</button>
-                    <button class="chess-mode-tab" data-mode="pass" type="button">Chơi Cùng Bạn Bè</button>
-                    <button class="chess-mode-tab" data-mode="p2p" type="button">Đối Kháng Online (P2P)</button>
-                </div>
-                <div class="chess-elo-pills" id="chessEloSelectorGroup" role="group" aria-label="Độ khó ELO AI">
-                    <button class="chess-elo-tab" data-elo="800" type="button">800 ELO</button>
-                    <button class="chess-elo-tab active" data-elo="1200" type="button">1200 ELO</button>
-                    <button class="chess-elo-tab" data-elo="1600" type="button">1600 ELO</button>
-                    <button class="chess-elo-tab" data-elo="2000" type="button">2000+ ELO</button>
-                </div>
-                <div class="chess-subnav-actions">
-                    <button class="chess-action-btn" id="chessBtnFlip" type="button">Lật Bàn</button>
-                    <button class="chess-action-btn" id="chessBtnUndo" type="button">Đi Lại</button>
-                    <button class="chess-action-btn" id="chessBtnNewGame" type="button">Ván Mới</button>
-                </div>
-            </div>
-
-            <div class="chess-notice-banner" id="chessNoticeBanner"></div>
-
             <div class="chess-arena-layout">
+                <!-- CỘT TRÁI: BÀN CỜ VUA TRỌN KHUNG HÌNH -->
                 <div class="chess-board-card">
+                    <div class="chess-notice-banner" id="chessNoticeBanner"></div>
                     <div class="chess-board-wrapper" id="chessBoardGrid"></div>
                 </div>
 
+                <!-- CỘT PHẢI: BẢNG THÔNG TIN & ĐIỀU KHIỂN RỘNG RÃI -->
                 <div class="chess-sidebar">
-                    <div class="chess-status-card">
+                    <!-- 1. Bảng điều khiển chế độ & ELO -->
+                    <div class="chess-card-box chess-controls-card">
+                        <div class="chess-card-title">Chế Độ & Độ Khó</div>
+                        <div class="chess-mode-pills" role="group" aria-label="Chế độ cờ vua">
+                            <button class="chess-mode-tab active" data-mode="ai" type="button">Đấu Máy (AI)</button>
+                            <button class="chess-mode-tab" data-mode="pass" type="button">Bạn Bè</button>
+                            <button class="chess-mode-tab" data-mode="p2p" type="button">Đối Kháng (P2P)</button>
+                        </div>
+                        <div class="chess-elo-pills" id="chessEloSelectorGroup" role="group" aria-label="Độ khó ELO AI">
+                            <button class="chess-elo-tab" data-elo="800" type="button">800</button>
+                            <button class="chess-elo-tab active" data-elo="1200" type="button">1200</button>
+                            <button class="chess-elo-tab" data-elo="1600" type="button">1600</button>
+                            <button class="chess-elo-tab" data-elo="2000" type="button">2000+</button>
+                        </div>
+                        <div class="chess-subnav-actions">
+                            <button class="chess-action-btn" id="chessBtnFlip" type="button">🔄 Lật Bàn</button>
+                            <button class="chess-action-btn" id="chessBtnUndo" type="button">↩ Đi Lại</button>
+                            <button class="chess-action-btn primary" id="chessBtnNewGame" type="button">✨ Ván Mới</button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Trạng thái lượt đi & Khay quân bị bắt -->
+                    <div class="chess-card-box">
                         <div class="chess-turn-header">
                             <div class="chess-turn-badge white" id="chessTurnBadge">
                                 <span class="chess-turn-dot"></span>
@@ -729,8 +728,9 @@
                         </div>
                     </div>
 
-                    <div class="chess-history-card">
-                        <div class="chess-history-title">
+                    <!-- 3. Nhật ký nước cờ FIDE -->
+                    <div class="chess-card-box">
+                        <div class="chess-card-title">
                             <span>Nhật Ký Nước Cờ</span>
                             <small style="color:#a8a29e;font-weight:600;">Chuẩn FIDE</small>
                         </div>

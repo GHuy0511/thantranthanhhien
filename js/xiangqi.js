@@ -26,43 +26,68 @@ window.XiangqiGame = (function () {
         P: { name: 'Tốt', redChar: '兵', blackChar: '卒', redLabel: 'BINH', blackLabel: 'TỐT', val: 15 }
     };
 
-    // Vector SVGs cho từng quân cờ tự thiết kế (3D Beveled Wooden Disc)
+    // Vector SVGs cho từng quân cờ tự thiết kế: Bạch Ngọc & Mun Khắc Hoàng Kim
     function generatePieceSVG(side, type) {
         const info = PIECE_TYPES[type];
         const isRed = side === 'r';
         const char = isRed ? info.redChar : info.blackChar;
-        const sub = isRed ? info.redLabel : info.blackLabel;
-        
-        const discGradient = isRed ? 'xq_wood_red' : 'xq_wood_black';
-        const charColor = isRed ? '#ef4444' : '#38bdf8';
-        const charShadow = isRed ? '#7f1d1d' : '#0369a1';
-        const rimColor = isRed ? '#f59e0b' : '#94a3b8';
+
+        const gradId = `xq_grad_${side}_${type}`;
+        const rimGradId = `xq_rim_grad_${side}`;
+
+        const bgStops = isRed
+            ? `
+                <radialGradient id="${gradId}" cx="35%" cy="28%" r="68%">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="25%" stop-color="#fffdf5"/>
+                    <stop offset="65%" stop-color="#fef3c7"/>
+                    <stop offset="90%" stop-color="#fde68a"/>
+                    <stop offset="100%" stop-color="#f59e0b"/>
+                </radialGradient>
+                <linearGradient id="${rimGradId}" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#fbbf24"/>
+                    <stop offset="50%" stop-color="#d97706"/>
+                    <stop offset="100%" stop-color="#92400e"/>
+                </linearGradient>
+            `
+            : `
+                <radialGradient id="${gradId}" cx="35%" cy="28%" r="68%">
+                    <stop offset="0%" stop-color="#475569"/>
+                    <stop offset="25%" stop-color="#334155"/>
+                    <stop offset="65%" stop-color="#1e293b"/>
+                    <stop offset="92%" stop-color="#0f172a"/>
+                    <stop offset="100%" stop-color="#020617"/>
+                </radialGradient>
+                <linearGradient id="${rimGradId}" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#e2e8f0"/>
+                    <stop offset="50%" stop-color="#94a3b8"/>
+                    <stop offset="100%" stop-color="#475569"/>
+                </linearGradient>
+            `;
+
+        const charFill = isRed ? '#dc2626' : '#fef08a';
+        const charShadow = isRed ? '#7f1d1d' : '#000000';
+        const innerRing = isRed ? '#b45309' : '#94a3b8';
+        const beadedRing = isRed ? '#d97706' : '#cbd5e1';
+        const highlightOpacity = isRed ? '0.75' : '0.4';
 
         return `
-        <svg width="44" height="44" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="100%" height="100%" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-                <radialGradient id="${discGradient}" cx="35%" cy="30%" r="65%">
-                    <stop offset="0%" stop-color="${isRed ? '#9a3412' : '#334155'}"/>
-                    <stop offset="60%" stop-color="${isRed ? '#7c2d12' : '#1e293b'}"/>
-                    <stop offset="100%" stop-color="${isRed ? '#451a03' : '#0f172a'}"/>
-                </radialGradient>
-                <linearGradient id="xq_rim_${side}" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="${isRed ? '#fbbf24' : '#e2e8f0'}"/>
-                    <stop offset="100%" stop-color="${isRed ? '#b45309' : '#64748b'}"/>
-                </linearGradient>
+                ${bgStops}
             </defs>
             <!-- Drop Shadow -->
-            <ellipse cx="27" cy="48" rx="22" ry="4" fill="#000000" fill-opacity="0.35"/>
-            <!-- Beveled Wooden Coin Body -->
-            <circle cx="27" cy="27" r="25" fill="url(#${discGradient})" stroke="url(#xq_rim_${side})" stroke-width="1.8"/>
-            <circle cx="27" cy="27" r="21.5" stroke="${rimColor}" stroke-opacity="0.4" stroke-width="1" stroke-dasharray="2 1.5"/>
-            <!-- Inner Carved Recess -->
-            <circle cx="27" cy="27" r="19" fill="#000000" fill-opacity="0.12"/>
-            <!-- Main Calligraphy Character -->
-            <text x="27" y="32" font-family="'Plus Jakarta Sans', 'Playfair Display', serif" font-weight="900" font-size="22" text-anchor="middle" fill="${charShadow}" dy="1">${char}</text>
-            <text x="27" y="31" font-family="'Plus Jakarta Sans', 'Playfair Display', serif" font-weight="900" font-size="22" text-anchor="middle" fill="${charColor}">${char}</text>
-            <!-- Subtitle Label -->
-            <text x="27" y="42" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="5.5" letter-spacing="1" text-anchor="middle" fill="${rimColor}">${sub}</text>
+            <ellipse cx="30" cy="54" rx="25" ry="4" fill="#000000" fill-opacity="0.32" />
+            <!-- Beveled Disc Body -->
+            <circle cx="30" cy="30" r="27" fill="url(#${gradId})" stroke="url(#${rimGradId})" stroke-width="2" />
+            <!-- Concentric Beaded / Carved Rings -->
+            <circle cx="30" cy="30" r="23.5" stroke="${beadedRing}" stroke-width="0.9" stroke-dasharray="2 1.2" opacity="0.85" />
+            <circle cx="30" cy="30" r="21" fill="none" stroke="${innerRing}" stroke-width="1.2" opacity="0.9" />
+            <!-- Specular Highlight Arc -->
+            <path d="M 16 17 C 22 11 38 11 44 17" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="${highlightOpacity}" fill="none" />
+            <!-- Carved Classical Calligraphy Character -->
+            <text x="30" y="39.5" font-family="'KaiTi', 'STKaiti', 'BiauKai', 'Noto Serif SC', 'SimSun', 'Songti SC', 'Microsoft YaHei', serif" font-weight="900" font-size="28" text-anchor="middle" fill="${charShadow}" opacity="0.45" dy="1">${char}</text>
+            <text x="30" y="39.5" font-family="'KaiTi', 'STKaiti', 'BiauKai', 'Noto Serif SC', 'SimSun', 'Songti SC', 'Microsoft YaHei', serif" font-weight="900" font-size="28" text-anchor="middle" fill="${charFill}">${char}</text>
         </svg>`;
     }
 
@@ -827,17 +852,19 @@ window.XiangqiGame = (function () {
         if (!layer) return;
         layer.innerHTML = '';
 
-        // Tọa độ tính theo phần trăm lưới 9x10 (cột: 0-8, hàng: 0-9)
-        // 9 cột -> mỗi cột cách nhau 100% / 8 = 12.5%
-        // 10 hàng -> mỗi hàng cách nhau 100% / 9 = 11.111%
-        const colPercent = 100 / (COLS - 1);
-        const rowPercent = 100 / (ROWS - 1);
+        // Tọa độ tính theo lưới chuẩn 540x600 có lề đệm 35px không bị xén biên
+        const padX = 35.0;
+        const padY = 35.0;
+        const stepX = 58.75;
+        const stepY = 530.0 / 9.0;
+        const totalW = 540.0;
+        const totalH = 600.0;
 
         for (let r = 0; r < ROWS; r++) {
             for (let c = 0; c < COLS; c++) {
                 const piece = state.board[r][c];
-                const left = c * colPercent;
-                const top = r * rowPercent;
+                const left = ((padX + c * stepX) / totalW) * 100;
+                const top = ((padY + r * stepY) / totalH) * 100;
 
                 if (piece) {
                     const el = document.createElement('div');
