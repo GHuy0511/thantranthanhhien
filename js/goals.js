@@ -15,74 +15,7 @@ window.GoalsApp = (function () {
     'use strict';
 
     const STORAGE_KEY = 'couple_goals_data_clean';
-    const DEFAULT_SAMPLE_GOALS = [
-        {
-            id: 'g_hue_trip',
-            title: 'Chuyến Đi Huế & Đà Nẵng Cùng Hiền',
-            category: 'travel',
-            space: 'both',
-            targetAmount: 8000000,
-            currentAmount: 3500000,
-            targetDate: '2026-12-25',
-            isSecret: false,
-            ownerRole: 'huy',
-            status: 'active',
-            momoLink: '',
-            checklist: [
-                { id: 'c_1', text: 'Đặt vé máy bay khứ hồi hai đứa', done: true },
-                { id: 'c_2', text: 'Thuê homestay view sông Hương thơ mộng', done: true },
-                { id: 'c_3', text: 'Thưởng thức bún bò Huế mụ Rơi và chè cung đình', done: false },
-                { id: 'c_4', text: 'Chụp bộ ảnh áo dài đôi cổ kính tại Đại Nội', done: false }
-            ],
-            deposits: [
-                { id: 'd_1', amount: 2000000, note: 'Huy góp đợt 1', date: '2026-11-01', by: 'Huy' },
-                { id: 'd_2', amount: 1500000, note: 'Hiền góp nuôi heo', date: '2026-11-05', by: 'Hiền' }
-            ]
-        },
-        {
-            id: 'g_birthday_hien',
-            title: 'Bí Mật Món Quà Sinh Nhật Cho Hiền',
-            category: 'gift',
-            space: 'huy',
-            targetAmount: 3000000,
-            currentAmount: 1800000,
-            targetDate: '2026-11-20',
-            isSecret: true,
-            ownerRole: 'huy',
-            status: 'active',
-            momoLink: '',
-            checklist: [
-                { id: 'c_5', text: 'Tìm mẫu quà đặc biệt Hiền thích từ lâu', done: true },
-                { id: 'c_6', text: 'Tự tay viết thiệp tỏ tình ngọt ngào', done: false },
-                { id: 'c_7', text: 'Đặt bó hoa hồng pastel người yêu mê', done: false }
-            ],
-            deposits: [
-                { id: 'd_3', amount: 1800000, note: 'Huy âm thầm tích lũy', date: '2026-11-04', by: 'Huy' }
-            ]
-        },
-        {
-            id: 'g_anniversary',
-            title: 'Bộ Ảnh Kỷ Niệm Tình Yêu Chúng Mình',
-            category: 'anniversary',
-            space: 'both',
-            targetAmount: 2000000,
-            currentAmount: 2000000,
-            targetDate: '2026-11-01',
-            isSecret: false,
-            ownerRole: 'both',
-            status: 'completed',
-            momoLink: '',
-            checklist: [
-                { id: 'c_8', text: 'Chọn trang phục tone nâu be đồng điệu', done: true },
-                { id: 'c_9', text: 'Đặt lịch studio phong cách ấm áp', done: true },
-                { id: 'c_10', text: 'In album ảnh kỷ niệm giữ làm kỷ vật', done: true }
-            ],
-            deposits: [
-                { id: 'd_4', amount: 1000000, note: 'Huy góp quỹ ảnh', date: '2026-10-25', by: 'Huy' },
-                { id: 'd_5', amount: 1000000, note: 'Hiền góp hoàn tất quỹ', date: '2026-10-28', by: 'Hiền' }
-            ]
-        }
-    ];
+    const DEFAULT_SAMPLE_GOALS = [];
 
     let currentSpace = 'all'; // 'all', 'both', 'huy', 'hien'
     let goals = [];
@@ -119,19 +52,18 @@ window.GoalsApp = (function () {
             if (raw) {
                 const parsed = JSON.parse(raw);
                 if (Array.isArray(parsed) && parsed.length > 0) {
-                    goals = parsed;
+                    const sampleIds = ['g_hue_trip', 'g_birthday_hien', 'g_anniversary'];
+                    goals = parsed.filter(g => !sampleIds.includes(g.id));
                 } else {
-                    goals = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_GOALS));
-                    saveData(false);
+                    goals = [];
                 }
             } else {
-                goals = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_GOALS));
-                saveData(false);
+                goals = [];
             }
         } catch (e) {
-            goals = JSON.parse(JSON.stringify(DEFAULT_SAMPLE_GOALS));
-            saveData(false);
+            goals = [];
         }
+        saveData(false);
     }
 
     function saveData(broadcast = true) {
@@ -172,7 +104,7 @@ window.GoalsApp = (function () {
     }
 
     function formatVND(amount) {
-        return Number(amount || 0).toLocaleString('vi-VN') + ' đ';
+        return Number(amount || 0).toLocaleString('vi-VN') + '\u00A0đ';
     }
 
     function calculateDaysRemaining(targetDateStr) {
@@ -228,6 +160,17 @@ window.GoalsApp = (function () {
 
             grid.innerHTML = `
                 <div class="goals-empty-state">
+                    <div class="goals-empty-graphic" aria-hidden="true">
+                        <svg width="56" height="56" viewBox="0 0 64 64" fill="none">
+                            <circle cx="32" cy="32" r="30" fill="rgba(180, 93, 67, 0.08)" stroke="rgba(180, 93, 67, 0.2)" stroke-width="1.5" stroke-dasharray="4 4" />
+                            <path d="M22 20H42C44.2091 20 46 21.7909 46 24V44C46 46.2091 44.2091 48 42 48H22C19.7909 48 18 46.2091 18 44V24C18 21.7909 19.7909 20 22 20Z" fill="#FAF6F0" stroke="#B45D43" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M24 28H40" stroke="#B45D43" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M24 34H36" stroke="#B45D43" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M24 40H32" stroke="#B45D43" stroke-width="1.8" stroke-linecap="round"/>
+                            <circle cx="42" cy="38" r="4.5" fill="#D97706" />
+                            <path d="M42 35.5V40.5M39.5 38H44.5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
                     <h3 class="goals-empty-title">${emptyTitle}</h3>
                     <p class="goals-empty-desc">${emptyDesc}</p>
                     <button class="btn-empty-add" type="button" onclick="window.GoalsApp.openCreateModal()">
@@ -288,7 +231,7 @@ window.GoalsApp = (function () {
                 const momoBtnHtml = `
                     <button class="btn-momo-qr-pill ${goal.momoLink ? 'has-momo' : 'no-momo'}" type="button" title="Xem tiến độ và mã QR MoMo" onclick="window.GoalsApp.openFundDetailModal('${goal.id}')">
                         <span class="momo-pill-logo">MoMo</span>
-                        <span>${goal.momoLink ? 'Quét QR Quỹ' : '+ Mã QR MoMo'}</span>
+                        <span>${goal.momoLink ? 'Quét QR' : '+ Mã QR'}</span>
                     </button>
                 `;
 
@@ -336,7 +279,6 @@ window.GoalsApp = (function () {
                             ${catInfo.name}
                         </span>
                         <span class="goal-space-tag ${spaceTagClass}">${spaceTagText}</span>
-                        ${daysBadgeText ? `<span class="goal-timing-chip">${daysBadgeText}</span>` : ''}
                     </div>
                     <div class="goal-card-actions">
                         <button class="goal-action-btn" type="button" title="Chỉnh sửa" onclick="window.GoalsApp.openEditModal('${goal.id}')">Sửa</button>
@@ -352,8 +294,13 @@ window.GoalsApp = (function () {
                         <div class="goal-timing-left">
                             <span>📅 Dự kiến: ${goal.targetDate}</span>
                         </div>
+                        ${daysBadgeText ? `<span class="goal-timing-chip">${daysBadgeText}</span>` : ''}
                     </div>
-                ` : ''}
+                ` : (daysBadgeText ? `
+                    <div class="goal-timing-strip" style="justify-content: flex-end;">
+                        <span class="goal-timing-chip">${daysBadgeText}</span>
+                    </div>
+                ` : '')}
 
                 ${savingsHtml}
 
@@ -564,11 +511,12 @@ window.GoalsApp = (function () {
             const cleanUrl = goal.momoLink.trim();
             const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=${encodeURIComponent(cleanUrl)}`;
 
+            qrBox.classList.remove('is-empty');
             qrBox.innerHTML = `
                 <div class="momo-qr-render-wrap">
                     <img src="${qrApiUrl}" alt="Mã QR Quỹ MoMo" class="momo-qr-img" />
                     <div class="momo-qr-scan-badge">
-                        <span>📱 Quét bằng app MoMo để tham gia quỹ</span>
+                        <span>Quét bằng app MoMo để tham gia quỹ</span>
                     </div>
                 </div>
             `;
@@ -587,9 +535,17 @@ window.GoalsApp = (function () {
                 };
             }
         } else {
+            qrBox.classList.add('is-empty');
             qrBox.innerHTML = `
                 <div class="momo-qr-empty-placeholder">
-                    <div class="momo-empty-icon">📱</div>
+                    <div class="momo-empty-icon-wrap" aria-hidden="true">
+                        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+                            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+                            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+                        </svg>
+                    </div>
                     <h5 class="momo-empty-title">Chưa có link Quỹ MoMo</h5>
                     <p class="momo-empty-desc">Dán link Quỹ nhóm hoặc link cá nhân MoMo bên dưới để tạo mã QR ngay.</p>
                 </div>
