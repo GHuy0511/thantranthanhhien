@@ -88,8 +88,8 @@ const AVATAR_COLLECTION = [
     { id: "coffee", icon: "☕", name: "Cà Phê", sub: "Ấm áp" },
     { id: "rocket", icon: "🚀", name: "Tên Lửa", sub: "Khám phá" },
     { id: "star", icon: "⭐", name: "Ngôi Sao", sub: "May mắn" },
-    { id: "car", icon: "🚗", name: "Xe Cổ", sub: "Phượt thủ" },
-    { id: "plane", icon: "✈️", name: "Máy Bay", sub: "Vi vu" }
+    { id: "car", icon: "H", name: "Xe Cổ", sub: "Phượt thủ" },
+    { id: "plane", icon: "H", name: "Máy Bay", sub: "Vi vu" }
 ];
 
 /**
@@ -139,7 +139,7 @@ const VIETNAM_TILES = [
         id: 2, row: 1, col: 3,
         name: "Vịnh Hạ Long",
         subtitle: "Quảng Ninh",
-        icon: "⛵",
+        icon: "N",
         image: "images/monopoly/ha_long.jpg",
         region: "hanoi",
         regionName: "Bắc Bộ",
@@ -400,7 +400,7 @@ const VIETNAM_TILES = [
         id: 19, row: 6, col: 1,
         name: "Sân Bay",
         subtitle: "Bay Tốc Hành",
-        icon: "✈️",
+        icon: "H",
         image: "images/monopoly/airport.jpg",
         region: "special",
         regionName: "Sân Bay",
@@ -478,7 +478,7 @@ const ALL_PLAYER_CONFIGS = [
     {
         id: "p0",
         name: "Huy",
-        icon: "🚗",
+        icon: "H",
         color: "#b45d43",
         glow: "rgba(180,93,67,0.22)",
         bg: "rgba(180,93,67,0.10)"
@@ -486,7 +486,7 @@ const ALL_PLAYER_CONFIGS = [
     {
         id: "p1",
         name: "Hiền",
-        icon: "✈️",
+        icon: "H",
         color: "#a85d7b",
         glow: "rgba(168,93,123,0.22)",
         bg: "rgba(168,93,123,0.10)"
@@ -494,7 +494,7 @@ const ALL_PLAYER_CONFIGS = [
     {
         id: "p2",
         name: "Thành Nam",
-        icon: "⛵",
+        icon: "N",
         color: "#5b7f6b",
         glow: "rgba(91,127,107,0.22)",
         bg: "rgba(91,127,107,0.10)"
@@ -1011,7 +1011,11 @@ function renderPlayerTokens() {
         token.className = `token-pin token-p${idx}`;
         token.style.background = player.color;
         token.style.boxShadow = `0 2px 6px ${player.glow}`;
-        token.textContent = player.icon;
+        const tokenLetter = player.isAi ? 'AI' : (player.name ? player.name.charAt(0).toUpperCase() : '•');
+        token.textContent = tokenLetter;
+        token.style.fontWeight = '800';
+        token.style.fontSize = player.isAi ? '9px' : '11px';
+        token.style.letterSpacing = '0.2px';
         token.title = `${player.name} (${player.cash}M)`;
 
         wrap.appendChild(token);
@@ -1151,6 +1155,11 @@ function updateUI() {
 function roll3DDice(callback) {
     const diceCube1 = document.getElementById("diceCube1");
     const diceCube2 = document.getElementById("diceCube2");
+    const diceScene1 = document.getElementById("diceScene1");
+    const diceScene2 = document.getElementById("diceScene2");
+    const diceTray = document.getElementById("diceArenaTray");
+    const s1 = document.getElementById("diceShadowSpot1");
+    const s2 = document.getElementById("diceShadowSpot2");
 
     soundEffects.diceRoll();
 
@@ -1165,41 +1174,59 @@ function roll3DDice(callback) {
 
     const val1 = Math.floor(Math.random() * 6) + 1;
     const val2 = Math.floor(Math.random() * 6) + 1;
-    const isDouble = val1 === val2;
+    const isDouble = (val1 === val2);
     const sum = val1 + val2;
 
+    // Reset các class animation vật lý cũ
+    if (diceScene1) diceScene1.classList.remove("dice-tossing-1");
+    if (diceScene2) diceScene2.classList.remove("dice-tossing-2");
+    if (diceTray) diceTray.classList.remove("tray-impact-shake");
+    if (s1) s1.classList.remove("shadow-tossing-1");
+    if (s2) s2.classList.remove("shadow-tossing-2");
+
+    // Force reflow để trigger lại animation mượt mà
+    if (diceScene1) void diceScene1.offsetWidth;
+
+    // Kích hoạt animation vật lý: Ném bổng -> Rơi chạm mặt bàn -> Nảy lên -> Ổn định
+    if (diceScene1) diceScene1.classList.add("dice-tossing-1");
+    if (diceScene2) diceScene2.classList.add("dice-tossing-2");
+    if (diceTray) diceTray.classList.add("tray-impact-shake");
+    if (s1) s1.classList.add("shadow-tossing-1");
+    if (s2) s2.classList.add("shadow-tossing-2");
+
+    // Xoay 3D hỗn loạn kết hợp nhiều trục (X, Y, Z) và giảm tốc mượt vào đúng mặt đích
+    const rot1 = faceRotations[val1] || { x: 0, y: 0 };
+    const rot2 = faceRotations[val2] || { x: 0, y: 0 };
+    const extraSpins1X = (3 + Math.floor(Math.random() * 2)) * 360;
+    const extraSpins1Y = (3 + Math.floor(Math.random() * 2)) * 360;
+    const extraSpins2X = (3 + Math.floor(Math.random() * 2)) * 360;
+    const extraSpins2Y = (3 + Math.floor(Math.random() * 2)) * 360;
+
     if (diceCube1) {
-        const rot1 = faceRotations[val1] || { x: 0, y: 0 };
-        const extraX1 = (3 + Math.floor(Math.random() * 3)) * 360;
-        const extraY1 = (3 + Math.floor(Math.random() * 3)) * 360;
-        diceCube1.style.transition = "transform 1.1s cubic-bezier(0.15, 0.9, 0.25, 1)";
-        diceCube1.style.transform = `rotateX(${rot1.x + extraX1}deg) rotateY(${rot1.y + extraY1}deg)`;
+        diceCube1.style.transition = "transform 1.25s cubic-bezier(0.18, 0.85, 0.25, 1)";
+        diceCube1.style.transform = `rotateX(${rot1.x + extraSpins1X}deg) rotateY(${rot1.y + extraSpins1Y}deg) rotateZ(360deg)`;
     }
 
     if (diceCube2) {
-        const rot2 = faceRotations[val2] || { x: 0, y: 0 };
-        const extraX2 = (3 + Math.floor(Math.random() * 3)) * 360;
-        const extraY2 = (3 + Math.floor(Math.random() * 3)) * 360;
-        diceCube2.style.transition = "transform 1.1s cubic-bezier(0.15, 0.9, 0.25, 1)";
-        diceCube2.style.transform = `rotateX(${rot2.x + extraX2}deg) rotateY(${rot2.y + extraY2}deg)`;
+        diceCube2.style.transition = "transform 1.25s cubic-bezier(0.18, 0.85, 0.25, 1)";
+        diceCube2.style.transform = `rotateX(${rot2.x + extraSpins2X}deg) rotateY(${rot2.y + extraSpins2Y}deg) rotateZ(-360deg)`;
     }
 
-    const s1 = document.getElementById("diceShadowSpot1");
-    const s2 = document.getElementById("diceShadowSpot2");
-    [s1, s2].forEach(s => {
-        if (s) {
-            s.style.transform = "scale(0.55)";
-            s.style.opacity = "0.35";
-            setTimeout(() => {
-                s.style.transform = "scale(1)";
-                s.style.opacity = "1";
-            }, 1100);
-        }
-    });
-
+    // Âm thanh xúc xắc rơi va chạm chính xác vào khoảnh khắc chạm khay nỉ (~650ms)
     setTimeout(() => {
+        soundEffects.diceDrop();
+    }, 650);
+
+    // Kết thúc ván tung, hoàn trả callback kết quả
+    setTimeout(() => {
+        if (diceScene1) diceScene1.classList.remove("dice-tossing-1");
+        if (diceScene2) diceScene2.classList.remove("dice-tossing-2");
+        if (diceTray) diceTray.classList.remove("tray-impact-shake");
+        if (s1) s1.classList.remove("shadow-tossing-1");
+        if (s2) s2.classList.remove("shadow-tossing-2");
+
         if (callback) callback({ d1: val1, d2: val2, sum, isDouble });
-    }, 1150);
+    }, 1280);
 }
 
 // 13. HÀM TUNG XÚC XẮC CHÍNH (HANDLE ROLL DICE)
@@ -2520,10 +2547,11 @@ function initGameSetupModal() {
 
             const row = document.createElement("div");
             row.className = "setup-player-row";
+            const initialLetter = isAi ? 'AI' : (displayName ? displayName.charAt(0).toUpperCase() : (cfg.icon || 'H'));
             row.innerHTML = `
-                <button type="button" class="setup-p-icon clickable" onclick="openAvatarPicker('p${i}')" title="Đổi Avatar người chơi" style="background:${cfg.bg}; color:${cfg.color}; font-size:18px; border:none; cursor:pointer;">
-                    ${cfg.icon || '👦'}
-                </button>
+                <div class="setup-p-avatar-circle" style="background:${cfg.bg}; color:${cfg.color}; border: 1.5px solid ${cfg.color};">
+                    ${initialLetter}
+                </div>
                 <input type="text" class="setup-player-name-input" data-player-idx="${i}" value="${displayName}" maxlength="12" placeholder="Tên người chơi">
                 <span class="setup-p-type-badge ${isAi ? 'type-ai' : 'type-human'}">${isAi ? 'Máy (AI)' : 'Người chơi'}</span>
             `;
@@ -3050,7 +3078,7 @@ function initAvatarPickerModal() {
     ["p0", "p1", "p2", "p3"].forEach((pid, idx) => {
         try {
             const saved = localStorage.getItem(`monopoly_avatar_${pid}`);
-            if (saved && ALL_PLAYER_CONFIGS[idx]) {
+            if (saved && !['🚗', '✈️', '⛵', '🚲', '👦', '👧'].includes(saved) && ALL_PLAYER_CONFIGS[idx]) {
                 ALL_PLAYER_CONFIGS[idx].icon = saved;
             }
         } catch(e) {}

@@ -5385,41 +5385,50 @@ html, body {
 
 .editor-btn-select-mem {
     align-self: flex-start;
-    padding: 4px 10px;
-    border-radius: 8px;
-    background: #b87357;
-    color: #ffffff;
-    font-size: 11.5px;
+    padding: 6px 15px;
+    border-radius: 999px;
+    background: rgba(184, 115, 87, 0.09);
+    color: #96533c;
+    border: 1px solid rgba(184, 115, 87, 0.32);
+    font-family: var(--font-sans);
+    font-size: 11px;
     font-weight: 700;
-    border: none;
+    letter-spacing: 0.3px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.22s ease;
 }
 
 .editor-btn-select-mem:hover {
-    background: #a05a3f;
+    background: linear-gradient(135deg, #b87357 0%, #96533c 100%);
+    color: #ffffff;
+    border-color: transparent;
     transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(184, 115, 87, 0.28);
 }
 
 .editor-list-footer {
     display: flex;
     justify-content: flex-end;
-    padding-top: 10px;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding-top: 12px;
+    border-top: 1px solid rgba(184, 115, 87, 0.12);
 }
 
 .btn-restore-all-letters {
     background: transparent;
     border: none;
-    color: #a8a29e;
-    font-size: 12px;
+    color: #8c827a;
+    font-family: var(--font-sans);
+    font-size: 11.5px;
     font-weight: 600;
     cursor: pointer;
-    transition: color 0.2s ease;
+    padding: 6px 12px;
+    border-radius: 999px;
+    transition: all 0.2s ease;
 }
 
 .btn-restore-all-letters:hover {
-    color: #dc2626;
+    color: #96533c;
+    background: rgba(184, 115, 87, 0.08);
 }
 
 /* Form chỉnh sửa */
@@ -5584,24 +5593,41 @@ html, body {
 .btn-create-memory-action {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    padding: 9px 22px;
+    padding: 10px 24px;
     border-radius: 999px;
     background: linear-gradient(135deg, #b87357 0%, #96533c 100%);
     color: #ffffff;
+    font-family: var(--font-sans);
     font-size: 13px;
-    font-weight: 800;
-    letter-spacing: 0.3px;
-    border: none;
+    font-weight: 700;
+    letter-spacing: 0.35px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
     cursor: pointer;
-    box-shadow: 0 4px 16px rgba(184, 115, 87, 0.32);
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 4px 16px rgba(184, 115, 87, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-create-plus-icon {
+    flex-shrink: 0;
+    stroke: #ffffff;
+    transition: transform 0.25s ease;
+}
+
+.btn-create-mem-text {
+    font-family: var(--font-sans) !important;
+    font-weight: 700 !important;
 }
 
 .btn-create-memory-action:hover {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow: 0 8px 24px rgba(184, 115, 87, 0.45);
-    background: linear-gradient(135deg, #c47c5f 0%, #a45a42 100%);
+    transform: translateY(-1.5px);
+    box-shadow: 0 7px 22px rgba(184, 115, 87, 0.42), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+    background: linear-gradient(135deg, #c47c5f 0%, #a25c44 100%);
+}
+
+.btn-create-memory-action:hover .btn-create-plus-icon {
+    transform: rotate(90deg);
 }
 
 /* ========================================================

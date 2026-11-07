@@ -2186,7 +2186,7 @@ function renderEditorMemoriesList() {
                 <h4 class="editor-card-title">${mem.title}</h4>
                 <p class="editor-card-snippet">${snippet}</p>
                 <button class="editor-btn-select-mem" type="button" onclick="window.selectMemoryToEdit(${idx})">
-                    <span>Sửa bức thư này ✏️</span>
+                    <span>Chỉnh Sửa Thư</span>
                 </button>
             </div>
         `;
