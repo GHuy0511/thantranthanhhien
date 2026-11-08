@@ -35,7 +35,8 @@ window.GoGame = (function () {
         consecutivePasses: 0,
         history: [], // Stack các trạng thái để Undo
         previousBoardHash: null, // Để kiểm tra luật Ko
-        lastMove: null // { r, c }
+        lastMove: null,
+        scores: { black: 0, white: 0 }
     };
 
     // Web Audio tiếng gõ cờ lách cách ấm áp
@@ -86,7 +87,38 @@ window.GoGame = (function () {
     const audio = new GoAudio();
 
     // Khởi tạo trò chơi
+    
+    function loadGoScores() {
+        try {
+            const raw = localStorage.getItem('couple_go_scores_v2');
+            if (raw) state.scores = JSON.parse(raw);
+        } catch (e) {}
+    }
+
+    function saveGoScores() {
+        try {
+            localStorage.setItem('couple_go_scores_v2', JSON.stringify(state.scores));
+        } catch (e) {}
+    }
+
+    function resetGoScores() {
+        state.scores = { black: 0, white: 0 };
+        saveGoScores();
+        updateGoScoreUI();
+        showStatusNotice('✨ Đã đặt lại bảng tỷ số Cờ Vây về 0 - 0!');
+    }
+
+    function updateGoScoreUI() {
+        const elB = document.getElementById('goScoreBlack');
+        const elW = document.getElementById('goScoreWhite');
+        if (elB) elB.textContent = state.scores ? state.scores.black : 0;
+        if (elW) elW.textContent = state.scores ? state.scores.white : 0;
+        GoBrain.updateUI();
+    }
+
     function init() {
+        loadGoScores();
+        GoBrain.init();
         bindEvents();
         initP2PNetworkSync();
         resetGame(BOARD_SIZE, false);
@@ -137,7 +169,9 @@ window.GoGame = (function () {
     // Tìm chuỗi quân liền kề cùng màu và tính Khí (Liberties)
     function findGroupAndLiberties(board, startR, startC) {
         const color = board[startR][startC];
-        if (!color) return { stones: [], liberties: new Set() };
+        if (!color) return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), stones: [], liberties: new Set() };
 
         const stones = [];
         const liberties = new Set();
@@ -163,7 +197,9 @@ window.GoGame = (function () {
             }
         }
 
-        return { stones, liberties };
+        return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), stones, liberties };
     }
 
     // Tạo hash chuỗi bàn cờ để kiểm tra luật Ko
@@ -173,9 +209,15 @@ window.GoGame = (function () {
 
     // Thực hiện nước đi và trả về kết quả hợp lệ
     function tryPlayMove(r, c, color, isCheckOnly = false) {
-        if (state.isGameOver) return { valid: false, reason: 'Ván cờ đã kết thúc' };
-        if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE) return { valid: false, reason: 'Tọa độ ngoài bàn cờ' };
-        if (state.board[r][c] !== null) return { valid: false, reason: 'Giao điểm đã có quân' };
+        if (state.isGameOver) return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), valid: false, reason: 'Ván cờ đã kết thúc' };
+        if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE) return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), valid: false, reason: 'Tọa độ ngoài bàn cờ' };
+        if (state.board[r][c] !== null) return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), valid: false, reason: 'Giao điểm đã có quân' };
 
         // Sao chép bàn cờ giả định
         const tempBoard = state.board.map(row => [...row]);
@@ -206,17 +248,23 @@ window.GoGame = (function () {
         // 3. Kiểm tra tính tự sát (Suicide rule)
         const myGroup = findGroupAndLiberties(tempBoard, r, c);
         if (myGroup.liberties.size === 0) {
-            return { valid: false, reason: 'Nước đi tự sát! Không hợp lệ theo luật Cờ Vây.' };
+            return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), valid: false, reason: 'Nước đi tự sát! Không hợp lệ theo luật Cờ Vây.' };
         }
 
         // 4. Kiểm tra luật Ko (Cấm cướp lại trạng thái bàn cờ vừa diễn ra)
         const newHash = getBoardHash(tempBoard);
         if (state.previousBoardHash && newHash === state.previousBoardHash) {
-            return { valid: false, reason: 'Luật Ko: Không được cướp lại ngay lập tức!' };
+            return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), valid: false, reason: 'Luật Ko: Không được cướp lại ngay lập tức!' };
         }
 
         if (isCheckOnly) {
-            return { valid: true, capturedStones };
+            return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), valid: true, capturedStones };
         }
 
         // Áp dụng nước đi thực tế
@@ -234,7 +282,9 @@ window.GoGame = (function () {
             audio.playStone();
         }
 
-        return { valid: true, capturedStones };
+        return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(), valid: true, capturedStones };
     }
 
     // Xử lý khi người chơi bấm đặt quân
@@ -333,6 +383,15 @@ window.GoGame = (function () {
 
         state.isGameOver = true;
         state.winner = winner;
+        if (state.scores) {
+            if (winner === 'B') state.scores.black++;
+            else state.scores.white++;
+        }
+        saveGoScores();
+        updateGoScoreUI();
+        if (state.gameMode === 'ai') {
+            GoBrain.learnFromGame(winner, state.history);
+        }
         state.winReason = `${loserName} đã xin đầu hàng. ${winnerName} chiến thắng!`;
 
         updateUI();
@@ -442,6 +501,8 @@ window.GoGame = (function () {
         }
 
         return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(),
             blackTerritory,
             whiteTerritory,
             blackPrisoners: state.prisoners.B,
@@ -457,10 +518,17 @@ window.GoGame = (function () {
         state.isGameOver = true;
         if (score.blackTotal > score.whiteTotal) {
             state.winner = 'B';
+            if (state.scores) state.scores.black++;
             state.winReason = `Đen chiến thắng cách biệt ${(score.blackTotal - score.whiteTotal).toFixed(1)} mục!`;
         } else {
             state.winner = 'W';
+            if (state.scores) state.scores.white++;
             state.winReason = `Trắng chiến thắng cách biệt ${(score.whiteTotal - score.blackTotal).toFixed(1)} mục!`;
+        }
+        saveGoScores();
+        updateGoScoreUI();
+        if (state.gameMode === 'ai') {
+            GoBrain.learnFromGame(state.winner, state.history);
         }
         updateUI();
         showStatusNotice(state.winReason);
@@ -468,6 +536,71 @@ window.GoGame = (function () {
     }
 
     // ========================================================
+    
+    // ========================================================
+    // BỘ NÃO HỌC MÁY CỦA AI CỜ VÂY (GO MACHINE LEARNING BRAIN)
+    // ========================================================
+    const GoBrain = {
+        STORAGE_KEY: 'couple_go_brain_memory_v2',
+        memory: null,
+
+        init() {
+            if (!this.memory) this.load();
+            this.updateUI();
+        },
+
+        load() {
+            try {
+                const raw = localStorage.getItem(this.STORAGE_KEY);
+                if (raw) this.memory = JSON.parse(raw);
+            } catch (e) {}
+            if (!this.memory) {
+                this.memory = {
+                    version: 2,
+                    totalGamesLearned: 0,
+                    openings: {}
+                };
+            }
+        },
+
+        save() {
+            try {
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.memory));
+                this.updateUI();
+            } catch (e) {}
+        },
+
+        reset() {
+            this.memory = { version: 2, totalGamesLearned: 0, openings: {} };
+            this.save();
+        },
+
+        learnFromGame(winner, history) {
+            if (!history || history.length < 2) return;
+            this.memory.totalGamesLearned++;
+            history.slice(0, 10).forEach(entry => {
+                if (entry.lastMove) {
+                    const key = `${entry.lastMove.r},${entry.lastMove.c}`;
+                    this.memory.openings[key] = (this.memory.openings[key] || 0) + (winner === 'W' ? 25 : 15);
+                }
+            });
+            this.save();
+        },
+
+        getMoveBonus(r, c) {
+            if (!this.memory || !this.memory.openings) return 0;
+            const key = `${r},${c}`;
+            return (this.memory.openings[key] || 0);
+        },
+
+        updateUI() {
+            const countEl = document.getElementById('goBrainLearnedCount');
+            if (countEl && this.memory) {
+                countEl.textContent = `${this.memory.totalGamesLearned || 0} ván kinh nghiệm`;
+            }
+        }
+    };
+
     // TRÍ TUỆ NHÂN TẠO (AI ENGINE CHO CỜ VÂY)
     // ========================================================
     function makeAiMove() {
@@ -505,6 +638,8 @@ window.GoGame = (function () {
                             }
                         }
 
+                        const learnedBonus = GoBrain.getMoveBonus(r, c);
+                        score += learnedBonus;
                         candidateMoves.push({ r, c, score });
                     }
                 }
@@ -822,6 +957,25 @@ window.GoGame = (function () {
             showModalConfirm('Bạn có chắc chắn muốn đầu hàng ván cờ này?', () => handleResign());
         });
 
+        const btnResetScore = document.getElementById('btnGoResetScore');
+        if (btnResetScore) {
+            btnResetScore.addEventListener('click', () => {
+                showModalConfirm('Bạn có chắc muốn đặt lại tỷ số Cờ Vây về 0 - 0 không?', () => {
+                    resetGoScores();
+                });
+            });
+        }
+
+        const btnResetBrain = document.getElementById('btnGoResetBrain');
+        if (btnResetBrain) {
+            btnResetBrain.addEventListener('click', () => {
+                showModalConfirm('Bạn có muốn đặt lại bộ não học máy của AI Cờ Vây không?', () => {
+                    GoBrain.reset();
+                    showStatusNotice('🧠 Đã đặt lại bộ não AI Cờ Vây về ban đầu!');
+                });
+            });
+        }
+
         const btnRestart = document.getElementById('btnGoRestart');
         if (btnRestart) btnRestart.addEventListener('click', () => {
             resetGame(BOARD_SIZE, true);
@@ -834,6 +988,8 @@ window.GoGame = (function () {
     }
 
     return {
+        resetScores: resetGoScores,
+        resetBrain: () => GoBrain.reset(),
         init,
         onShow,
         resetGame,

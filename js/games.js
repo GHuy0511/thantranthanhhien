@@ -1,5 +1,6 @@
 
 // FULL GRADIENT LUXURY VECTOR MODELS FOR GAME BOARD & PORTFOLIO
+// FULL GRADIENT LUXURY VECTOR MODELS FOR GAME BOARD & PORTFOLIO
 const REAL_ESTATE_3D_MODELS = {
     flag(color) {
         return `
@@ -13,231 +14,338 @@ const REAL_ESTATE_3D_MODELS = {
     },
     house1() {
         return `
-        <div class="mini-3d-house house-lvl-1" title="1 Nhà Phố Cổ Điển 3D">
-            <svg width="22" height="20" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="mini-3d-house house-lvl-1" title="1 Nhà Phố Indochine Cổ Điển">
+            <svg width="24" height="22" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="h1_rf_l" x1="12" y1="6" x2="24" y2="22" gradientUnits="userSpaceOnUse">
+                    <linearGradient id="h1_rf" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0%" stop-color="#ea580c"/>
                         <stop offset="60%" stop-color="#c2410c"/>
                         <stop offset="100%" stop-color="#9a3412"/>
                     </linearGradient>
-                    <linearGradient id="h1_rf_r" x1="24" y1="6" x2="38" y2="22" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#c2410c"/>
-                        <stop offset="70%" stop-color="#9a3412"/>
-                        <stop offset="100%" stop-color="#7c2d12"/>
+                    <linearGradient id="h1_wf" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="100%" stop-color="#fef08a"/>
                     </linearGradient>
-                    <linearGradient id="h1_wl_l" x1="10" y1="18" x2="24" y2="35" gradientUnits="userSpaceOnUse">
+                    <linearGradient id="h1_ws" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stop-color="#fef08a"/>
-                        <stop offset="50%" stop-color="#fde047"/>
-                        <stop offset="100%" stop-color="#eab308"/>
-                    </linearGradient>
-                    <linearGradient id="h1_wl_r" x1="24" y1="18" x2="38" y2="35" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#eab308"/>
-                        <stop offset="60%" stop-color="#ca8a04"/>
-                        <stop offset="100%" stop-color="#a16207"/>
+                        <stop offset="100%" stop-color="#facc15"/>
                     </linearGradient>
                     <linearGradient id="h1_gl" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#fffbeb"/>
-                        <stop offset="100%" stop-color="#f59e0b"/>
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="100%" stop-color="#fed7aa"/>
                     </linearGradient>
                 </defs>
                 <!-- Ground Shadow -->
-                <ellipse cx="24" cy="37" rx="17" ry="4" fill="#451a03" fill-opacity="0.28"/>
-                <!-- Stone Foundation -->
-                <path d="M8 29.5L24 36L40 29.5L40 32L24 38.5L8 32Z" fill="#78716c"/>
-                <path d="M8 29.5L24 36L24 38.5L8 32Z" fill="#a8a29e"/>
-                <!-- Facades -->
-                <path d="M9 17L24 23.5V36L9 29.5Z" fill="url(#h1_wl_l)"/>
-                <path d="M24 23.5L39 17V29.5L24 36Z" fill="url(#h1_wl_r)"/>
-                <!-- Moulding -->
-                <path d="M8.5 17L24 23.8L39.5 17" stroke="#fffbeb" stroke-width="1.4" stroke-linecap="round"/>
-                <!-- Arched French Door -->
-                <path d="M13.5 24C13.5 22 17.5 23.5 17.5 25.2V32.5L13.5 31Z" fill="#451a03"/>
-                <path d="M14 24.5C14 23 17 24.2 17 25.5V32L14 30.8Z" fill="#78350f"/>
-                <circle cx="16.5" cy="28.5" r="0.6" fill="#fbbf24"/>
-                <path d="M14 18.5C14 17.2 17 18.2 17 19.5V22.2L14 21Z" fill="url(#h1_gl)" stroke="#78350f" stroke-width="0.6"/>
-                <!-- Windows with Emerald Shutters -->
-                <path d="M27 21L31 19.2V23L27 24.8Z" fill="url(#h1_gl)"/>
-                <path d="M25.5 21.6L27 21V24.8L25.5 25.4Z" fill="#065f46"/>
-                <path d="M31 19.2L32.5 18.6V22.4L31 23Z" fill="#064e3b"/>
-                <!-- Brick Chimney -->
-                <path d="M30 8V14L34 12V6Z" fill="#991b1b"/>
-                <path d="M28.5 7.5L32.5 5.5L34.5 6.5L30.5 8.5Z" fill="#fef08a" stroke="#ca8a04" stroke-width="0.5"/>
+                <ellipse cx="24" cy="38" rx="16" ry="3.5" fill="#451a03" fill-opacity="0.22"/>
+                <!-- Foundation -->
+                <path d="M10 32L24 37L38 32V34.5L24 39.5L10 34.5Z" fill="#78716c"/>
+                <!-- Front Facade -->
+                <path d="M11 20L24 25V37L11 32Z" fill="url(#h1_wf)" stroke="#ca8a04" stroke-width="0.6"/>
+                <!-- Side Facade -->
+                <path d="M24 25L37 20V32L24 37Z" fill="url(#h1_ws)" stroke="#a16207" stroke-width="0.6"/>
+                <!-- Arched Entrance Door -->
+                <path d="M14.5 27C14.5 25 18.5 26.5 18.5 28V35L14.5 33.5Z" fill="#78350f"/>
+                <circle cx="17.5" cy="31" r="0.8" fill="#fbbf24"/>
+                <!-- Windows with Sunlight Glare -->
+                <path d="M14.5 21.5C14.5 20.2 18.5 21.5 18.5 22.8V25L14.5 23.8Z" fill="url(#h1_gl)" stroke="#78350f" stroke-width="0.5"/>
+                <rect x="26.5" y="23" width="7" height="6" rx="1.2" transform="skewY(-12)" fill="url(#h1_gl)" stroke="#78350f" stroke-width="0.5"/>
                 <!-- Terracotta Roof -->
-                <path d="M24 4L7 16.5L24 24L24 4Z" fill="url(#h1_rf_l)"/>
-                <path d="M24 4L41 16.5L24 24L24 4Z" fill="url(#h1_rf_r)"/>
-                <!-- Roof Ribs -->
-                <path d="M19 8L9.5 15" stroke="#fed7aa" stroke-width="0.6" stroke-linecap="round"/>
-                <path d="M21.5 12L12 19" stroke="#fed7aa" stroke-width="0.6" stroke-linecap="round"/>
-                <path d="M24 16L15 22.5" stroke="#fed7aa" stroke-width="0.6" stroke-linecap="round"/>
-                <path d="M29 8L38.5 15" stroke="#7c2d12" stroke-width="0.6" stroke-linecap="round"/>
-                <path d="M26.5 12L36 19" stroke="#7c2d12" stroke-width="0.6" stroke-linecap="round"/>
-                <path d="M24 16L33 22.5" stroke="#7c2d12" stroke-width="0.6" stroke-linecap="round"/>
-                <!-- Ridge Caps -->
-                <path d="M24 4L7 16.5" stroke="#ffedd5" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M24 4L41 16.5" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
-                <path d="M24 4L24 24" stroke="#fef08a" stroke-width="1.3" stroke-linecap="round"/>
-                <circle cx="24" cy="4" r="1.2" fill="#fbbf24"/>
-                <!-- Bougainvillea Accent -->
-                <circle cx="10" cy="18" r="1.3" fill="#ec4899"/>
-                <circle cx="12" cy="17.2" r="1.1" fill="#f43f5e"/>
+                <path d="M24 6L8 18.5L24 25L24 6Z" fill="url(#h1_rf)"/>
+                <path d="M24 6L40 18.5L24 25L24 6Z" fill="#7c2d12"/>
+                <path d="M24 6L8 18.5" stroke="#fed7aa" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M24 6L40 18.5" stroke="#9a3412" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M24 6V25" stroke="#ffedd5" stroke-width="1.2"/>
+                <circle cx="24" cy="5.5" r="1.4" fill="#f59e0b" stroke="#ffffff" stroke-width="0.5"/>
+                <!-- Cute Chimney -->
+                <path d="M30 9V14L33 12.5V7.5Z" fill="#991b1b"/>
+                <rect x="29.5" y="7" width="4" height="1" fill="#fef08a"/>
             </svg>
         </div>`;
     },
     house2() {
         return `
-        <div class="mini-3d-house house-lvl-2" title="2 Biệt Thự Song Lập 3D">
-            <svg width="27" height="20" viewBox="0 0 56 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="mini-3d-house house-lvl-2" title="2 Biệt Thự Song Lập Nghỉ Dưỡng">
+            <svg width="29" height="22" viewBox="0 0 58 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="h2_rf_l" x1="0" y1="0" x2="1" y2="1">
+                    <linearGradient id="h2_rf" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0%" stop-color="#ea580c"/>
                         <stop offset="100%" stop-color="#9a3412"/>
                     </linearGradient>
-                    <linearGradient id="h2_rf_r" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#c2410c"/>
-                        <stop offset="100%" stop-color="#7c2d12"/>
-                    </linearGradient>
-                    <linearGradient id="h2_wl_l" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#fef9c3"/>
-                        <stop offset="100%" stop-color="#eab308"/>
-                    </linearGradient>
-                    <linearGradient id="h2_wl_r" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#facc15"/>
-                        <stop offset="100%" stop-color="#a16207"/>
+                    <linearGradient id="h2_wf" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#fffbeb"/>
+                        <stop offset="100%" stop-color="#fef08a"/>
                     </linearGradient>
                 </defs>
-                <!-- Ground Shadow -->
-                <ellipse cx="28" cy="38" rx="23" ry="4.5" fill="#451a03" fill-opacity="0.25"/>
+                <!-- Shadow -->
+                <ellipse cx="29" cy="38" rx="23" ry="4" fill="#451a03" fill-opacity="0.22"/>
                 <!-- Villa 1 -->
                 <g transform="translate(0, 2)">
-                    <path d="M6 18L19 23.5V35L6 29.5Z" fill="url(#h2_wl_l)"/>
-                    <path d="M19 23.5L32 18.5V30L19 35Z" fill="url(#h2_wl_r)"/>
-                    <path d="M5.5 18L19 23.8L32.5 18.5" stroke="#fffbeb" stroke-width="1.2"/>
-                    <path d="M10 24C10 22.5 13.5 23.8 13.5 25V31.5L10 30Z" fill="#451a03"/>
-                    <rect x="22" y="21" width="6" height="5" rx="1" fill="#fef08a" stroke="#78350f" stroke-width="0.6"/>
-                    <path d="M19 5L5 17.5L19 24L19 5Z" fill="url(#h2_rf_l)"/>
-                    <path d="M19 5L33 17.5L19 24L19 5Z" fill="url(#h2_rf_r)"/>
-                    <path d="M19 5L5 17.5" stroke="#ffedd5" stroke-width="1.1"/>
-                    <path d="M19 5L33 17.5" stroke="#9a3412" stroke-width="1.1"/>
-                    <path d="M19 5L19 24" stroke="#fef08a" stroke-width="1.2"/>
-                    <circle cx="19" cy="5" r="1.1" fill="#fbbf24"/>
-                    <circle cx="7" cy="19" r="1" fill="#ec4899"/>
+                    <path d="M6 19L19 24V35L6 30Z" fill="url(#h2_wf)" stroke="#ca8a04" stroke-width="0.5"/>
+                    <path d="M19 24L32 19V30L19 35Z" fill="#facc15" stroke="#a16207" stroke-width="0.5"/>
+                    <path d="M19 6L5 18L19 24.5L19 6Z" fill="url(#h2_rf)"/>
+                    <path d="M19 6L33 18L19 24.5L19 6Z" fill="#7c2d12"/>
+                    <path d="M19 6L5 18" stroke="#fed7aa" stroke-width="1.1"/>
+                    <path d="M19 6L33 18" stroke="#9a3412" stroke-width="1.1"/>
+                    <path d="M19 6V24.5" stroke="#ffedd5" stroke-width="1.1"/>
+                    <circle cx="19" cy="5.5" r="1.2" fill="#fbbf24"/>
+                    <rect x="22" y="21" width="5.5" height="5" rx="1" transform="skewY(-12)" fill="#fffbeb" stroke="#78350f" stroke-width="0.5"/>
                 </g>
                 <!-- Villa 2 -->
-                <g transform="translate(18, -2)">
-                    <path d="M26 8V13L29 11.5V6.5Z" fill="#991b1b"/>
-                    <rect x="25.5" y="6" width="4" height="1" fill="#fef08a"/>
-                    <path d="M8 18L20 23V34L8 29Z" fill="url(#h2_wl_l)"/>
-                    <path d="M20 23L32 18V29L20 34Z" fill="url(#h2_wl_r)"/>
-                    <path d="M7.5 18L20 23.2L32.5 18" stroke="#fffbeb" stroke-width="1.2"/>
-                    <rect x="11" y="22" width="5" height="5" rx="1" fill="#fef08a" stroke="#78350f" stroke-width="0.6"/>
-                    <path d="M20 5L7 17.5L20 23.5L20 5Z" fill="url(#h2_rf_l)"/>
-                    <path d="M20 5L33 17.5L20 23.5L20 5Z" fill="url(#h2_rf_r)"/>
-                    <path d="M20 5L7 17.5" stroke="#ffedd5" stroke-width="1.1"/>
-                    <path d="M20 5L33 17.5" stroke="#9a3412" stroke-width="1.1"/>
-                    <path d="M20 5L20 23.5" stroke="#fef08a" stroke-width="1.2"/>
-                    <circle cx="20" cy="5" r="1.1" fill="#fbbf24"/>
+                <g transform="translate(20, -1)">
+                    <path d="M6 19L19 24V35L6 30Z" fill="url(#h2_wf)" stroke="#ca8a04" stroke-width="0.5"/>
+                    <path d="M19 24L32 19V30L19 35Z" fill="#facc15" stroke="#a16207" stroke-width="0.5"/>
+                    <path d="M19 6L5 18L19 24.5L19 6Z" fill="url(#h2_rf)"/>
+                    <path d="M19 6L33 18L19 24.5L19 6Z" fill="#7c2d12"/>
+                    <path d="M19 6L5 18" stroke="#fed7aa" stroke-width="1.1"/>
+                    <path d="M19 6L33 18" stroke="#9a3412" stroke-width="1.1"/>
+                    <path d="M19 6V24.5" stroke="#ffedd5" stroke-width="1.1"/>
+                    <circle cx="19" cy="5.5" r="1.2" fill="#fbbf24"/>
+                    <rect x="9" y="21" width="5" height="5" rx="1" fill="#fffbeb" stroke="#78350f" stroke-width="0.5"/>
                 </g>
             </svg>
         </div>`;
     },
     hotel() {
         return `
-        <div class="mini-3d-hotel hotel-lvl-3" title="Khách Sạn Hoàng Gia 5 Sao 3D">
-            <svg width="24" height="24" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div class="mini-3d-hotel hotel-lvl-3" title="Khách Sạn Hoàng Gia 5 Sao">
+            <svg width="26" height="26" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
-                    <linearGradient id="ht_gd_dome" x1="26" y1="2" x2="26" y2="15" gradientUnits="userSpaceOnUse">
+                    <linearGradient id="ht_dome" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stop-color="#fef08a"/>
-                        <stop offset="35%" stop-color="#f59e0b"/>
-                        <stop offset="85%" stop-color="#b45309"/>
-                        <stop offset="100%" stop-color="#78350f"/>
+                        <stop offset="40%" stop-color="#f59e0b"/>
+                        <stop offset="100%" stop-color="#b45309"/>
                     </linearGradient>
-                    <linearGradient id="ht_fc_l" x1="10" y1="14" x2="26" y2="44" gradientUnits="userSpaceOnUse">
+                    <linearGradient id="ht_palace" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="0%" stop-color="#ffffff"/>
-                        <stop offset="50%" stop-color="#f8fafc"/>
-                        <stop offset="100%" stop-color="#e2e8f0"/>
-                    </linearGradient>
-                    <linearGradient id="ht_fc_r" x1="26" y1="14" x2="42" y2="44" gradientUnits="userSpaceOnUse">
-                        <stop offset="0%" stop-color="#f1f5f9"/>
-                        <stop offset="50%" stop-color="#cbd5e1"/>
-                        <stop offset="100%" stop-color="#94a3b8"/>
-                    </linearGradient>
-                    <linearGradient id="ht_gls" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#38bdf8"/>
-                        <stop offset="60%" stop-color="#0284c7"/>
-                        <stop offset="100%" stop-color="#0369a1"/>
-                    </linearGradient>
-                    <linearGradient id="ht_st_gold" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#fef08a"/>
-                        <stop offset="100%" stop-color="#f59e0b"/>
+                        <stop offset="100%" stop-color="#f1f5f9"/>
                     </linearGradient>
                 </defs>
-                <!-- Ground Shadow -->
-                <ellipse cx="26" cy="47" rx="19" ry="4" fill="#1e293b" fill-opacity="0.32"/>
-                <!-- Base Steps -->
-                <path d="M8 41.5L26 46.5L44 41.5L44 43L26 48L8 43Z" fill="#cbd5e1"/>
-                <!-- Main Hotel Tower -->
-                <path d="M10 16L26 21V46L10 41Z" fill="url(#ht_fc_l)"/>
-                <path d="M26 21L42 16V41L26 46Z" fill="url(#ht_fc_r)"/>
-                <path d="M9.5 16L26 21.2L42.5 16" stroke="#d97706" stroke-width="1.4" stroke-linecap="round"/>
-                <!-- French Windows -->
-                <rect x="13" y="19" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#d97706" stroke-width="0.5"/>
-                <rect x="19" y="21" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#d97706" stroke-width="0.5"/>
-                <rect x="29" y="21" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#b45309" stroke-width="0.5"/>
-                <rect x="35" y="19" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#b45309" stroke-width="0.5"/>
-                <rect x="13" y="27" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#d97706" stroke-width="0.5"/>
-                <rect x="19" y="29" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#d97706" stroke-width="0.5"/>
-                <rect x="29" y="29" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#b45309" stroke-width="0.5"/>
-                <rect x="35" y="27" width="4" height="4.5" rx="0.8" fill="url(#ht_gls)" stroke="#b45309" stroke-width="0.5"/>
-                <!-- Grand Entrance -->
-                <path d="M22 37.5L26 39L30 37.5V45L26 46.5L22 45Z" fill="#1e293b"/>
-                <path d="M20 37L26 39L32 37L31 35.5L26 37L21 35.5Z" fill="#f59e0b" stroke="#78350f" stroke-width="0.5"/>
-                <path d="M24 40.5L26 41.2L28 40.5L28.5 47L26 47.8L23.5 47Z" fill="#dc2626"/>
-                <!-- Golden Mansard Dome -->
-                <path d="M12 16L26 12L40 16L36 7L26 5L16 7Z" fill="url(#ht_gd_dome)"/>
-                <path d="M20 12C20 6.5 23 4 26 4C29 4 32 6.5 32 12Z" fill="url(#ht_gd_dome)"/>
-                <path d="M26 1V4" stroke="#fbbf24" stroke-width="1.4" stroke-linecap="round"/>
-                <circle cx="26" cy="1" r="1.3" fill="#fef08a" stroke="#d97706" stroke-width="0.5"/>
-                <!-- 5 Gold Stars -->
-                <g transform="translate(15, 12.5) scale(0.65)">
-                    <polygon points="5,0 6.2,3 9.5,3.2 7,5.3 7.8,8.5 5,6.8 2.2,8.5 3,5.3 0.5,3.2 3.8,3" fill="url(#ht_st_gold)"/>
-                    <polygon points="12,0 13.2,3 16.5,3.2 14,5.3 14.8,8.5 12,6.8 9.2,8.5 10,5.3 7.5,3.2 10.8,3" fill="url(#ht_st_gold)"/>
-                    <polygon points="19,0 20.2,3 23.5,3.2 21,5.3 21.8,8.5 19,6.8 16.2,8.5 17,5.3 14.5,3.2 17.8,3" fill="url(#ht_st_gold)"/>
-                    <polygon points="26,0 27.2,3 30.5,3.2 28,5.3 28.8,8.5 26,6.8 23.2,8.5 24,5.3 21.5,3.2 24.8,3" fill="url(#ht_st_gold)"/>
-                    <polygon points="33,0 34.2,3 37.5,3.2 35,5.3 35.8,8.5 33,6.8 30.2,8.5 31,5.3 28.5,3.2 31.8,3" fill="url(#ht_st_gold)"/>
-                </g>
+                <!-- Shadow -->
+                <ellipse cx="26" cy="46" rx="20" ry="4" fill="#1e293b" fill-opacity="0.25"/>
+                <!-- Base Podium -->
+                <path d="M8 40L26 45L44 40V42L26 47L8 42Z" fill="#cbd5e1"/>
+                <!-- Hotel Main Facade -->
+                <path d="M10 17L26 22V44L10 39Z" fill="url(#ht_palace)" stroke="#94a3b8" stroke-width="0.6"/>
+                <path d="M26 22L42 17V39L26 44Z" fill="#e2e8f0" stroke="#64748b" stroke-width="0.6"/>
+                <!-- Windows Grid -->
+                <rect x="13" y="22" width="3.5" height="4" rx="0.8" fill="#38bdf8"/>
+                <rect x="19" y="24" width="3.5" height="4" rx="0.8" fill="#38bdf8"/>
+                <rect x="13" y="28" width="3.5" height="4" rx="0.8" fill="#38bdf8"/>
+                <rect x="19" y="30" width="3.5" height="4" rx="0.8" fill="#38bdf8"/>
+                <rect x="29" y="24" width="3.5" height="4" rx="0.8" transform="skewY(-10)" fill="#0284c7"/>
+                <rect x="35" y="22" width="3.5" height="4" rx="0.8" transform="skewY(-10)" fill="#0284c7"/>
+                <!-- Grand Portico Entrance -->
+                <path d="M22 36L26 37.5L30 36V43L26 44.5L22 43Z" fill="#b45309"/>
+                <!-- Golden Dome Cupola -->
+                <path d="M26 5C20 9 20 15 20 17L26 19L32 17C32 15 32 9 26 5Z" fill="url(#ht_dome)" stroke="#fef08a" stroke-width="0.8"/>
+                <!-- Finial Spire -->
+                <path d="M26 1V5" stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round"/>
+                <circle cx="26" cy="1" r="1.5" fill="#fef08a"/>
+                <!-- 5 Floating Stars -->
+                <text x="12" y="11" font-size="6.5" fill="#f59e0b" font-weight="bold">★★★★★</text>
             </svg>
         </div>`;
     }
 };
 
-// --- BỘ SƯU TẬP 12 AVATAR CAO CẤP CHO NGƯỜI CHƠI ---
-const AVATAR_COLLECTION = [
-    { id: "boy", icon: "👦", name: "Chàng Trai", sub: "Huy" },
-    { id: "girl", icon: "👧", name: "Cô Gái", sub: "Hiền" },
-    { id: "cat", icon: "🐱", name: "Mèo Con", sub: "Dễ thương" },
-    { id: "dog", icon: "🐶", name: "Cún Yêu", sub: "Trung thành" },
-    { id: "prince", icon: "👑", name: "Vương Miện", sub: "Quý phái" },
-    { id: "heart", icon: "💖", name: "Trái Tim", sub: "Tình yêu" },
-    { id: "camera", icon: "📷", name: "Máy Ảnh", sub: "Du lịch" },
-    { id: "coffee", icon: "☕", name: "Cà Phê", sub: "Ấm áp" },
-    { id: "rocket", icon: "🚀", name: "Tên Lửa", sub: "Khám phá" },
-    { id: "star", icon: "⭐", name: "Ngôi Sao", sub: "May mắn" },
-    { id: "car", icon: "H", name: "Xe Cổ", sub: "Phượt thủ" },
-    { id: "plane", icon: "H", name: "Máy Bay", sub: "Vi vu" }
-];
+// ========================================================
+// BỘ VECTOR BIỂU TƯỢNG ĐỘC QUYỀN CHO CÁC Ô ĐẶC BIỆT (SPECIAL TILES)
+// Thay thế toàn bộ hình ảnh stock internet bằng Vector Sunset cao cấp
+// ========================================================
+const SPECIAL_TILE_SVGS = {
+    start: `
+    <svg width="44" height="34" viewBox="0 0 54 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="st_rose" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fef08a"/>
+                <stop offset="50%" stop-color="#f59e0b"/>
+                <stop offset="100%" stop-color="#b45309"/>
+            </linearGradient>
+            <linearGradient id="st_rib" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#b45d43"/>
+                <stop offset="100%" stop-color="#d96b52"/>
+            </linearGradient>
+        </defs>
+        <!-- Golden Compass Rose -->
+        <circle cx="27" cy="18" r="14" fill="#fffbeb" stroke="url(#st_rose)" stroke-width="1.8"/>
+        <circle cx="27" cy="18" r="11" stroke="#fed7aa" stroke-width="0.8" stroke-dasharray="2 2"/>
+        <!-- 8-Point Compass Star -->
+        <path d="M27 6L29 16L39 18L29 20L27 30L25 20L15 18L25 16Z" fill="url(#st_rose)"/>
+        <path d="M27 6L27 18L39 18Z" fill="#fef08a"/>
+        <path d="M27 30L27 18L15 18Z" fill="#b45309"/>
+        <circle cx="27" cy="18" r="2.5" fill="#ffffff" stroke="#b45309" stroke-width="1"/>
+        <!-- Start Banner -->
+        <rect x="7" y="32" width="40" height="11" rx="4" fill="url(#st_rib)"/>
+        <text x="27" y="40" font-size="8" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="0.8">KHỞI HÀNH</text>
+    </svg>`,
 
-/**
- * ========================================================
- * CỜ TỶ PHÚ VIỆT NAM (MONOPOLY VIETNAM EDITION 7x7)
- * Bàn cờ 7x7 (24 ô địa danh chiến thuật khắp Việt Nam)
- * Xúc xắc đôi 3D chân thực, hoạt ảnh mở thẻ 3D không lag
- * Hệ thống kho thẻ Ân Xá, ô Thử Thách & Cơ Hội, Lịch sử giao dịch dòng tiền
- * Đổi tên người chơi linh hoạt, điều chỉnh luật bất động sản minh bạch
- * ========================================================
- */
+    chance: `
+    <svg width="40" height="34" viewBox="0 0 50 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="ch_env" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#fffbeb"/>
+                <stop offset="100%" stop-color="#fde68a"/>
+            </linearGradient>
+            <linearGradient id="ch_seal" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#ea580c"/>
+                <stop offset="100%" stop-color="#9a3412"/>
+            </linearGradient>
+        </defs>
+        <!-- Envelope -->
+        <rect x="6" y="10" width="38" height="26" rx="4" fill="url(#ch_env)" stroke="#d97706" stroke-width="1.4"/>
+        <path d="M6 11L25 25L44 11" stroke="#b45309" stroke-width="1.3" stroke-linecap="round"/>
+        <path d="M6 35L18 24M44 35L32 24" stroke="#d97706" stroke-width="1" stroke-linecap="round"/>
+        <!-- Wax Seal with Question Mark -->
+        <circle cx="25" cy="24" r="8.5" fill="url(#ch_seal)" stroke="#ffedd5" stroke-width="1.2"/>
+        <text x="25" y="28" font-size="12" font-weight="900" fill="#ffffff" text-anchor="middle">?</text>
+        <!-- Sparkles -->
+        <circle cx="10" cy="7" r="1.5" fill="#f59e0b"/>
+        <circle cx="41" cy="7" r="1.5" fill="#f59e0b"/>
+    </svg>`,
 
-// 1. DANH SÁCH 24 Ô BÀN CỜ MONOPOLY VIỆT NAM (7x7 GRID - THIẾT KẾ RỘNG RÃI, RÕ ĐỊA DANH)
+    chest: `
+    <svg width="42" height="34" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="cs_wood" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#78350f"/>
+                <stop offset="100%" stop-color="#451a03"/>
+            </linearGradient>
+            <linearGradient id="cs_brass" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fef08a"/>
+                <stop offset="100%" stop-color="#b45309"/>
+            </linearGradient>
+        </defs>
+        <!-- Chest Base -->
+        <rect x="7" y="19" width="38" height="19" rx="3" fill="url(#cs_wood)" stroke="#292524" stroke-width="1.2"/>
+        <!-- Arched Lid -->
+        <path d="M7 19C7 11 15 7 26 7C37 7 45 11 45 19H7Z" fill="url(#cs_wood)" stroke="#292524" stroke-width="1.2"/>
+        <!-- Brass Bands -->
+        <rect x="14" y="8" width="4.5" height="29" fill="url(#cs_brass)" stroke="#78350f" stroke-width="0.5"/>
+        <rect x="33.5" y="8" width="4.5" height="29" fill="url(#cs_brass)" stroke="#78350f" stroke-width="0.5"/>
+        <!-- Heart Clasp Keyhole -->
+        <rect x="22.5" y="18" width="7" height="8" rx="1.5" fill="url(#cs_brass)"/>
+        <circle cx="26" cy="21.5" r="1.2" fill="#451a03"/>
+        <path d="M26 21.5V24" stroke="#451a03" stroke-width="1.2"/>
+        <!-- Floating Gold Ingot/Coin -->
+        <circle cx="41" cy="8" r="3.5" fill="#facc15" stroke="#b45309" stroke-width="0.8"/>
+        <text x="41" y="10.2" font-size="4" font-weight="bold" fill="#78350f" text-anchor="middle">đ</text>
+    </svg>`,
+
+    go_to_jail: `
+    <svg width="42" height="34" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="gtj_bar" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#78716c"/>
+                <stop offset="100%" stop-color="#292524"/>
+            </linearGradient>
+            <linearGradient id="gtj_badge" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fef08a"/>
+                <stop offset="100%" stop-color="#d97706"/>
+            </linearGradient>
+        </defs>
+        <!-- Gate Frame -->
+        <rect x="8" y="7" width="36" height="31" rx="4" fill="#fef2f2" stroke="#b91c1c" stroke-width="1.4"/>
+        <!-- Vertical Iron Bars -->
+        <path d="M15 8V37M21 8V37M27 8V37M33 8V37M39 8V37" stroke="url(#gtj_bar)" stroke-width="2.2" stroke-linecap="round"/>
+        <!-- Classical Lock bar -->
+        <rect x="8" y="21" width="36" height="4.5" fill="#44403c"/>
+        <!-- Police Whistle & Badge Ribbon -->
+        <circle cx="26" cy="23.5" r="7" fill="url(#gtj_badge)" stroke="#b91c1c" stroke-width="1"/>
+        <path d="M26 19L27.5 22.5L31 23L28.5 25.5L29 29L26 27L23 29L23.5 25.5L21 23L24.5 22.5Z" fill="#b91c1c"/>
+    </svg>`,
+
+    jail: `
+    <svg width="42" height="34" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="jl_cup" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#fffbeb"/>
+                <stop offset="100%" stop-color="#fed7aa"/>
+            </linearGradient>
+        </defs>
+        <!-- Relaxing Garden Gate / Park Bench -->
+        <rect x="6" y="8" width="40" height="30" rx="4" fill="#fafaf9" stroke="#78716c" stroke-width="1.2"/>
+        <!-- Left half: Open jail gate -->
+        <path d="M12 9V37M18 9V37M24 9V37" stroke="#a8a29e" stroke-width="1.8"/>
+        <!-- Right half: Warm park bench & coffee/tea cup -->
+        <rect x="28" y="22" width="15" height="4" rx="1.5" fill="#b45d43"/>
+        <path d="M30 26V35M41 26V35" stroke="#78350f" stroke-width="1.8"/>
+        <rect x="33" y="15" width="6" height="6" rx="1" fill="url(#jl_cup)" stroke="#b45d43" stroke-width="0.8"/>
+        <!-- Steam -->
+        <path d="M35 13C35 11 37 11 37 9" stroke="#ea580c" stroke-width="1" stroke-linecap="round"/>
+        <text x="36" y="33" font-size="5.5" font-weight="bold" fill="#78350f" text-anchor="middle">THĂM TÙ</text>
+    </svg>`,
+
+    parking: `
+    <svg width="44" height="34" viewBox="0 0 54 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="pk_car" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#b45d43"/>
+                <stop offset="100%" stop-color="#d96b52"/>
+            </linearGradient>
+        </defs>
+        <!-- Parking Circle P -->
+        <circle cx="16" cy="18" r="10" fill="#3b82f6" stroke="#ffffff" stroke-width="1.4"/>
+        <text x="16" y="23" font-size="13" font-weight="900" fill="#ffffff" text-anchor="middle">P</text>
+        <!-- Gold Coin Treasure Piggy -->
+        <ellipse cx="36" cy="24" rx="12" ry="9" fill="#f59e0b" stroke="#78350f" stroke-width="1.2"/>
+        <rect x="32" y="17" width="8" height="2" rx="1" fill="#78350f"/>
+        <circle cx="43" cy="22" r="1" fill="#78350f"/>
+        <text x="36" y="27" font-size="6.5" font-weight="900" fill="#78350f" text-anchor="middle">HŨ QUỸ</text>
+    </svg>`,
+
+    airport: `
+    <svg width="44" height="34" viewBox="0 0 54 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="ap_sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0284c7"/>
+                <stop offset="100%" stop-color="#38bdf8"/>
+            </linearGradient>
+        </defs>
+        <!-- Flight Trails -->
+        <path d="M6 35C16 35 24 28 32 18" stroke="#bae6fd" stroke-width="2" stroke-dasharray="3 2" stroke-linecap="round"/>
+        <!-- Modern Airplane -->
+        <g transform="translate(14, 5) rotate(18)">
+            <path d="M12 2C13 2 14 3.5 14 6L14 18L26 23V25L14 22V31L18 34V35.5L12 34L6 35.5V34L10 31V22L-2 25V23L10 18L10 6C10 3.5 11 2 12 2Z" fill="#ffffff" stroke="#0369a1" stroke-width="1.2"/>
+            <circle cx="12" cy="7" r="1.2" fill="#0284c7"/>
+        </g>
+    </svg>`,
+
+    utility: `
+    <svg width="40" height="34" viewBox="0 0 50 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="ut_bulb" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fffbeb"/>
+                <stop offset="60%" stop-color="#fef08a"/>
+                <stop offset="100%" stop-color="#f59e0b"/>
+            </linearGradient>
+        </defs>
+        <!-- Radiating Rays -->
+        <path d="M25 4V1M11 9L8 6M39 9L42 6M6 21H3M44 21H47" stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round"/>
+        <!-- Edison Bulb -->
+        <path d="M17 19C17 14.5 20.5 11 25 11C29.5 11 33 14.5 33 19C33 22.5 30.5 25 29.5 27.5H20.5C19.5 25 17 22.5 17 19Z" fill="url(#ut_bulb)" stroke="#d97706" stroke-width="1.3"/>
+        <!-- Glowing Filament -->
+        <path d="M22 21L24 16L26 21L28 16" stroke="#ea580c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Bulb Base Screw -->
+        <rect x="21" y="28" width="8" height="4" rx="1" fill="#78716c"/>
+        <rect x="22.5" y="32.5" width="5" height="2" rx="1" fill="#44403c"/>
+    </svg>`,
+
+    tax: `
+    <svg width="42" height="34" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg" class="special-tile-vector">
+        <defs>
+            <linearGradient id="tx_bag" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#b91c1c"/>
+                <stop offset="100%" stop-color="#7f1d1d"/>
+            </linearGradient>
+        </defs>
+        <!-- Coin Pouch -->
+        <path d="M19 14L22 8H30L33 14" stroke="#f59e0b" stroke-width="1.6"/>
+        <path d="M14 17C14 14 18 13 26 13C34 13 38 14 38 17C38 21 41 33 38 37C35 41 17 41 14 37C11 33 14 21 14 17Z" fill="url(#tx_bag)" stroke="#450a0a" stroke-width="1.3"/>
+        <circle cx="26" cy="27" r="6" fill="#facc15" stroke="#b45309" stroke-width="1"/>
+        <text x="26" y="30.5" font-size="8" font-weight="900" fill="#78350f" text-anchor="middle">đ</text>
+    </svg>`
+};
+
 const VIETNAM_TILES = [
     // --- CẠNH TRÊN: ROW 1, COL 1 -> 7 ---
     {
@@ -245,7 +353,6 @@ const VIETNAM_TILES = [
         name: "Ga Hà Nội",
         subtitle: "Khởi Hành (GO)",
         icon: "🚩",
-        image: "images/monopoly/start_go.jpg",
         region: "special",
         regionName: "Bắt Đầu",
         type: "start",
@@ -264,9 +371,9 @@ const VIETNAM_TILES = [
         region: "hanoi",
         regionName: "Bắc Bộ",
         type: "property",
-        price: 100,
-        rent: [20, 60, 140, 280],
-        upgradeCost: 50,
+        price: 390,
+        rent: [45, 135, 300, 600],
+        upgradeCost: 190,
         desc: "Trái tim Thủ đô ngàn năm văn hiến, vị trí đắc địa với Tháp Rùa và cầu Thê Húc.",
         owner: null, level: 0
     },
@@ -274,15 +381,15 @@ const VIETNAM_TILES = [
         id: 2, row: 1, col: 3,
         name: "Vịnh Hạ Long",
         subtitle: "Quảng Ninh",
-        icon: "N",
+        icon: "⛵",
         image: "images/monopoly/ha_long.jpg",
         region: "hanoi",
         regionName: "Bắc Bộ",
         type: "property",
-        price: 120,
-        rent: [25, 75, 170, 340],
-        upgradeCost: 60,
-        desc: "Kỳ quan thiên nhiên thế giới với hàng nghìn hòn đảo đá vôi kỳ vĩ và du thuyền phồn hoa.",
+        price: 270,
+        rent: [30, 85, 200, 400],
+        upgradeCost: 135,
+        desc: "Kỳ quan thiên nhiên thế giới UNESCO với hàng nghìn đảo đá vôi kỳ vĩ và du thuyền phồn hoa.",
         owner: null, level: 0
     },
     {
@@ -290,7 +397,6 @@ const VIETNAM_TILES = [
         name: "Cơ Hội",
         subtitle: "Rút Thẻ May Mắn",
         icon: "❓",
-        image: "images/monopoly/chance.jpg",
         region: "special",
         regionName: "Cơ Hội",
         type: "chance",
@@ -309,9 +415,9 @@ const VIETNAM_TILES = [
         region: "northwest",
         regionName: "Tây Bắc",
         type: "property",
-        price: 150,
-        rent: [35, 100, 220, 440],
-        upgradeCost: 75,
+        price: 190,
+        rent: [20, 60, 140, 290],
+        upgradeCost: 95,
         desc: "Nóc nhà Đông Dương ở độ cao 3.143m, khu nghỉ dưỡng trên mây mang lại dòng tiền lớn.",
         owner: null, level: 0
     },
@@ -325,7 +431,7 @@ const VIETNAM_TILES = [
         regionName: "Tây Bắc",
         type: "property",
         price: 170,
-        rent: [40, 115, 250, 500],
+        rent: [17, 50, 120, 250],
         upgradeCost: 85,
         desc: "Di sản non nước hữu tình, bất động sản sinh thái cực kỳ tiềm năng và hút khách du lịch.",
         owner: null, level: 0
@@ -335,7 +441,6 @@ const VIETNAM_TILES = [
         name: "Vào Tù",
         subtitle: "Cảnh Sát Bắt",
         icon: "🚔",
-        image: "images/monopoly/go_to_jail.jpg",
         region: "special",
         regionName: "Vào Tù",
         type: "go_to_jail",
@@ -356,10 +461,10 @@ const VIETNAM_TILES = [
         region: "central",
         regionName: "Miền Trung",
         type: "property",
-        price: 200,
-        rent: [50, 140, 300, 600],
-        upgradeCost: 100,
-        desc: "Kinh thành triều Nguyễn với bề dày lịch sử vàng son, bất động sản văn hóa sinh lời cao.",
+        price: 180,
+        rent: [18, 55, 130, 270],
+        upgradeCost: 90,
+        desc: "Kinh thành triều Nguyễn với bề dày lịch sử vàng son, bất động sản di sản văn hóa sinh lời cao.",
         owner: null, level: 0
     },
     {
@@ -371,10 +476,10 @@ const VIETNAM_TILES = [
         region: "central",
         regionName: "Miền Trung",
         type: "property",
-        price: 220,
-        rent: [55, 155, 330, 660],
-        upgradeCost: 110,
-        desc: "Biểu tượng du lịch hiện đại nổi tiếng toàn cầu, lưu lượng khách liên tục đem lại nguồn thu.",
+        price: 330,
+        rent: [38, 110, 250, 500],
+        upgradeCost: 165,
+        desc: "Biểu tượng du lịch hiện đại nổi tiếng toàn cầu, lưu lượng khách quốc tế liên tục đem lại doanh thu cao.",
         owner: null, level: 0
     },
     {
@@ -382,7 +487,6 @@ const VIETNAM_TILES = [
         name: "Điện Lực",
         subtitle: "Dịch Vụ Tiện Ích",
         icon: "⚡",
-        image: "images/monopoly/electric.jpg",
         region: "special",
         regionName: "Tiện Ích",
         type: "utility",
@@ -402,7 +506,7 @@ const VIETNAM_TILES = [
         regionName: "Duyên Hải",
         type: "property",
         price: 250,
-        rent: [65, 180, 380, 760],
+        rent: [28, 80, 185, 380],
         upgradeCost: 125,
         desc: "Thương cảng phồn hoa với những ngôi nhà cổ tường vàng hoa giấy, giá thuê mặt bằng đắt giá.",
         owner: null, level: 0
@@ -416,9 +520,9 @@ const VIETNAM_TILES = [
         region: "coastal",
         regionName: "Duyên Hải",
         type: "property",
-        price: 270,
-        rent: [70, 195, 410, 820],
-        upgradeCost: 135,
+        price: 310,
+        rent: [35, 100, 230, 470],
+        upgradeCost: 155,
         desc: "Dải cát trắng mịn ven biển quyến rũ hàng đầu châu Á, các resort khách sạn luôn kín phòng.",
         owner: null, level: 0
     },
@@ -427,7 +531,6 @@ const VIETNAM_TILES = [
         name: "Bãi Đỗ Xe",
         subtitle: "Hũ Tiền Thưởng",
         icon: "🅿️",
-        image: "images/monopoly/free_parking.jpg",
         region: "special",
         regionName: "Đỗ Xe",
         type: "parking",
@@ -448,9 +551,9 @@ const VIETNAM_TILES = [
         region: "highlands",
         regionName: "Tây Nguyên",
         type: "property",
-        price: 300,
-        rent: [80, 220, 460, 920],
-        upgradeCost: 150,
+        price: 220,
+        rent: [25, 70, 160, 330],
+        upgradeCost: 110,
         desc: "Thành phố sương mù ngàn hoa mộng mơ, chuỗi homestay và biệt thự cổ điển đạt doanh thu cao.",
         owner: null, level: 0
     },
@@ -463,9 +566,9 @@ const VIETNAM_TILES = [
         region: "highlands",
         regionName: "Tây Nguyên",
         type: "property",
-        price: 320,
-        rent: [85, 235, 490, 980],
-        upgradeCost: 160,
+        price: 140,
+        rent: [14, 40, 95, 200],
+        upgradeCost: 70,
         desc: "Thủ phủ cà phê lớn nhất Đông Nam Á, đất đai màu mỡ và tiềm năng kinh doanh nông sản lớn.",
         owner: null, level: 0
     },
@@ -474,7 +577,6 @@ const VIETNAM_TILES = [
         name: "Khí Vận",
         subtitle: "Quỹ Cộng Đồng",
         icon: "📦",
-        image: "images/monopoly/chest.jpg",
         region: "special",
         regionName: "Khí Vận",
         type: "chest",
@@ -493,10 +595,10 @@ const VIETNAM_TILES = [
         region: "south_coast",
         regionName: "Nam Trung Bộ",
         type: "property",
-        price: 350,
-        rent: [95, 260, 540, 1080],
-        upgradeCost: 175,
-        desc: "Vịnh biển thiên đường với chuỗi resort 5 sao sang trọng, tiền thuê đất tại đây là gánh nặng lớn.",
+        price: 280,
+        rent: [32, 90, 210, 420],
+        upgradeCost: 140,
+        desc: "Vịnh biển thiên đường với chuỗi resort 5 sao sang trọng, bất động sản du lịch sinh lời rất cao.",
         owner: null, level: 0
     },
     {
@@ -508,9 +610,9 @@ const VIETNAM_TILES = [
         region: "south_coast",
         regionName: "Nam Trung Bộ",
         type: "property",
-        price: 370,
-        rent: [100, 280, 580, 1160],
-        upgradeCost: 185,
+        price: 160,
+        rent: [16, 45, 110, 240],
+        upgradeCost: 80,
         desc: "Đồi cát bay ven biển độc đáo, điểm du lịch thể thao mạo hiểm thu hút nhiều dòng tiền.",
         owner: null, level: 0
     },
@@ -519,7 +621,6 @@ const VIETNAM_TILES = [
         name: "Nhà Tù",
         subtitle: "Thăm Tù / Bị Giam",
         icon: "⛓️",
-        image: "images/monopoly/jail.jpg",
         region: "special",
         regionName: "Nhà Tù",
         type: "jail",
@@ -535,8 +636,7 @@ const VIETNAM_TILES = [
         id: 19, row: 6, col: 1,
         name: "Sân Bay",
         subtitle: "Bay Tốc Hành",
-        icon: "H",
-        image: "images/monopoly/airport.jpg",
+        icon: "✈️",
         region: "special",
         regionName: "Sân Bay",
         type: "airport",
@@ -555,9 +655,9 @@ const VIETNAM_TILES = [
         region: "south",
         regionName: "Nam Bộ",
         type: "property",
-        price: 400,
-        rent: [110, 310, 640, 1280],
-        upgradeCost: 200,
+        price: 150,
+        rent: [15, 42, 105, 220],
+        upgradeCost: 75,
         desc: "Thủ phủ sông nước Tây Nam Bộ bên dòng sông Hậu, trung tâm giao thương bến cảng sầm uất.",
         owner: null, level: 0
     },
@@ -570,10 +670,10 @@ const VIETNAM_TILES = [
         region: "south",
         regionName: "Nam Bộ",
         type: "property",
-        price: 430,
-        rent: [120, 340, 700, 1400],
-        upgradeCost: 215,
-        desc: "Biểu tượng kinh tế hàng đầu Quận 1 Sài Gòn, đất kim cương đem lại dòng tiền thuê siêu khủng.",
+        price: 420,
+        rent: [50, 150, 320, 650],
+        upgradeCost: 200,
+        desc: "Biểu tượng kinh tế hàng đầu Quận 1 Sài Gòn, đất kim cương đắt giá số 1 đem lại dòng tiền thuê khủng nhất.",
         owner: null, level: 0
     },
     {
@@ -581,7 +681,6 @@ const VIETNAM_TILES = [
         name: "Thuế Thu Nhập",
         subtitle: "Nộp Ngân Khố",
         icon: "💰",
-        image: "images/monopoly/tax.jpg",
         region: "special",
         regionName: "Thuế",
         type: "tax",
@@ -600,10 +699,10 @@ const VIETNAM_TILES = [
         region: "islands",
         regionName: "Biển Đảo",
         type: "property",
-        price: 480,
-        rent: [140, 400, 850, 1700],
-        upgradeCost: 240,
-        desc: "Đảo Ngọc thiên đường nghỉ dưỡng nhiệt đới, ô đất đắt đỏ bậc nhất với tiền thuê phòng cao nhất!",
+        price: 360,
+        rent: [40, 120, 270, 550],
+        upgradeCost: 180,
+        desc: "Đảo Ngọc thiên đường nghỉ dưỡng nhiệt đới, đất vàng du lịch quốc tế với giá trị tăng trưởng vượt trội!",
         owner: null, level: 0
     }
 ];
@@ -987,10 +1086,13 @@ function initMonopolyBoard() {
         stripLabel.textContent = (tile.subtitle && tile.type === 'property') ? tile.subtitle : (tile.regionName || '');
         colorBand.appendChild(stripLabel);
 
-        // Khung ảnh danh lam thắng cảnh thực tế
+        // Khung hình danh lam thắng cảnh hoặc Vector biểu tượng độc quyền
         const photoWrap = document.createElement("div");
         photoWrap.className = "tile-photo-wrap";
-        if (tile.image) {
+        if (SPECIAL_TILE_SVGS[tile.type]) {
+            photoWrap.classList.add("has-custom-svg");
+            photoWrap.innerHTML = SPECIAL_TILE_SVGS[tile.type];
+        } else if (tile.image) {
             const imgEl = document.createElement("img");
             imgEl.className = "tile-photo";
             imgEl.src = tile.image;
@@ -1308,6 +1410,9 @@ function roll3DDice(callback) {
     roll3DDiceSpecified(val1, val2, callback);
 }
 
+let diceCumulativeRotation1 = { x: -20, y: -30, z: 0 };
+let diceCumulativeRotation2 = { x: -20, y: -30, z: 0 };
+
 function roll3DDiceSpecified(val1, val2, callback) {
     const diceCube1 = document.getElementById("diceCube1");
     const diceCube2 = document.getElementById("diceCube2");
@@ -1316,6 +1421,9 @@ function roll3DDiceSpecified(val1, val2, callback) {
     const diceTray = document.getElementById("diceArenaTray");
     const s1 = document.getElementById("diceShadowSpot1");
     const s2 = document.getElementById("diceShadowSpot2");
+    const resultPill = document.getElementById("diceResultPill");
+
+    if (resultPill) resultPill.style.display = "none";
 
     soundEffects.diceRoll();
 
@@ -1351,19 +1459,24 @@ function roll3DDiceSpecified(val1, val2, callback) {
     // Xoay 3D hỗn loạn kết hợp nhiều trục (X, Y, Z) và giảm tốc mượt vào đúng mặt đích
     const rot1 = faceRotations[val1] || { x: 0, y: 0 };
     const rot2 = faceRotations[val2] || { x: 0, y: 0 };
-    const extraSpins1X = (3 + Math.floor(Math.random() * 2)) * 360;
-    const extraSpins1Y = (3 + Math.floor(Math.random() * 2)) * 360;
-    const extraSpins2X = (3 + Math.floor(Math.random() * 2)) * 360;
-    const extraSpins2Y = (3 + Math.floor(Math.random() * 2)) * 360;
+
+    // Tích lũy vòng quay mượt mà một chiều (không bao giờ quay giật ngược)
+    diceCumulativeRotation1.x += 1080 + (rot1.x - (diceCumulativeRotation1.x % 360));
+    diceCumulativeRotation1.y += 1080 + (rot1.y - (diceCumulativeRotation1.y % 360));
+    diceCumulativeRotation1.z += 360;
+
+    diceCumulativeRotation2.x += 1080 + (rot2.x - (diceCumulativeRotation2.x % 360));
+    diceCumulativeRotation2.y += 1080 + (rot2.y - (diceCumulativeRotation2.y % 360));
+    diceCumulativeRotation2.z -= 360;
 
     if (diceCube1) {
         diceCube1.style.transition = "transform 1.25s cubic-bezier(0.18, 0.85, 0.25, 1)";
-        diceCube1.style.transform = `rotateX(${rot1.x + extraSpins1X}deg) rotateY(${rot1.y + extraSpins1Y}deg) rotateZ(360deg)`;
+        diceCube1.style.transform = `rotateX(${diceCumulativeRotation1.x}deg) rotateY(${diceCumulativeRotation1.y}deg) rotateZ(${diceCumulativeRotation1.z}deg)`;
     }
 
     if (diceCube2) {
         diceCube2.style.transition = "transform 1.25s cubic-bezier(0.18, 0.85, 0.25, 1)";
-        diceCube2.style.transform = `rotateX(${rot2.x + extraSpins2X}deg) rotateY(${rot2.y + extraSpins2Y}deg) rotateZ(-360deg)`;
+        diceCube2.style.transform = `rotateX(${diceCumulativeRotation2.x}deg) rotateY(${diceCumulativeRotation2.y}deg) rotateZ(${diceCumulativeRotation2.z}deg)`;
     }
 
     // Âm thanh xúc xắc rơi va chạm chính xác vào khoảnh khắc chạm khay nỉ (~650ms)
@@ -1378,6 +1491,11 @@ function roll3DDiceSpecified(val1, val2, callback) {
         if (diceTray) diceTray.classList.remove("tray-impact-shake");
         if (s1) s1.classList.remove("shadow-tossing-1");
         if (s2) s2.classList.remove("shadow-tossing-2");
+
+        if (resultPill) {
+            resultPill.innerHTML = `🎲 <strong>${val1} + ${val2} = ${sum}</strong> bước ${isDouble ? '<span class="dice-double-tag">🎉 ĐỔ XÚC XẮC ĐÔI!</span>' : ''}`;
+            resultPill.style.display = "inline-flex";
+        }
 
         if (callback) callback({ d1: val1, d2: val2, sum, isDouble });
     }, 1280);

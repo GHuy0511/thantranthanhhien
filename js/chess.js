@@ -551,7 +551,9 @@ window.ChessGame = (function () {
         const target = side + 'K';
         for (let r = 0; r < 8; r++) {
             for (let c = 0; c < 8; c++) {
-                if (bState[r][c] === target) return { r, c };
+                if (bState[r][c] === target) return {
+        resetScores: resetChessScores,
+        resetBrain: () => ChessBrain.reset(), r, c };
             }
         }
         return null;
@@ -708,6 +710,13 @@ window.ChessGame = (function () {
                 // Chiếu bí (Checkmate)
                 notation += '#';
                 isGameOver = true;
+                if (side === 'w') chessScores.white++;
+                else chessScores.black++;
+                saveChessScores();
+                updateChessScoreUI();
+                if (gameMode === 'ai') {
+                    ChessBrain.learnFromGame(side, moveHistory);
+                }
                 playSound('win');
                 showBanner(`Chiếu bí! ${side === 'w' ? 'Bên Trắng' : 'Bên Đen'} đã giành chiến thắng xuất sắc! 👑`, 'win');
             } else {
@@ -852,6 +861,8 @@ window.ChessGame = (function () {
                 sim[m.fromR][m.fromC] = null;
 
                 let score = minimax(sim, depth - 1, -Infinity, Infinity, true);
+                const learnedBonus = ChessBrain.getMoveBonus(m);
+                score -= learnedBonus; // Bên Đen tối thiểu hóa điểm
 
                 // Thêm chút ngẫu nhiên nhỏ theo ELO để các ván không lặp lại hoàn toàn
                 if (currentElo <= 1200) {
@@ -1147,6 +1158,98 @@ window.ChessGame = (function () {
     /**
      * KHỞI TẠO EVENT LISTENERS
      */
+    
+    let chessScores = { white: 0, black: 0, draws: 0 };
+
+    const ChessBrain = {
+        STORAGE_KEY: 'couple_chess_brain_memory_v2',
+        memory: null,
+
+        init() {
+            if (!this.memory) this.load();
+            this.updateUI();
+        },
+
+        load() {
+            try {
+                const raw = localStorage.getItem(this.STORAGE_KEY);
+                if (raw) this.memory = JSON.parse(raw);
+            } catch (e) {}
+            if (!this.memory) {
+                this.memory = {
+                    version: 2,
+                    totalGamesLearned: 0,
+                    openings: {}
+                };
+            }
+        },
+
+        save() {
+            try {
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.memory));
+                this.updateUI();
+            } catch (e) {}
+        },
+
+        reset() {
+            this.memory = { version: 2, totalGamesLearned: 0, openings: {} };
+            this.save();
+        },
+
+        learnFromGame(winnerSide, history) {
+            if (!history || history.length < 2) return;
+            this.memory.totalGamesLearned++;
+            history.slice(0, 10).forEach(entry => {
+                if (entry && entry.from && entry.to) {
+                    const key = `${entry.from.r},${entry.from.c}->${entry.to.r},${entry.to.c}`;
+                    this.memory.openings[key] = (this.memory.openings[key] || 0) + (entry.side === 'b' ? 30 : 15);
+                }
+            });
+            this.save();
+        },
+
+        getMoveBonus(m) {
+            if (!this.memory || !this.memory.openings) return 0;
+            const key = `${m.fromR},${m.fromC}->${m.toR},${m.toC}`;
+            return (this.memory.openings[key] || 0);
+        },
+
+        updateUI() {
+            const countEl = document.getElementById('chessBrainLearnedCount');
+            if (countEl && this.memory) {
+                countEl.textContent = `${this.memory.totalGamesLearned || 0} ván kinh nghiệm`;
+            }
+        }
+    };
+
+    function loadChessScores() {
+        try {
+            const raw = localStorage.getItem('couple_chess_scores_v2');
+            if (raw) chessScores = JSON.parse(raw);
+        } catch (e) {}
+    }
+
+    function saveChessScores() {
+        try {
+            localStorage.setItem('couple_chess_scores_v2', JSON.stringify(chessScores));
+        } catch (e) {}
+    }
+
+    function resetChessScores() {
+        chessScores = { white: 0, black: 0, draws: 0 };
+        saveChessScores();
+        updateChessScoreUI();
+        showBanner('✨ Đã đặt lại bảng tỷ số Cờ Vua về 0 - 0!', 'info');
+    }
+
+    function updateChessScoreUI() {
+        const elW = document.getElementById('chessScoreWhite');
+        const elB = document.getElementById('chessScoreBlack');
+        if (elW) elW.textContent = chessScores.white;
+        if (elB) elB.textContent = chessScores.black;
+        ChessBrain.updateUI();
+    }
+
     function init() {
         // Tab chọn chế độ
         document.querySelectorAll('.chess-mode-tab').forEach(tab => {
@@ -1174,6 +1277,25 @@ window.ChessGame = (function () {
         });
 
         // Nút Ván mới
+        const btnResetScore = document.getElementById('btnChessResetScore');
+        if (btnResetScore) {
+            btnResetScore.addEventListener('click', () => {
+                if (confirm('Bạn có chắc muốn đặt lại tỷ số đối đầu Cờ Vua về 0 - 0?')) {
+                    resetChessScores();
+                }
+            });
+        }
+
+        const btnResetBrain = document.getElementById('btnChessResetBrain');
+        if (btnResetBrain) {
+            btnResetBrain.addEventListener('click', () => {
+                if (confirm('Bạn có muốn xóa trí nhớ AI Cờ Vua để học lại từ đầu?')) {
+                    ChessBrain.reset();
+                    showBanner('🧠 Đã đặt lại bộ não AI Cờ Vua về ban đầu!', 'info');
+                }
+            });
+        }
+
         const btnNew = document.getElementById('chessBtnNewGame');
         if (btnNew) btnNew.addEventListener('click', resetGame);
 
@@ -1206,6 +1328,8 @@ window.ChessGame = (function () {
     }
 
     return {
+        resetScores: resetChessScores,
+        resetBrain: () => ChessBrain.reset(),
         init,
         resetGame,
         undoMove,

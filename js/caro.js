@@ -42,6 +42,153 @@ window.CaroGame = (function () {
     // Điểm sao chuẩn trên bàn cờ 15x15 (Tengen ở giữa và 4 góc)
     const STAR_POINTS = new Set(['3,3', '3,11', '7,7', '11,3', '11,11']);
 
+    // ========================================================
+    // BỘ NÃO HỌC MÁY CỦA AI (CARO MACHINE LEARNING BRAIN)
+    // - Tự động học hỏi từ kinh nghiệm đối đầu thực tế với người chơi
+    // - Ghi nhớ các thế cờ hay, chuỗi nước đi then chốt và các bẫy cờ hiểm
+    // - Tự động áp dụng chiến thuật đã học để phòng ngự & tấn công linh hoạt
+    // ========================================================
+    const CaroBrain = {
+        STORAGE_KEY: 'couple_caro_brain_memory_v2',
+        memory: null,
+
+        init() {
+            if (!this.memory) {
+                this.load();
+            }
+            this.updateUI();
+        },
+
+        load() {
+            try {
+                const raw = localStorage.getItem(this.STORAGE_KEY);
+                if (raw) {
+                    this.memory = JSON.parse(raw);
+                }
+            } catch (e) {
+                console.warn('Failed to parse CaroBrain memory', e);
+            }
+            if (!this.memory) {
+                this.memory = {
+                    version: 2,
+                    totalGamesLearned: 0,
+                    humanTacticsLearned: 0,
+                    patterns: {}, // pattern string -> { weight, count, wins }
+                    reflexResponses: {} // "r,c" -> { wins, blocks }
+                };
+            }
+        },
+
+        save() {
+            try {
+                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.memory));
+                this.updateUI();
+            } catch (e) {
+                console.warn('Failed to save CaroBrain memory', e);
+            }
+        },
+
+        reset() {
+            this.memory = {
+                version: 2,
+                totalGamesLearned: 0,
+                humanTacticsLearned: 0,
+                patterns: {},
+                reflexResponses: {}
+            };
+            this.save();
+        },
+
+        // Trích xuất mô hình cục bộ 7x7 xung quanh ô (r, c)
+        extractLocalPattern(board, r, c) {
+            let pat = '';
+            for (let dr = -3; dr <= 3; dr++) {
+                for (let dc = -3; dc <= 3; dc++) {
+                    const nr = r + dr;
+                    const nc = c + dc;
+                    if (nr < 0 || nr >= BOARD_SIZE || nc < 0 || nc >= BOARD_SIZE) {
+                        pat += '#'; // Ranh giới bàn cờ
+                    } else {
+                        pat += (board[nr][nc] || '.');
+                    }
+                }
+            }
+            return pat;
+        },
+
+        // Học từ ván cờ vừa kết thúc
+        learnFromGame(winnerSymbol, movesHistory, finalBoard) {
+            if (!movesHistory || movesHistory.length < 3) return;
+
+            this.memory.totalGamesLearned++;
+
+            if (winnerSymbol === 'X') {
+                // Người chơi (X) thắng: AI ghi nhận các nước đi then chốt tạo thế thắng của người
+                this.memory.humanTacticsLearned++;
+                const humanMoves = movesHistory.filter(m => m.turn === 'X');
+                const decisiveMoves = humanMoves.slice(-4);
+
+                decisiveMoves.forEach((move, idx) => {
+                    const reward = 8000 * (idx + 1);
+                    const pat = this.extractLocalPattern(finalBoard, move.r, move.c);
+                    if (!this.memory.patterns[pat]) {
+                        this.memory.patterns[pat] = { weight: 0, count: 0, wins: 0 };
+                    }
+                    this.memory.patterns[pat].weight += reward;
+                    this.memory.patterns[pat].count++;
+                    this.memory.patterns[pat].wins++;
+
+                    const key = `${move.r},${move.c}`;
+                    if (!this.memory.reflexResponses[key]) {
+                        this.memory.reflexResponses[key] = { r: move.r, c: move.c, wins: 0, blocks: 0 };
+                    }
+                    this.memory.reflexResponses[key].wins++;
+                });
+            } else if (winnerSymbol === 'O') {
+                // AI (O) thắng: củng cố các thế cờ thành công của AI
+                const aiMoves = movesHistory.filter(m => m.turn === 'O');
+                const winningMoves = aiMoves.slice(-3);
+                winningMoves.forEach(move => {
+                    const pat = this.extractLocalPattern(finalBoard, move.r, move.c);
+                    if (!this.memory.patterns[pat]) {
+                        this.memory.patterns[pat] = { weight: 0, count: 0, wins: 0 };
+                    }
+                    this.memory.patterns[pat].weight += 6000;
+                    this.memory.patterns[pat].count++;
+                    this.memory.patterns[pat].wins++;
+                });
+            }
+
+            this.save();
+        },
+
+        // Lấy điểm thưởng học máy cho ứng viên (r, c)
+        getLearnedBonus(board, r, c) {
+            if (!this.memory) return 0;
+            let bonus = 0;
+            const pat = this.extractLocalPattern(board, r, c);
+            if (this.memory.patterns && this.memory.patterns[pat]) {
+                bonus += Math.min(this.memory.patterns[pat].weight, 70000);
+            }
+
+            const key = `${r},${c}`;
+            if (this.memory.reflexResponses && this.memory.reflexResponses[key]) {
+                bonus += (this.memory.reflexResponses[key].wins || 0) * 4500;
+            }
+
+            return bonus;
+        },
+
+        updateUI() {
+            const countEl = document.getElementById('caroBrainLearnedCount');
+            if (countEl && this.memory) {
+                const total = this.memory.totalGamesLearned || 0;
+                const patternsCount = Object.keys(this.memory.patterns || {}).length;
+                countEl.textContent = `${total} ván (${patternsCount} thế cờ)`;
+            }
+        }
+    };
+
     let state = {
         board: Array(BOARD_SIZE).fill(null).map(() => Array(BOARD_SIZE).fill(null)),
         currentTurn: 'X', // 'X' hoặc 'O'
@@ -105,6 +252,7 @@ window.CaroGame = (function () {
     // ========================================================
     function init() {
         loadScoreFromStorage();
+        CaroBrain.init();
         if (state.gameMode === 'ai') { PLAYERS.O.name = 'Máy (AI)'; PLAYERS.O.icon = ''; }
         renderBoardDOM();
         bindUIEvents();
@@ -207,6 +355,27 @@ window.CaroGame = (function () {
             ruleCheck.addEventListener('change', (e) => {
                 state.ruleBlockEnds = e.target.checked;
                 showStatusNotice(state.ruleBlockEnds ? '⚖️ Bật luật chặn 2 đầu: 5 quân bị chặn 2 đầu không thắng' : '⚖️ Luật tự do: Đủ 5 quân liên tiếp là thắng');
+            });
+        }
+
+        // Nút Đặt Lại Tỉ Số Đối Đầu
+        const btnResetScore = document.getElementById('btnCaroResetScore');
+        if (btnResetScore) {
+            btnResetScore.addEventListener('click', () => {
+                showModalConfirm('Bạn có chắc muốn đặt lại tỷ số đối đầu về 0 - 0 không?', () => {
+                    resetScores();
+                });
+            });
+        }
+
+        // Nút Xóa Dữ Liệu Học Máy AI
+        const btnResetBrain = document.getElementById('btnCaroResetBrain');
+        if (btnResetBrain) {
+            btnResetBrain.addEventListener('click', () => {
+                showModalConfirm('Bạn có muốn xóa dữ liệu học máy AI để AI học lại từ đầu?', () => {
+                    CaroBrain.reset();
+                    showStatusNotice('🧠 Đã đặt lại bộ não học máy AI về ban đầu!');
+                });
             });
         }
     }
@@ -424,6 +593,11 @@ window.CaroGame = (function () {
         saveScoreToStorage();
         updateScoreboardUI();
 
+        // KÍCH HOẠT HỌC MÁY: AI tiếp thu và học hỏi từ ván cờ vừa đấu
+        if (state.gameMode === 'ai') {
+            CaroBrain.learnFromGame(winnerTurn, state.movesHistory, state.board);
+        }
+
         // Highlight 5 quân chiến thắng
         if (Array.isArray(lineOrMsg)) {
             state.winningLine = lineOrMsg;
@@ -524,15 +698,16 @@ window.CaroGame = (function () {
 
                 const attackScore = evaluateCell(r, c, 'O');
                 const defenseScore = evaluateCell(r, c, 'X');
+                const learnedBonus = CaroBrain.getLearnedBonus(state.board, r, c);
 
-                // Trọng số theo cấp độ
+                // Trọng số theo cấp độ kết hợp kinh nghiệm học máy (Machine Learning Bonus)
                 let totalScore = 0;
                 if (state.aiDifficulty === 'hard') {
-                    totalScore = attackScore + defenseScore * 1.15; // Khó: ưu tiên chặn nguy hiểm
+                    totalScore = attackScore + defenseScore * 1.15 + learnedBonus; // Khó: ưu tiên chặn nguy hiểm và kích hoạt phản xạ học máy
                 } else if (state.aiDifficulty === 'medium') {
-                    totalScore = attackScore + defenseScore * 0.95;
+                    totalScore = attackScore + defenseScore * 0.95 + learnedBonus * 0.7;
                 } else {
-                    totalScore = attackScore * 0.8 + defenseScore * 0.7;
+                    totalScore = attackScore * 0.8 + defenseScore * 0.7 + learnedBonus * 0.3;
                 }
 
                 // Điểm ưu tiên trung tâm bàn cờ
@@ -824,6 +999,13 @@ window.CaroGame = (function () {
         if (scoreDraws) scoreDraws.textContent = state.scores.draws;
     }
 
+    function resetScores() {
+        state.scores = { huy: 0, hien: 0, draws: 0 };
+        saveScoreToStorage();
+        updateScoreboardUI();
+        showStatusNotice('✨ Đã đặt lại bảng tỷ số đối đầu về 0 - 0!');
+    }
+
     // ========================================================
     // ĐỒNG HỒ ĐẾM NGƯỢC LƯỢT ĐI (TURN TIMER)
     // ========================================================
@@ -923,6 +1105,9 @@ window.CaroGame = (function () {
     return {
         init,
         resetGame,
-        setGameMode
+        setGameMode,
+        resetScores,
+        resetBrain: () => CaroBrain.reset(),
+        getBrain: () => CaroBrain
     };
 })();

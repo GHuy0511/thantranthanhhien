@@ -222,6 +222,9 @@
                         </div>
                     </div>
 
+                    <!-- Capsule hiển thị kết quả tung xúc xắc 3D mượt mà -->
+                    <div class="dice-result-pill" id="diceResultPill" style="display: none;"></div>
+
                     <!-- Nút tung xúc xắc nổi bật với hiệu ứng 3D và màu sắc theo người chơi -->
                     <button class="roll-dice-btn" id="rollDiceBtn" type="button">
                         <span class="btn-dice-text" id="rollBtnText">Tung xúc xắc</span>
@@ -440,7 +443,13 @@
                     <!-- Sidebar: Tỷ số & Nhật ký nước cờ -->
                     <div class="caro-sidebar-panel">
                         <div class="caro-scoreboard-card">
-                            <div class="scoreboard-title">Bảng Tỷ Số Đối Đầu</div>
+                            <div class="scoreboard-title-row">
+                                <span class="scoreboard-title">Bảng Tỷ Số Đối Đầu</span>
+                                <button class="game-reset-score-btn" id="btnCaroResetScore" type="button" title="Đặt lại tỉ số đối đầu về 0 - 0">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                                    Đặt Lại Tỉ Số
+                                </button>
+                            </div>
                             <div class="scoreboard-row">
                                 <div class="score-player-item">
                                     <span class="score-player-name" style="color:#b45d43;">Huy</span>
@@ -450,6 +459,16 @@
                                 <div class="score-player-item">
                                     <span class="score-player-name" id="caroPlayer2Name" style="color:#a85d7b;">Máy (AI)</span>
                                     <span class="score-number" id="caroScoreHien" style="color:#a85d7b;">0</span>
+                                </div>
+                            </div>
+                            <!-- AI Machine Learning Status Badge -->
+                            <div class="game-ai-learning-badge" id="caroAiLearningBadge" title="AI tự động học hỏi kinh nghiệm qua từng ván cờ với bạn">
+                                <div class="ai-learning-badge-top">
+                                    <span class="ai-learning-chip">🧠 AI Học Máy</span>
+                                    <button class="ai-learning-reset-btn" id="btnCaroResetBrain" type="button" title="Xóa trí nhớ AI để học lại từ đầu">Reset AI</button>
+                                </div>
+                                <div class="ai-learning-stats-text">
+                                    Đã học: <strong id="caroBrainLearnedCount">0 ván (0 thế cờ)</strong>
                                 </div>
                             </div>
                         </div>
@@ -490,6 +509,22 @@
                 </div>
 
                 <div class="go-main-layout">
+                    <!-- Bảng tỷ số đối đầu & Trạng thái học máy Cờ Vây -->
+                    <div class="go-scoreboard-bar">
+                        <div class="go-scoreboard-pill">
+                            <span class="scoreboard-title" style="font-size:12px;">Tỷ Số Đối Đầu:</span>
+                            <span class="go-score-num" style="color:#292524;"><strong id="goScoreBlack">0</strong> (Đen) - <strong id="goScoreWhite">0</strong> (Trắng)</span>
+                            <button class="game-reset-score-btn" id="btnGoResetScore" type="button" title="Đặt lại tỉ số đối đầu Cờ Vây">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                                Đặt Lại Tỉ Số
+                            </button>
+                        </div>
+                        <div class="go-ai-learning-pill" title="AI tự động học hỏi từ ván đấu">
+                            <span>🧠 AI Học Máy: <strong id="goBrainLearnedCount">0 ván kinh nghiệm</strong></span>
+                            <button class="ai-learning-reset-btn" id="btnGoResetBrain" type="button" title="Xóa trí nhớ AI">Reset AI</button>
+                        </div>
+                    </div>
+
                     <!-- Bảng thông tin người chơi & số quân bắt được -->
                     <div class="go-players-hud">
                         <div class="go-player-card active-turn" id="goCardBlack">
@@ -575,7 +610,38 @@
                         </div>
                     </div>
 
-                    <!-- 2. Trạng thái lượt đi & Khay quân bị bắt -->
+                    <!-- 2. Bảng tỷ số đối đầu & Trí tuệ học máy Cờ Vua -->
+                    <div class="chess-card-box chess-scoreboard-card">
+                        <div class="scoreboard-title-row">
+                            <span class="chess-card-title" style="margin-bottom:0;">Bảng Tỷ Số Đối Đầu</span>
+                            <button class="game-reset-score-btn" id="btnChessResetScore" type="button" title="Đặt lại tỉ số đối đầu Cờ Vua">
+                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                                Đặt Lại Tỉ Số
+                            </button>
+                        </div>
+                        <div class="scoreboard-row" style="margin-top:6px;">
+                            <div class="score-player-item">
+                                <span class="score-player-name" style="color:#b45d43;">Trắng (Huy)</span>
+                                <span class="score-number" id="chessScoreWhite" style="color:#b45d43;">0</span>
+                            </div>
+                            <div class="score-vs-divider">VS</div>
+                            <div class="score-player-item">
+                                <span class="score-player-name" id="chessBlackScoreLabel" style="color:#a85d7b;">Đen (Máy AI)</span>
+                                <span class="score-number" id="chessScoreBlack" style="color:#a85d7b;">0</span>
+                            </div>
+                        </div>
+                        <div class="game-ai-learning-badge" style="margin-top:8px;">
+                            <div class="ai-learning-badge-top">
+                                <span class="ai-learning-chip">🧠 AI Học Máy</span>
+                                <button class="ai-learning-reset-btn" id="btnChessResetBrain" type="button" title="Xóa trí nhớ AI để học lại từ đầu">Reset AI</button>
+                            </div>
+                            <div class="ai-learning-stats-text">
+                                Đã học: <strong id="chessBrainLearnedCount">0 ván kinh nghiệm</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Trạng thái lượt đi & Khay quân bị bắt -->
                     <div class="chess-card-box chess-status-card">
                         <div class="chess-turn-header">
                             <div class="chess-turn-badge white" id="chessTurnBadge">
