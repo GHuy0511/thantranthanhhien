@@ -31,12 +31,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 28px;
+    gap: 24px;
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
     height: 100%;
     max-height: 100%;
+    padding: 6px 0;
 }
 
 /* CỘT TRÁI: BÀN CỜ VUA GỖ HOÀNG GIA TRỌN KHUNG HÌNH */
@@ -263,27 +264,31 @@
 .chess-sidebar {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    width: 350px;
+    gap: 8px;
+    width: 340px;
     flex-shrink: 0;
     box-sizing: border-box;
+    max-height: calc(100vh - 75px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    padding-right: 2px;
 }
 
 /* THẺ PANEL TRONG SIDEBAR */
 .chess-card-box {
     background: #ffffff;
-    border-radius: 16px;
-    padding: 12px 16px;
-    box-shadow: 0 4px 18px rgba(45, 26, 18, 0.06);
-    border: 1px solid rgba(184, 115, 87, 0.2);
+    border-radius: 14px;
+    padding: 9px 14px;
+    box-shadow: 0 4px 16px rgba(45, 26, 18, 0.05);
+    border: 1px solid rgba(184, 115, 87, 0.18);
     box-sizing: border-box;
 }
 
 .chess-card-title {
-    font-size: 12.5px;
+    font-size: 12px;
     font-weight: 800;
     color: #451a03;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -461,9 +466,9 @@
     overflow-x: hidden;
     overscroll-behavior: contain;
     scroll-behavior: smooth;
-    height: 140px;
-    min-height: 140px;
-    max-height: 140px;
+    height: 105px;
+    min-height: 90px;
+    max-height: 115px;
     padding-right: 4px;
     border: 1px solid rgba(0, 0, 0, 0.05);
     border-radius: 8px;

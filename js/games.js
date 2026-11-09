@@ -743,7 +743,7 @@ const ALL_PLAYER_CONFIGS = [
     }
 ];
 
-// 3. BỘ THẺ CƠ HỘI (CHANCE CARDS - MAY MẮN & TIỀN THƯỞNG)
+// 3. BỘ THẺ CƠ HỘI (CHANCE CARDS - 20 THẺ MAY MẮN, THƯỞNG & ĐẦU TƯ BẤT ĐỘNG SẢN)
 const CHANCE_CARDS = [
     {
         title: "Thẻ Ân Xá Tự Do",
@@ -755,7 +755,7 @@ const CHANCE_CARDS = [
     },
     {
         title: "Trúng Thưởng Xổ Số Vietlott",
-        desc: "Dãy số may mắn trúng giải độc đắc Jackpot! Ngân hàng chi trả trực tiếp cho bạn.",
+        desc: "Dãy số may mắn trúng giải độc đắc Jackpot 6/55! Ngân hàng chi trả trực tiếp cho bạn.",
         type: "gain_cash",
         amount: 250,
         rewardText: "+250M VNĐ",
@@ -770,7 +770,7 @@ const CHANCE_CARDS = [
         isNegative: false
     },
     {
-        title: "Chia Cổ Tức Chứng Khoán",
+        title: "Chia Cổ Tức Chứng Khoán Xanh",
         desc: "Danh mục đầu tư bất động sản và cổ phiếu sinh lời ấn tượng trong quý. Bạn nhận tiền chia cổ tức.",
         type: "gain_cash",
         amount: 150,
@@ -778,7 +778,7 @@ const CHANCE_CARDS = [
         isNegative: false
     },
     {
-        title: "Hoàn Thuế Doanh Nghiệp",
+        title: "Hoàn Thuế Doanh Nghiệp Đột Xuất",
         desc: "Cơ quan thuế quyết toán thừa và hoàn trả ngân sách hỗ trợ khởi nghiệp cho bạn.",
         type: "gain_cash",
         amount: 120,
@@ -809,11 +809,107 @@ const CHANCE_CARDS = [
         amount: 0,
         rewardText: "Bay Tốc Hành Miễn Phí",
         isNegative: false
+    },
+    {
+        title: "Học Bổng Tài Năng Đột Phá",
+        desc: "Quỹ đầu tư giáo dục trao tặng bạn gói học bổng nghiên cứu và phát triển công nghệ cao.",
+        type: "gain_cash",
+        amount: 180,
+        rewardText: "+180M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Thoái Vốn Startup Thành Công",
+        desc: "Dự án công nghệ bạn rót vốn ban đầu được tập đoàn lớn mua lại với định giá hấp dẫn!",
+        type: "gain_cash",
+        amount: 200,
+        rewardText: "+200M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Lì Xì May Mắn Đầu Năm",
+        desc: "Nhận phong bao lì xì đỏ may mắn cầu tài lộc đầu xuân từ gia đình và đối tác.",
+        type: "gain_cash",
+        amount: 100,
+        rewardText: "+100M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Đấu Giá Cổ Vật Hoàng Gia",
+        desc: "Bình gốm cổ thời Lý sưu tầm được đấu giá thành công tại phiên triển lãm quốc tế.",
+        type: "gain_cash",
+        amount: 140,
+        rewardText: "+140M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Bay Tốc Hành Đến Phú Quốc",
+        desc: "Chuyên cơ đưa bạn thẳng tới Đảo Ngọc Phú Quốc nghỉ dưỡng! (Nếu đi qua Ga Hà Nội nhận 200M).",
+        type: "advance_tile",
+        destId: 23,
+        rewardText: "Đến Đảo Ngọc Phú Quốc",
+        isNegative: false
+    },
+    {
+        title: "Giao Thương Tại Chợ Bến Thành",
+        desc: "Ký hợp đồng thương mại lớn tại Trung tâm TP.HCM (Bến Thành)! (Nếu đi qua Ga Hà Nội nhận 200M).",
+        type: "advance_tile",
+        destId: 21,
+        rewardText: "Đến Chợ Bến Thành",
+        isNegative: false
+    },
+    {
+        title: "Giải Nhất Gian Hàng Ẩm Thực",
+        desc: "Chuỗi ẩm thực ba miền của bạn đạt Huy chương Vàng tại Festival Ẩm thực Quốc gia.",
+        type: "gain_cash",
+        amount: 90,
+        rewardText: "+90M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Trúng Thưởng Bốc Thăm TTTM",
+        desc: "Phiếu mua sắm may mắn trúng giải thưởng hiện vật quy đổi thành tiền mặt chuyển khoản ngay.",
+        type: "gain_cash",
+        amount: 110,
+        rewardText: "+110M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Hợp Đồng Bảo Hiểm Đáo Hạn",
+        desc: "Hợp đồng bảo hiểm tích lũy đến ngày tất toán toàn bộ gốc và lợi tức đầu tư.",
+        type: "gain_cash",
+        amount: 160,
+        rewardText: "+160M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Quà Tặng Ngọt Ngào Từ Nửa Kia",
+        desc: "Người yêu bí mật chuẩn bị điều bất ngờ và nạp thêm quỹ tích lũy chung cho bạn!",
+        type: "gain_cash",
+        amount: 100,
+        rewardText: "+100M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Bản Quyền Âm Nhạc Top 1 Trending",
+        desc: "Giai điệu acoustic lãng mạn bạn sáng tác đạt Top 1 bảng xếp hạng và nhận tiền bản quyền.",
+        type: "gain_cash",
+        amount: 130,
+        rewardText: "+130M VNĐ",
+        isNegative: false
+    },
+    {
+        title: "Gói Vốn Ưu Đãi Phát Triển Xanh",
+        desc: "Ngân hàng Nhà nước giải ngân gói tín dụng xanh khuyến khích bảo tồn cảnh quan sinh thái.",
+        type: "gain_cash",
+        amount: 170,
+        rewardText: "+170M VNĐ",
+        isNegative: false
     }
 ];
 
-// 4. BỘ THẺ THỬ THÁCH (CHALLENGE CARDS - TRỞ NGẠI, PHẠT & LÙI Ô)
-const CHALLENGE_CARDS = [
+// 4. BỘ THẺ KHÍ VẬN & THỬ THÁCH (CHEST & CHALLENGE CARDS - 16 THẺ TRỞ NGẠI, PHẠT & SỰ KIỆN ĐỜI SỐNG)
+const CHEST_CARDS = [
     {
         title: "Sạt Lở Đèo Hải Vân - Lùi 3 Ô",
         desc: "Cung đèo hiểm trở bị mưa bão phong tỏa, đoàn xe buộc phải quay đầu lùi lại 3 ô và chịu tác động của ô dừng chân mới!",
@@ -870,8 +966,82 @@ const CHALLENGE_CARDS = [
         amount: 40,
         rewardText: "Trả 40M cho mỗi đối thủ",
         isNegative: true
+    },
+    {
+        title: "Hẹn Hò Cafe Hoàng Hôn Thơ Mộng",
+        desc: "Buổi chiều lãng mạn cùng người ấy tại quán cafe view thung lũng mây bay: Chi trả 50M vào Hũ Bãi Đỗ Xe.",
+        type: "pay_parking",
+        amount: 50,
+        rewardText: "-50M VNĐ",
+        isNegative: true
+    },
+    {
+        title: "Lạc Đường Trong Sương Mù Sapa",
+        desc: "Sương mù Tây Bắc dày đặc che khuất tầm nhìn, xe đi chệch tuyến và phải lùi lại 1 ô định vị lại GPS.",
+        type: "step_back",
+        steps: 1,
+        rewardText: "Lùi lại 1 ô ↩️",
+        isNegative: true
+    },
+    {
+        title: "Mua Quà Kỷ Niệm Tặng Người Thương",
+        desc: "Ghé tiệm thủ công mỹ nghệ chọn món quà bất ngờ cho người ấy: Chi trả 70M gửi vào Hũ Bãi Đỗ Xe.",
+        type: "pay_parking",
+        amount: 70,
+        rewardText: "-70M VNĐ",
+        isNegative: true
+    },
+    {
+        title: "Bảo Dưỡng Siêu Xe Định Kỳ",
+        desc: "Thay dàn lốp mới và cân chỉnh thước lái tại gara chính hãng: Chi trả 60M vào Hũ Bãi Đỗ Xe.",
+        type: "pay_parking",
+        amount: 60,
+        rewardText: "-60M VNĐ",
+        isNegative: true
+    },
+    {
+        title: "Tiệc Nướng BBQ Sân Vườn Cuối Tuần",
+        desc: "Bạn tổ chức tiệc nướng BBQ ấm cúng và tặng mỗi người chơi trên bàn cờ 30M làm quà giao lưu.",
+        type: "pay_all",
+        amount: 30,
+        rewardText: "Gửi 30M cho mỗi đối thủ",
+        isNegative: true
+    },
+    {
+        title: "Phí Dịch Vụ Đô Thị & Cây Xanh",
+        desc: "Đóng phí bảo trì cảnh quan công viên và an ninh đô thị kiểu mẫu: Nộp 50M vào Hũ Bãi Đỗ Xe.",
+        type: "pay_parking",
+        amount: 50,
+        rewardText: "-50M VNĐ",
+        isNegative: true
+    },
+    {
+        title: "Sự Cố Điện Nước Mùa Mưa Bão",
+        desc: "Hệ thống điện năng lượng mặt trời cần bảo dưỡng khẩn cấp: Nộp 40M vào Hũ Bãi Đỗ Xe.",
+        type: "pay_parking",
+        amount: 40,
+        rewardText: "-40M VNĐ",
+        isNegative: true
+    },
+    {
+        title: "Vi Phạm Đỗ Xe Nơi Cấm Đỗ",
+        desc: "Dừng xe sai quy định trước cổng danh lam thắng cảnh: Nộp phạt 50M sung quỹ Hũ Bãi Đỗ Xe.",
+        type: "pay_parking",
+        amount: 50,
+        rewardText: "-50M VNĐ",
+        isNegative: true
+    },
+    {
+        title: "Trượt Ngã Khi Leo Núi Dã Ngoại",
+        desc: "Chuyến leo núi mạo hiểm khiến bạn bị bong gân nhẹ: Tạm dừng bước để nghỉ ngơi trong 1 lượt!",
+        type: "freeze_turns",
+        turns: 1,
+        rewardText: "Nghỉ ngơi 1 lượt 🌿",
+        isNegative: true
     }
 ];
+
+const CHALLENGE_CARDS = CHEST_CARDS; // Đồng bộ thẻ thử thách
 
 // 5. TRẠNG THÁI TOÀN BỘ VÁN ĐẤU (GAME STATE)
 const gameState = {
@@ -1744,12 +1914,15 @@ function handleTileAction(player, tileId, diceRollValue = 2, rolledDouble = fals
         return;
     }
 
-    // 7. Ô CƠ HỘI (❓)
+    // 7. Ô CƠ HỘI (❓) & KHÍ VẬN (🎁)
     if (tile.type === "chance") {
         drawCardAction(player, "chance");
         return;
     }
-
+    if (tile.type === "chest") {
+        drawCardAction(player, "chest");
+        return;
+    }
     // 8. Ô THỬ THÁCH (⚡)
     if (tile.type === "challenge") {
         drawCardAction(player, "challenge");
@@ -2014,7 +2187,7 @@ function confirmUpgradeProperty(player, tile) {
 // 19. RÚT THẺ CƠ HỘI / THỬ THÁCH VỚI HOẠT ẢNH 3D FLIP (ZERO CONFETTI LAG)
 function drawCardAction(player, cardType) {
     const isChance = cardType === "chance";
-    const deck = isChance ? CHANCE_CARDS : CHALLENGE_CARDS;
+    const deck = isChance ? CHANCE_CARDS : CHEST_CARDS;
     const card = deck[Math.floor(Math.random() * deck.length)];
 
     gameState.pendingCardAction = { player, card, cardType };
@@ -2038,11 +2211,11 @@ function drawCardAction(player, cardType) {
         document.getElementById("chanceIcon").textContent = "❓";
     } else {
         backFace.className = "card-side card-back card-theme-challenge";
-        document.getElementById("cardBackEmblem").textContent = "⚡";
-        document.getElementById("cardBackTitle").textContent = "THẺ THỬ THÁCH";
-        document.getElementById("chanceTypeTag").textContent = "THẺ THỬ THÁCH";
-        document.getElementById("chanceTypeTag").style.color = "#ea580c";
-        document.getElementById("chanceIcon").textContent = "⚡";
+        document.getElementById("cardBackEmblem").textContent = "🎁";
+        document.getElementById("cardBackTitle").textContent = "THẺ KHÍ VẬN";
+        document.getElementById("chanceTypeTag").textContent = "THẺ KHÍ VẬN";
+        document.getElementById("chanceTypeTag").style.color = "#c2410c";
+        document.getElementById("chanceIcon").textContent = "🎁";
     }
 
     // Thiết lập nội dung mặt ngửa
@@ -2142,6 +2315,32 @@ function applyCardEffect(player, card, cardType) {
             desc: `${player.name} đi thẳng về Ga Hà Nội`,
             icon: '🚩'
         });
+    } else if (card.type === "advance_tile") {
+        const destId = card.destId;
+        const destTile = VIETNAM_TILES.find(t => t.id === destId);
+        const passedStart = destId < player.position;
+        player.position = destId;
+        if (passedStart) {
+            player.cash += 200;
+            soundEffects.cashChime();
+            visualFX.spawnFloatingMoney(0, "+200M", true);
+            showStatusNotice(`🚩 <strong>${player.name}</strong> đi qua Ga Hà Nội nhận trợ cấp <strong>+200M VNĐ</strong>!`);
+        }
+        renderPlayerTokens();
+        showStatusNotice(`✈️ <strong>${player.name}</strong> di chuyển thẳng tới <strong>${destTile ? destTile.name : 'đích'}</strong>!`);
+        recordTransaction({
+            type: 'chance',
+            from: player.name,
+            to: destTile ? destTile.name : 'Đích',
+            amount: passedStart ? 200 : null,
+            title: card.title,
+            desc: `${player.name} di chuyển tới ${destTile ? destTile.name : 'đích'}`,
+            icon: '✈️'
+        });
+        setTimeout(() => {
+            handleTileAction(player, player.position);
+        }, 400);
+        return;
     } else if (card.type === "step_back") {
         const steps = card.steps || 3;
         showStatusNotice(`↩️ <strong>${player.name}</strong> phải lùi lại <strong>${steps} ô</strong>!`);
@@ -2468,6 +2667,8 @@ function inspectTileTitleDeed(tileId) {
     document.getElementById("inspectSubtitle").textContent = tile.subtitle;
     document.getElementById("inspectDesc").textContent = tile.desc;
 
+    const badgeEl = document.getElementById("inspectDeedBadge") || modal.querySelector(".deed-badge");
+
     // Cập nhật ảnh danh thắng thực tế vào modal
     const imgEl = document.getElementById("inspectImage");
     const photoFrame = document.getElementById("inspectPhotoFrame");
@@ -2494,7 +2695,11 @@ function inspectTileTitleDeed(tileId) {
     const ownerBox = document.getElementById("inspectOwnerBox");
     const btnUpgrade = document.getElementById("btnInspectUpgrade");
 
-    if (tile.type === "property" || tile.type === "transport" || tile.type === "utility") {
+    // CHỈ Ô BẤT ĐỘNG SẢN (PROPERTY) MỚI CÓ THỂ MUA HOẶC XÂY NHÀ
+    const isBuildableProperty = (tile.type === "property");
+
+    if (isBuildableProperty) {
+        if (badgeEl) badgeEl.textContent = "GIẤY CHỨNG NHẬN QUYỀN SỞ HỮU";
         if (rentTable) {
             rentTable.style.display = "flex";
             document.getElementById("inspectRentL1").textContent = `${tile.rent[1] || tile.rent[0]}M`;
@@ -2511,23 +2716,38 @@ function inspectTileTitleDeed(tileId) {
 
             const current = gameState.players[gameState.currentTurnIndex];
             if (tile.owner === current.id && tile.level < 3 && !gameState.isRolling && !current.isAi) {
-                btnUpgrade.style.display = "inline-block";
-                btnUpgrade.textContent = tile.level === 0 ? `Xây Nhà Phố (+${tile.upgradeCost}M)` : tile.level === 1 ? `Xây thêm Nhà thứ 2 (+${tile.upgradeCost}M)` : `Xây Khách Sạn (+${tile.upgradeCost}M)`;
-                btnUpgrade.onclick = () => {
-                    closeModal("modalPostcardInspector");
-                    promptUpgradeProperty(current, tile);
-                };
+                if (btnUpgrade) {
+                    btnUpgrade.classList.remove("is-hidden");
+                    btnUpgrade.style.setProperty("display", "inline-flex", "important");
+                    btnUpgrade.textContent = tile.level === 0 ? `Xây Nhà Phố (+${tile.upgradeCost}M)` : tile.level === 1 ? `Xây thêm Nhà thứ 2 (+${tile.upgradeCost}M)` : `Xây Khách Sạn (+${tile.upgradeCost}M)`;
+                    btnUpgrade.onclick = () => {
+                        closeModal("modalPostcardInspector");
+                        promptUpgradeProperty(current, tile);
+                    };
+                }
             } else {
-                btnUpgrade.style.display = "none";
+                if (btnUpgrade) {
+                    btnUpgrade.classList.add("is-hidden");
+                    btnUpgrade.style.setProperty("display", "none", "important");
+                }
             }
         } else {
             ownerBox.innerHTML = `Chưa có người sở hữu • Giá niêm yết: <strong style="color:#16a34a;">${tile.price}M VNĐ</strong>`;
-            btnUpgrade.style.display = "none";
+            if (btnUpgrade) {
+                btnUpgrade.classList.add("is-hidden");
+                btnUpgrade.style.setProperty("display", "none", "important");
+            }
         }
     } else {
+        // CÁC Ô ĐẶC BIỆT (Cơ Hội, Khí Vận, Vào Tù, Thăm Tù, Ga Hà Nội, Sân Bay, Điện Lực, Thuế, Bãi Đỗ Xe):
+        // Tuyệt đối KHÔNG hiển thị "GIẤY CHỨNG NHẬN QUYỀN SỞ HỮU" và KHÔNG hiển thị nút "Xây thêm"!
+        if (badgeEl) badgeEl.textContent = `THÔNG TIN Ô: ${tile.name.toUpperCase()}`;
         if (rentTable) rentTable.style.display = "none";
-        ownerBox.innerHTML = `<span style="color:#64748b;">Ô đặc biệt: ${tile.regionName}</span>`;
-        btnUpgrade.style.display = "none";
+        ownerBox.innerHTML = `<span style="color:#78716c; font-weight:600;">Ô chức năng đặc biệt: ${tile.regionName || tile.name}</span>`;
+        if (btnUpgrade) {
+            btnUpgrade.classList.add("is-hidden");
+            btnUpgrade.style.setProperty("display", "none", "important");
+        }
     }
 
     modal.classList.add("active");

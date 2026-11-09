@@ -4079,7 +4079,7 @@ button, input, select, textarea {
     cursor: pointer !important;
     box-shadow: 0 4px 14px rgba(184, 115, 87, 0.35) !important;
     transition: all 0.2s ease !important;
-    display: inline-flex !important;
+    display: inline-flex;
     align-items: center !important;
     justify-content: center !important;
     text-align: center !important;
@@ -4256,7 +4256,7 @@ button, input, select, textarea {
     outline: none !important;
     box-shadow: 0 4px 14px rgba(184, 115, 87, 0.35) !important;
     transition: all 0.2s ease !important;
-    display: inline-flex !important;
+    display: inline-flex;
     align-items: center !important;
     justify-content: center !important;
 }
@@ -4424,4 +4424,15 @@ button, input, select, textarea {
     font-size: 9.5px;
     font-weight: 800;
     letter-spacing: 0.3px;
+}
+
+/* QUY TẮC ẨN TUYỆT ĐỐI CHO CÁC NÚT VÀ ELEMENT CÓ TRẠNG THÁI HIDDEN */
+.is-hidden,
+#btnInspectUpgrade.is-hidden,
+.modal-btn-confirm.is-hidden,
+#btnInspectUpgrade[style*="display: none"],
+#btnInspectUpgrade[style*="display:none"],
+.modal-btn-confirm[style*="display: none"],
+.modal-btn-confirm[style*="display:none"] {
+    display: none !important;
 }

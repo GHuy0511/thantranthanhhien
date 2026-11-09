@@ -461,16 +461,7 @@
                                     <span class="score-number" id="caroScoreHien" style="color:#a85d7b;">0</span>
                                 </div>
                             </div>
-                            <!-- AI Machine Learning Status Badge -->
-                            <div class="game-ai-learning-badge" id="caroAiLearningBadge" title="AI tự động học hỏi kinh nghiệm qua từng ván cờ với bạn">
-                                <div class="ai-learning-badge-top">
-                                    <span class="ai-learning-chip">🧠 AI Học Máy</span>
-                                    <button class="ai-learning-reset-btn" id="btnCaroResetBrain" type="button" title="Xóa trí nhớ AI để học lại từ đầu">Reset AI</button>
-                                </div>
-                                <div class="ai-learning-stats-text">
-                                    Đã học: <strong id="caroBrainLearnedCount">0 ván (0 thế cờ)</strong>
-                                </div>
-                            </div>
+
                         </div>
 
                         <div class="caro-history-card">
@@ -519,10 +510,7 @@
                                 Đặt Lại Tỉ Số
                             </button>
                         </div>
-                        <div class="go-ai-learning-pill" title="AI tự động học hỏi từ ván đấu">
-                            <span>🧠 AI Học Máy: <strong id="goBrainLearnedCount">0 ván kinh nghiệm</strong></span>
-                            <button class="ai-learning-reset-btn" id="btnGoResetBrain" type="button" title="Xóa trí nhớ AI">Reset AI</button>
-                        </div>
+
                     </div>
 
                     <!-- Bảng thông tin người chơi & số quân bắt được -->
@@ -630,15 +618,7 @@
                                 <span class="score-number" id="chessScoreBlack" style="color:#a85d7b;">0</span>
                             </div>
                         </div>
-                        <div class="game-ai-learning-badge" style="margin-top:8px;">
-                            <div class="ai-learning-badge-top">
-                                <span class="ai-learning-chip">🧠 AI Học Máy</span>
-                                <button class="ai-learning-reset-btn" id="btnChessResetBrain" type="button" title="Xóa trí nhớ AI để học lại từ đầu">Reset AI</button>
-                            </div>
-                            <div class="ai-learning-stats-text">
-                                Đã học: <strong id="chessBrainLearnedCount">0 ván kinh nghiệm</strong>
-                            </div>
-                        </div>
+
                     </div>
 
                     <!-- 3. Trạng thái lượt đi & Khay quân bị bắt -->
@@ -886,7 +866,7 @@
     <div class="game-modal-overlay" id="modalPostcardInspector" aria-hidden="true">
         <div class="game-modal-card deed-card">
             <div class="deed-header-banner" id="inspectHeaderColor">
-                <span class="deed-badge">GIẤY CHỨNG NHẬN QUYỀN SỞ HỮU</span>
+                <span class="deed-badge" id="inspectDeedBadge">GIẤY CHỨNG NHẬN QUYỀN SỞ HỮU</span>
                 <h3 class="game-modal-title" id="inspectTitle">Cố Đô Huế</h3>
                 <span class="landmark-subtitle" id="inspectSubtitle">Thừa Thiên Huế</span>
             </div>
@@ -910,7 +890,7 @@
             </div>
 
             <div class="game-modal-actions">
-                <button class="modal-btn-confirm" id="btnInspectUpgrade" type="button" style="display:none;">Xây thêm (+100M)</button>
+                <button class="modal-btn-confirm is-hidden" id="btnInspectUpgrade" type="button" style="display:none !important;">Xây thêm (+100M)</button>
                 <button class="modal-btn-cancel" id="btnCloseInspect" type="button">Đóng</button>
             </div>
         </div>
